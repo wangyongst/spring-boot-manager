@@ -1,4 +1,4 @@
-group = 'com.spring.cloud'
+group = 'com.spring.boot'
 version = '0.0.1-SNAPSHOT'
 
 apply plugin: 'java'
@@ -40,8 +40,9 @@ targetCompatibility = 1.8
 [compileJava, compileTestJava, javadoc]*.options*.encoding = "utf-8"
 
 dependencies {
-    compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
-    compile 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.apache.httpcomponents:httpclient'
+    compile 'org.apache.commons:commons-lang3'
     compile 'org.apache.tomcat:tomcat-jdbc'
     compile 'mysql:mysql-connector-java'
     compile 'org.springframework.data:spring-data-jpa'
