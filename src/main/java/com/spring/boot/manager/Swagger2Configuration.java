@@ -31,7 +31,7 @@ public class Swagger2Configuration {
     }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("用户档案微服务")
+                .title("管理系统")
                 .description("基于Spring Boot的全Restful API系统")
                 .contact(new Contact("WangYong","","wangyongst@qq.com"))
                 .version("1.0")

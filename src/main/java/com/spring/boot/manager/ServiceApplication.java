@@ -40,14 +40,4 @@ public class ServiceApplication {
         RestTemplate restTemplate = new RestTemplate(requestFactory);
         return restTemplate;
     }
-
-    @Bean
-    public FilterRegistrationBean testFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new WebConfiguration());
-        registration.addUrlPatterns("/*");
-        registration.setName("loginFilter");
-        registration.setOrder(1);
-        return registration;
-    }
 }
