@@ -41,6 +41,7 @@ targetCompatibility = 1.8
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.apache.httpcomponents:httpclient'
     compile 'org.apache.commons:commons-lang3'
     compile 'org.apache.tomcat:tomcat-jdbc'
     compile 'mysql:mysql-connector-java'
