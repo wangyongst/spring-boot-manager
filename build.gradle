@@ -29,7 +29,7 @@ apply plugin: 'org.springframework.boot'
 
 dependencyManagement {
     imports {
-        mavenBom 'io.spring.platform:platform-bom:Cairo-RELEASE'
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:2.0.1.RELEASE'
     }
 }
 
