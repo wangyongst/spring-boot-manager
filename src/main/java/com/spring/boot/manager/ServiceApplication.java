@@ -1,6 +1,5 @@
 package com.spring.boot.manager;
 
-import com.spring.boot.manager.filter.LoginFilter;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -45,7 +44,7 @@ public class ServiceApplication {
     @Bean
     public FilterRegistrationBean testFilterRegistration() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new LoginFilter());
+        registration.setFilter(new WebConfiguration());
         registration.addUrlPatterns("/*");
         registration.setName("loginFilter");
         registration.setOrder(1);
