@@ -32,7 +32,7 @@ public class Swagger2Configuration {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("用户档案微服务")
-                .description("基于Spring Boot的全Restful微服务系统，必须通过API项目使用，严禁前端直接调用")
+                .description("基于Spring Boot的全Restful API系统")
                 .contact(new Contact("WangYong","","wangyongst@qq.com"))
                 .version("1.0")
                 .build();
