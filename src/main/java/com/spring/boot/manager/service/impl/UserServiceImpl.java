@@ -23,7 +23,8 @@ import java.io.IOException;
 import java.util.List;
 
 
-public class UserServiceImpl{
+@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class, readOnly = true)
+public class UserServiceImpl {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -38,7 +39,7 @@ public class UserServiceImpl{
 
 
     //事务处理，查询操作不要写这个注解
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false)
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class, readOnly = false)
     public Result regist(User user) {
         //先必须判断参数是否为空
         if (StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword()) || StringUtils.isBlank(user.getPhone())) {
