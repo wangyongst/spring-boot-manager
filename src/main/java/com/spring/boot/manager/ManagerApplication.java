@@ -7,7 +7,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -23,10 +22,9 @@ import java.security.cert.X509Certificate;
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = {"com.spring.boot.manager.repository"})
 @EntityScan(basePackages = {"com.spring.boot.manager.entity"})
-@EnableSwagger2
-public class ServiceApplication {
+public class ManagerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ServiceApplication.class, args);
+        SpringApplication.run(ManagerApplication.class, args);
     }
 
     @Bean
