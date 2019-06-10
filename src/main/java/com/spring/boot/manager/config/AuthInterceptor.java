@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
-import java.util.Objects;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
@@ -22,28 +21,28 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         try {
             RequestWrapper requestWrapper = new RequestWrapper(request);
-            Map<String,String[]> paramter = requestWrapper.getParameterMap();
-            paramter.forEach((k,v)->{
-                System.out.println("Item : " + k);
-                for(String s : v){
-                    System.out.println(s);
+            Map<String, String[]> paramter = requestWrapper.getParameterMap();
+            if (paramter.get("token") != null)
+                for (String s : paramter.get("token")) {
+                    //判断token有效
+                    if (s.equals("s")) {
+                        return true;
+                    }
                 }
-            });
-            return true;
-        }catch (Exception e){
-            logger.error("权限判断出错",e);
+        } catch (Exception e) {
+            logger.error("认证权限判断出错", e);
         }
-        return true;
+        return false;
     }
 
-    private void returnJson(HttpServletResponse response, String json) throws Exception{
+    private void returnJson(HttpServletResponse response, String json) throws Exception {
         PrintWriter writer = null;
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         try {
             writer = response.getWriter();
             writer.print(json);
         } catch (IOException e) {
-            logger.error("response error",e);
+            logger.error("response error", e);
         } finally {
             if (writer != null)
                 writer.close();
