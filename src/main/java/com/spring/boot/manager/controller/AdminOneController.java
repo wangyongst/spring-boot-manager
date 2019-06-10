@@ -4,12 +4,14 @@ package com.spring.boot.manager.controller;
 import com.spring.boot.manager.model.*;
 import com.spring.boot.manager.service.AdminOneService;
 import com.spring.boot.manager.utils.result.Result;
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 
@@ -28,13 +30,15 @@ public class AdminOneController {
 
     //后端账号
     @GetMapping("/user/admin/list")
-    public Object userAdminList(HttpSession httpSession) {
+    public Object userAdminList(String test, HttpSession httpSession) {
+        System.out.println(test);
         return ResultUtils.data(adminOneService.userAdminList(httpSession));
     }
 
     //后端账号
     @GetMapping("/user/admin")
-    public Result userAdmin(@ModelAttribute FourParameter fourParameter, HttpSession httpSession) {
+    public Result userAdmin(HttpServletRequest httpServletRequest,@ModelAttribute FourParameter fourParameter, HttpSession httpSession) {
+        System.out.println(httpServletRequest.getAttribute("test"));
         return ResultUtils.result(adminOneService.userAdmin(fourParameter, httpSession));
     }
 
@@ -82,7 +86,8 @@ public class AdminOneController {
 
     //后端账号type1增改，2删
     @PostMapping("/user/admin")
-    public Result postUserAdmin(@ModelAttribute FourParameter fourParameter, HttpSession httpSession) {
+    public Result postUserAdmin(HttpRequest request, String test,@ModelAttribute FourParameter fourParameter, HttpSession httpSession) {
+        System.out.println(test);
         return ResultUtils.result(adminOneService.postUserAdmin(fourParameter, httpSession));
     }
 

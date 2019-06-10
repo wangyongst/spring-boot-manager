@@ -20,20 +20,29 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         try {
-            RequestWrapper requestWrapper = new RequestWrapper(request);
-            Map<String, String[]> paramter = requestWrapper.getParameterMap();
-            if (paramter.get("token") != null)
-                for (String s : paramter.get("token")) {
-                    //判断token有效
-                    if (s.equals("s")) {
-                        requestWrapper.setAttribute("test","tttttt");
-                        return true;
-                    }
-                }
+            Map<String, String[]> paramter = request.getParameterMap();
+            paramter.forEach((k, v) -> {
+                System.out.println("Item : " + k + " Count : " + v[0]);
+            });
+            request.setAttribute("test","mmmmmmmmmm");
+
+//            if (paramter.get("token") != null)
+//                for (String s : paramter.get("token")) {
+//                    //判断token有效
+//                    if (s.equals("s")) {
+//                        requestWrapper.setAttribute("test", "tttttt");
+//                        return true;
+//                    }
+//                }
+//            else {
+//                returnJson(response, "test");
+//            }
+
         } catch (Exception e) {
             logger.error("认证权限判断出错", e);
         }
-        return false;
+
+        return true;
     }
 
     private void returnJson(HttpServletResponse response, String json) throws Exception {

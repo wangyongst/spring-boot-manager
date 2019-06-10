@@ -15,7 +15,7 @@ import java.io.IOException;
 
 
 @WebFilter(urlPatterns = "/*")
-@Order(1)
+@Order(2)
 public class LoginFilter implements Filter {
 
     private static final Logger logger = LogManager.getLogger(LoginFilter.class);
