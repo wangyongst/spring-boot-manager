@@ -1,9 +1,9 @@
 package com.spring.boot.manager.repository;
 
-import com.myweb.pojo.AdminUser;
-import com.myweb.pojo.Advert;
-import com.myweb.pojo.Buy;
-import com.myweb.pojo.User;
+import com.spring.boot.manager.entity.AdminUser;
+import com.spring.boot.manager.entity.Advert;
+import com.spring.boot.manager.entity.Buy;
+import com.spring.boot.manager.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package com.spring.boot.manager.repository;
 
-import com.myweb.pojo.Timenew;
-import com.myweb.pojo.User;
+import com.spring.boot.manager.entity.Timenew;
+import com.spring.boot.manager.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Repository;

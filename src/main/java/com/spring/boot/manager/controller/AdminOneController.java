@@ -1,8 +1,9 @@
 package com.spring.boot.manager.controller;
 
 
+import com.spring.boot.manager.model.*;
 import com.spring.boot.manager.service.AdminOneService;
-import io.swagger.annotations.Api;
+import com.spring.boot.manager.utils.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 
-@Api(tags= "用户相关服务")
-@CrossOrigin("*")
 @RestController
 @RequestMapping("/admin")
 public class AdminOneController {

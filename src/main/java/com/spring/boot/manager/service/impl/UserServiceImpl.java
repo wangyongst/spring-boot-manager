@@ -41,17 +41,17 @@ public class UserServiceImpl{
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, readOnly = false)
     public Result regist(User user) {
         //先必须判断参数是否为空
-        if (StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword()) || StringUtils.isBlank(user.getPhone())) {
+        if (StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())) {
             return ResultUtil.parameterNotEnoughWithMessage("必须参数不能为空");
         }
         //日志使用方法
         logger.warn("this is a test");
         //数据库id生成方法-调用utils微服务，所有系统统一这种办法
-        user.setId(IdUtils.createId().getData().toString());
+        //user.setId(IdUtils.createId().getData().toString());
         //时间格式化方法-调用utils微服务，所有系统统一这种办法
         user.setCreatetime(TimeUtils.format(System.currentTimeMillis()).getData().toString());
         //spring data jpa写法
-        User savedUser = userRepository.save(user);
+        User savedUser = null;//userRepository.save(user);
         //mybatis写法
         List<User> savedUsers = userMapper.findByUsername(user.getUsername());
         savedUsers.forEach(e -> {

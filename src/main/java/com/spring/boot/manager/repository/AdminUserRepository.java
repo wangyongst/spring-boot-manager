@@ -1,7 +1,6 @@
 package com.spring.boot.manager.repository;
-
-import com.myweb.pojo.AdminRole;
-import com.myweb.pojo.AdminUser;
+import com.spring.boot.manager.entity.AdminRole;
+import com.spring.boot.manager.entity.AdminUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Repository;

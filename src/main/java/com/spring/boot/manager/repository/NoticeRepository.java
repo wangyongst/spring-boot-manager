@@ -1,8 +1,8 @@
 package com.spring.boot.manager.repository;
 
-import com.myweb.pojo.Help;
-import com.myweb.pojo.Notice;
-import com.myweb.pojo.User;
+import com.spring.boot.manager.entity.Help;
+import com.spring.boot.manager.entity.Notice;
+import com.spring.boot.manager.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

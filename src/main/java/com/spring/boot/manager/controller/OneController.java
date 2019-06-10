@@ -1,11 +1,10 @@
 package com.spring.boot.manager.controller;
 
 
-import com.myweb.service.OneService;
-import com.myweb.vo.AdminOneParameter;
-import com.myweb.vo.OneParameter;
-import com.myweb.vo.ResultUtils;
-import com.utils.Result;
+import com.spring.boot.manager.model.*;
+import com.spring.boot.manager.service.AdminOneService;
+import com.spring.boot.manager.service.OneService;
+import com.spring.boot.manager.utils.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

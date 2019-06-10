@@ -1,6 +1,6 @@
 package com.spring.boot.manager.repository;
 
-import com.myweb.pojo.User2;
+import com.spring.boot.manager.entity.User2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

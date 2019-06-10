@@ -1,7 +1,12 @@
 package com.spring.boot.manager.service;
 
+import com.spring.boot.manager.model.AdminOneParameter;
+import com.spring.boot.manager.model.FourParameter;
+import com.spring.boot.manager.model.OneParameter;
+import com.spring.boot.manager.model.TwoParameter;
 import com.spring.boot.manager.utils.result.Result;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;

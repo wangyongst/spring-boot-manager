@@ -1,6 +1,6 @@
 package com.spring.boot.manager.repository;
 
-import com.myweb.pojo.Setting;
+import com.spring.boot.manager.entity.Setting;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Repository;
