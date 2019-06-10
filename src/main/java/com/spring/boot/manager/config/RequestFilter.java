@@ -9,7 +9,7 @@ import java.io.IOException;
 
 
 @WebFilter(urlPatterns = "/*")
-@Order(1)
+@Order(0)
 public class RequestFilter implements Filter {
 
     @Override
