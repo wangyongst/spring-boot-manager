@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
@@ -20,8 +22,13 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         try {
             RequestWrapper requestWrapper = new RequestWrapper(request);
-            String body = requestWrapper.getBody();
-            System.out.println(body);
+            Map<String,String[]> paramter = requestWrapper.getParameterMap();
+            paramter.forEach((k,v)->{
+                System.out.println("Item : " + k);
+                for(String s : v){
+                    System.out.println(s);
+                }
+            });
             return true;
         }catch (Exception e){
             logger.error("权限判断出错",e);

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <title>Ela - Bootstrap Admin Dashboard Template</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/helper.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
+    <!--[if lt IE 9]>
+    <script src="https:**oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https:**oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="fix-header fix-sidebar">
+<!-- Container fluid  -->
+<div class="container-fluid">
+    <!-- Start Page Content -->
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">广告管理</h4>
+                    <h6 class="card-subtitle">广告管理</h6>
+                    <button type="button" class="btn btn-primary col-1" id="create">发布广告</button>
+                    <button type="button" class="btn btn-primary col-1" id="look">查看图片</button>
+                    <button type="button" class="btn btn-primary col-1" id="refer">强制推荐</button>
+                    <button type="button" class="btn btn-primary col-1" id="update">修改广告</button>
+                    <button type="button" class="btn btn-primary col-1" id="delete">删除广告</button>
+                    <button type="button" class="btn btn-primary col-1" id="down">广告下线</button>
+                    <div class="table-responsive m-t-40">
+                        <table data-toggle="table" data-url="admin/advert/list" data-show-refresh="true" id="myTable"
+                               data-search="true" data-pagination="true" data-sort-class="studied"
+                               data-sort-order="desc">
+                            <thead>
+                            <tr>
+                                <th data-field="state" data-checkbox="true">全选</th>
+                                <th data-field="id">ID</th>
+                                <th data-field="adminuser.username">广告主</th>
+                                <th data-field="title">标题名称</th>
+                                <th data-field="url"> 跳转链接</th>
+                                <th data-field="type" data-formatter="getType">类型</th>
+                                <th data-field="exposure" data-sortable="true">曝光量</th>
+                                <th data-field="clicked" data-sortable="true">点击量</th>
+                                <th data-field="rate" data-sortable="true">点击率</th>
+                                <th data-field="buy" data-sortable="true">想买数</th>
+                                <th data-field="refer" data-sortable="true" data-formatter="getStatus">状态</th>
+                                <th data-field="createtime">创建时间</th>
+                                <th data-field="outtime">到期时间</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End PAge Content -->
+
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 800px;left: -300px;">
+                <div class="modal-header">
+                    <h4 class="modal-title">查看图片</h4>
+                </div>
+                <div class="modal-body">
+                    <img width="100%" id="lookImg">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="close">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal2" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 800px;left: -300px;">
+                <div class="modal-header">
+                    <h4 class="modal-title">发布广告</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="advertForm">
+                        <input id="advertid" name="advertid" hidden value="">
+                        <div class="form-group">
+                            <label for="type" class="control-label">类型:</label>
+                            <select class="form-control" id="type" name="type">
+                                <option value="1">想买广告</option>
+                                <option value="2">了解详情</option>
+                                <option value="3">立即购买</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="adminuserid" class="control-label">选择广告主:</label>
+                            <select class="form-control" id="adminuserid" name="adminuserid">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="title" class="control-label">标题:</label>
+                            <input type="text" class="form-control" id="title" name="title">
+                        </div>
+                        <div class="form-group">
+                            <label for="image" class="control-label"id="imagesize">上传封面:310*310</label>
+                            <input class="form-control" id="image" name="image" hidden>
+                            <input type="file" name="file" id="upload">
+                        </div>
+                        <div class="form-group">
+                            <label for="url" class="control-label" id="selectNot2">跳转链接:</label>
+                            <input class="form-control" id="url" name="url">
+                            <input type="file" name="file" id="upload2">
+                        </div>
+                        <div class="form-group">
+                            <label for="outtime" class="control-label">到期时间:格式2018-07-05</label>
+                            <input type="date" class="form-control" id="outtime" name="outtime"></input>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="close2">关闭</button>
+                    <button type="button" class="btn btn-primary" id="submit2">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/lib/jquery/jquery.min.js"></script>
+
+<script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="js/advert-publish.js"></script>
+
+
+<link href="css/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+
+<script src="js/lib/bootstrap-table/bootstrap-table.min.js"></script>
+
+<script src="js/lib/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+</body>
+
+</html>

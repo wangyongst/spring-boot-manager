@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <title>Ela - Bootstrap Admin Dashboard Template</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/helper.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:** -->
+    <!--[if lt IE 9]>
+    <script src="https:**oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https:**oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="fix-header fix-sidebar">
+<!-- Container fluid  -->
+<div class="container-fluid">
+    <!-- Start Page Content -->
+    <div class="row">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">私信记录</h4>
+                    <h6 class="card-subtitle">私信记录</h6>
+                    <div class="table-responsive m-t-40">
+                        <table data-toggle="table" data-url="admin/message/list" data-show-refresh="true" id="myTable"
+                               data-search="true" data-pagination="true" data-sort-class="createtime" data-sort-order="desc">
+                            <thead>
+                            <tr>
+                                <th data-field="user.username">发送人用户名</th>
+                                <th data-field="touser.username">接收人用户名</th>
+                                <th data-field="message">信息内容</th>
+                                <th data-field="isread">是否已读</th>
+                                <th data-field="createtime">创建时间</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End PAge Content -->
+</div>
+
+<script src="js/lib/jquery/jquery.min.js"></script>
+
+<script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
+
+
+<link href="css/lib/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+
+<script src="js/lib/bootstrap-table/bootstrap-table.min.js"></script>
+
+<script src="js/lib/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+</body>
+
+</html>

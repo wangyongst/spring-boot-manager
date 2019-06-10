@@ -25,7 +25,7 @@ public class Swagger2Configuration {
                 .enable(swaggerShow)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.spring.boot.service.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.spring.boot.manager.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

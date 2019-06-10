@@ -7,11 +7,9 @@ import com.spring.boot.manager.model.MsgVo;
 import com.spring.boot.manager.model.OneParameter;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.OneService;
-import com.spring.boot.manager.utils.http.HttpClientUtil;
 import com.spring.boot.manager.utils.result.Result;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -176,12 +174,12 @@ public class OneServiceImpl implements OneService {
             }
             String code = RandomStringUtils.randomNumeric(6);
             try {
-                HttpClientUtil httpClientUtil = new HttpClientUtil();
+                //HttpClientUtil httpClientUtil = new HttpClientUtil();
                 ObjectMapper objectMapper = new ObjectMapper();
                 String tplid = "2430168";
                 if (oneParameter.getType() != null && oneParameter.getType() == 1) tplid = "2442708";
                 if (oneParameter.getType() != null && oneParameter.getType() == 2) tplid = "2442688";
-                MsgVo msgVo = objectMapper.readValue(EntityUtils.toString(httpClientUtil.sendMessage(oneParameter.getMobile(), code, tplid).getEntity()), MsgVo.class);
+                MsgVo msgVo = null;//objectMapper.readValue(EntityUtils.toString(httpClientUtil.sendMessage(oneParameter.getMobile(), code, tplid).getEntity()), MsgVo.class);
                 if (msgVo.getCode() == 0) {
                     Captcha captcha = new Captcha();
                     captcha.setMobile(oneParameter.getMobile());

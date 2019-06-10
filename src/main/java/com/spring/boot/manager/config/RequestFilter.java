@@ -1,9 +1,15 @@
 package com.spring.boot.manager.config;
 
+import org.springframework.core.annotation.Order;
+
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+
+@WebFilter(urlPatterns = "/*")
+@Order(1)
 public class RequestFilter implements Filter {
 
     @Override
