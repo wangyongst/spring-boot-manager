@@ -26,6 +26,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                 for (String s : paramter.get("token")) {
                     //判断token有效
                     if (s.equals("s")) {
+                        requestWrapper.setAttribute("test","tttttt");
                         return true;
                     }
                 }
