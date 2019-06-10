@@ -24,8 +24,8 @@ public class RestfulUtil {
         } catch (RestClientException e) {
             return ResultUtil.restClientExceptionWithUrlAndMessage(url, e.getMessage());
         }
-        if (response == null) return ResultUtil.isNullExceptionWithUrlAndMessage(response.toString(), "REST 请求结果为空！");
-        else return ResultUtil.okWithDataAndMessage(response, "REST 请求结果为JSON格式，请自行转化！");
+        if (response == null) return ResultUtil.isNullExceptionWithUrlAndMessage(url, "REST 请求结果为空！");
+        else return ResultUtil.okWithDataAndMessage(response, "REST 请求成功！");
     }
 
     public Result post(String url, Map<String, Object> params) {
@@ -36,7 +36,7 @@ public class RestfulUtil {
         } catch (RestClientException e) {
             return ResultUtil.restClientExceptionWithUrlAndMessage(url, e.getMessage());
         }
-        if (response == null) return ResultUtil.isNullExceptionWithUrlAndMessage(response.toString(), "REST 请求结果为空！");
-        else return ResultUtil.okWithDataAndMessage(response.getBody(), "REST 请求结果为JSON格式，请自行转化！");
+        if (response == null) return ResultUtil.isNullExceptionWithUrlAndMessage(url, "REST 请求结果为空！");
+        else return ResultUtil.okWithDataAndMessage(response.getBody(), "REST 请求成功！");
     }
 }
