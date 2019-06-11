@@ -2,9 +2,63 @@ package com.spring.boot.manager.model;
 
 public class AdminParameter {
     private String mobile;
+    private String username;
+    private int userid;
+    private int roleid;
     private String password;
     private String newpassword;
     private String newpassword2;
+    private String sort;
+    private int page;
+    private int size;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getRoleid() {
+        return roleid;
+    }
+
+    public void setRoleid(int roleid) {
+        this.roleid = roleid;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 
     public String getNewpassword() {
         return newpassword;

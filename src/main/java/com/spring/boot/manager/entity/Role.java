@@ -22,23 +22,10 @@ public class Role {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @OneToMany(mappedBy = "role", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private List<Role2Priv> role2Privs;
-
-    public List<Role2Priv> getRole2Privs() {
-        return role2Privs;
-    }
-
-    public void setRole2Privs(List<Role2Priv> role2Privs) {
-        this.role2Privs = role2Privs;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
 
     public String getName() {
         return name;
@@ -48,7 +35,6 @@ public class Role {
         this.name = name;
     }
 
-
     public Integer getSupplierid() {
         return supplierid;
     }
@@ -57,12 +43,27 @@ public class Role {
         this.supplierid = supplierid;
     }
 
-
     public Integer getProjectid() {
         return projectid;
     }
 
     public void setProjectid(Integer projectid) {
         this.projectid = projectid;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<Role2Priv> getRole2Privs() {
+        return role2Privs;
+    }
+
+    public void setRole2Privs(List<Role2Priv> role2Privs) {
+        this.role2Privs = role2Privs;
     }
 }

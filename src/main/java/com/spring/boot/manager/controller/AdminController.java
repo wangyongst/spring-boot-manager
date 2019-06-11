@@ -1,6 +1,7 @@
 package com.spring.boot.manager.controller;
 
 
+import com.spring.boot.manager.entity.User;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.service.AdminService;
 import com.spring.boot.manager.utils.result.Result;
@@ -22,35 +23,48 @@ public class AdminController {
         return adminService.me(httpSession);
     }
 
-//    //账号列表
-//    @GetMapping("/user/list")
-//    public Object userList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-//        return adminService.userList(httpSession);
-//    }
-//
-//    //账号详情
-//    @GetMapping("/user")
-//    public Result user(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-//        return adminService.user(httpSession);
-//    }
-//
-//    //角色列表
-//    @GetMapping("/role/list")
-//    public Result roleList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-//        return adminService.roleList(httpSession);
-//    }
-//
-//    //角色详情
-//    @GetMapping("/role")
-//    public Result role(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-//        return adminService.role(httpSession);
-//    }
-//
-//    //后端权限
-//    @GetMapping("/privilege/all")
-//    public Result privilegeAll(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-//        return adminService.privilegeAll(httpSession);
-//    }
+    //账号列表
+    @GetMapping("/user/list")
+    public Object userList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.userList(adminParameter, httpSession);
+    }
+
+    //账号详情
+    @GetMapping("/user")
+    public Result user(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.user(adminParameter, httpSession);
+    }
+
+    //账号增改
+    @PostMapping("/user/su")
+    public Result userSU(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.userSU(adminParameter, httpSession);
+    }
+
+
+    //账号删除
+    @PostMapping("/user/delete")
+    public Result userDelete(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.userDelete(adminParameter, httpSession);
+    }
+
+    //角色列表
+    @GetMapping("/role/list")
+    public Result roleList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.roleList(adminParameter, httpSession);
+    }
+
+    //角色详情
+    @GetMapping("/role")
+    public Result role(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.role(adminParameter, httpSession);
+    }
+
+    //权限
+    @GetMapping("/privilege/all")
+    public Result privilegeAll(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.privilegeAll(adminParameter, httpSession);
+    }
 
     //登录
     @PostMapping("/login")
