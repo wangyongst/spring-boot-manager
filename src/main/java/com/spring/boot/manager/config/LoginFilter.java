@@ -29,7 +29,7 @@ public class LoginFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
         if (nofilters == null) {
-            String nofilter = "user/login,page-login.html,swagger";
+            String nofilter = "login,swagger";
             String filter = "admin,.html";
             redirect = "page-login.html";
             nofilters = nofilter.split(",");

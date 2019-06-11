@@ -2,18 +2,19 @@ $(function () {
     $.ajax({
         type: "GET",
         cache: "false",
-        url: "/admin/user/me",
+        url: "/admin/me",
         dataType: "json",
         success: function (result) {
             if (result.status == 1) {
                 var mapParent = {};
                 var mapChild = {};
-                $.each(result.data.adminRole.adminPrivileges, function (key, val) {
-                    if (val.adminMenu.type == 0) {
-                        mapParent[val.adminMenu.id] = "<li class='active'> <a class=\"has-arrow  \" href=\"#\" aria-expanded=\"true\"><i class=\"fa fa-tachometer\"></i><span class=\"hide-menu\">" + val.adminMenu.name + "</span></a><ul aria-expanded=\"true\" class=\"collapse in\">";
-                    } else if (val.adminMenu.type == 1) {
-                        if (mapChild[val.adminMenu.parent] == undefined) mapChild[val.adminMenu.parent] = "<li><a href=\"javascript:void(0);\" onclick=\"goto('" + val.adminMenu.url + "')\">" + val.adminMenu.name + " </a></li>";
-                        else mapChild[val.adminMenu.parent] = mapChild[val.adminMenu.parent] + "<li><a href=\"javascript:void(0);\" onclick=\"goto('" + val.adminMenu.url + "')\">" + val.adminMenu.name + " </a></li>";
+                $.each(result.data.role.role2Privs, function (key, val) {
+                    debugger;
+                    if (val.privilege.type == 0) {
+                        mapParent[val.privilege.id] = "<li class='active'> <a class=\"has-arrow  \" href=\"#\" aria-expanded=\"true\"><i class=\"fa fa-tachometer\"></i><span class=\"hide-menu\">" + val.privilege.name + "</span></a><ul aria-expanded=\"true\" class=\"collapse in\">";
+                    } else if (val.privilege.type == 1) {
+                        if (mapChild[val.privilege.parentid] == undefined) mapChild[val.privilege.parentid] = "<li><a href=\"javascript:void(0);\" onclick=\"goto('" + val.privilege.url + "')\">" + val.privilege.name + " </a></li>";
+                        else mapChild[val.privilege.parentid] = mapChild[val.privilege.parentid] + "<li><a href=\"javascript:void(0);\" onclick=\"goto('" + val.privilege.url + "')\">" + val.privilege.name + " </a></li>";
                     }
                 });
                 var html = "";
@@ -36,7 +37,7 @@ function logout() {
     $.ajax({
         type: "POST",
         cache: "false",
-        url: "admin/user/logout",
+        url: "admin/logout",
         dataType: "json",
         success: function (result) {
             if (result.status == 1) {

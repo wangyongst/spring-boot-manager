@@ -1,48 +1,39 @@
 package com.spring.boot.manager.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
-@Table(name = "token")
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Token implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "userid", referencedColumnName = "id")
-    private User user;
-    @Basic
-    @Column(name = "expiretime", nullable = true)
+public class Token {
+    private String id;
+    private Integer userid;
     private Long expiretime;
-    @Basic
-    @Column(name = "outtime", nullable = true, length = 255)
-    private String outtime;
-    @Basic
-    @Column(name = "createtime", nullable = true, length = 255)
-    private String createtime;
 
-    public int getId() {
+    @Id
+    @Column(name = "id", nullable = false, length = 32)
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    @Basic
+    @Column(name = "userid", nullable = true)
+    public Integer getUserid() {
+        return userid;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
+    @Basic
+    @Column(name = "expiretime", nullable = true)
     public Long getExpiretime() {
         return expiretime;
     }
@@ -51,19 +42,18 @@ public class Token implements Serializable {
         this.expiretime = expiretime;
     }
 
-    public String getOuttime() {
-        return outtime;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Token token = (Token) o;
+        return Objects.equals(id, token.id) &&
+                Objects.equals(userid, token.userid) &&
+                Objects.equals(expiretime, token.expiretime);
     }
 
-    public void setOuttime(String outtime) {
-        this.outtime = outtime;
-    }
-
-    public String getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userid, expiretime);
     }
 }

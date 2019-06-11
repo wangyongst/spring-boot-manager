@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
     <persistence-unit name="persistenceUnit">
-        <class>com.spring.boot.manager.entity.User</class>
         <properties>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/design?useUnicode=true&amp;characterEncoding=UTF8&amp;useOldAliasMetadataBehavior=true&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=false"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/purch?useUnicode=true&amp;characterEncoding=UTF8&amp;useOldAliasMetadataBehavior=true&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=false"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="root"/>

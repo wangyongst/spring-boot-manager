@@ -1,25 +1,23 @@
 $(function () {
     $("#loginButton").click(function () {
-        if ($("#username").val() == null || $("#username").val() == "" || $("#username").val() == "null") {
-            alert("用户名不能为空");
-            return;
-        }
-        if ($("#password").val() == null || $("#password").val() == "" || $("#password").val() == "null") {
-            alert("密码不能为空");
-            return;
-        }
+
         $.ajax({
             type: "POST",
             cache: "false",
-            url: "admin/user/login",
+            url: "admin/login",
             data: {
-                username: $("#username").val(),
+                mobile: $("#mobile").val(),
                 password: $("#password").val()
             },
             dataType: "json",
             success: function (result) {
                 if (result.status == 1) {
-                    window.location.href = "home.html";
+                    if(result.data.ischange  == 1){
+                        window.location.href = "home.html";
+                    }
+                    else{
+                        window.location.href = "page-changepassword.html";
+                    }
                 } else {
                     alert(result.message);
                 }
