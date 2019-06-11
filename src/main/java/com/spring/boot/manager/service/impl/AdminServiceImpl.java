@@ -73,6 +73,9 @@ public class AdminServiceImpl implements AdminService {
         user.setPassword(adminParameter.getPassword());
         user.setMobile(adminParameter.getMobile());
         user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
+        User me = (User) httpSession.getAttribute("user");
+        user.setCreateusername(me.getUsername());
+        user.setIschange(0);
         userRepository.save(user);
         return ResultUtil.ok();
     }
