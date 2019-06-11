@@ -22,35 +22,35 @@ public class AdminController {
         return adminService.me(httpSession);
     }
 
-    //账号列表
-    @GetMapping("/user/list")
-    public Object userList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminService.userList(httpSession);
-    }
-
-    //账号详情
-    @GetMapping("/user")
-    public Result user(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminService.user(httpSession);
-    }
-
-    //角色列表
-    @GetMapping("/role/list")
-    public Result roleList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminService.roleList(httpSession);
-    }
-
-    //角色详情
-    @GetMapping("/role")
-    public Result role(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminService.role(httpSession);
-    }
-
-    //后端权限
-    @GetMapping("/privilege/all")
-    public Result privilegeAll(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminService.privilegeAll(httpSession);
-    }
+//    //账号列表
+//    @GetMapping("/user/list")
+//    public Object userList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+//        return adminService.userList(httpSession);
+//    }
+//
+//    //账号详情
+//    @GetMapping("/user")
+//    public Result user(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+//        return adminService.user(httpSession);
+//    }
+//
+//    //角色列表
+//    @GetMapping("/role/list")
+//    public Result roleList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+//        return adminService.roleList(httpSession);
+//    }
+//
+//    //角色详情
+//    @GetMapping("/role")
+//    public Result role(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+//        return adminService.role(httpSession);
+//    }
+//
+//    //后端权限
+//    @GetMapping("/privilege/all")
+//    public Result privilegeAll(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+//        return adminService.privilegeAll(httpSession);
+//    }
 
     //登录
     @PostMapping("/login")

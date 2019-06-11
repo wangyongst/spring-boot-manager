@@ -1,6 +1,6 @@
 $(function () {
     $("#loginButton").click(function () {
-
+        debugger;
         $.ajax({
             type: "POST",
             cache: "false",
