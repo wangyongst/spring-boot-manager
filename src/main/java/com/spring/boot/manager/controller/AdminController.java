@@ -79,7 +79,7 @@ public class AdminController {
     }
 
     //修改密码
-    @PostMapping("/changePassword")
+    @PostMapping("/changepassword")
     public Result changePassword(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
         return adminService.changePassword(adminParameter, httpSession);
     }

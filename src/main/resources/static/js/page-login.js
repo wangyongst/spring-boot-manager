@@ -10,7 +10,7 @@ $(function () {
             function (result) {
                 if (result.status == 1) {
                     if (result.data.ischange == 1) {
-                        window.location.href = "page-home.html";
+                        window.location.href = "index.html";
                     } else {
                         window.location.href = "page-changepassword.html";
                     }

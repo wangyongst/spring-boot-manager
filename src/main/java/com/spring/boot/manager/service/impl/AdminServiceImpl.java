@@ -119,21 +119,20 @@ public class AdminServiceImpl implements AdminService {
         if (StringUtils.isBlank(adminParameter.getNewpassword())) return ResultUtil.errorWithMessage("新密码不能为空不能为空！");
         if (!adminParameter.getNewpassword().equals(adminParameter.getNewpassword2()))
             return ResultUtil.errorWithMessage("两次密码输入不一致，请重新输入！");
-        if (!adminParameter.getPassword().equals(adminParameter.getNewpassword()))
+        if (adminParameter.getPassword().equals(adminParameter.getNewpassword()))
             return ResultUtil.errorWithMessage("新密码与原密码相同，请重新输入！");
         if (adminParameter.getNewpassword().length() < 3 || adminParameter.getNewpassword().length() > 20)
             return ResultUtil.errorWithMessage("密码长度不正确，请重新输入（最短3个字符，最长20个字符）（！");
         String regex = "^[a-z0-9A-Z]+$";
         if (!adminParameter.getNewpassword().matches(regex)) return ResultUtil.errorWithMessage("密码只包含数字和英文,其他字符不能输入！");
-        List<User> userList = userRepository.findByMobileAndPassword(adminParameter.getMobile(), adminParameter.getPassword());
-        if (userList.size() == 1) {
-            User user = userList.get(0);
+        User user = (User) httpSession.getAttribute("user");
+        if (user.getPassword().equals(adminParameter.getPassword())) {
             user.setPassword(adminParameter.getNewpassword());
             user.setIschange(1);
             userRepository.save(user);
             return ResultUtil.ok();
         } else {
-            return ResultUtil.errorWithMessage("原录密码错误！");
+            return ResultUtil.errorWithMessage("原密码错误！");
         }
     }
 
