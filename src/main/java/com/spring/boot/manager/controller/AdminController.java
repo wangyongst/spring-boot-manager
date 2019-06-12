@@ -35,17 +35,12 @@ public class AdminController {
         return adminService.user(adminParameter, httpSession);
     }
 
-    //账号增改
-    @PostMapping("/user/su")
-    public Result userSU(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminService.userSU(adminParameter, httpSession);
+    //账号增删改
+    @PostMapping("/user/sud")
+    public Result userSud(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.userSud(adminParameter, httpSession);
     }
 
-    //账号删除
-    @PostMapping("/user/delete")
-    public Result userDelete(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminService.userDelete(adminParameter, httpSession);
-    }
 
     //角色列表
     @GetMapping("/role/list")

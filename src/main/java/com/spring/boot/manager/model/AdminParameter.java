@@ -1,6 +1,7 @@
 package com.spring.boot.manager.model;
 
 public class AdminParameter {
+    private int delete;
     private String mobile;
     private String username;
     private int userid;
@@ -11,6 +12,14 @@ public class AdminParameter {
     private String sort;
     private int page;
     private int size;
+
+    public int getDelete() {
+        return delete;
+    }
+
+    public void setDelete(int delete) {
+        this.delete = delete;
+    }
 
     public String getUsername() {
         return username;

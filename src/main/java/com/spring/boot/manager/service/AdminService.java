@@ -17,9 +17,7 @@ public interface AdminService {
 
     Result user(AdminParameter adminParameter, HttpSession httpSession);
 
-    Result userSU(AdminParameter adminParameter, HttpSession httpSession);
-
-    Result userDelete(AdminParameter adminParameter, HttpSession httpSession);
+    Result userSud(AdminParameter adminParameter, HttpSession httpSession);
 
     Result role(AdminParameter adminParameter, HttpSession httpSession);
 

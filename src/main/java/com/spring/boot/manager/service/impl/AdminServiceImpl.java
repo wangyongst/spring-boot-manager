@@ -52,7 +52,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result roleList(AdminParameter adminParameter, HttpSession httpSession) {
-        Pageable pageable = new PageRequest(adminParameter.getPage(),10);
+        Pageable pageable = new PageRequest(adminParameter.getPage(), 10);
         return ResultUtil.okWithData(roleRepository.findAll(pageable));
     }
 
@@ -62,7 +62,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Result userSU(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result userSud(AdminParameter adminParameter, HttpSession httpSession) {
+        if (adminParameter.getDelete() != 0) {
+            userRepository.deleteById(adminParameter.getUserid());
+            return ResultUtil.ok();
+        }
         User user = null;
         if (adminParameter.getUserid() == 0) {
             user = new User();
@@ -78,12 +82,6 @@ public class AdminServiceImpl implements AdminService {
         user.setMobile(adminParameter.getMobile());
         user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
         userRepository.save(user);
-        return ResultUtil.ok();
-    }
-
-    @Override
-    public Result userDelete(AdminParameter adminParameter, HttpSession httpSession) {
-        userRepository.delete(userRepository.findById(adminParameter.getUserid()).get());
         return ResultUtil.ok();
     }
 
