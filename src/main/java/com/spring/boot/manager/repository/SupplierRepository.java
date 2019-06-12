@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RepositoryDefinition(domainClass = Supplier.class, idClass = Integer.class)
-public interface SupplierPrivRepository extends JpaRepository<Supplier,Integer> {
+public interface SupplierRepository extends JpaRepository<Supplier,Integer> {
 }

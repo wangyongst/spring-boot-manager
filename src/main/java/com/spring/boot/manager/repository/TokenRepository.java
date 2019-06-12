@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 @RepositoryDefinition(domainClass = Token.class, idClass = Integer.class)
-public interface TokenPrivRepository extends JpaRepository<Token,Integer> {
+public interface TokenRepository extends JpaRepository<Token,Integer> {
 }
