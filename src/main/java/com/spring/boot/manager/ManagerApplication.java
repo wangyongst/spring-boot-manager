@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.net.ssl.SSLContext;
 import java.security.KeyManagementException;
