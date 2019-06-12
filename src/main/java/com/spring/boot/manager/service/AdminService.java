@@ -21,6 +21,8 @@ public interface AdminService {
 
     Result role(AdminParameter adminParameter, HttpSession httpSession);
 
+    Result roleSud(AdminParameter adminParameter, HttpSession httpSession);
+
     Result privilegeAll(AdminParameter adminParameter, HttpSession httpSession);
 
     Result changePassword(AdminParameter adminParameter, HttpSession httpSession);

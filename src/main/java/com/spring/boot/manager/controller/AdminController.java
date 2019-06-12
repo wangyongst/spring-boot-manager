@@ -54,6 +54,12 @@ public class AdminController {
         return adminService.role(adminParameter, httpSession);
     }
 
+    //角色增删改
+    @PostMapping("/role/sud")
+    public Result roleSud(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.roleSud(adminParameter, httpSession);
+    }
+
     //权限
     @GetMapping("/privilege/all")
     public Result privilegeAll(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {

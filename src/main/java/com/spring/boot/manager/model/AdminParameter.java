@@ -3,15 +3,33 @@ package com.spring.boot.manager.model;
 public class AdminParameter {
     private int delete;
     private String mobile;
-    private String username;
+    private String name;
     private int userid;
     private int roleid;
+    private int supplierid;
+    private int projectid;
     private String password;
     private String newpassword;
     private String newpassword2;
     private String sort;
     private int page;
     private int size;
+
+    public int getSupplierid() {
+        return supplierid;
+    }
+
+    public void setSupplierid(int supplierid) {
+        this.supplierid = supplierid;
+    }
+
+    public int getProjectid() {
+        return projectid;
+    }
+
+    public void setProjectid(int projectid) {
+        this.projectid = projectid;
+    }
 
     public int getDelete() {
         return delete;
@@ -21,12 +39,12 @@ public class AdminParameter {
         this.delete = delete;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getRoleid() {

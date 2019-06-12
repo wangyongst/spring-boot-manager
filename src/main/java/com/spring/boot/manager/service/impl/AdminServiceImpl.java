@@ -1,10 +1,10 @@
 package com.spring.boot.manager.service.impl;
 
 import ch.qos.logback.core.db.dialect.DBUtil;
+import com.spring.boot.manager.entity.Role;
 import com.spring.boot.manager.entity.User;
 import com.spring.boot.manager.model.AdminParameter;
-import com.spring.boot.manager.repository.RoleRepository;
-import com.spring.boot.manager.repository.UserRepository;
+import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminService;
 import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.result.Result;
@@ -38,6 +38,15 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private Role2PrivRepository role2PrivRepository;
+
+    @Autowired
+    private SupplierRepository supplierRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
 
     @Override
     public Result me(HttpSession httpSession) {
@@ -63,21 +72,21 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result userSud(AdminParameter adminParameter, HttpSession httpSession) {
-        if (adminParameter.getDelete() != 0) {
-            userRepository.deleteById(adminParameter.getUserid());
-            return ResultUtil.ok();
-        }
         User user = null;
         if (adminParameter.getUserid() == 0) {
             user = new User();
             user.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
             user.setIschange(0);
             User me = (User) httpSession.getAttribute("user");
-            user.setCreateusername(me.getUsername());
+            user.setCreateusername(me.getName());
         } else {
             user = userRepository.findById(adminParameter.getUserid()).get();
+            if (adminParameter.getDelete() != 0) {
+                userRepository.delete(user);
+                return ResultUtil.ok();
+            }
         }
-        user.setUsername(adminParameter.getUsername());
+        user.setName(adminParameter.getName());
         user.setPassword(adminParameter.getPassword());
         user.setMobile(adminParameter.getMobile());
         user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
@@ -88,6 +97,26 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Result role(AdminParameter adminParameter, HttpSession httpSession) {
         return ResultUtil.okWithData(userRepository.findById(adminParameter.getRoleid()).get());
+    }
+
+    @Override
+    public Result roleSud(AdminParameter adminParameter, HttpSession httpSession) {
+        Role role = null;
+        if (adminParameter.getRoleid() == 0) {
+            role = new Role();
+        } else {
+            role = roleRepository.findById(adminParameter.getRoleid()).get();
+            if (adminParameter.getDelete() != 0) {
+                role2PrivRepository.deleteAllByRole(role);
+                roleRepository.delete(role);
+                return ResultUtil.ok();
+            }
+        }
+        role.setName(adminParameter.getName());
+        role.setProjectid(projectRepository.findById(adminParameter.getProjectid()).get().getId());
+        role.setSupplierid(supplierRepository.findById(adminParameter.getSupplierid()).get().getId());
+        roleRepository.save(role);
+        return ResultUtil.ok();
     }
 
     @Override

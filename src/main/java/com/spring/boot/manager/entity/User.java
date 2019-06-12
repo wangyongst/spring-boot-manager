@@ -10,8 +10,8 @@ public class User {
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic
-    @Column(name = "username", nullable = true, length = 10)
-    private String username;
+    @Column(name = "name", nullable = true, length = 10)
+    private String name;
     @Basic
     @Column(name = "password", nullable = true, length = 20)
     private String password;
@@ -47,12 +47,12 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
