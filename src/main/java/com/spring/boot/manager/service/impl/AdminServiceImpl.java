@@ -1,10 +1,12 @@
 package com.spring.boot.manager.service.impl;
 
+import ch.qos.logback.core.db.dialect.DBUtil;
 import com.spring.boot.manager.entity.User;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.repository.RoleRepository;
 import com.spring.boot.manager.repository.UserRepository;
 import com.spring.boot.manager.service.AdminService;
+import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.result.Result;
 import com.spring.boot.manager.utils.result.ResultUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -65,6 +67,10 @@ public class AdminServiceImpl implements AdminService {
         User user = null;
         if (adminParameter.getUserid() == 0) {
             user = new User();
+            user.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
+            user.setIschange(0);
+            User me = (User) httpSession.getAttribute("user");
+            user.setCreateusername(me.getUsername());
         } else {
             user = userRepository.findById(adminParameter.getUserid()).get();
         }
@@ -72,9 +78,6 @@ public class AdminServiceImpl implements AdminService {
         user.setPassword(adminParameter.getPassword());
         user.setMobile(adminParameter.getMobile());
         user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
-        User me = (User) httpSession.getAttribute("user");
-        user.setCreateusername(me.getUsername());
-        user.setIschange(0);
         userRepository.save(user);
         return ResultUtil.ok();
     }

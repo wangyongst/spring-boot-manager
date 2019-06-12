@@ -41,7 +41,6 @@ public class AdminController {
         return adminService.userSU(adminParameter, httpSession);
     }
 
-
     //账号删除
     @PostMapping("/user/delete")
     public Result userDelete(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {

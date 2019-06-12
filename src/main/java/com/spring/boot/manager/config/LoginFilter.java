@@ -79,6 +79,7 @@ public class LoginFilter implements Filter {
                 return true;
             }
         }
+        if(url.equals("/")) return true;
         return false;
     }
 
