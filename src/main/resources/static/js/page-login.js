@@ -1,28 +1,24 @@
 $(function () {
+    $("#alert").hide();
+
     $("#loginButton").click(function () {
-        debugger;
-        $.ajax({
-            type: "POST",
-            cache: "false",
-            url: "admin/login",
-            data: {
+        $.post("admin/login",
+            {
                 mobile: $("#mobile").val(),
                 password: $("#password").val()
             },
-            dataType: "json",
-            success: function (result) {
+            function (result) {
                 if (result.status == 1) {
-                    if(result.data.ischange  == 1){
-                        window.location.href = "home.html";
-                    }
-                    else{
+                    if (result.data.ischange == 1) {
+                        window.location.href = "page-home.html";
+                    } else {
                         window.location.href = "page-changepassword.html";
                     }
                 } else {
-                    alert(result.message);
+                    $("#alert").text(result.message);
+                    $("#alert").show();
                 }
-            }
-        });
+            });
     });
 });
 
