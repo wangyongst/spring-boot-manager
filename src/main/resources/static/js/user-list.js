@@ -1,19 +1,34 @@
 $(function () {
 
-    $.ajax({
-        type: "GET",
-        cache: "false",
-        url: "/admin/user/role/list/result",
-        dataType: "json",
-        success: function (result) {
+    $.get("admin/user/list?page=0",
+        function (result) {
             if (result.status == 1) {
-                $.each(result.data, function (key, val) {
-                    $('#roleid').append("<option value='" + val.id + "'>" + val.name + "</option>");
-                });
+                $('#user-list-table').bootstrapTable({
+                    data: result.data.content,
+                    columns: [{
+                        field: 'id',
+                        title: 'ID'
+                    }, {
+                        field: 'username',
+                        title: '名称'
+                    }, {
+                        field: 'mobile',
+                        title: '电话'
+                    }, {
+                        field: 'role.name',
+                        title: '角色'
+                    }, {
+                        field: 'createusername',
+                        title: '创建人'
+                    }, {
+                        field: 'createtime',
+                        title: '创建时间'
+                    }, {
+                        title: '操作'
+                    }]
+                }).bootstrapTable('hideLoading');;
             }
-        }
-    });
-
+        });
 
     $("#create").click(function () {
         $('#adminUserModal').modal('toggle');
@@ -124,8 +139,7 @@ function clearForm(form) {
         var tag = this.tagName.toLowerCase(); // normalize case
         if (type == 'text' || type == 'password' || tag == 'textarea' || tag == "tel") {
             this.value = "";
-        }
-        else if (tag == 'select') {
+        } else if (tag == 'select') {
             this.selectedIndex = -1;
         }
     });

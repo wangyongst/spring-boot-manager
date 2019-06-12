@@ -43,33 +43,6 @@
                     <a href="index.html"><i class="menu-icon fa fa-laptop"></i>首页 </a>
                 </li>
 
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Icons</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Font Awesome</a></li>
-                        <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Themefy Icons</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="widgets.html"> <i class="menu-icon ti-email"></i>Widgets </a>
-                </li>
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Charts</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-line-chart"></i><a href="charts-chartjs.html">Chart JS</a></li>
-                        <li><i class="menu-icon fa fa-area-chart"></i><a href="charts-flot.html">Flot Chart</a></li>
-                        <li><i class="menu-icon fa fa-pie-chart"></i><a href="charts-peity.html">Peity Chart</a></li>
-                    </ul>
-                </li>
-
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>Maps</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-map-o"></i><a href="maps-gmap.html">Google Maps</a></li>
-                        <li><i class="menu-icon fa fa-street-view"></i><a href="maps-vector.html">Vector Maps</a></li>
-                    </ul>
-                </li>
-
                 <li class="menu-title">采购管理</li><!-- /.menu-title -->
 
                 <li>
@@ -91,8 +64,9 @@
                 </li>
 
                 <li class="menu-title">权限管理</li><!-- /.menu-title -->
+
                 <li>
-                    <a href="widgets.html"> <i class="menu-icon ti-user"></i>用户列表 </a>
+                    <a href="user-list.html"> <i class="menu-icon ti-user"></i>用户列表 </a>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
@@ -185,38 +159,59 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <strong>配置系统 </strong>
-                </div>
-                <div class="card-body">
-                    <button type="button" class="btn btn-outline-primary btn-lg active" id="projectButton">项目管理</button>
-                    <button type="button" class="btn btn-outline-primary btn-lg "id="resourceButton">采购资源配置</button>
-                    <button type="button" class="btn btn-outline-primary btn-lg "id="supplierButton">供应商管理</button>
-                </div>
-            </div><!-- /# card -->
-
-        </div>
-        <!-- .animated -->
-    </div>
-    <!-- /.content -->
-    <div class="clearfix"></div>
-    <!-- Footer -->
-    <footer class="site-footer">
-        <div class="footer-inner bg-white">
             <div class="row">
-                <div class="col-sm-6">
-                    Copyright &copy; 2018 Ela Admin
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>配置系统</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-project" role="tab" aria-controls="pills-home" aria-selected="true">项目管理</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-resource" role="tab" aria-controls="pills-profile" aria-selected="false">采购资源配置</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-supplier" role="tab" aria-controls="pills-contact" aria-selected="false">供应商管理</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-project" role="tabpanel" aria-labelledby="pills-home-tab">
+                                    <h3>Home</h3>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste nobis, fugit pariatur minima! Dolorum modi pariatur aperiam quas odio nulla, illo necessitatibus dolor a.
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="pills-resource" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                    <h3>Profile</h3>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste nobis, fugit pariatur minima! Dolorum modi pariatur aperiam quas odio nulla, illo necessitatibus dolor a.
+                                    </p>
+                                </div>
+                                <div class="tab-pane fade" id="pills-supplier" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                    <h3>Cotanct</h3>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste nobis, fugit pariatur minima! Dolorum modi pariatur aperiam quas odio nulla, illo necessitatibus dolor a.
+                                    </p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-6 text-right">
-                    Designed by <a href="https://colorlib.com">Colorlib</a>
-                </div>
+                <!-- /# column -->
             </div>
-        </div>
-    </footer>
-    <!-- /.site-footer -->
+            <!-- /# column -->
+        </div><!-- .content -->
+    </div>
+    <!-- .animated -->
 </div>
-<!-- /#right-panel -->
+<!-- /.content -->
+<div class="clearfix"></div>
+</div>
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
@@ -239,7 +234,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.js"></script>
-
+<script src="assets/js/main.js"></script>
 
 <script src="js/index.js"></script>
 

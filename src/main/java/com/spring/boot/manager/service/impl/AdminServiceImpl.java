@@ -44,8 +44,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result userList(AdminParameter adminParameter, HttpSession httpSession) {
-        Sort sort = new Sort(adminParameter.getSort());
-        Pageable pageable = new PageRequest(adminParameter.getPage(), adminParameter.getSize(), sort);
+        Pageable pageable = new PageRequest(0, 10);
         return ResultUtil.okWithData(userRepository.findAll(pageable));
     }
 

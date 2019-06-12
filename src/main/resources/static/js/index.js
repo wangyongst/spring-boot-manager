@@ -1,5 +1,5 @@
 $(function () {
-    $.get("admin/me",
+       $.get("admin/me",
         function (result) {
             if (result.status == 1) {
                 $("#usernameButton").text(result.data.username);
