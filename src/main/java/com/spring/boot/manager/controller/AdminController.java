@@ -25,7 +25,7 @@ public class AdminController {
 
     //账号列表
     @GetMapping("/user/list")
-    public Object userList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+    public Result userList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
         return adminService.userList(adminParameter, httpSession);
     }
 

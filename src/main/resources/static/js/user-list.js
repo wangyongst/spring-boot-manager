@@ -1,15 +1,24 @@
+var userlisttable;
 $(function () {
 
-    $.get("admin/user/list?page=0",
+    $.get("admin/me",
         function (result) {
             if (result.status == 1) {
-                $('#user-list-table').bootstrapTable({
-                    data: result.data.content,
+                $("#usernameButton").text(result.data.name);
+            }
+        });
+
+    $.get("admin/user/list",
+        function (result) {
+            if (result.status == 1) {
+                userlisttable = $('#user-list-table').bootstrapTable({
+                    data: result.data,
+                    pagination: true,
                     columns: [{
                         field: 'id',
                         title: 'ID'
                     }, {
-                        field: 'username',
+                        field: 'name',
                         title: '名称'
                     }, {
                         field: 'mobile',
@@ -24,9 +33,12 @@ $(function () {
                         field: 'createtime',
                         title: '创建时间'
                     }, {
-                        title: '操作'
+                        field: 'id',
+                        title: '操作',
+                        formatter: actionFormatter()
                     }]
-                }).bootstrapTable('hideLoading');;
+                }).bootstrapTable('hideLoading');
+                ;
             }
         });
 
@@ -120,16 +132,8 @@ $(function () {
 });
 
 
-function select() {
-    var ids = "";
-    $("input[name=btSelectItem]").each(function () {
-        if ($(this).prop('checked')) {
-            var index = $("table input:checkbox").index(this);
-            val = $("table").find("tr").eq(index).find("td").eq(1).text();
-            ids += "," + val;
-        }
-    });
-    return ids;
+function actionFormatter(value, row, index) {
+    return "<button type=\"button\" class=\"btn btn-link\" onclick=\"alert(" + value + ")\"> 修改</button>";
 }
 
 function clearForm(form) {

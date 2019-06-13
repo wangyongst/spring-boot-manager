@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 
 
-@Service("AdminOneService")
+@Service("AdminTwoService")
 @SuppressWarnings("All")
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class, readOnly = false)
 public class AdminTwoServiceImpl implements AdminTwoService {

@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
-@Service("AdminOneService")
+@Service("AdminService")
 @SuppressWarnings("All")
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class, readOnly = false)
 public class AdminServiceImpl implements AdminService {
@@ -55,8 +55,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result userList(AdminParameter adminParameter, HttpSession httpSession) {
-        Pageable pageable = new PageRequest(adminParameter.getPage(), 10);
-        return ResultUtil.okWithData(userRepository.findAll(pageable));
+        //Pageable pageable = new PageRequest(adminParameter.getPage(), 10);
+        return ResultUtil.okWithData(userRepository.findAll());
     }
 
     @Override
