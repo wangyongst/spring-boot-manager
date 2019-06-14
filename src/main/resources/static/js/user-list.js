@@ -7,6 +7,7 @@ $(function () {
                     pagination: true,
                     search: true,
                     refresh: true,
+                    pageSize: 7,
                     columns: [{
                         field: 'id',
                         title: 'ID'
