@@ -26,17 +26,16 @@ $(function () {
             }
         });
 
-    $("#create").click(function () {
-        $('#adminUserModal').modal('toggle');
+    $("#createroleButton").click(function () {
+
     });
 
 
     $("#deleteConfirmButton").click(function () {
-        var deleteid = $('#deletevalue').val();
         $('#deletealertModal').modal('toggle');
         $.post("admin/role/sud",
             {
-                roleid: deleteid,
+                roleid: $('#deletevalue').val(),
                 delete: 1,
             },
             function (result) {
@@ -47,7 +46,7 @@ $(function () {
 });
 
 function update(value) {
-    window.location.href = "user-update.html?" + value;
+    //window.location.href = "user-update.html?" + value;
 };
 
 function del(value) {
