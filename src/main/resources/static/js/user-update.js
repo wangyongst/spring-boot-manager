@@ -12,7 +12,7 @@ $(function () {
                     function (result2) {
                         if (result2.status == 1) {
                             $.each(result2.data, function (key, val) {
-                                if (result.data.role.id == val.id) {
+                                if (result.data.role != null && result.data.role.id == val.id) {
                                     $('#roles').append("<label class=\"form-check-label \">\n" +
                                         "                    <input type=\"radio\" name=\"roleid\" value=\"" + val.id + "\" class=\"form-check-input\" checked=\"checked\" >" + val.name +
                                         "               </label>");
