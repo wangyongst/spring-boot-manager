@@ -55,14 +55,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result userList(AdminParameter adminParameter, HttpSession httpSession) {
-        //Pageable pageable = new PageRequest(adminParameter.getPage(), 10);
-        return ResultUtil.okWithData(userRepository.findAll());
+        Sort sort = new Sort(Sort.Direction.DESC,"createtime");
+        return ResultUtil.okWithData(userRepository.findAll(sort));
     }
 
     @Override
     public Result roleList(AdminParameter adminParameter, HttpSession httpSession) {
-        Pageable pageable = new PageRequest(adminParameter.getPage(), 10);
-        return ResultUtil.okWithData(roleRepository.findAll(pageable));
+        return ResultUtil.okWithData(roleRepository.findAll());
     }
 
     @Override
@@ -74,6 +73,14 @@ public class AdminServiceImpl implements AdminService {
     public Result userSud(AdminParameter adminParameter, HttpSession httpSession) {
         User user = null;
         if (adminParameter.getUserid() == 0) {
+            if(adminParameter.getName().length() ==0) return ResultUtil.errorWithMessage("登录姓名不能为空！");
+            if(adminParameter.getName().length() > 10) return ResultUtil.errorWithMessage("登录姓名超过10个字！");
+            if(adminParameter.getMobile().length() ==0) return ResultUtil.errorWithMessage("电话不能为空！");
+            String regex = "^[0-9]+$";
+            if(!adminParameter.getMobile().matches(regex)) return ResultUtil.errorWithMessage("电话只能是数字！");
+            if(adminParameter.getPassword().length() ==0) return ResultUtil.errorWithMessage("密码不能为空！");
+            regex = "^[a-z0-9A-Z]+$";
+            if (!adminParameter.getPassword().matches(regex)) return ResultUtil.errorWithMessage("密码只支持数字和英文！");
             user = new User();
             user.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
             user.setIschange(0);
@@ -86,10 +93,11 @@ public class AdminServiceImpl implements AdminService {
                 return ResultUtil.ok();
             }
         }
+        if(adminParameter.getRoleid() ==0) return ResultUtil.errorWithMessage("配置角色未选择！");
+        user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
         user.setName(adminParameter.getName());
         user.setPassword(adminParameter.getPassword());
         user.setMobile(adminParameter.getMobile());
-        user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
         userRepository.save(user);
         return ResultUtil.ok();
     }
