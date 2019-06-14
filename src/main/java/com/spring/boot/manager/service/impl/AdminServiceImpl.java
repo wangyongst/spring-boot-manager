@@ -83,12 +83,12 @@ public class AdminServiceImpl implements AdminService {
                 return ResultUtil.ok();
             }
         }
-        if (StringUtils.isNotBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("登录姓名不能为空！");
+        if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("登录姓名不能为空！");
         if (adminParameter.getName().length() > 10) return ResultUtil.errorWithMessage("登录姓名不能超过10个字！");
-        if (StringUtils.isNotBlank(adminParameter.getMobile())) return ResultUtil.errorWithMessage("电话不能为空！");
+        if (StringUtils.isBlank(adminParameter.getMobile())) return ResultUtil.errorWithMessage("电话不能为空！");
         String regex = "^[0-9]+$";
         if (!adminParameter.getMobile().matches(regex)) return ResultUtil.errorWithMessage("电话只能是数字！");
-        if (StringUtils.isNotBlank(adminParameter.getPassword())) return ResultUtil.errorWithMessage("密码不能为空！");
+        if (StringUtils.isBlank(adminParameter.getPassword())) return ResultUtil.errorWithMessage("密码不能为空！");
         regex = "^[a-z0-9A-Z]+$";
         if (!adminParameter.getPassword().matches(regex)) return ResultUtil.errorWithMessage("密码只支持数字和英文！");
         if (adminParameter.getRoleid() == 0) return ResultUtil.errorWithMessage("配置角色未选择！");
@@ -122,7 +122,7 @@ public class AdminServiceImpl implements AdminService {
                 return ResultUtil.ok();
             }
         }
-        if (StringUtils.isNotBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("角色名称不能为空！");
+        if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("角色名称不能为空！");
         if (adminParameter.getName().length() > 10) return ResultUtil.errorWithMessage("角色名称最多10个字！");
         role.setName(adminParameter.getName());
         role.setProjectid(projectRepository.findById(adminParameter.getProjectid()).get().getId());
