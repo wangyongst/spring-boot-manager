@@ -42,32 +42,27 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result askList(AdminParameter adminParameter, HttpSession httpSession) {
-        Pageable pageable = new PageRequest(adminParameter.getPage(), 10);
-        return ResultUtil.okWithData(askRepository.findAll(pageable));
+        return ResultUtil.okWithData(askRepository.findAll());
     }
 
     @Override
     public Result applyList(AdminParameter adminParameter, HttpSession httpSession) {
-        Pageable pageable = new PageRequest(adminParameter.getPage(), 10);
-        return ResultUtil.okWithData(applyRepository.findAll(pageable));
+        return ResultUtil.okWithData(applyRepository.findAll());
     }
 
     @Override
     public Result projectList(AdminParameter adminParameter, HttpSession httpSession) {
-        Pageable pageable = new PageRequest(adminParameter.getPage(), 10);
-        return ResultUtil.okWithData(projectRepository.findAll(pageable));
+        return ResultUtil.okWithData(projectRepository.findAll());
     }
 
     @Override
     public Result resourceList(AdminParameter adminParameter, HttpSession httpSession) {
-        Pageable pageable = new PageRequest(adminParameter.getPage(), 10);
-        return ResultUtil.okWithData(resourceRepository.findAll(pageable));
+        return ResultUtil.okWithData(resourceRepository.findAll());
     }
 
     @Override
     public Result supplierList(AdminParameter adminParameter, HttpSession httpSession) {
-        Pageable pageable = new PageRequest(adminParameter.getPage(), 10);
-        return ResultUtil.okWithData(supplierRepository.findAll(pageable));
+        return ResultUtil.okWithData(supplierRepository.findAll());
     }
 
     @Override

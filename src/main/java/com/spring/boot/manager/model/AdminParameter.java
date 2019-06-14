@@ -11,9 +11,6 @@ public class AdminParameter {
     private String password;
     private String newpassword;
     private String newpassword2;
-    private String sort;
-    private int page;
-    private int size;
 
     public int getSupplierid() {
         return supplierid;
@@ -61,30 +58,6 @@ public class AdminParameter {
 
     public void setUserid(int userid) {
         this.userid = userid;
-    }
-
-    public String getSort() {
-        return sort;
-    }
-
-    public void setSort(String sort) {
-        this.sort = sort;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
     }
 
     public String getNewpassword() {

@@ -41,7 +41,6 @@ public class AdminController {
         return adminService.userSud(adminParameter, httpSession);
     }
 
-
     //角色列表
     @GetMapping("/role/list")
     public Result roleList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
