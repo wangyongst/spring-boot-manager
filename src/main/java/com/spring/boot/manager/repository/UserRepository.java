@@ -1,5 +1,6 @@
 package com.spring.boot.manager.repository;
 
+import com.spring.boot.manager.entity.Role;
 import com.spring.boot.manager.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.RepositoryDefinition;
@@ -9,6 +10,8 @@ import java.util.List;
 
 @Repository
 @RepositoryDefinition(domainClass = User.class, idClass = Integer.class)
-public interface UserRepository extends JpaRepository<User,Integer> {
-    List<User> findByMobileAndPassword(String mobile,String password);
+public interface UserRepository extends JpaRepository<User, Integer> {
+    List<User> findByMobileAndPassword(String mobile, String password);
+
+    List<User> findByRole(Role role);
 }

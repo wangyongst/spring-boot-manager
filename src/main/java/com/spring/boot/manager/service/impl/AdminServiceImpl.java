@@ -1,6 +1,5 @@
 package com.spring.boot.manager.service.impl;
 
-import ch.qos.logback.core.db.dialect.DBUtil;
 import com.spring.boot.manager.entity.Role;
 import com.spring.boot.manager.entity.User;
 import com.spring.boot.manager.model.AdminParameter;
@@ -13,8 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -55,7 +52,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result userList(AdminParameter adminParameter, HttpSession httpSession) {
-        Sort sort = new Sort(Sort.Direction.DESC,"createtime");
+        Sort sort = new Sort(Sort.Direction.DESC, "createtime");
         return ResultUtil.okWithData(userRepository.findAll(sort));
     }
 
@@ -73,14 +70,6 @@ public class AdminServiceImpl implements AdminService {
     public Result userSud(AdminParameter adminParameter, HttpSession httpSession) {
         User user = null;
         if (adminParameter.getUserid() == 0) {
-            if(adminParameter.getName().length() ==0) return ResultUtil.errorWithMessage("登录姓名不能为空！");
-            if(adminParameter.getName().length() > 10) return ResultUtil.errorWithMessage("登录姓名超过10个字！");
-            if(adminParameter.getMobile().length() ==0) return ResultUtil.errorWithMessage("电话不能为空！");
-            String regex = "^[0-9]+$";
-            if(!adminParameter.getMobile().matches(regex)) return ResultUtil.errorWithMessage("电话只能是数字！");
-            if(adminParameter.getPassword().length() ==0) return ResultUtil.errorWithMessage("密码不能为空！");
-            regex = "^[a-z0-9A-Z]+$";
-            if (!adminParameter.getPassword().matches(regex)) return ResultUtil.errorWithMessage("密码只支持数字和英文！");
             user = new User();
             user.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
             user.setIschange(0);
@@ -90,10 +79,19 @@ public class AdminServiceImpl implements AdminService {
             user = userRepository.findById(adminParameter.getUserid()).get();
             if (adminParameter.getDelete() != 0) {
                 userRepository.delete(user);
+                if (user.getId() == ((User) httpSession.getAttribute("user")).getId()) httpSession.removeAttribute("user");
                 return ResultUtil.ok();
             }
         }
-        if(adminParameter.getRoleid() ==0) return ResultUtil.errorWithMessage("配置角色未选择！");
+        if (adminParameter.getName().length() == 0) return ResultUtil.errorWithMessage("登录姓名不能为空！");
+        if (adminParameter.getName().length() > 10) return ResultUtil.errorWithMessage("登录姓名不能超过10个字！");
+        if (adminParameter.getMobile().length() == 0) return ResultUtil.errorWithMessage("电话不能为空！");
+        String regex = "^[0-9]+$";
+        if (!adminParameter.getMobile().matches(regex)) return ResultUtil.errorWithMessage("电话只能是数字！");
+        if (adminParameter.getPassword().length() == 0) return ResultUtil.errorWithMessage("密码不能为空！");
+        regex = "^[a-z0-9A-Z]+$";
+        if (!adminParameter.getPassword().matches(regex)) return ResultUtil.errorWithMessage("密码只支持数字和英文！");
+        if (adminParameter.getRoleid() == 0) return ResultUtil.errorWithMessage("配置角色未选择！");
         user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
         user.setName(adminParameter.getName());
         user.setPassword(adminParameter.getPassword());
@@ -115,11 +113,17 @@ public class AdminServiceImpl implements AdminService {
         } else {
             role = roleRepository.findById(adminParameter.getRoleid()).get();
             if (adminParameter.getDelete() != 0) {
+                userRepository.findByRole(role).forEach(e -> {
+                    e.setRole(null);
+                    userRepository.save(e);
+                });
                 role2PrivRepository.deleteAllByRole(role);
                 roleRepository.delete(role);
                 return ResultUtil.ok();
             }
         }
+        if (adminParameter.getName().length() == 0) return ResultUtil.errorWithMessage("角色名称不能为空！");
+        if (adminParameter.getName().length() > 10) return ResultUtil.errorWithMessage("角色名称最多10个字！");
         role.setName(adminParameter.getName());
         role.setProjectid(projectRepository.findById(adminParameter.getProjectid()).get().getId());
         role.setSupplierid(supplierRepository.findById(adminParameter.getSupplierid()).get().getId());

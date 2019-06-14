@@ -60,7 +60,7 @@ $(function () {
 });
 
 function update(value) {
-    alert("update" + value)
+    window.location.href = "user-update.html?" + value;
 };
 
 function del(value) {

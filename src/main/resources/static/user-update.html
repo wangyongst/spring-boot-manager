@@ -100,7 +100,7 @@
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>权限管理<span class="ti-angle-right"/>角色列表</h1>
+                            <h1>权限管理<span class="ti-angle-right"/>修改用户</h1>
                         </div>
                     </div>
                 </div>
@@ -112,10 +112,10 @@
     <div class="content">
         <div class="animated fadeIn">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="card">
 
-                        <div class="modal fade" id="deletealertModal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
+                        <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-sm" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -124,36 +124,52 @@
                                             <span aria-hidden="true"></span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-body" id="alertmessage">
                                         <p>
-                                            是否删除该角色？
                                         </p>
                                         <input hidden id="deletevalue">
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" id="deleteConfirmButton">确认</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
 
-
                         <div class="card-header">
                             <strong class="card-title">
-                                    <button type="button" class="btn btn-primary" id="createroleButton">新增角色</button>
+                                用户信息
                             </strong>
                         </div>
-                        <div class="card-body">
-                            <table id="user-list-table" class="table table-striped table-bordered table-condensed">
-                            </table>
+                        <div class="card-body card-block">
+                            <form id="usernewForm">
+                                <div class="form-group"><label class=" form-control-label">登录姓名</label><input type="text" id="name" name="name" placeholder="最多10个字" class="form-control"></div>
+                                <div class="form-group"><label class=" form-control-label">电话</label><input type="text" id="mobile" name="mobile" placeholder="只能是数字" class="form-control"></div>
+                                <div class="form-group"><label class=" form-control-label">登录密码</label><input type="text" id="password" name="password" placeholder="只能是数字和英文" class="form-control"></div>
+                                <div class="form-group"><label class=" form-control-label">配置角色</label>
+                                    <div class="row form-group">
+                                        <div class="col col-md-12">
+                                            <div class="form-check-inline form-check" id="roles">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="offset-lg-5">
+                                        <button type="button" class="btn btn-success" id="saveButton">保存</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </div><!-- .animated -->
-    </div><!-- .content -->
+        </div>
+    </div>
+</div>
+</div><!-- .animated -->
+</div><!-- .content -->
 
 </div><!-- /#right-panel -->
 
@@ -169,7 +185,7 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="js/common-index.js"></script>
-<script src="js/role-list.js"></script>
+<script src="js/user-update.js"></script>
 
 </body>
 </html>
