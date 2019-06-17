@@ -47,7 +47,7 @@ $(function () {
 });
 
 function update(value) {
-    window.location.href = "user-update.html?" + value;
+    window.location.href = "role-update.html?" + value;
 };
 
 function del(value) {
