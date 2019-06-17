@@ -8,9 +8,18 @@ public class AdminParameter {
     private int roleid;
     private int supplierid;
     private int projectid;
+    private int resourceid;
     private String password;
     private String newpassword;
     private String newpassword2;
+
+    public int getResourceid() {
+        return resourceid;
+    }
+
+    public void setResourceid(int resourceid) {
+        this.resourceid = resourceid;
+    }
 
     public int getSupplierid() {
         return supplierid;

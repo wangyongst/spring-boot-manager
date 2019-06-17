@@ -100,7 +100,7 @@
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>权限管理<span class="ti-angle-right"/>新增用户</h1>
+                            <h1>权限管理<span class="ti-angle-right"/>新增角色</h1>
                         </div>
                     </div>
                 </div>
@@ -124,9 +124,9 @@
                                             <span aria-hidden="true"></span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-body" id="alertmessage">
                                         <p>
-                                            是否删除该用户？
+
                                         </p>
                                         <input hidden id="deletevalue">
                                     </div>
@@ -137,31 +137,51 @@
                             </div>
                         </div>
 
+
                         <div class="card-header">
                             <strong class="card-title">
-                                用户信息
+                                角信息
                             </strong>
                         </div>
                         <div class="card-body card-block">
-                            <form id="usernewForm">
-                                <div class="form-group"><label class=" form-control-label">登录姓名</label>
+                            <form id="rolenewForm">
+                                <div class="form-group"><label class=" form-control-label">角色名称</label>
                                     <div class="col-12 col-md-9"><input type="text" name="name" placeholder="最多10个字" class="form-control"></div>
                                 </div>
-                                <div class="form-group"><label class=" form-control-label">电话</label>
-                                    <div class="col-12 col-md-9"><input type="text" name="mobile" placeholder="只能是数字" class="form-control"></div>
-                                </div>
-                                <div class="form-group"><label class=" form-control-label">登录密码</label>
-                                    <div class="col-12 col-md-9"><input type="text" name="password" placeholder="只能是数字和英文" class="form-control"></div>
-                                </div>
-                                <div class="form-group"><label class=" form-control-label">配置角色</label>
+                                <div class="form-group"><label class=" form-control-label">配置权限</label>
                                     <div class="col-12 col-md-9">
-                                        <div class="form-check-inline form-check" id="roles">
-                                        </div>
+                                        <select name="select" class="form-control">
+                                            <option value="1">管理员</option>
+                                            <option value="2">采购业务员</option>
+                                            <option value="3">供应商（送货员）</option>
+                                            <option value="4">收货员</option>
+                                            <option value="5">财务员</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class=" form-control-label">项目数据权限</label>
+                                    <div class="col-12 col-md-9">
+                                        <select name="select" class="form-control">
+                                            <option value="0">Please select</option>
+                                            <option value="1">Option #1</option>
+                                            <option value="2">Option #2</option>
+                                            <option value="3">Option #3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class=" form-control-label">供应商</label>
+                                    <div class="col-12 col-md-9">
+                                        <select name="select" class="form-control">
+                                            <option value="0">Please select</option>
+                                            <option value="1">Option #1</option>
+                                            <option value="2">Option #2</option>
+                                            <option value="3">Option #3</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="offset-lg-5">
-                                        <button type="button" class="btn btn-success" id="createuserButton">保存</button>
+                                        <button type="button" class="btn btn-success" id="createroleButton">保存</button>
                                     </div>
                                 </div>
                             </form>
@@ -189,7 +209,7 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="js/common-index.js"></script>
-<script src="js/user-new.js"></script>
+<script src="js/role-new.js"></script>
 
 </body>
 </html>

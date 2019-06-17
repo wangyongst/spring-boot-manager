@@ -12,9 +12,21 @@ public interface AdminTwoService {
 
     Result projectList(AdminParameter adminParameter, HttpSession httpSession);
 
+    Result project(AdminParameter adminParameter, HttpSession httpSession);
+
+    Result projectSud(AdminParameter adminParameter, HttpSession httpSession);
+
     Result resourceList(AdminParameter adminParameter, HttpSession httpSession);
 
+    Result resource(AdminParameter adminParameter, HttpSession httpSession);
+
+    Result resourceSud(AdminParameter adminParameter, HttpSession httpSession);
+
     Result supplierList(AdminParameter adminParameter, HttpSession httpSession);
+
+    Result supplier(AdminParameter adminParameter, HttpSession httpSession);
+
+    Result supplierSud(AdminParameter adminParameter, HttpSession httpSession);
 
     Result apply(AdminParameter adminParameter, HttpSession httpSession);
 }

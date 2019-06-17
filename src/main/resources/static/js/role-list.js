@@ -28,7 +28,7 @@ $(function () {
         });
 
     $("#createroleButton").click(function () {
-
+        window.location.href = "role-new.html";
     });
 
 
@@ -47,7 +47,7 @@ $(function () {
 });
 
 function update(value) {
-    //window.location.href = "user-update.html?" + value;
+    window.location.href = "user-update.html?" + value;
 };
 
 function del(value) {

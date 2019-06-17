@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
@@ -100,6 +101,7 @@
     <div class="content">
         <!-- Animated -->
         <div class="animated fadeIn">
+
             <div class="row">
                 <div class="col-lg-4 col-md-6">
                     <div class="card">
@@ -176,22 +178,130 @@
                             </ul>
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-project" role="tabpanel" aria-labelledby="pills-home-tab">
-                                    <h3>Home</h3>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste nobis, fugit pariatur minima! Dolorum modi pariatur aperiam quas odio nulla, illo necessitatibus dolor a.
-                                    </p>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <strong class="card-title">
+                                                        <div class="pull-left">
+                                                            <form class="form-inline" id="searchprojectForm">
+                                                                <div class="form-group">客户名称<input type="text" name="name" placeholder="请输入名称" required="" class="form-control">
+                                                                </div>
+                                                                <div class="form-group">项目名称<input type="email" name="createtime" placeholder="请输入名称" required="" class="form-control">
+                                                                </div>
+                                                                <button type="button" class="btn btn-primary btn-sm" id="searchprojectButton">筛选</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="pull-right">
+                                                            <button type="button" class="btn btn-primary btn-sm" id="exportprojectButton">导出</button>
+                                                            <button type="button" class="btn btn-success btn-sm" id="projectnewButton">新增</button>
+                                                        </div>
+                                                    </strong>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table data-toggle="table" data-url="admin/project/list" class="table table-striped table-bordered table-condensed" id="project-list-table" data-pagination="true">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-field="id">序号</th>
+                                                            <th data-field="customer">客户名称</th>
+                                                            <th data-field="name">项目名称</th>
+                                                            <th data-field="zimu">字母简写</th>
+                                                            <th data-field="createtime">创建时间</th>
+                                                            <th data-field="createuserid">创建人</th>
+                                                            <th data-field="id" data-formatter="projectformatter">操作</th>
+                                                        </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade" id="pills-resource" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                    <h3>Profile</h3>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste nobis, fugit pariatur minima! Dolorum modi pariatur aperiam quas odio nulla, illo necessitatibus dolor a.
-                                    </p>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <strong class="card-title">
+                                                        <div class="pull-left">
+                                                            <form class="form-inline" id="searchresourceForm">
+                                                                <div class="form-group">耗材类型<input type="text" name="type" placeholder="请输入类型" required="" class="form-control">
+                                                                </div>
+                                                                <div class="form-group">项目名称<input type="text" name="name" placeholder="请输入名称" required="" class="form-control">
+                                                                </div>
+                                                                <button type="button" class="btn btn-primary btn-sm" id="searchresourceButton">筛选</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="pull-right">
+                                                            <button type="button" class="btn btn-primary btn-sm" id="materialButton">耗材类型</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" id="exporresourceButton">导出</button>
+                                                            <button type="button" class="btn btn-success btn-sm" id="resourcenewButton">新增</button>
+                                                        </div>
+                                                    </strong>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table data-toggle="table" data-url="admin/resource/list" class="table table-striped table-bordered table-condensed" id="resource-list-table" data-pagination="true">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-field="id">序号</th>
+                                                            <th data-field="name">项目名称</th>
+                                                            <th data-field="name">耗材编号</th>
+                                                            <th data-field="zimu">耗材类型</th>
+                                                            <th data-field="createtime">尺寸大小</th>
+                                                            <th data-field="createuserid">特殊要求</th>
+                                                            <th data-field="zimu">材质规格</th>
+                                                            <th data-field="createtime">创建人</th>
+                                                            <th data-field="createuserid">创建时间</th>
+                                                            <th data-field="id" data-formatter="projectformatter">附件</th>
+                                                            <th data-field="id" data-formatter="projectformatter">操作</th>
+                                                        </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade" id="pills-supplier" role="tabpanel" aria-labelledby="pills-contact-tab">
-                                    <h3>Cotanct</h3>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste nobis, fugit pariatur minima! Dolorum modi pariatur aperiam quas odio nulla, illo necessitatibus dolor a.
-                                    </p>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <strong class="card-title">
+                                                        <div class="pull-left">
+                                                            <form class="form-inline" id="searchForm">
+                                                                <div class="form-group">供应商名称<input type="text" id="name" placeholder="请输入名称" required="" class="form-control">
+                                                                </div>
+                                                                <button type="button" class="btn btn-primary btn-sm" id="searchsupplierButton">筛选</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="pull-right">
+                                                            <button type="button" class="btn btn-primary btn-sm" id="exportsupplierButton">导出</button>
+                                                            <button type="button" class="btn btn-success btn-sm" id="suppliernewButton">新增</button>
+                                                        </div>
+                                                    </strong>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table data-toggle="table" data-url="admin/supplier/list" class="table table-striped table-bordered table-condensed" id="supplier-list-table" data-pagination="true">
+                                                        <thead>
+                                                        <tr>
+                                                            <th data-field="id">序号</th>
+                                                            <th data-field="customer">供应商名称</th>
+                                                            <th data-field="name">联系人</th>
+                                                            <th data-field="zimu">联系电话</th>
+                                                            <th data-field="createtime">产品类型</th>
+                                                            <th data-field="createuserid">开票抬头</th>
+                                                            <th data-field="createtime">账户银行</th>
+                                                            <th data-field="createuserid">收款账户</th>
+                                                            <th data-field="createuserid">开户行</th>
+                                                            <th data-field="id" data-formatter="projectformatter">操作</th>
+                                                        </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -216,21 +326,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 
-<!--  Chart js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.3/dist/Chart.bundle.min.js"></script>
-
-<!--Chartist Chart-->
-<script src="https://cdn.jsdelivr.net/npm/chartist@0.11.0/dist/chartist.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartist-plugin-legend@0.6.2/chartist-plugin-legend.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/jquery.flot@0.8.3/jquery.flot.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flot-pie@1.0.0/src/jquery.flot.pie.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flot-spline@0.0.1/js/jquery.flot.spline.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/simpleweather@3.1.0/jquery.simpleWeather.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/locale/bootstrap-table-zh-CN.min.js"></script>
 
 <script src="js/common-index.js"></script>
 <script src="js/index.js"></script>
