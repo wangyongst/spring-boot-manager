@@ -25,8 +25,8 @@ public class AdminController {
 
     //账号列表
     @GetMapping("/user/list")
-    public Result userList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminService.userList(adminParameter, httpSession);
+    public Object userList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.userList(adminParameter, httpSession).getData();
     }
 
     //账号详情
@@ -43,8 +43,8 @@ public class AdminController {
 
     //角色列表
     @GetMapping("/role/list")
-    public Result roleList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminService.roleList(adminParameter, httpSession);
+    public Object roleList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.roleList(adminParameter, httpSession).getData();
     }
 
     //角色详情

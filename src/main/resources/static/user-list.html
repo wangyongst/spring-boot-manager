@@ -153,7 +153,18 @@
                             </strong>
                         </div>
                         <div class="card-body">
-                            <table id="user-list-table" class="table table-striped table-bordered table-condensed">
+                            <table data-toggle="table" data-url="admin/user/list" class="table table-striped table-bordered table-condensed" id="user-list-table" data-pagination="true">
+                                <thead>
+                                <tr>
+                                    <th data-field="id">序号</th>
+                                    <th data-field="name">名称</th>
+                                    <th data-field="mobile">电话</th>
+                                    <th data-field="role.name">角色</th>
+                                    <th data-field="createusername">创建人</th>
+                                    <th data-field="createtime">创建时间</th>
+                                    <th data-field="id" data-formatter="userformatter">操作</th>
+                                </tr>
+                                </thead>
                             </table>
                         </div>
                     </div>
