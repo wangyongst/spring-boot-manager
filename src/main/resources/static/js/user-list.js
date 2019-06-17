@@ -9,17 +9,21 @@ $(function () {
 
     $("#deleteConfirmButton").click(function () {
         var deleteid = $('#deletevalue').val();
-        $('#deletealertModal').modal('toggle');
         $.post("admin/user/sud",
             {
                 userid: deleteid,
                 delete: 1,
             },
             function (result) {
-                window.location.reload();
+                $('#deletealertModal').modal('toggle');
+                $('#user-list-table').bootstrapTable("refresh");
             });
     });
 
+    $("#searchuserButton").click(function () {
+        $('#user-list-table').bootstrapTable("destroy");
+        $('#user-list-table').bootstrapTable({url: "/admin/user/list?" + $('#searchuserForm').serialize()});
+    });
 });
 
 function update(value) {

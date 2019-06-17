@@ -12,6 +12,15 @@ public class AdminParameter {
     private String password;
     private String newpassword;
     private String newpassword2;
+    private String createtime;
+
+    public String getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime;
+    }
 
     public int getResourceid() {
         return resourceid;
