@@ -5,9 +5,9 @@ $(function () {
                 $('#user-list-table').bootstrapTable({
                     data: result.data,
                     pagination: true,
-                    search: true,
+                    // search: true,
                     refresh: true,
-                    pageSize: 7,
+                    pageSize: 8,
                     columns: [{
                         field: 'id',
                         title: 'ID'
