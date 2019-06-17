@@ -13,6 +13,114 @@ public class AdminParameter {
     private String newpassword;
     private String newpassword2;
     private String createtime;
+    private String customer;
+    private String zimu;
+    private String materialid;
+    private String size;
+    private String special;
+    private String model;
+    private String file;
+    private String product;
+    private String fapiao;
+    private String yinhang;
+    private String zhanghu;
+    private String kaihu;
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public String getFapiao() {
+        return fapiao;
+    }
+
+    public void setFapiao(String fapiao) {
+        this.fapiao = fapiao;
+    }
+
+    public String getYinhang() {
+        return yinhang;
+    }
+
+    public void setYinhang(String yinhang) {
+        this.yinhang = yinhang;
+    }
+
+    public String getZhanghu() {
+        return zhanghu;
+    }
+
+    public void setZhanghu(String zhanghu) {
+        this.zhanghu = zhanghu;
+    }
+
+    public String getKaihu() {
+        return kaihu;
+    }
+
+    public void setKaihu(String kaihu) {
+        this.kaihu = kaihu;
+    }
+
+    public String getMaterialid() {
+        return materialid;
+    }
+
+    public void setMaterialid(String materialid) {
+        this.materialid = materialid;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getSpecial() {
+        return special;
+    }
+
+    public void setSpecial(String special) {
+        this.special = special;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getFile() {
+        return file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
+    public String getZimu() {
+        return zimu;
+    }
+
+    public void setZimu(String zimu) {
+        this.zimu = zimu;
+    }
 
     public String getCreatetime() {
         return createtime;

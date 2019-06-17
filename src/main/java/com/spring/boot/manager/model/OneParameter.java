@@ -21,6 +21,24 @@ public class OneParameter {
     private String keyword;
     private String text;
     private String outtime;
+    private String customer;
+    private String zimu;
+
+    public String getZimu() {
+        return zimu;
+    }
+
+    public void setZimu(String zimu) {
+        this.zimu = zimu;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
 
     public Integer getAdminuserid() {
         return adminuserid;
