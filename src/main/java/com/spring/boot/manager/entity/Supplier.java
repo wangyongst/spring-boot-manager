@@ -1,13 +1,15 @@
 package com.spring.boot.manager.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Supplier {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String userid;
@@ -97,23 +99,4 @@ public class Supplier {
         this.kaihu = kaihu;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Supplier supplier = (Supplier) o;
-        return Objects.equals(id, supplier.id) &&
-                Objects.equals(name, supplier.name) &&
-                Objects.equals(userid, supplier.userid) &&
-                Objects.equals(product, supplier.product) &&
-                Objects.equals(fapiao, supplier.fapiao) &&
-                Objects.equals(yinhang, supplier.yinhang) &&
-                Objects.equals(zhanghu, supplier.zhanghu) &&
-                Objects.equals(kaihu, supplier.kaihu);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, userid, product, fapiao, yinhang, zhanghu, kaihu);
-    }
 }

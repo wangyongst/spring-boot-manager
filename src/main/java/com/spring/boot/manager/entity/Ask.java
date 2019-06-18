@@ -1,14 +1,16 @@
 package com.spring.boot.manager.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 public class Ask {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer projectid;
     private Integer materialid;
@@ -109,24 +111,4 @@ public class Ask {
         this.createtime = createtime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ask ask = (Ask) o;
-        return Objects.equals(id, ask.id) &&
-                Objects.equals(projectid, ask.projectid) &&
-                Objects.equals(materialid, ask.materialid) &&
-                Objects.equals(createuserid, ask.createuserid) &&
-                Objects.equals(applynum, ask.applynum) &&
-                Objects.equals(sellnum, ask.sellnum) &&
-                Objects.equals(price, ask.price) &&
-                Objects.equals(total, ask.total) &&
-                Objects.equals(createtime, ask.createtime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, projectid, materialid, createuserid, applynum, sellnum, price, total, createtime);
-    }
 }

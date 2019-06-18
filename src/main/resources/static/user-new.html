@@ -115,20 +115,18 @@
                 <div class="col-md-6">
                     <div class="card">
 
-                        <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
+                        <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-sm" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="smallmodalLabel">请确认</h5>
+                                        <h5 class="modal-title">请确认</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true"></span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-body" id="alertmessage">
                                         <p>
-                                            是否删除该用户？
                                         </p>
-                                        <input hidden id="deletevalue">
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
@@ -136,6 +134,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="card-header">
                             <strong class="card-title">

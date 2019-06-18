@@ -1,25 +1,45 @@
 package com.spring.boot.manager.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Resource {
-    private Integer id;
-    private Integer projectid;
-    private String materialid;
-    private String size;
-    private String special;
-    private String model;
-    private String file;
-    private Integer createuserid;
-    private String createtime;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "projectid", referencedColumnName = "id")
+    private Project project;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "materialid", referencedColumnName = "id")
+    private Material material;
+
+    @Basic
+    @Column(name = "size", nullable = true, length = 255)
+    private String size;
+    @Basic
+    @Column(name = "special", nullable = true, length = 255)
+    private String special;
+    @Basic
+    @Column(name = "model", nullable = true, length = 255)
+    private String model;
+    @Basic
+    @Column(name = "file", nullable = true, length = 255)
+    private String file;
+    @Basic
+    @Column(name = "createusername", nullable = true, length = 255)
+    private String createusername;
+
+    @Basic
+    @Column(name = "createtime", nullable = true, length = 255)
+    private String createtime;
+
     public Integer getId() {
         return id;
     }
@@ -28,28 +48,22 @@ public class Resource {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "projectid", nullable = true)
-    public Integer getProjectid() {
-        return projectid;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjectid(Integer projectid) {
-        this.projectid = projectid;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
-    @Basic
-    @Column(name = "materialid", nullable = true, length = 255)
-    public String getMaterialid() {
-        return materialid;
+    public Material getMaterial() {
+        return material;
     }
 
-    public void setMaterialid(String materialid) {
-        this.materialid = materialid;
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
-    @Basic
-    @Column(name = "size", nullable = true, length = 255)
     public String getSize() {
         return size;
     }
@@ -58,8 +72,6 @@ public class Resource {
         this.size = size;
     }
 
-    @Basic
-    @Column(name = "special", nullable = true, length = 255)
     public String getSpecial() {
         return special;
     }
@@ -68,8 +80,6 @@ public class Resource {
         this.special = special;
     }
 
-    @Basic
-    @Column(name = "model", nullable = true, length = 255)
     public String getModel() {
         return model;
     }
@@ -78,8 +88,6 @@ public class Resource {
         this.model = model;
     }
 
-    @Basic
-    @Column(name = "file", nullable = true, length = 255)
     public String getFile() {
         return file;
     }
@@ -88,44 +96,19 @@ public class Resource {
         this.file = file;
     }
 
-    @Basic
-    @Column(name = "createuserid", nullable = true)
-    public Integer getCreateuserid() {
-        return createuserid;
+    public String getCreateusername() {
+        return createusername;
     }
 
-    public void setCreateuserid(Integer createuserid) {
-        this.createuserid = createuserid;
+    public void setCreateusername(String createusername) {
+        this.createusername = createusername;
     }
 
-    @Basic
-    @Column(name = "createtime", nullable = true, length = 255)
     public String getCreatetime() {
         return createtime;
     }
 
     public void setCreatetime(String createtime) {
         this.createtime = createtime;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Resource resource = (Resource) o;
-        return Objects.equals(id, resource.id) &&
-                Objects.equals(projectid, resource.projectid) &&
-                Objects.equals(materialid, resource.materialid) &&
-                Objects.equals(size, resource.size) &&
-                Objects.equals(special, resource.special) &&
-                Objects.equals(model, resource.model) &&
-                Objects.equals(file, resource.file) &&
-                Objects.equals(createuserid, resource.createuserid) &&
-                Objects.equals(createtime, resource.createtime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, projectid, materialid, size, special, model, file, createuserid, createtime);
     }
 }

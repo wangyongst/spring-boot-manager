@@ -1,22 +1,38 @@
 package com.spring.boot.manager.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Project {
-    private Integer id;
-    private String customer;
-    private String name;
-    private String zimu;
-    private Integer createuserid;
-    private String createtime;
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Basic
+    @Column(name = "customer", nullable = true, length = 255)
+    private String customer;
+
+    @Basic
+    @Column(name = "name", nullable = true, length = 255)
+    private String name;
+
+    @Basic
+    @Column(name = "zimu", nullable = true, length = 255)
+    private String zimu;
+
+    @Basic
+    @Column(name = "createusername", nullable = true, length = 255)
+    private String createusername;
+
+    @Basic
+    @Column(name = "createtime", nullable = true, length = 255)
+    private String createtime;
+
     public Integer getId() {
         return id;
     }
@@ -25,8 +41,6 @@ public class Project {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "customer", nullable = true, length = 255)
     public String getCustomer() {
         return customer;
     }
@@ -35,8 +49,6 @@ public class Project {
         this.customer = customer;
     }
 
-    @Basic
-    @Column(name = "name", nullable = true, length = 255)
     public String getName() {
         return name;
     }
@@ -45,8 +57,6 @@ public class Project {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "zimu", nullable = true, length = 255)
     public String getZimu() {
         return zimu;
     }
@@ -55,41 +65,19 @@ public class Project {
         this.zimu = zimu;
     }
 
-    @Basic
-    @Column(name = "createuserid", nullable = true)
-    public Integer getCreateuserid() {
-        return createuserid;
+    public String getCreateusername() {
+        return createusername;
     }
 
-    public void setCreateuserid(Integer createuserid) {
-        this.createuserid = createuserid;
+    public void setCreateusername(String createusername) {
+        this.createusername = createusername;
     }
 
-    @Basic
-    @Column(name = "createtime", nullable = true, length = 255)
     public String getCreatetime() {
         return createtime;
     }
 
     public void setCreatetime(String createtime) {
         this.createtime = createtime;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Project project = (Project) o;
-        return Objects.equals(id, project.id) &&
-                Objects.equals(customer, project.customer) &&
-                Objects.equals(name, project.name) &&
-                Objects.equals(zimu, project.zimu) &&
-                Objects.equals(createuserid, project.createuserid) &&
-                Objects.equals(createtime, project.createtime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, customer, name, zimu, createuserid, createtime);
     }
 }

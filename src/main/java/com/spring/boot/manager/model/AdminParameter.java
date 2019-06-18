@@ -1,5 +1,8 @@
 package com.spring.boot.manager.model;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
+
 public class AdminParameter {
     private int delete;
     private String mobile;
@@ -15,7 +18,7 @@ public class AdminParameter {
     private String createtime;
     private String customer;
     private String zimu;
-    private String materialid;
+    private int materialid;
     private String size;
     private String special;
     private String model;
@@ -25,6 +28,15 @@ public class AdminParameter {
     private String yinhang;
     private String zhanghu;
     private String kaihu;
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getProduct() {
         return product;
@@ -66,11 +78,11 @@ public class AdminParameter {
         this.kaihu = kaihu;
     }
 
-    public String getMaterialid() {
+    public int getMaterialid() {
         return materialid;
     }
 
-    public void setMaterialid(String materialid) {
+    public void setMaterialid(int materialid) {
         this.materialid = materialid;
     }
 

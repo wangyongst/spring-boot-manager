@@ -1,4 +1,7 @@
 $(function () {
+
+    $('#user-list-table').bootstrapTable('hideLoading');
+
     $("#createuserButton").click(function () {
         window.location.href = "user-new.html";
     });
@@ -16,13 +19,13 @@ $(function () {
             },
             function (result) {
                 $('#deletealertModal').modal('toggle');
-                $('#user-list-table').bootstrapTable("refresh");
+                $('#user-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');;
             });
     });
 
     $("#searchuserButton").click(function () {
         $('#user-list-table').bootstrapTable("destroy");
-        $('#user-list-table').bootstrapTable({url: "/admin/user/list?" + $('#searchuserForm').serialize()});
+        $('#user-list-table').bootstrapTable({url: "/admin/user/list?" + $('#searchuserForm').serialize()}).bootstrapTable('hideLoading');;
     });
 });
 
