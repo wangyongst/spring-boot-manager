@@ -184,11 +184,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     }
 
     @Override
-    public Result material(AdminParameter adminParameter, HttpSession httpSession) {
-        return ResultUtil.okWithData(materialRepository.findById(adminParameter.getMaterialid()).get());
-    }
-
-    @Override
     public Result materialSud(AdminParameter adminParameter, HttpSession httpSession) {
         Material material = null;
         if (adminParameter.getMaterialid() == 0) {

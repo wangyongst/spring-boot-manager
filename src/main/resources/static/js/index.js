@@ -2,11 +2,17 @@ $(function () {
     $('#project-list-table').bootstrapTable('hideLoading');
     $('#resource-list-table').bootstrapTable('hideLoading');
     $('#supplier-list-table').bootstrapTable('hideLoading');
+    $('#matiral-list-table').bootstrapTable('hideLoading');
 
 
     $("#searchprojectButton").click(function () {
         $('#project-list-table').bootstrapTable("destroy");
-        $('#project-list-table').bootstrapTable({url: "/admin/project/list?" + $('#searchprojectForm').serialize()});
+        $('#project-list-table').bootstrapTable({url: "/admin/project/list?" + $('#searchprojectForm').serialize()}).bootstrapTable('hideLoading');
+        ;
+    });
+
+    $("#materialButton").click(function () {
+        $('#materialModal').modal('toggle');
     });
 
     $("#projectnewButton").click(function () {
@@ -25,8 +31,8 @@ $(function () {
         $.post("admin/project/sud", $('#projectForm').serialize(),
             function (result) {
                 if (result.status == 1) {
-                    $('#project-list-table').bootstrapTable("destroy");
-                    $('#project-list-table').bootstrapTable({url: "/admin/project/list?" + $('#searchprojectForm').serialize()});
+                    $('#project-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                    ;
                     $('#projectModal').modal('toggle');
                 } else {
                     $('#alertmessage').text(result.message);
@@ -40,8 +46,8 @@ $(function () {
         $.post("admin/resource/sud", $('#resourceForm').serialize(),
             function (result) {
                 if (result.status == 1) {
-                    $('#resource-list-table').bootstrapTable("destroy");
-                    $('#resource-list-table').bootstrapTable({url: "/admin/resource/list?" + $('#searchprojectForm').serialize()});
+                    $('#resource-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                    ;
                     $('#resourceModal').modal('toggle');
                 } else {
                     $('#alertmessage').text(result.message);
@@ -54,8 +60,8 @@ $(function () {
         $.post("admin/supplier/sud", $('#supplierForm').serialize(),
             function (result) {
                 if (result.status == 1) {
-                    $('#supplier-list-table').bootstrapTable("destroy");
-                    $('#supplier-list-table').bootstrapTable({url: "/admin/supplier/list?" + $('#searchprojectForm').serialize()});
+                    $('#supplier-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                    ;
                     $('#supplierModal').modal('toggle');
                 } else {
                     $('#alertmessage').text(result.message);
@@ -76,8 +82,8 @@ $(function () {
                 },
                 function (result) {
                     $('#deletealertModal').modal('toggle');
-                    $('#project-list-table').bootstrapTable("destroy");
-                    $('#project-list-table').bootstrapTable({url: "/admin/project/list?" + $('#searchprojectForm').serialize()});
+                    $('#project-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                    ;
                 });
         } else if (deletetype == 2) {
             $.post("admin/resource/sud",
@@ -87,8 +93,8 @@ $(function () {
                 },
                 function (result) {
                     $('#deletealertModal').modal('toggle');
-                    $('#resource-list-table').bootstrapTable("destroy");
-                    $('#resource-list-table').bootstrapTable({url: "/admin/source/list?" + $('#searchresourceForm').serialize()});
+                    $('#resource-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                    ;
                 });
         } else if (deletetype == 3) {
             $.post("admin/supplier/sud",
@@ -98,23 +104,34 @@ $(function () {
                 },
                 function (result) {
                     $('#deletealertModal').modal('toggle');
-                    $('#supplier-list-table').bootstrapTable("destroy");
-                    $('#supplier-list-table').bootstrapTable({url: "/admin/supplier/list?" + $('#searchsupplierForm').serialize()});
+                    $('#supplier-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                    ;
+                });
+        } else if (deletetype == 4) {
+            $.post("admin/material/sud",
+                {
+                    materialid: deleteid,
+                    delete: 1,
+                },
+                function (result) {
+                    $('#deletealertModal').modal('toggle');
+                    $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
+                    ;
                 });
         }
-
-
-    });
+    })
 
 
     $("#searchresourceButton").click(function () {
         $('#resource-list-table').bootstrapTable("destroy");
-        $('#resource-list-table').bootstrapTable({url: "/admin/resource/list?" + $('#searchresourceForm').serialize()});
+        $('#resource-list-table').bootstrapTable({url: "/admin/resource/list?" + $('#searchresourceForm').serialize()}).bootstrapTable('hideLoading');
+        ;
     });
 
     $("#searchsupplierButton").click(function () {
         $('#supplier-list-table').bootstrapTable("destroy");
-        $('#supplier-list-table').bootstrapTable({url: "/admin/supplier/list?" + $('#searchsupplierForm').serialize()});
+        $('#supplier-list-table').bootstrapTable({url: "/admin/supplier/list?" + $('#searchsupplierForm').serialize()}).bootstrapTable('hideLoading');
+        ;
     });
 })
 
@@ -151,6 +168,59 @@ function delsupplier(value) {
     $('#deletevalue').val(value);
     $('#deletealertmessage').text("确定要删除这个供应商吗？");
     $('#deletealertModal').modal('toggle');
+}
+
+function newmaterial() {
+    var data = {
+        code: '<input id="newmaterialcode">',
+        name: '<input id="newmaterialname">'
+    };
+    $("#matiral-list-table").bootstrapTable('append', data);
+}
+
+function updatematerial(value, index) {
+    $("#table tr:nth-child(" + (index + 1) + ") td.editable").each(function () {
+        var value = $(this).text();
+        $(this).html("<input value='" + value + "'>");
+    });
+}
+
+function savematerial() {
+    $.post("admin/material/sud",
+        {
+            code: $('#newmaterialcode').val(),
+            name: $('#newmaterialname').val(),
+        },
+        function (result) {
+            if (result.status == 1) {
+                $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
+                ;
+            } else {
+                $('#alertmessage').text(result.message);
+                $('#alertModal').modal('toggle');
+            }
+        });
+}
+
+
+function delmaterial(value) {
+    $('#deletetype').val(4);
+    $('#deletevalue').val(value);
+    $('#deletealertmessage').text("确定要删除这个耗材吗？");
+    $('#deletealertModal').modal('toggle');
+}
+
+function cancelmaterial() {
+    $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
+    ;
+}
+
+function materialformatter(value, row, index) {
+    if (value == undefined) {
+        return "<button type=\"button\" class=\"btn btn-link\" onclick= \"savematerial()\"> 保存</button><button type=\"button\" class=\"btn btn-link\" onclick= \"cancelmaterial()\"> 取消</button>";
+    } else {
+        return "<button type=\"button\" class=\"btn btn-link\" onclick= \"newmaterial()\"> 新增</button><button type=\"button\" class=\"btn btn-link\" onclick= \"updatematerial(" + value + "," + index + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delmaterial(" + index + ")\"> 删除</button>";
+    }
 }
 
 
