@@ -31,6 +31,35 @@ $(function () {
     });
 
 
+    $("#resourcesaveButton").click(function () {
+        $.post("admin/resource/sud", $('#resourceForm').serialize(),
+            function (result) {
+                if (result.status == 1) {
+                    $('#resource-list-table').bootstrapTable("destroy");
+                    $('#resource-list-table').bootstrapTable({url: "/admin/resource/list?" + $('#searchprojectForm').serialize()});
+                    $('#resourceModal').modal('toggle');
+                } else {
+                    $('#alertmessage').text(result.message);
+                    $('#alertModal').modal('toggle');
+                }
+            });
+    });
+
+    $("#suppliersaveButton").click(function () {
+        $.post("admin/supplier/sud", $('#supplierForm').serialize(),
+            function (result) {
+                if (result.status == 1) {
+                    $('#supplier-list-table').bootstrapTable("destroy");
+                    $('#supplier-list-table').bootstrapTable({url: "/admin/supplier/list?" + $('#searchprojectForm').serialize()});
+                    $('#supplierModal').modal('toggle');
+                } else {
+                    $('#alertmessage').text(result.message);
+                    $('#alertModal').modal('toggle');
+                }
+            });
+    });
+
+
     $("#deleteConfirmButton").click(function () {
         var deleteid = $('#deletevalue').val();
         var deletetype = $('#deletetype').val();

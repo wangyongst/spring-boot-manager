@@ -1,14 +1,16 @@
 package com.spring.boot.manager.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 public class Apply {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer askid;
     private Integer userid;
@@ -76,21 +78,4 @@ public class Apply {
         this.status = status;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Apply apply = (Apply) o;
-        return Objects.equals(id, apply.id) &&
-                Objects.equals(askid, apply.askid) &&
-                Objects.equals(userid, apply.userid) &&
-                Objects.equals(realprice, apply.realprice) &&
-                Objects.equals(deliver, apply.deliver) &&
-                Objects.equals(status, apply.status);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, askid, userid, realprice, deliver, status);
-    }
 }

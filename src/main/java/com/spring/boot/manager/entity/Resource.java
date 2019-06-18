@@ -1,13 +1,15 @@
 package com.spring.boot.manager.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Resource {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer projectid;
     private String materialid;
@@ -108,24 +110,4 @@ public class Resource {
         this.createtime = createtime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Resource resource = (Resource) o;
-        return Objects.equals(id, resource.id) &&
-                Objects.equals(projectid, resource.projectid) &&
-                Objects.equals(materialid, resource.materialid) &&
-                Objects.equals(size, resource.size) &&
-                Objects.equals(special, resource.special) &&
-                Objects.equals(model, resource.model) &&
-                Objects.equals(file, resource.file) &&
-                Objects.equals(createuserid, resource.createuserid) &&
-                Objects.equals(createtime, resource.createtime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, projectid, materialid, size, special, model, file, createuserid, createtime);
-    }
 }

@@ -1,24 +1,24 @@
 package com.spring.boot.manager.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Token {
-    private String id;
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private Integer userid;
     private Long expiretime;
 
-    @Id
-    @Column(name = "id", nullable = false, length = 32)
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -42,18 +42,4 @@ public class Token {
         this.expiretime = expiretime;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Token token = (Token) o;
-        return Objects.equals(id, token.id) &&
-                Objects.equals(userid, token.userid) &&
-                Objects.equals(expiretime, token.expiretime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, userid, expiretime);
-    }
 }

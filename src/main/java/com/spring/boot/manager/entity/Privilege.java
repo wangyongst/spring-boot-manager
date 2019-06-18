@@ -1,13 +1,15 @@
 package com.spring.boot.manager.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Privilege {
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String url;
@@ -64,20 +66,4 @@ public class Privilege {
         this.parentid = parentid;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Privilege privilege = (Privilege) o;
-        return Objects.equals(id, privilege.id) &&
-                Objects.equals(name, privilege.name) &&
-                Objects.equals(url, privilege.url) &&
-                Objects.equals(type, privilege.type) &&
-                Objects.equals(parentid, privilege.parentid);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, url, type, parentid);
-    }
 }
