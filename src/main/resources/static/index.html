@@ -188,6 +188,68 @@
                 </div>
             </div>
 
+
+            <div class="modal fade" id="resourceModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">项目信息</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form id="resourceForm">
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">客户名称</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="customer" class="form-control"></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">项目名称</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="name" class="form-control"></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">字母简写</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="zimu" class="form-control"></div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="resourcesaveButton">保存</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="supplierModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">项目信息</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form id="supplierForm">
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">客户名称</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="customer" class="form-control"></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">项目名称</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="name" class="form-control"></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">字母简写</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="zimu" class="form-control"></div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="suppliersaveButton">保存</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -278,7 +340,7 @@
                                                             <th data-field="id">序号</th>
                                                             <th data-field="customer">客户名称</th>
                                                             <th data-field="name">项目名称</th>
-                                                            <th data-field="zimu">字母简写</th>
+                                                            <th data-field="zimu">字母简称</th>
                                                             <th data-field="createtime">创建时间</th>
                                                             <th data-field="createusername">创建人</th>
                                                             <th data-field="id" data-formatter="projectformatter">操作</th>
@@ -342,7 +404,7 @@
                                                 <div class="card-header">
                                                     <strong class="card-title">
                                                         <div class="pull-left">
-                                                            <form class="form-inline" id="searchForm">
+                                                            <form class="form-inline" id="searchsupplierForm">
                                                                 <div class="form-group">供应商名称<input type="text" id="name" placeholder="请输入名称" required="" class="form-control">
                                                                 </div>
                                                                 <button type="button" class="btn btn-primary btn-sm" id="searchsupplierButton">筛选</button>
