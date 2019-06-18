@@ -98,7 +98,7 @@ public class AdminTwoController {
         return adminTwoService.materialList(adminParameter, httpSession).getData();
     }
 
-    //项目增删改
+    //耗材增删改
     @PostMapping("/material/sud")
     public Result materialSud(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
         return adminTwoService.materialSud(adminParameter, httpSession);
