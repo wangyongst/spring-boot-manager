@@ -28,5 +28,11 @@ public interface AdminTwoService {
 
     Result supplierSud(AdminParameter adminParameter, HttpSession httpSession);
 
+    Result materialList(AdminParameter adminParameter, HttpSession httpSession);
+
+    Result material(AdminParameter adminParameter, HttpSession httpSession);
+
+    Result materialSud(AdminParameter adminParameter, HttpSession httpSession);
+
     Result apply(AdminParameter adminParameter, HttpSession httpSession);
 }

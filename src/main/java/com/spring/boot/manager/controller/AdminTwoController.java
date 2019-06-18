@@ -93,4 +93,26 @@ public class AdminTwoController {
         return adminTwoService.supplierSud(adminParameter, httpSession);
     }
 
+
+
+
+    //耗材列表
+    @GetMapping("/material/list")
+    public Object materialList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminTwoService.materialList(adminParameter, httpSession).getData();
+    }
+
+
+    //项目详情
+    @GetMapping("/material")
+    public Result material(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminTwoService.material(adminParameter, httpSession);
+    }
+
+    //项目增删改
+    @PostMapping("/material/sud")
+    public Result materialSud(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminTwoService.materialSud(adminParameter, httpSession);
+    }
+
 }
