@@ -11,17 +11,35 @@ public class Resource {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer projectid;
-    private String materialid;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "projectid", referencedColumnName = "id")
+    private Project project;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "materialid", referencedColumnName = "id")
+    private Material material;
+
+    @Basic
+    @Column(name = "size", nullable = true, length = 255)
     private String size;
+    @Basic
+    @Column(name = "special", nullable = true, length = 255)
     private String special;
+    @Basic
+    @Column(name = "model", nullable = true, length = 255)
     private String model;
+    @Basic
+    @Column(name = "file", nullable = true, length = 255)
     private String file;
-    private Integer createuserid;
+    @Basic
+    @Column(name = "createusername", nullable = true, length = 255)
+    private String createusername;
+
+    @Basic
+    @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
 
-    @Id
-    @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -30,28 +48,22 @@ public class Resource {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "projectid", nullable = true)
-    public Integer getProjectid() {
-        return projectid;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjectid(Integer projectid) {
-        this.projectid = projectid;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
-    @Basic
-    @Column(name = "materialid", nullable = true, length = 255)
-    public String getMaterialid() {
-        return materialid;
+    public Material getMaterial() {
+        return material;
     }
 
-    public void setMaterialid(String materialid) {
-        this.materialid = materialid;
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
-    @Basic
-    @Column(name = "size", nullable = true, length = 255)
     public String getSize() {
         return size;
     }
@@ -60,8 +72,6 @@ public class Resource {
         this.size = size;
     }
 
-    @Basic
-    @Column(name = "special", nullable = true, length = 255)
     public String getSpecial() {
         return special;
     }
@@ -70,8 +80,6 @@ public class Resource {
         this.special = special;
     }
 
-    @Basic
-    @Column(name = "model", nullable = true, length = 255)
     public String getModel() {
         return model;
     }
@@ -80,8 +88,6 @@ public class Resource {
         this.model = model;
     }
 
-    @Basic
-    @Column(name = "file", nullable = true, length = 255)
     public String getFile() {
         return file;
     }
@@ -90,18 +96,14 @@ public class Resource {
         this.file = file;
     }
 
-    @Basic
-    @Column(name = "createuserid", nullable = true)
-    public Integer getCreateuserid() {
-        return createuserid;
+    public String getCreateusername() {
+        return createusername;
     }
 
-    public void setCreateuserid(Integer createuserid) {
-        this.createuserid = createuserid;
+    public void setCreateusername(String createusername) {
+        this.createusername = createusername;
     }
 
-    @Basic
-    @Column(name = "createtime", nullable = true, length = 255)
     public String getCreatetime() {
         return createtime;
     }
@@ -109,5 +111,4 @@ public class Resource {
     public void setCreatetime(String createtime) {
         this.createtime = createtime;
     }
-
 }

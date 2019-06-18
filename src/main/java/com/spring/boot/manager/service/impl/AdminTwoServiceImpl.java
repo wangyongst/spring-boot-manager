@@ -116,7 +116,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             resource = new Resource();
             resource.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
             User me = (User) httpSession.getAttribute("user");
-            resource.setCreateuserid(me.getId());
+            resource.setCreateusername(me.getName());
         } else {
             resource = resourceRepository.findById(adminParameter.getResourceid()).get();
             if (adminParameter.getDelete() != 0) {
@@ -124,10 +124,13 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 return ResultUtil.ok();
             }
         }
-//        if (StringUtils.isBlank(adminParameter.getCustomer())) return ResultUtil.errorWithMessage("客户名称不能为空！");
-//        if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("项目名称不能为空！");
-//        if (StringUtils.isBlank(adminParameter.getZimu())) return ResultUtil.errorWithMessage("字母简称不能为空！");
-        //resource.setMaterialid(adminParameter.getMaterialid());
+        if (adminParameter.getProjectid() == 0) return ResultUtil.errorWithMessage("项目名称未选择！");
+        if (adminParameter.getMaterialid() == 0) return ResultUtil.errorWithMessage("耗材类型未选择！");
+        if (StringUtils.isBlank(adminParameter.getSize())) return ResultUtil.errorWithMessage("尺寸大小不能为空！");
+        if (StringUtils.isBlank(adminParameter.getSpecial())) return ResultUtil.errorWithMessage("特殊要求不能为空！");
+        if (StringUtils.isBlank(adminParameter.getModel())) return ResultUtil.errorWithMessage("材质规格不能为空！");
+        resource.setProject(projectRepository.findById(adminParameter.getProjectid()).get());
+        resource.setMaterial(materialRepository.findById(adminParameter.getMaterialid()).get());
         resource.setSize(adminParameter.getSize());
         resource.setSpecial(adminParameter.getSpecial());
         resource.setModel(adminParameter.getModel());
