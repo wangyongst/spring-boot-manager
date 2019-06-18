@@ -18,4 +18,5 @@ public interface ProjectRepository extends JpaRepository<Project,Integer> {
     List<Project> findByCustomerLike(String customer,Sort sort);
 
     List<Project> findByNameLike(String name,Sort sort);
+
 }

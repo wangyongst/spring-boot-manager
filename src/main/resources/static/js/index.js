@@ -219,7 +219,7 @@ function materialformatter(value, row, index) {
     if (value == undefined) {
         return "<button type=\"button\" class=\"btn btn-link\" onclick= \"savematerial()\"> 保存</button><button type=\"button\" class=\"btn btn-link\" onclick= \"cancelmaterial()\"> 取消</button>";
     } else {
-        return "<button type=\"button\" class=\"btn btn-link\" onclick= \"newmaterial()\"> 新增</button><button type=\"button\" class=\"btn btn-link\" onclick= \"updatematerial(" + value + "," + index + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delmaterial(" + index + ")\"> 删除</button>";
+        return "<button type=\"button\" class=\"btn btn-link\" onclick= \"newmaterial()\"> 新增</button><button type=\"button\" class=\"btn btn-link\" onclick= \"updatematerial(" + value + "," + index + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delmaterial(" + value + ")\"> 删除</button>";
     }
 }
 

@@ -11,16 +11,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Basic
-    @Column(name = "name", nullable = true, length = 10)
+    @Column(name = "name", nullable = true, length = 255)
     private String name;
     @Basic
-    @Column(name = "password", nullable = true, length = 20)
+    @Column(name = "password", nullable = true, length = 255)
     private String password;
     @Basic
-    @Column(name = "createusername", nullable = true, length = 20)
+    @Column(name = "createusername", nullable = true, length = 255)
     private String createusername;
     @Basic
-    @Column(name = "mobile", nullable = true, length = 32)
+    @Column(name = "mobile", nullable = true, length = 255)
     private String mobile;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "roleid", referencedColumnName = "id")
