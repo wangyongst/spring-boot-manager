@@ -61,7 +61,6 @@ public class AdminTwoController {
         return adminTwoService.resourceList(adminParameter, httpSession).getData();
     }
 
-
     //资源详情
     @GetMapping("/resource")
     public Result resource(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
@@ -92,9 +91,6 @@ public class AdminTwoController {
     public Result supplierSud(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
         return adminTwoService.supplierSud(adminParameter, httpSession);
     }
-
-
-
 
     //耗材列表
     @GetMapping("/material/list")

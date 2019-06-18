@@ -1,5 +1,7 @@
 $(function () {
 
+    $('#role-list-table').bootstrapTable('hideLoading');
+
     $("#createroleButton").click(function () {
         window.location.href = "role-new.html";
     });

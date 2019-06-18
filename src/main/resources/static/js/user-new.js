@@ -1,13 +1,11 @@
 $(function () {
     $.get("admin/role/list",
         function (result) {
-            if (result.status == 1) {
-                $.each(result.data, function (key, val) {
+                $.each(result, function (key, val) {
                     $('#roles').append("<label class=\"form-check-label \">\n" +
                         "                    <input type=\"radio\" name=\"roleid\" value=\"" + val.id + "\" class=\"form-check-input\">" + val.name +
                         "               </label>");
                 });
-            }
         });
 
     $("#createuserButton").click(function () {

@@ -1,4 +1,7 @@
 $(function () {
+
+    $('#user-list-table').bootstrapTable('hideLoading');
+
     $("#createuserButton").click(function () {
         window.location.href = "user-new.html";
     });

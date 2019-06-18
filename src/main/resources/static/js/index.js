@@ -1,4 +1,9 @@
 $(function () {
+    $('#project-list-table').bootstrapTable('hideLoading');
+    $('#resource-list-table').bootstrapTable('hideLoading');
+    $('#supplier-list-table').bootstrapTable('hideLoading');
+
+
     $("#searchprojectButton").click(function () {
         $('#project-list-table').bootstrapTable("destroy");
         $('#project-list-table').bootstrapTable({url: "/admin/project/list?" + $('#searchprojectForm').serialize()});

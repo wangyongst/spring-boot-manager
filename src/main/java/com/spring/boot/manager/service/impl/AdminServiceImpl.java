@@ -54,11 +54,11 @@ public class AdminServiceImpl implements AdminService {
     public Result userList(AdminParameter adminParameter, HttpSession httpSession) {
         Sort sort = new Sort(Sort.Direction.DESC, "createtime");
         if (StringUtils.isBlank(adminParameter.getMobile()) && StringUtils.isNotBlank(adminParameter.getName())) {
-            return ResultUtil.okWithData(userRepository.findByNameLike(adminParameter.getName(), sort));
+            return ResultUtil.okWithData(userRepository.findByNameLike("%" + adminParameter.getName() + "%", sort));
         } else if (StringUtils.isNotBlank(adminParameter.getMobile()) && StringUtils.isBlank(adminParameter.getName())) {
-            return ResultUtil.okWithData(userRepository.findByMobileLike(adminParameter.getMobile(), sort));
+            return ResultUtil.okWithData(userRepository.findByMobileLike("%" + adminParameter.getMobile() + "%", sort));
         } else if (StringUtils.isNotBlank(adminParameter.getMobile()) && StringUtils.isNotBlank(adminParameter.getName())) {
-            return ResultUtil.okWithData(userRepository.findByNameLikeAndMobileLike(adminParameter.getName(), adminParameter.getMobile(), sort));
+            return ResultUtil.okWithData(userRepository.findByNameLikeAndMobileLike("%" + adminParameter.getName() + "%", "%" + adminParameter.getMobile() + "%", sort));
         } else {
             return ResultUtil.okWithData(userRepository.findAll(sort));
         }
@@ -100,6 +100,7 @@ public class AdminServiceImpl implements AdminService {
         regex = "^[a-z0-9A-Z]+$";
         if (!adminParameter.getPassword().matches(regex)) return ResultUtil.errorWithMessage("密码只支持数字和英文！");
         if (adminParameter.getRoleid() == 0) return ResultUtil.errorWithMessage("配置角色未选择！");
+        if(userRepository.findByMobile(adminParameter.getMobile()).size() > 0) return ResultUtil.errorWithMessage("电话已经存在！");
         user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
         user.setName(adminParameter.getName());
         user.setPassword(adminParameter.getPassword());

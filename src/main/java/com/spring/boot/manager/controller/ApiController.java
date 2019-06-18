@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api")
 @CrossOrigin("*")
 public class ApiController {
 

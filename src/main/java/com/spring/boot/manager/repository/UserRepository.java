@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecifi
 
     List<User> findByMobileLike(String createtime, Sort sort);
 
+    List<User> findByMobile(String mobile);
+
     List<User> findByNameLike(String name, Sort sort);
 
     List<User> findByNameLikeAndMobileLike(String name, String mobile, Sort sort);
