@@ -13,18 +13,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -59,20 +53,12 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Result userList(AdminParameter adminParameter, HttpSession httpSession) {
         Sort sort = new Sort(Sort.Direction.DESC, "createtime");
-        if (StringUtils.isBlank(adminParameter.getCreatetime()) && StringUtils.isNotBlank(adminParameter.getName())) {
-            return ResultUtil.okWithData(userRepository.findByNameLikeOrMobileLike(adminParameter.getName(), sort));
-        } else if (StringUtils.isNotBlank(adminParameter.getCreatetime()) && StringUtils.isBlank(adminParameter.getName())) {
-            return ResultUtil.okWithData(userRepository.findByCreatetimeLike(adminParameter.getCreatetime(), sort));
-        } else if (StringUtils.isNotBlank(adminParameter.getCreatetime()) && StringUtils.isNotBlank(adminParameter.getName())) {
-            return ResultUtil.okWithData(userRepository.findAll(new Specification<User>() {
-                public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                    List<Predicate> predicatesList = new ArrayList<>();
-                    Predicate namelike = builder.like(root.get("name"), '%' + adminParameter.getName() + '%');
-                    predicatesList.add(namelike);
-                    Predicate[] p = new Predicate[predicatesList.size()];
-                    return builder.and(predicatesList.toArray(p));
-                }
-            }, sort));
+        if (StringUtils.isBlank(adminParameter.getMobile()) && StringUtils.isNotBlank(adminParameter.getName())) {
+            return ResultUtil.okWithData(userRepository.findByNameLike(adminParameter.getName(), sort));
+        } else if (StringUtils.isNotBlank(adminParameter.getMobile()) && StringUtils.isBlank(adminParameter.getName())) {
+            return ResultUtil.okWithData(userRepository.findByMobileLike(adminParameter.getMobile(), sort));
+        } else if (StringUtils.isNotBlank(adminParameter.getMobile()) && StringUtils.isNotBlank(adminParameter.getName())) {
+            return ResultUtil.okWithData(userRepository.findByNameLikeAndMobileLike(adminParameter.getName(), adminParameter.getMobile(), sort));
         } else {
             return ResultUtil.okWithData(userRepository.findAll(sort));
         }

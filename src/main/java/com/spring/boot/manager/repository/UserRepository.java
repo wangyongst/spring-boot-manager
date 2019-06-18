@@ -15,9 +15,11 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
     List<User> findByMobileAndPassword(String mobile, String password);
 
-    List<User> findByCreatetimeLike(String createtime,Sort sort);
+    List<User> findByMobileLike(String createtime, Sort sort);
 
-    List<User> findByNameLikeOrMobileLike(String name, Sort sort);
+    List<User> findByNameLike(String name, Sort sort);
+
+    List<User> findByNameLikeAndMobileLike(String name, String mobile, Sort sort);
 
     List<User> findByRole(Role role);
 }
