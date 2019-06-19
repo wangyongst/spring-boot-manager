@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
-@Service("AdminService")
+@Service
 @SuppressWarnings("All")
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class, readOnly = false)
 public class AdminServiceImpl implements AdminService {

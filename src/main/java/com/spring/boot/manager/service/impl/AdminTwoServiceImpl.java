@@ -20,18 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpSession;
 
 
-@Service("AdminTwoService")
+@Service
 @SuppressWarnings("All")
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class, readOnly = false)
 public class AdminTwoServiceImpl implements AdminTwoService {
 
     private static final Logger logger = LogManager.getLogger(AdminTwoServiceImpl.class);
 
-    @Autowired
-    private AskRepository askRepository;
-
-    @Autowired
-    private ApplyRepository applyRepository;
 
     @Autowired
     private SupplierRepository supplierRepository;
@@ -45,15 +40,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Autowired
     private MaterialRepository materialRepository;
 
-    @Override
-    public Result askList(AdminParameter adminParameter, HttpSession httpSession) {
-        return ResultUtil.okWithData(askRepository.findAll());
-    }
 
-    @Override
-    public Result applyList(AdminParameter adminParameter, HttpSession httpSession) {
-        return ResultUtil.okWithData(applyRepository.findAll());
-    }
 
     @Override
     public Result projectList(AdminParameter adminParameter, HttpSession httpSession) {
@@ -140,7 +127,11 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result supplierList(AdminParameter adminParameter, HttpSession httpSession) {
-        return ResultUtil.okWithData(supplierRepository.findAll());
+        if (StringUtils.isNotBlank(adminParameter.getName())) {
+            return ResultUtil.okWithData(supplierRepository.findByNameLike("%" + adminParameter.getName() + "%"));
+        } else {
+            return ResultUtil.okWithData(supplierRepository.findAll());
+        }
     }
 
     @Override
@@ -203,8 +194,4 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         return ResultUtil.ok();
     }
 
-    @Override
-    public Result apply(AdminParameter adminParameter, HttpSession httpSession) {
-        return ResultUtil.okWithData(applyRepository.findById(adminParameter.getUserid()).get());
-    }
 }

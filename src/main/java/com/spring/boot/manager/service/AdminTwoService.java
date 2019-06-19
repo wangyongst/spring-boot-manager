@@ -6,9 +6,6 @@ import com.spring.boot.manager.utils.result.Result;
 import javax.servlet.http.HttpSession;
 
 public interface AdminTwoService {
-    Result askList(AdminParameter adminParameter, HttpSession httpSession);
-
-    Result applyList(AdminParameter adminParameter, HttpSession httpSession);
 
     Result projectList(AdminParameter adminParameter, HttpSession httpSession);
 
@@ -32,5 +29,4 @@ public interface AdminTwoService {
 
     Result materialSud(AdminParameter adminParameter, HttpSession httpSession);
 
-    Result apply(AdminParameter adminParameter, HttpSession httpSession);
 }

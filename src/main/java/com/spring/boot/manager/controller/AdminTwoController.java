@@ -16,31 +16,11 @@ public class AdminTwoController {
     @Autowired
     public AdminTwoService adminTwoService;
 
-    //询价单
-    @GetMapping("/ask/list")
-    public Result askList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.askList(adminParameter, httpSession);
-    }
-
-    //采购申请
-    @GetMapping("/apply/list")
-    public Result applyList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.applyList(adminParameter, httpSession);
-    }
-
-    //采购申请详情
-    @GetMapping("/apply")
-    public Result apply(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.apply(adminParameter, httpSession);
-    }
-
-
     //项目列表
     @GetMapping("/project/list")
     public Object projectList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
         return adminTwoService.projectList(adminParameter, httpSession).getData();
     }
-
 
     //项目详情
     @GetMapping("/project")

@@ -8,7 +8,16 @@ $(function () {
     $("#searchprojectButton").click(function () {
         $('#project-list-table').bootstrapTable("destroy");
         $('#project-list-table').bootstrapTable({url: "/admin/project/list?" + $('#searchprojectForm').serialize()}).bootstrapTable('hideLoading');
-        ;
+    });
+
+    $("#searchresourceButton").click(function () {
+        $('#resource-list-table').bootstrapTable("destroy");
+        $('#resource-list-table').bootstrapTable({url: "/admin/resource/list?" + $('#searchresourceForm').serialize()}).bootstrapTable('hideLoading');
+    });
+
+    $("#searchsupplierButton").click(function () {
+        $('#supplier-list-table').bootstrapTable("destroy");
+        $('#supplier-list-table').bootstrapTable({url: "/admin/supplier/list?" + $('#searchsupplierForm').serialize()}).bootstrapTable('hideLoading');
     });
 
     $("#materialButton").click(function () {
@@ -120,19 +129,6 @@ $(function () {
                 });
         }
     })
-
-
-    $("#searchresourceButton").click(function () {
-        $('#resource-list-table').bootstrapTable("destroy");
-        $('#resource-list-table').bootstrapTable({url: "/admin/resource/list?" + $('#searchresourceForm').serialize()}).bootstrapTable('hideLoading');
-        ;
-    });
-
-    $("#searchsupplierButton").click(function () {
-        $('#supplier-list-table').bootstrapTable("destroy");
-        $('#supplier-list-table').bootstrapTable({url: "/admin/supplier/list?" + $('#searchsupplierForm').serialize()}).bootstrapTable('hideLoading');
-        ;
-    });
 })
 
 
