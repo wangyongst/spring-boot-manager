@@ -1,8 +1,5 @@
 package com.spring.boot.manager.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-
 public class AdminParameter {
     private int delete;
     private String mobile;
@@ -23,27 +20,20 @@ public class AdminParameter {
     private String special;
     private String model;
     private String file;
-    private String product;
+    private String contacts;
     private String fapiao;
-    private String yinhang;
     private String zhanghu;
+    private String shoukuan;
     private String kaihu;
     private String code;
 
-    public String getCode() {
-        return code;
+
+    public String getContacts() {
+        return contacts;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public void setProduct(String product) {
-        this.product = product;
+    public void setContacts(String contacts) {
+        this.contacts = contacts;
     }
 
     public String getFapiao() {
@@ -54,13 +44,22 @@ public class AdminParameter {
         this.fapiao = fapiao;
     }
 
-    public String getYinhang() {
-        return yinhang;
+    public String getShoukuan() {
+        return shoukuan;
     }
 
-    public void setYinhang(String yinhang) {
-        this.yinhang = yinhang;
+    public void setShoukuan(String shoukuan) {
+        this.shoukuan = shoukuan;
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
 
     public String getZhanghu() {
         return zhanghu;

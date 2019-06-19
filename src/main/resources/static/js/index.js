@@ -212,8 +212,16 @@ function delmaterial(value) {
 
 function cancelmaterial() {
     $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
-    ;
 }
+
+function cancelmaterial() {
+    $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
+}
+
+function uploadfile(value) {
+    alert(value);
+}
+
 
 function materialformatter(value, row, index) {
     if (value == undefined) {
@@ -223,6 +231,14 @@ function materialformatter(value, row, index) {
     }
 }
 
+
+function fileformatter(value, row, index, field) {
+    if (value == null) {
+        return "<button type=\"button\" class=\"btn btn-link\" onclick= \"uploadfile(" + row.id + ")\">上传</button>";
+    } else {
+        return "<button type=\"button\" class=\"btn btn-link\" onclick= \"uploadfile(" + row.id  + ")\">" + value + "</button>";
+    }
+}
 
 function projectformatter(value, row, index) {
     return "<button type=\"button\" class=\"btn btn-link\" onclick= \"updateproject(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delproject(" + value + ")\"> 删除</button>";

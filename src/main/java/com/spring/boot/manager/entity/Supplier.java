@@ -11,16 +11,28 @@ public class Supplier {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Basic
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
-    private String userid;
-    private String product;
+    @Basic
+    @Column(name = "contacts", nullable = false, length = 255)
+    private String contacts;
+    @Basic
+    @Column(name = "mobile", nullable = false, length = 255)
+    private String mobile;
+    @Basic
+    @Column(name = "fapiao", nullable = false, length = 255)
     private String fapiao;
-    private String yinhang;
+    @Basic
+    @Column(name = "zhanghu", nullable = false, length = 255)
     private String zhanghu;
+    @Basic
+    @Column(name = "shoukuan", nullable = false, length = 255)
+    private String shoukuan;
+    @Basic
+    @Column(name = "kaihu", nullable = false, length = 255)
     private String kaihu;
 
-    @Id
-    @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -29,8 +41,6 @@ public class Supplier {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "name", nullable = false, length = 255)
     public String getName() {
         return name;
     }
@@ -39,28 +49,22 @@ public class Supplier {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "userid", nullable = true, length = 255)
-    public String getUserid() {
-        return userid;
+    public String getContacts() {
+        return contacts;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setContacts(String contacts) {
+        this.contacts = contacts;
     }
 
-    @Basic
-    @Column(name = "product", nullable = true, length = 255)
-    public String getProduct() {
-        return product;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
-    @Basic
-    @Column(name = "fapiao", nullable = true, length = 255)
     public String getFapiao() {
         return fapiao;
     }
@@ -69,18 +73,6 @@ public class Supplier {
         this.fapiao = fapiao;
     }
 
-    @Basic
-    @Column(name = "yinhang", nullable = true, length = 1024)
-    public String getYinhang() {
-        return yinhang;
-    }
-
-    public void setYinhang(String yinhang) {
-        this.yinhang = yinhang;
-    }
-
-    @Basic
-    @Column(name = "zhanghu", nullable = true, length = 255)
     public String getZhanghu() {
         return zhanghu;
     }
@@ -89,8 +81,14 @@ public class Supplier {
         this.zhanghu = zhanghu;
     }
 
-    @Basic
-    @Column(name = "kaihu", nullable = true, length = 255)
+    public String getShoukuan() {
+        return shoukuan;
+    }
+
+    public void setShoukuan(String shoukuan) {
+        this.shoukuan = shoukuan;
+    }
+
     public String getKaihu() {
         return kaihu;
     }
@@ -98,5 +96,4 @@ public class Supplier {
     public void setKaihu(String kaihu) {
         this.kaihu = kaihu;
     }
-
 }

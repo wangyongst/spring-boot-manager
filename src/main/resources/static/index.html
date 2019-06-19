@@ -225,15 +225,15 @@
                             <form id="resourceForm">
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">项目名称</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="customer" class="form-control"></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="projectid" class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">耗材编号</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="name" class="form-control"></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="not" class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">耗材类型</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="zimu" class="form-control"></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="not" class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">尺寸大小</label></div>
@@ -268,15 +268,15 @@
                             <form id="supplierForm">
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">供应商名称</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="customer" class="form-control"></div>
-                                </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3"><label class=" form-control-label">联系人</label></div>
                                     <div class="col-12 col-md-9"><input type="text" name="name" class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">联系人</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="contacts" class="form-control"></div>
+                                </div>
+                                <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">联系电话</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="zimu" class="form-control"></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="mobile" class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">产品类型</label></div>
@@ -284,19 +284,19 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">开票抬头</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="name" class="form-control"></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="fapiao" class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">账户银行</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="zimu" class="form-control"></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="zhanghu" class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">收款账户</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="name" class="form-control"></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="shoukuan" class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">开户行</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="zimu" class="form-control"></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="kaihu" class="form-control"></div>
                                 </div>
                             </form>
                         </div>
@@ -437,15 +437,15 @@
                                                         <thead>
                                                         <tr>
                                                             <th data-field="id">序号</th>
-                                                            <th data-field="name">项目名称</th>
-                                                            <th data-field="name">耗材编号</th>
-                                                            <th data-field="zimu">耗材类型</th>
-                                                            <th data-field="createtime">尺寸大小</th>
-                                                            <th data-field="createuserid">特殊要求</th>
-                                                            <th data-field="zimu">材质规格</th>
-                                                            <th data-field="createtime">创建人</th>
-                                                            <th data-field="createuserid">创建时间</th>
-                                                            <th data-field="file" data-formatter="projectformatter" data-align="center">附件</th>
+                                                            <th data-field="project.name">项目名称</th>
+                                                            <th data-field="material.code">耗材编号</th>
+                                                            <th data-field="material.name">耗材类型</th>
+                                                            <th data-field="size">尺寸大小</th>
+                                                            <th data-field="special">特殊要求</th>
+                                                            <th data-field="model">材质规格</th>
+                                                            <th data-field="createusername">创建人</th>
+                                                            <th data-field="createtime">创建时间</th>
+                                                            <th data-field="file" data-formatter="fileformatter" data-align="center">附件</th>
                                                             <th data-field="id" data-formatter="resourceformatter" data-align="center">操作</th>
                                                         </tr>
                                                         </thead>
@@ -479,14 +479,14 @@
                                                         <thead>
                                                         <tr>
                                                             <th data-field="id">序号</th>
-                                                            <th data-field="customer">供应商名称</th>
-                                                            <th data-field="name">联系人</th>
-                                                            <th data-field="zimu">联系电话</th>
-                                                            <th data-field="createtime">产品类型</th>
-                                                            <th data-field="createuserid">开票抬头</th>
-                                                            <th data-field="createtime">账户银行</th>
-                                                            <th data-field="createuserid">收款账户</th>
-                                                            <th data-field="createuserid">开户行</th>
+                                                            <th data-field="name">供应商名称</th>
+                                                            <th data-field="contacts">联系人</th>
+                                                            <th data-field="mobile">联系电话</th>
+                                                            <th data-field="fapiao">产品类型</th>
+                                                            <th data-field="fapiao">开票抬头</th>
+                                                            <th data-field="zhanghu">账户银行</th>
+                                                            <th data-field="shoukuan">收款账户</th>
+                                                            <th data-field="kaihu">开户行</th>
                                                             <th data-field="id" data-formatter="supplierformatter" data-align="center">操作</th>
                                                         </tr>
                                                         </thead>

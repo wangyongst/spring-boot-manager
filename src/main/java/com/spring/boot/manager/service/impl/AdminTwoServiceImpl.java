@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 
 @Service("AdminTwoService")
@@ -125,13 +124,13 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 return ResultUtil.ok();
             }
         }
-        if (adminParameter.getProjectid() == 0) return ResultUtil.errorWithMessage("项目名称未选择！");
-        if (adminParameter.getMaterialid() == 0) return ResultUtil.errorWithMessage("耗材类型未选择！");
+//        if (adminParameter.getProjectid() == 0) return ResultUtil.errorWithMessage("项目名称未选择！");
+//        if (adminParameter.getMaterialid() == 0) return ResultUtil.errorWithMessage("耗材类型未选择！");
         if (StringUtils.isBlank(adminParameter.getSize())) return ResultUtil.errorWithMessage("尺寸大小不能为空！");
         if (StringUtils.isBlank(adminParameter.getSpecial())) return ResultUtil.errorWithMessage("特殊要求不能为空！");
         if (StringUtils.isBlank(adminParameter.getModel())) return ResultUtil.errorWithMessage("材质规格不能为空！");
-        resource.setProject(projectRepository.findById(adminParameter.getProjectid()).get());
-        resource.setMaterial(materialRepository.findById(adminParameter.getMaterialid()).get());
+//        resource.setProject(projectRepository.findById(adminParameter.getProjectid()).get());
+//        resource.setMaterial(materialRepository.findById(adminParameter.getMaterialid()).get());
         resource.setSize(adminParameter.getSize());
         resource.setSpecial(adminParameter.getSpecial());
         resource.setModel(adminParameter.getModel());
@@ -152,30 +151,30 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Override
     public Result supplierSud(AdminParameter adminParameter, HttpSession httpSession) {
         Supplier supplier = null;
-//        if (adminParameter.getSupplierid() == 0) {
-//            supplier = new Supplier();
-//            private String name;
-//            private String userid;
-//            private String product;
-//            private String fapiao;
-//            private String yinhang;
-//            private String zhanghu;
-//            private String kaihu;
-//        } else {
-//            resource = resourceRepository.findById(adminParameter.getResourceid()).get();
-//            if (adminParameter.getDelete() != 0) {
-//                resourceRepository.delete(resource);
-//                return ResultUtil.ok();
-//            }
-//        }
-////        if (StringUtils.isBlank(adminParameter.getCustomer())) return ResultUtil.errorWithMessage("客户名称不能为空！");
-////        if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("项目名称不能为空！");
-////        if (StringUtils.isBlank(adminParameter.getZimu())) return ResultUtil.errorWithMessage("字母简称不能为空！");
-//        resource.setMaterialid(adminParameter.getMaterialid());
-//        resource.setSize(adminParameter.getSize());
-//        resource.setSpecial(adminParameter.getSpecial());
-//        resource.setModel(adminParameter.getModel());
-//        resourceRepository.save(resource);
+        if (adminParameter.getSupplierid() == 0) {
+            supplier = new Supplier();
+        } else {
+            supplier = supplierRepository.findById(adminParameter.getSupplierid()).get();
+            if (adminParameter.getDelete() != 0) {
+                supplierRepository.delete(supplier);
+                return ResultUtil.ok();
+            }
+        }
+        if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("供应商名称不能为空！");
+        if (StringUtils.isBlank(adminParameter.getContacts())) return ResultUtil.errorWithMessage("联系人不能为空！");
+        if (StringUtils.isBlank(adminParameter.getMobile())) return ResultUtil.errorWithMessage("联系电话不能为空！");
+        if (StringUtils.isBlank(adminParameter.getFapiao())) return ResultUtil.errorWithMessage("开票抬头不能为空！");
+        if (StringUtils.isBlank(adminParameter.getZhanghu())) return ResultUtil.errorWithMessage("账户银行不能为空！");
+        if (StringUtils.isBlank(adminParameter.getShoukuan())) return ResultUtil.errorWithMessage("收款账户不能为空！");
+        if (StringUtils.isBlank(adminParameter.getKaihu())) return ResultUtil.errorWithMessage("开户行不能为空！");
+        supplier.setName(adminParameter.getName());
+        supplier.setContacts(adminParameter.getContacts());
+        supplier.setMobile(adminParameter.getMobile());
+        supplier.setFapiao(adminParameter.getFapiao());
+        supplier.setZhanghu(adminParameter.getZhanghu());
+        supplier.setShoukuan(adminParameter.getShoukuan());
+        supplier.setKaihu(adminParameter.getKaihu());
+        supplierRepository.save(supplier);
         return ResultUtil.ok();
     }
 
