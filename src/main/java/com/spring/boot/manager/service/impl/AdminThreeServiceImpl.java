@@ -60,5 +60,4 @@ public class AdminThreeServiceImpl implements AdminThreeService {
     public Result request(AdminParameter adminParameter, HttpSession httpSession) {
         return null;
     }
-
 }

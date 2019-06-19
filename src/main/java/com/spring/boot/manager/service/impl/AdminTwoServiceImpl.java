@@ -91,7 +91,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Override
     public Result projectSearch(AdminParameter adminParameter, HttpSession httpSession) {
         if (adminParameter.getType() == 0) {
-            return ResultUtil.okWithData(projectRepository.findDistinctCustomers());
+            return ResultUtil.okWithData(projectRepository.findDistinctCustomer());
         }
         if (adminParameter.getType() == 1) {
             return ResultUtil.okWithData(projectRepository.findDistinctNameByCustomer(adminParameter.getCustomer()));

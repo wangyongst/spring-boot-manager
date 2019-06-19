@@ -20,7 +20,7 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     List<Project> findByNameLike(String name, Sort sort);
 
     @Query("select distinct project.customer from Project project")
-    List<String> findDistinctCustomers();
+    List<String> findDistinctCustomer();
 
     @Query("select distinct project.name from Project project where project.customer = ?1")
     List<String> findDistinctNameByCustomer(String customer);

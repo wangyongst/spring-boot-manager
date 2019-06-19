@@ -1,21 +1,45 @@
 $(function () {
 
-    $.get("admin/project/search?type=1&customer=11",
+
+    $('#request-list-table').bootstrapTable('hideLoading');
+
+    $.get("admin/project/search",
         function (result) {
             $.each(result, function (key, val) {
                 $('#projectcustomerselect').append("<option value=\"" + val + "\">" + val + "</option>");
             });
         });
 
-
-    $('#request-list-table').bootstrapTable('hideLoading');
-
     $("#createrequestButton").click(function () {
         $('#requestModal').modal('toggle');
     });
 
-    $("#rolelistButton").click(function () {
-        window.location.href = "role-list.html";
+    $("#projectcustomerselect").change(function () {
+        $.get("admin/project/search?type=1&customer=" + $('#projectcustomerselect').val(),
+            function (result) {
+                $.each(result, function (key, val) {
+                    $('#projectnameselect').html("<option value=\"" + val + "\">" + val + "</option>");
+                });
+            });
+    });
+
+
+    $("#projectnameselect").change(function () {
+        $.get("admin/request/search?type=1&name=" + $('#projectnameselect').val(),
+            function (result) {
+                $.each(result, function (key, val) {
+                    $('#materialnameselect').html("<option value=\"" + val + "\">" + val + "</option>");
+                });
+            });
+    });
+
+    $("#projectnameselect").change(function () {
+        $.get("admin/project/search?type=1&customer=" + $('#projectcustomerselect').val(),
+            function (result) {
+                $.each(result, function (key, val) {
+                    $('#projectnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
+                });
+            });
     });
 
     $("#deleteConfirmButton").click(function () {
