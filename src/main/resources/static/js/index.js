@@ -41,7 +41,6 @@ $(function () {
             function (result) {
                 if (result.status == 1) {
                     $('#project-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
-                    ;
                     $('#projectModal').modal('toggle');
                 } else {
                     $('#alertmessage').text(result.message);
@@ -56,7 +55,6 @@ $(function () {
             function (result) {
                 if (result.status == 1) {
                     $('#resource-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
-                    ;
                     $('#resourceModal').modal('toggle');
                 } else {
                     $('#alertmessage').text(result.message);
@@ -70,7 +68,6 @@ $(function () {
             function (result) {
                 if (result.status == 1) {
                     $('#supplier-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
-                    ;
                     $('#supplierModal').modal('toggle');
                 } else {
                     $('#alertmessage').text(result.message);

@@ -2,6 +2,7 @@ package com.spring.boot.manager.model;
 
 public class AdminParameter {
     private int delete;
+    private int type;
     private String mobile;
     private String name;
     private int userid;
@@ -27,6 +28,13 @@ public class AdminParameter {
     private String kaihu;
     private String code;
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public String getContacts() {
         return contacts;

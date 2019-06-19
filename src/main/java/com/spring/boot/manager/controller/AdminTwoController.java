@@ -34,6 +34,12 @@ public class AdminTwoController {
         return adminTwoService.projectSud(adminParameter, httpSession);
     }
 
+    //项目列表
+    @GetMapping("/project/search")
+    public Object projectSearch(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminTwoService.projectSearch(adminParameter, httpSession).getData();
+    }
+
 
     //资源列表
     @GetMapping("/resource/list")

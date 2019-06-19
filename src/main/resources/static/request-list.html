@@ -42,7 +42,7 @@
                     <a href="index.html"><i class="menu-icon fa fa-laptop"></i>首页</a>
                 </li>
                 <li class="menu-title">采购管理</li><!-- /.menu-title -->
-                <li>
+                <li class="active">
                     <a href="request-list.html"> <i class="menu-icon ti-files"></i>采购申请单 </a>
                 </li>
                 <li>
@@ -55,7 +55,7 @@
                 <li>
                     <a href="widgets.html"> <i class="menu-icon ti-printer"></i>对账单</a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="user-list.html"> <i class="menu-icon ti-user"></i>权限管理</a>
                 </li>
             </ul>
@@ -100,7 +100,7 @@
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>权限管理<span class="ti-angle-right"/>修改用户</h1>
+                            <h1>采购管理<span class="ti-angle-right"/>采购申请表</h1>
                         </div>
                     </div>
                 </div>
@@ -111,11 +111,43 @@
 
     <div class="content">
         <div class="animated fadeIn">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
 
-                        <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
+            <div class="modal fade" id="requestModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">采购申请</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form id="requestForm">
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">采购公司</label></div>
+                                    <div class="col-12 col-md-9"><select name="select" id="projectcustomerselect" class="form-control">
+                                        <option value="未选择">请选择</option>
+                                    </select></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">项目名称</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="name" class="form-control"></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">字母简写</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="zimu" class="form-control"></div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="requestsaveButton">保存</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="modal fade" id="deletealertModal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-sm" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -124,52 +156,65 @@
                                             <span aria-hidden="true"></span>
                                         </button>
                                     </div>
-                                    <div class="modal-body" id="alertmessage">
+                                    <div class="modal-body" id="deletemessage">
                                         <p>
                                         </p>
                                         <input hidden id="deletevalue">
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
+                                        <button type="button" class="btn btn-primary" id="deleteConfirmButton">确认</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-
                         <div class="card-header">
                             <strong class="card-title">
-                                用户信息
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-primary" id="createrequestButton">新增耗材</button>
+                                    <button type="button" class="btn btn-success" id="startButton">发起</button>
+                                </div>
+                                <div class="pull-left">
+                                    <form class="form-inline" id="searchrequestForm">
+                                        <div class="form-group"><input type="text" name="name" placeholder="项目名称" required="" class="form-control">
+                                        </div>
+                                        <div class="form-group"><input type="text" name="mobile" placeholder="耗材类型" required="" class="form-control">
+                                        </div>
+                                        <div class="form-group"><input type="text" name="mobile" placeholder="采购公司" required="" class="form-control">
+                                        </div>
+                                        <button type="button" class="btn btn-primary" id="searchrequestButton">筛选</button>
+                                    </form>
+                                </div>
                             </strong>
                         </div>
-                        <div class="card-body card-block">
-                            <form id="usernewForm">
-                                <div class="form-group"><label class=" form-control-label">登录姓名</label><input type="text" id="name" name="name" placeholder="最多10个字" class="form-control"></div>
-                                <div class="form-group"><label class=" form-control-label">电话</label><input type="text" id="mobile" name="mobile" placeholder="只能是数字" class="form-control"></div>
-                                <div class="form-group"><label class=" form-control-label">登录密码</label><input type="text" id="password" name="password" placeholder="只能是数字和英文" class="form-control"></div>
-                                <div class="form-group"><label class=" form-control-label">配置角色</label>
-                                    <div class="row form-group">
-                                        <div class="col col-md-12">
-                                            <div class="form-check-inline form-check" id="roles">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="offset-lg-4">
-                                        <button type="button" class="btn btn-success" id="saveButton">保存</button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="card-body">
+                            <table data-toggle="table" data-url="admin/request/list" class="table table-striped table-bordered table-condensed" id="request-list-table" data-pagination="true">
+                                <thead>
+                                <tr>
+                                    <th data-field="id">序号</th>
+                                    <th data-field="resource.project.name">项目名称</th>
+                                    <th data-field="resource.project.customer">采购公司</th>
+                                    <th data-field="resource.material.code">耗材编号</th>
+                                    <th data-field="resource.material.code">耗材类型</th>
+                                    <th data-field="resource.size">尺寸大小</th>
+                                    <th data-field="resource.special">特殊要求</th>
+                                    <th data-field="resource.model">材质规格</th>
+                                    <th data-field="resource.file">附件</th>
+                                    <th data-field="num">采购数量</th>
+                                    <th data-field="sellnum">销售数量</th>
+                                    <th data-field="price">销售单价(元)</th>
+                                    <th data-field="total">销售总价(元)</th>
+                                    <th data-field="id" data-formatter="requestformatter" data-align="center">操作</th>
+                                </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
-</div><!-- .animated -->
-</div><!-- .content -->
+        </div><!-- .animated -->
+    </div><!-- .content -->
 
 </div><!-- /#right-panel -->
 
@@ -185,7 +230,7 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="js/common-index.js"></script>
-<script src="js/user-update.js"></script>
+<script src="js/request-list.js"></script>
 
 </body>
 </html>

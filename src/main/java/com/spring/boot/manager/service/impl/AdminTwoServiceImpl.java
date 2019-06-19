@@ -2,7 +2,10 @@ package com.spring.boot.manager.service.impl;
 
 import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
-import com.spring.boot.manager.repository.*;
+import com.spring.boot.manager.repository.MaterialRepository;
+import com.spring.boot.manager.repository.ProjectRepository;
+import com.spring.boot.manager.repository.ResourceRepository;
+import com.spring.boot.manager.repository.SupplierRepository;
 import com.spring.boot.manager.service.AdminTwoService;
 import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.result.Result;
@@ -39,7 +42,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Autowired
     private MaterialRepository materialRepository;
-
 
 
     @Override
@@ -84,6 +86,17 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         project.setZimu(adminParameter.getZimu());
         projectRepository.save(project);
         return ResultUtil.ok();
+    }
+
+    @Override
+    public Result projectSearch(AdminParameter adminParameter, HttpSession httpSession) {
+        if (adminParameter.getType() == 0) {
+            return ResultUtil.okWithData(projectRepository.findDistinctCustomers());
+        }
+        if (adminParameter.getType() == 1) {
+            return ResultUtil.okWithData(projectRepository.findDistinctNameByCustomer(adminParameter.getCustomer()));
+        }
+        return null;
     }
 
     @Override

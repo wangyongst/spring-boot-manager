@@ -5,10 +5,7 @@ import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.service.AdminThreeService;
 import com.spring.boot.manager.utils.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -26,15 +23,22 @@ public class AdminThreeController {
     }
 
     //采购申请
-    @GetMapping("/apply/list")
-    public Result applyList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminThreeService.applyList(adminParameter, httpSession);
+    @GetMapping("/request/list")
+    public Object requestList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminThreeService.requestList(adminParameter, httpSession).getData();
     }
 
     //采购申请详情
-    @GetMapping("/apply")
-    public Result apply(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminThreeService.apply(adminParameter, httpSession);
+    @GetMapping("/request")
+    public Result request(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminThreeService.request(adminParameter, httpSession);
+    }
+
+
+    //采购申请增删改
+    @PostMapping("/request/sud")
+    public Result requestSud(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminThreeService.requestSud(adminParameter, httpSession);
     }
 
 }

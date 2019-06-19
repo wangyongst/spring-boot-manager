@@ -1,18 +1,13 @@
 package com.spring.boot.manager.service.impl;
 
-import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminThreeService;
-import com.spring.boot.manager.service.AdminTwoService;
-import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.result.Result;
 import com.spring.boot.manager.utils.result.ResultUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -32,7 +27,7 @@ public class AdminThreeServiceImpl implements AdminThreeService {
     private AskRepository askRepository;
 
     @Autowired
-    private ApplyRepository applyRepository;
+    private RequestRepository requestRepository;
 
     @Autowired
     private SupplierRepository supplierRepository;
@@ -52,12 +47,18 @@ public class AdminThreeServiceImpl implements AdminThreeService {
     }
 
     @Override
-    public Result applyList(AdminParameter adminParameter, HttpSession httpSession) {
-        return ResultUtil.okWithData(applyRepository.findAll());
+    public Result requestList(AdminParameter adminParameter, HttpSession httpSession) {
+        return ResultUtil.okWithData(requestRepository.findAll());
     }
 
     @Override
-    public Result apply(AdminParameter adminParameter, HttpSession httpSession) {
-        return ResultUtil.okWithData(applyRepository.findById(adminParameter.getUserid()).get());
+    public Result requestSud(AdminParameter adminParameter, HttpSession httpSession) {
+        return null;
     }
+
+    @Override
+    public Result request(AdminParameter adminParameter, HttpSession httpSession) {
+        return null;
+    }
+
 }

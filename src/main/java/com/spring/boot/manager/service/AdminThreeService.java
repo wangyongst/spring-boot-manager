@@ -8,7 +8,9 @@ import javax.servlet.http.HttpSession;
 public interface AdminThreeService {
     Result askList(AdminParameter adminParameter, HttpSession httpSession);
 
-    Result applyList(AdminParameter adminParameter, HttpSession httpSession);
+    Result requestList(AdminParameter adminParameter, HttpSession httpSession);
 
-    Result apply(AdminParameter adminParameter, HttpSession httpSession);
+    Result requestSud(AdminParameter adminParameter, HttpSession httpSession);
+
+    Result request(AdminParameter adminParameter, HttpSession httpSession);
 }

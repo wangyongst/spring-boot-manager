@@ -1,6 +1,5 @@
 package com.spring.boot.manager.repository;
 
-        import com.spring.boot.manager.entity.Apply;
         import com.spring.boot.manager.entity.Role;
         import com.spring.boot.manager.entity.Role2Priv;
         import org.springframework.data.jpa.repository.JpaRepository;
