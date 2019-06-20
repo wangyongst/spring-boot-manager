@@ -5,22 +5,6 @@ $(function () {
     $('#matiral-list-table').bootstrapTable('hideLoading');
 
 
-    $.get("admin/material/list",
-        function (result) {
-            var html;
-            $.each(result, function (key, val) {
-                html += "<option value=\"" + val.id + "\">" + val.name + "</option>";
-            });
-
-            $("#productselect").append("<select data-placeholder=\"请选择产品类型\" multiple class=\"standardSelect\" name=\"products\">\n" + html + "</select>");
-            jQuery(".standardSelect").chosen({
-                disable_search_threshold: 10,
-                no_results_text: "Oops, nothing found!",
-                width: "100%"
-            });
-        });
-
-
     $("#searchprojectButton").click(function () {
         $('#project-list-table').bootstrapTable("destroy");
         $('#project-list-table').bootstrapTable({url: "/admin/project/list?" + $('#searchprojectForm').serialize()}).bootstrapTable('hideLoading');
@@ -41,14 +25,27 @@ $(function () {
     });
 
     $("#projectnewButton").click(function () {
+        clearForm($('#projectForm'));
         $('#projectModal').modal('toggle');
     });
 
     $("#resourcenewButton").click(function () {
+        clearForm($('#resourceForm'));
         $('#resourceModal').modal('toggle');
     });
 
     $("#suppliernewButton").click(function () {
+        $('#productselect').html("<option value=\"0\" label=\"default\"></option>");
+        $.get("admin/material/list",
+            function (result) {
+                $.each(result, function (key, val) {
+                    $.each(result, function (key, val) {
+                        $('#productselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
+                    });
+                });
+                multiSelect();
+            });
+        clearForm($('#supplierForm'));
         $('#supplierModal').modal('toggle');
     });
 
@@ -250,12 +247,12 @@ function fileformatter(value, row, index, field) {
 }
 
 function productsformatter(value, row, index) {
-        var products = "";
-        for (var i of value) {
-            products += "," + i.material.name;
-        }
-        if(products.length > 1) products = products.substr(1);
-        return products;
+    var products = "";
+    for (var i of value) {
+        products += "," + i.material.name;
+    }
+    if (products.length > 1) products = products.substr(1);
+    return products;
 }
 
 function projectformatter(value, row, index) {

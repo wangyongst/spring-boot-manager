@@ -3,28 +3,27 @@ $(function () {
 
     $('#request-list-table').bootstrapTable('hideLoading');
 
-    $.get("admin/project/search",
-        function (result) {
-            $.each(result, function (key, val) {
-                $('#projectcustomerselect').append("<option value=\"" + val + "\">" + val + "</option>");
-            });
-        });
 
     $("#createrequestButton").click(function () {
+        $.get("admin/project/search",
+            function (result) {
+                $('#projectcustomerselect').html("");
+                $.each(result, function (key, val) {
+                    $('#projectcustomerselect').append("<option value=\"" + val + "\">" + val + "</option>");
+                });
+            });
         $('#requestModal').modal('toggle');
     });
 
     $("#projectcustomerselect").change(function () {
-        var html;
         $.get("admin/project/search?type=1&customer=" + $('#projectcustomerselect').val(),
             function (result) {
+                $('#projectnameselect').html("");
                 $.each(result, function (key, val) {
-                    html += "<option value=\"" + val + "\">" + val + "</option>";
+                    $('#projectnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
                 });
             });
-        $('#projectnameselect').html(html);
     });
-
 
     $("#projectnameselect").change(function () {
         $.get("admin/request/search?type=1&name=" + $('#projectnameselect').val(),
@@ -61,7 +60,6 @@ $(function () {
     $("#searchuserButton").click(function () {
         $('#user-list-table').bootstrapTable("destroy");
         $('#user-list-table').bootstrapTable({url: "/admin/user/list?" + $('#searchuserForm').serialize()}).bootstrapTable('hideLoading');
-        ;
     });
 });
 
