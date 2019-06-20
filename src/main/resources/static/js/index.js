@@ -5,6 +5,22 @@ $(function () {
     $('#matiral-list-table').bootstrapTable('hideLoading');
 
 
+    $.get("admin/material/list",
+        function (result) {
+            var html;
+            $.each(result, function (key, val) {
+                html += "<option value=\"" + val.id + "\">" + val.name + "</option>";
+            });
+
+            $("#productselect").append("<select data-placeholder=\"请选择产品类型\" multiple class=\"standardSelect\" name=\"products\">\n" + html + "</select>");
+            jQuery(".standardSelect").chosen({
+                disable_search_threshold: 10,
+                no_results_text: "Oops, nothing found!",
+                width: "100%"
+            });
+        });
+
+
     $("#searchprojectButton").click(function () {
         $('#project-list-table').bootstrapTable("destroy");
         $('#project-list-table').bootstrapTable({url: "/admin/project/list?" + $('#searchprojectForm').serialize()}).bootstrapTable('hideLoading');
@@ -229,8 +245,17 @@ function fileformatter(value, row, index, field) {
     if (value == null) {
         return "<button type=\"button\" class=\"btn btn-link\" onclick= \"uploadfile(" + row.id + ")\">上传</button>";
     } else {
-        return "<button type=\"button\" class=\"btn btn-link\" onclick= \"uploadfile(" + row.id  + ")\">" + value + "</button>";
+        return "<button type=\"button\" class=\"btn btn-link\" onclick= \"uploadfile(" + row.id + ")\">" + value + "</button>";
     }
+}
+
+function productsformatter(value, row, index) {
+        var products = "";
+        for (var i of value) {
+            products += "," + i.material.name;
+        }
+        if(products.length > 1) products = products.substr(1);
+        return products;
 }
 
 function projectformatter(value, row, index) {

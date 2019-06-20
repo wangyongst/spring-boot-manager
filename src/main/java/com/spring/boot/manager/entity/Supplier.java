@@ -1,6 +1,7 @@
 package com.spring.boot.manager.entity;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -32,6 +33,17 @@ public class Supplier {
     @Basic
     @Column(name = "kaihu", nullable = false, length = 255)
     private String kaihu;
+
+    @OneToMany(mappedBy = "supplier", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    private List<Product> products;
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 
     public Integer getId() {
         return id;

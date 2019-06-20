@@ -2,10 +2,7 @@ package com.spring.boot.manager.service.impl;
 
 import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
-import com.spring.boot.manager.repository.MaterialRepository;
-import com.spring.boot.manager.repository.ProjectRepository;
-import com.spring.boot.manager.repository.ResourceRepository;
-import com.spring.boot.manager.repository.SupplierRepository;
+import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminTwoService;
 import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.result.Result;
@@ -36,6 +33,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private ResourceRepository resourceRepository;
@@ -171,6 +171,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         if (StringUtils.isBlank(adminParameter.getZhanghu())) return ResultUtil.errorWithMessage("账户银行不能为空！");
         if (StringUtils.isBlank(adminParameter.getShoukuan())) return ResultUtil.errorWithMessage("收款账户不能为空！");
         if (StringUtils.isBlank(adminParameter.getKaihu())) return ResultUtil.errorWithMessage("开户行不能为空！");
+        if (adminParameter.getProducts().size() == 0) return ResultUtil.errorWithMessage("产品类型未选择不能为空！");
         supplier.setName(adminParameter.getName());
         supplier.setContacts(adminParameter.getContacts());
         supplier.setMobile(adminParameter.getMobile());
@@ -178,7 +179,15 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         supplier.setZhanghu(adminParameter.getZhanghu());
         supplier.setShoukuan(adminParameter.getShoukuan());
         supplier.setKaihu(adminParameter.getKaihu());
-        supplierRepository.save(supplier);
+        final Supplier savedSupplier = supplierRepository.save(supplier);
+        adminParameter.getProducts().forEach(e -> {
+            if (e != null && e != 0) {
+                Product product = new Product();
+                product.setSupplier(savedSupplier);
+                product.setMaterial(materialRepository.findById(e).get());
+                productRepository.save(product);
+            }
+        });
         return ResultUtil.ok();
     }
 

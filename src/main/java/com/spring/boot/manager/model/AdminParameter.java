@@ -1,5 +1,7 @@
 package com.spring.boot.manager.model;
 
+import java.util.List;
+
 public class AdminParameter {
     private int delete;
     private int type;
@@ -27,6 +29,15 @@ public class AdminParameter {
     private String shoukuan;
     private String kaihu;
     private String code;
+    private List<Integer> products;
+
+    public List<Integer> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Integer> products) {
+        this.products = products;
+    }
 
     public int getType() {
         return type;

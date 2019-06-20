@@ -15,12 +15,14 @@ $(function () {
     });
 
     $("#projectcustomerselect").change(function () {
+        var html;
         $.get("admin/project/search?type=1&customer=" + $('#projectcustomerselect').val(),
             function (result) {
                 $.each(result, function (key, val) {
-                    $('#projectnameselect').html("<option value=\"" + val + "\">" + val + "</option>");
+                    html += "<option value=\"" + val + "\">" + val + "</option>";
                 });
             });
+        $('#projectnameselect').html(html);
     });
 
 
