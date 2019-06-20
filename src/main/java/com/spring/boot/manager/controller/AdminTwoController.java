@@ -75,6 +75,9 @@ public class AdminTwoController {
     }
 
     //耗材列表
+    //type1 findDistinctCode
+    //type2 findByCode
+    //type3 findDistinctName
     @GetMapping("/material/list")
     public Object materialList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
         return adminTwoService.materialList(adminParameter, httpSession).getData();

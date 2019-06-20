@@ -1,8 +1,6 @@
 $(function () {
 
-
     $('#request-list-table').bootstrapTable('hideLoading');
-
 
     $("#createrequestButton").click(function () {
         $.get("admin/project/search",

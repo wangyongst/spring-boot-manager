@@ -3,6 +3,7 @@ package com.spring.boot.manager.service.impl;
 import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.repository.*;
+import com.spring.boot.manager.service.AdminService;
 import com.spring.boot.manager.service.AdminTwoService;
 import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.result.Result;
@@ -27,6 +28,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     private static final Logger logger = LogManager.getLogger(AdminTwoServiceImpl.class);
 
+
+    @Autowired
+    public AdminService adminService;
 
     @Autowired
     private SupplierRepository supplierRepository;
@@ -84,7 +88,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else {
             project = projectRepository.findById(adminParameter.getProjectid()).get();
             if (adminParameter.getDelete() != 0) {
-                projectRepository.delete(project);
+                //projectRepository.delete(project);
                 return ResultUtil.ok();
             }
         }
@@ -100,24 +104,14 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result resourceList(AdminParameter adminParameter, HttpSession httpSession) {
-        Material material = null;
-        Project project = null;
-        if (adminParameter.getMaterialid() != 0) {
-            material = materialRepository.findById(adminParameter.getMaterialid()).get();
+        if (StringUtils.isBlank(adminParameter.getName()) && StringUtils.isNotBlank(adminParameter.getName2())) {
+            return ResultUtil.okWithData(resourceRepository.findByProjectName(adminParameter.getName2()));
         }
-        if (adminParameter.getProjectid() != 0) {
-            project = projectRepository.findById(adminParameter.getProjectid()).get();
+        if (StringUtils.isNotBlank(adminParameter.getName()) && StringUtils.isBlank(adminParameter.getName2())) {
+            return ResultUtil.okWithData(resourceRepository.findByMaterialName(adminParameter.getName()));
         }
-
-        if (material == null && project != null) {
-            return ResultUtil.okWithData(resourceRepository.findByProject(project));
-        }
-        if (material != null && project == null) {
-            return ResultUtil.okWithData(resourceRepository.findByMaterial(material));
-        }
-
-        if (material != null && project != null) {
-            return ResultUtil.okWithData(resourceRepository.findByMaterialAndProject(material, project));
+        if (StringUtils.isNotBlank(adminParameter.getName()) && StringUtils.isNotBlank(adminParameter.getName2())) {
+            return ResultUtil.okWithData(resourceRepository.findByMaterialNameAndProjectName(adminParameter.getName(), adminParameter.getName2()));
         }
         return ResultUtil.okWithData(resourceRepository.findAll());
     }
@@ -138,7 +132,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else {
             resource = resourceRepository.findById(adminParameter.getResourceid()).get();
             if (adminParameter.getDelete() != 0) {
-                resourceRepository.delete(resource);
+                //resourceRepository.delete(resource);
                 return ResultUtil.ok();
             }
         }
@@ -178,7 +172,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else {
             supplier = supplierRepository.findById(adminParameter.getSupplierid()).get();
             if (adminParameter.getDelete() != 0) {
-                supplierRepository.delete(supplier);
+                //supplierRepository.delete(supplier);
                 return ResultUtil.ok();
             }
         }
@@ -215,6 +209,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             return ResultUtil.okWithData(materialRepository.findDistinctCode());
         } else if (adminParameter.getType() == 2) {
             return ResultUtil.okWithData(materialRepository.findByCode(adminParameter.getCode()));
+        } else if (adminParameter.getType() == 3) {
+            return ResultUtil.okWithData(materialRepository.findDistinctName());
         } else return ResultUtil.okWithData(materialRepository.findAll());
     }
 

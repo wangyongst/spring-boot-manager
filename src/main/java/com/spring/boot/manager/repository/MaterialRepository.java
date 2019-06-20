@@ -15,5 +15,8 @@ public interface MaterialRepository extends JpaRepository<Material, Integer> {
     @Query("select distinct material.code from Material material")
     List<String> findDistinctCode();
 
-    List<String> findByCode(String code);
+    @Query("select distinct material.name from Material material")
+    List<String> findDistinctName();
+
+    List<Material> findByCode(String code);
 }

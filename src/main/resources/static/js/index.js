@@ -4,26 +4,52 @@ $(function () {
     $('#supplier-list-table').bootstrapTable('hideLoading');
     $('#matiral-list-table').bootstrapTable('hideLoading');
 
+    $.get("admin/project/list?type=3",
+        function (result) {
+            $('#projectnameselect').html("");
+            $('#projectnameselect').append("<option value=\"\">请选择项目名称</option>");
+            $.each(result, function (key, val) {
+                $('#projectnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
+            });
+        });
+
+    $.get("admin/material/list?type=3",
+        function (result) {
+            $('#materialnameselect').html("");
+            $('#materialnameselect').append("<option value=\"\">请选择耗材类型</option>");
+            $.each(result, function (key, val) {
+                $('#materialnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
+            });
+        });
 
     $.get("admin/project/list",
         function (result) {
-            $('#projectnameselect').html("");
-            $('#projectnameselect').append("<option value=\"0\">请选择项目名称</option>");
+            $('#projectnameselect2').html("");
+            $('#projectnameselect2').append("<option value=\"\">请选择项目名称</option>");
             $.each(result, function (key, val) {
-                $('#projectnameselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
                 $('#projectnameselect2').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
             });
         });
 
-    $.get("admin/material/list",
+    $.get("admin/material/list?type=1",
         function (result) {
-            $('#materialnameselect').html("");
-            $('#materialnameselect').append("<option value=\"0\">请选择耗材类型</option>");
+            $('#materialcodeselect').html("");
+            $('#materialcodeselect').append("<option value=\"\">请选择耗材编号</option>");
             $.each(result, function (key, val) {
-                $('#materialnameselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
+                $('#materialcodeselect').append("<option value=\"" + val + "\">" + val + "</option>");
             });
         });
 
+    $("#materialcodeselect").change(function () {
+        $.get("admin/material/list?type=2&code=" + $('#materialcodeselect').val(),
+            function (result) {
+                $('#materialnameselect2').html("");
+                $('#materialnameselect2').append("<option value=\"\">请选择耗材类型</option>");
+                $.each(result, function (key, val) {
+                    $('#materialnameselect2').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
+                });
+            });
+    });
 
     $("#searchprojectButton").click(function () {
         $('#project-list-table').bootstrapTable("destroy");
@@ -46,6 +72,7 @@ $(function () {
 
     $("#projectnewButton").click(function () {
         clearForm($('#projectForm'));
+        $('#projectidhidden').val(0);
         $('#projectModal').modal('toggle');
     });
 
