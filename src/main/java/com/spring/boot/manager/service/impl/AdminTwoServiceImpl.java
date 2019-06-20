@@ -192,6 +192,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         supplier.setShoukuan(adminParameter.getShoukuan());
         supplier.setKaihu(adminParameter.getKaihu());
         final Supplier savedSupplier = supplierRepository.save(supplier);
+        productRepository.deleteAllBySupplier(savedSupplier);
         adminParameter.getProducts().forEach(e -> {
             if (e != null && e != 0) {
                 Product product = new Product();

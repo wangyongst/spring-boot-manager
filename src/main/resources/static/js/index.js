@@ -40,6 +40,15 @@ $(function () {
             });
         });
 
+    $.get("admin/material/list",
+        function (result) {
+            $.each(result, function (key, val) {
+                $('#productselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
+            });
+            multiSelect();
+        });
+
+
     $("#materialcodeselect").change(function () {
         $.get("admin/material/list?type=2&code=" + $('#materialcodeselect').val(),
             function (result) {
@@ -78,19 +87,14 @@ $(function () {
 
     $("#resourcenewButton").click(function () {
         clearForm($('#resourceForm'));
+        $('#resourceidhidden').val(0);
         $('#resourceModal').modal('toggle');
     });
 
     $("#suppliernewButton").click(function () {
-        $.get("admin/material/list",
-            function (result) {
-                $.each(result, function (key, val) {
-                    $('#productselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
-                });
-                multiSelect();
-                $('#productselect_chosen li.search-choice').remove();
-                clearForm($('#supplierForm'));
-            });
+        $('#productselect_chosen li.search-choice').remove();
+        clearForm($('#supplierForm'));
+        $('#supplieridhidden').val(0);
         $('#supplierModal').modal('toggle');
     });
 
@@ -187,7 +191,17 @@ $(function () {
 
 
 function updateproject(value) {
-    window.location.href = "user-update.html?" + value;
+    clearForm($('#projectForm'));
+    $.get("admin/project?projectid=" + value,
+        function (result) {
+            if (result.status == 1) {
+                $('#projectidhidden').val(result.data.id);
+                $("#projectForm [name='customer']").val(result.data.customer);
+                $("#projectForm [name='name']").val(result.data.name)
+                $("#projectForm [name='zimu']").val(result.data.zimu)
+            }
+        });
+    $('#projectModal').modal('toggle');
 }
 
 function delproject(value) {
@@ -198,7 +212,30 @@ function delproject(value) {
 }
 
 function updateresource(value) {
-    window.location.href = "user-update.html?" + value;
+    clearForm($('#resourceForm'));
+    $.get("admin/resource?resourceid=" + value,
+        function (result) {
+            if (result.status == 1) {
+                $('#resourceidhidden').val(result.data.id);
+                $("#projectnameselect2").val(result.data.project.id);
+                $("#materialcodeselect").val(result.data.material.code)
+                $.ajaxSettings.async = false;
+                $.get("admin/material/list?type=2&code=" + $('#materialcodeselect').val(),
+                    function (result) {
+                        $('#materialnameselect2').html("");
+                        $('#materialnameselect2').append("<option value=\"\">请选择耗材类型</option>");
+                        $.each(result, function (key, val) {
+                            $('#materialnameselect2').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
+                        });
+                    });
+                $.ajaxSettings.async = true;
+                $("#materialnameselect2").val(result.data.material.id)
+                $("#resourceForm [name='size']").val(result.data.size)
+                $("#resourceForm [name='special']").val(result.data.special)
+                $("#resourceForm [name='model']").val(result.data.model)
+            }
+        });
+    $('#resourceModal').modal('toggle');
 }
 
 function delresource(value) {
@@ -210,7 +247,29 @@ function delresource(value) {
 
 
 function updatesupplier(value) {
-    window.location.href = "user-update.html?" + value;
+    $('#productselect_chosen li.search-choice').remove();
+    clearForm($('#supplierForm'));
+    $.get("admin/supplier?supplierid=" + value,
+        function (result) {
+            if (result.status == 1) {
+                $('#supplieridhidden').val(result.data.id);
+                $("#supplierForm [name='name']").val(result.data.name);
+                $("#supplierForm [name='contacts']").val(result.data.contacts)
+                $("#supplierForm [name='mobile']").val(result.data.mobile)
+                result.data.products.forEach(e => {
+                    $('#productselect option').each(function () {
+                        debugger;
+                        if (this.value == e.material.id) this.selected = true;
+                    });
+                })
+                $("#productselect").trigger("chosen:updated");
+                $("#supplierForm [name='fapiao']").val(result.data.fapiao);
+                $("#supplierForm [name='zhanghu']").val(result.data.zhanghu)
+                $("#supplierForm [name='shoukuan']").val(result.data.shoukuan)
+                $("#supplierForm [name='kaihu']").val(result.data.kaihu)
+            }
+        });
+    $('#supplierModal').modal('toggle');
 }
 
 function delsupplier(value) {
