@@ -12,14 +12,19 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -28,6 +33,9 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
 
     private static final Logger logger = LogManager.getLogger(AdminServiceImpl.class);
+
+    @Value("custom.upload.path")
+    private String uploadPath;
 
     @Autowired
     private UserRepository userRepository;
@@ -87,7 +95,8 @@ public class AdminServiceImpl implements AdminService {
             user = userRepository.findById(adminParameter.getUserid()).get();
             if (adminParameter.getDelete() != 0) {
                 userRepository.delete(user);
-                if (user.getId() == ((User) httpSession.getAttribute("user")).getId()) httpSession.removeAttribute("user");
+                if (user.getId() == ((User) httpSession.getAttribute("user")).getId())
+                    httpSession.removeAttribute("user");
                 return ResultUtil.ok();
             }
         }
@@ -100,7 +109,8 @@ public class AdminServiceImpl implements AdminService {
         regex = "^[a-z0-9A-Z]+$";
         if (!adminParameter.getPassword().matches(regex)) return ResultUtil.errorWithMessage("密码只支持数字和英文！");
         if (adminParameter.getRoleid() == 0) return ResultUtil.errorWithMessage("配置角色未选择！");
-        if(userRepository.findByMobile(adminParameter.getMobile()).size() > 0) return ResultUtil.errorWithMessage("电话已经存在！");
+        if (userRepository.findByMobile(adminParameter.getMobile()).size() > 0)
+            return ResultUtil.errorWithMessage("电话已经存在！");
         user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
         user.setName(adminParameter.getName());
         user.setPassword(adminParameter.getPassword());
@@ -189,5 +199,19 @@ public class AdminServiceImpl implements AdminService {
     public Result logout(HttpSession httpSession) {
         httpSession.removeAttribute("user");
         return ResultUtil.ok();
+    }
+
+    @Override
+    public Result upload(MultipartFile file, HttpSession httpSession) {
+        String fileName = uploadPath + UUID.randomUUID() + file.getOriginalFilename();
+        File dest = new File(fileName);
+        try {
+            file.transferTo(dest);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResultUtil.errorWithMessage("文件上传失败！");
+        } finally {
+            return ResultUtil.okWithData(fileName);
+        }
     }
 }

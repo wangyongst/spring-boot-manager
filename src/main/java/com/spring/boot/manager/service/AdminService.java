@@ -3,6 +3,7 @@ package com.spring.boot.manager.service;
 import com.spring.boot.manager.entity.User;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.utils.result.Result;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,5 +29,7 @@ public interface AdminService {
     Result changePassword(AdminParameter adminParameter, HttpSession httpSession);
 
     Result logout(HttpSession httpSession);
+
+    Result upload(MultipartFile file,HttpSession httpSession);
 
 }

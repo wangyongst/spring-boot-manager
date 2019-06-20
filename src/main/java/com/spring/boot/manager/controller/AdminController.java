@@ -7,8 +7,12 @@ import com.spring.boot.manager.service.AdminService;
 import com.spring.boot.manager.utils.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/admin")
@@ -83,5 +87,8 @@ public class AdminController {
         return adminService.changePassword(adminParameter, httpSession);
     }
 
-
+    @PostMapping("/upload")
+    public Result upload(@RequestParam("file") MultipartFile file, HttpSession httpSession) {
+        return adminService.upload(file, httpSession);
+    }
 }
