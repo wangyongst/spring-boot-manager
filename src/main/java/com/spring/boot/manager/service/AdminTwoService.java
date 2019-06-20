@@ -13,8 +13,6 @@ public interface AdminTwoService {
 
     Result projectSud(AdminParameter adminParameter, HttpSession httpSession);
 
-    Result projectSearch(AdminParameter adminParameter, HttpSession httpSession);
-
     Result resourceList(AdminParameter adminParameter, HttpSession httpSession);
 
     Result resource(AdminParameter adminParameter, HttpSession httpSession);

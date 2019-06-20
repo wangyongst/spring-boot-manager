@@ -7,6 +7,7 @@ public class AdminParameter {
     private int type;
     private String mobile;
     private String name;
+    private String name2;
     private int userid;
     private int roleid;
     private int supplierid;
@@ -30,6 +31,14 @@ public class AdminParameter {
     private String kaihu;
     private String code;
     private List<Integer> products;
+
+    public String getName2() {
+        return name2;
+    }
+
+    public void setName2(String name2) {
+        this.name2 = name2;
+    }
 
     public List<Integer> getProducts() {
         return products;

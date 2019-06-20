@@ -17,6 +17,9 @@ public class AdminTwoController {
     public AdminTwoService adminTwoService;
 
     //项目列表
+    //type1 findDistinctCustomer
+    //type2 findDistinctNameByCustomer
+    //type3 findDistinctName
     @GetMapping("/project/list")
     public Object projectList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
         return adminTwoService.projectList(adminParameter, httpSession).getData();
@@ -33,13 +36,6 @@ public class AdminTwoController {
     public Result projectSud(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
         return adminTwoService.projectSud(adminParameter, httpSession);
     }
-
-    //项目列表
-    @GetMapping("/project/search")
-    public Object projectSearch(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.projectSearch(adminParameter, httpSession).getData();
-    }
-
 
     //资源列表
     @GetMapping("/resource/list")

@@ -227,15 +227,18 @@
                             <form id="resourceForm">
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">项目名称</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="projectid" class="form-control"></div>
+                                    <div class="col-12 col-md-9"><select id="projectnameselect2" class="form-control" name="projectid">
+                                    </select></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">耗材编号</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="not" class="form-control"></div>
+                                    <div class="col-12 col-md-9"><select id="materialcodeselect" class="form-control" name="materialid">
+                                    </select></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">耗材类型</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="not" class="form-control"></div>
+                                    <div class="col-12 col-md-9"><select id="materialnameselect2" class="form-control" name="materialid">
+                                    </select></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">尺寸大小</label></div>
@@ -282,9 +285,8 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">产品类型</label></div>
-                                    <div class="col-12 col-md-9">
-                                        <select data-placeholder="请选择产品类型" multiple class="standardSelect" id="productselect">
-                                        </select>
+                                    <div class="col-12 col-md-9"><select data-placeholder="请选择产品类型" id="productselect" multiple class="standardSelect form-control" name="products">
+                                    </select>
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -383,9 +385,9 @@
                                                     <strong class="card-title">
                                                         <div class="pull-left">
                                                             <form class="form-inline" id="searchprojectForm">
-                                                                <div class="form-group">客户名称<input type="text" name="customer" placeholder="请输入名称" required="" class="form-control">
+                                                                <div class="form-group">客户名称<input type="text" name="customer" placeholder="请输入客户名称" required="" class="form-control">
                                                                 </div>
-                                                                <div class="form-group">项目名称<input type="email" name="name" placeholder="请输入名称" required="" class="form-control">
+                                                                <div class="form-group">项目名称<input type="text" name="name" placeholder="请输入项目名称" required="" class="form-control">
                                                                 </div>
                                                                 <button type="button" class="btn btn-primary btn-sm" id="searchprojectButton">筛选</button>
                                                             </form>
@@ -423,9 +425,13 @@
                                                     <strong class="card-title">
                                                         <div class="pull-left">
                                                             <form class="form-inline" id="searchresourceForm">
-                                                                <div class="form-group">耗材类型<input type="text" name="type" placeholder="请输入类型" required="" class="form-control">
+                                                                <div class="form-group">耗材类型
+                                                                    <select id="materialnameselect" class="form-control" name="materialid">
+                                                                    </select>
                                                                 </div>
-                                                                <div class="form-group">项目名称<input type="text" name="name" placeholder="请输入名称" required="" class="form-control">
+                                                                <div class="form-group">项目名称
+                                                                    <select id="projectnameselect" class="form-control" name="projectid">
+                                                                    </select>
                                                                 </div>
                                                                 <button type="button" class="btn btn-primary btn-sm" id="searchresourceButton">筛选</button>
                                                             </form>
@@ -468,7 +474,7 @@
                                                     <strong class="card-title">
                                                         <div class="pull-left">
                                                             <form class="form-inline" id="searchsupplierForm">
-                                                                <div class="form-group">供应商名称<input type="text" name="name" placeholder="请输入名称" required="" class="form-control">
+                                                                <div class="form-group">供应商名称<input type="text" name="name" placeholder="请输入供应商名称" required="" class="form-control">
                                                                 </div>
                                                                 <button type="button" class="btn btn-primary btn-sm" id="searchsupplierButton">筛选</button>
                                                             </form>

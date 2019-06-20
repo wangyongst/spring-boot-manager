@@ -25,4 +25,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     @Query("select distinct project.name from Project project where project.customer = ?1")
     List<String> findDistinctNameByCustomer(String customer);
 
+    @Query("select distinct project.name from Project project")
+    List<String> findDistinctName();
 }

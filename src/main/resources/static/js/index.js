@@ -5,6 +5,26 @@ $(function () {
     $('#matiral-list-table').bootstrapTable('hideLoading');
 
 
+    $.get("admin/project/list",
+        function (result) {
+            $('#projectnameselect').html("");
+            $('#projectnameselect').append("<option value=\"0\">请选择项目名称</option>");
+            $.each(result, function (key, val) {
+                $('#projectnameselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
+                $('#projectnameselect2').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
+            });
+        });
+
+    $.get("admin/material/list",
+        function (result) {
+            $('#materialnameselect').html("");
+            $('#materialnameselect').append("<option value=\"0\">请选择耗材类型</option>");
+            $.each(result, function (key, val) {
+                $('#materialnameselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
+            });
+        });
+
+
     $("#searchprojectButton").click(function () {
         $('#project-list-table').bootstrapTable("destroy");
         $('#project-list-table').bootstrapTable({url: "/admin/project/list?" + $('#searchprojectForm').serialize()}).bootstrapTable('hideLoading');
@@ -35,17 +55,15 @@ $(function () {
     });
 
     $("#suppliernewButton").click(function () {
-        $('#productselect').html("<option value=\"0\" label=\"default\"></option>");
         $.get("admin/material/list",
             function (result) {
                 $.each(result, function (key, val) {
-                    $.each(result, function (key, val) {
-                        $('#productselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
-                    });
+                    $('#productselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
                 });
                 multiSelect();
+                $('#productselect_chosen li.search-choice').remove();
+                clearForm($('#supplierForm'));
             });
-        clearForm($('#supplierForm'));
         $('#supplierModal').modal('toggle');
     });
 
@@ -61,7 +79,6 @@ $(function () {
                 }
             });
     });
-
 
     $("#resourcesaveButton").click(function () {
         $.post("admin/resource/sud", $('#resourceForm').serialize(),
