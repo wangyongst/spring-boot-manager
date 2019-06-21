@@ -83,6 +83,7 @@ $(function () {
         $.post("admin/project/sud", $('#projectForm').serialize(),
             function (result) {
                 if (result.status == 1) {
+                    initSelelct()
                     $('#project-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
                     $('#projectModal').modal('toggle');
                 } else {
@@ -96,6 +97,7 @@ $(function () {
         $.post("admin/resource/sud", $('#resourceForm').serialize(),
             function (result) {
                 if (result.status == 1) {
+                    initSelelct()
                     $('#resource-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
                     $('#resourceModal').modal('toggle');
                 } else {
@@ -109,6 +111,7 @@ $(function () {
         $.post("admin/supplier/sud", $('#supplierForm').serialize(),
             function (result) {
                 if (result.status == 1) {
+                    initSelelct()
                     $('#supplier-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
                     $('#supplierModal').modal('toggle');
                 } else {
@@ -129,9 +132,9 @@ $(function () {
                     delete: 1,
                 },
                 function (result) {
+                    initSelelct()
                     $('#deletealertModal').modal('toggle');
                     $('#project-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
-                    ;
                 });
         } else if (deletetype == 2) {
             $.post("admin/resource/sud",
@@ -140,9 +143,9 @@ $(function () {
                     delete: 1,
                 },
                 function (result) {
+                    initSelelct()
                     $('#deletealertModal').modal('toggle');
                     $('#resource-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
-                    ;
                 });
         } else if (deletetype == 3) {
             $.post("admin/supplier/sud",
@@ -151,9 +154,9 @@ $(function () {
                     delete: 1,
                 },
                 function (result) {
+                    initSelelct()
                     $('#deletealertModal').modal('toggle');
                     $('#supplier-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
-                    ;
                 });
         } else if (deletetype == 4) {
             $.post("admin/material/sud",
@@ -162,9 +165,9 @@ $(function () {
                     delete: 1,
                 },
                 function (result) {
+                    initSelelct()
                     $('#deletealertModal').modal('toggle');
                     $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
-                    ;
                 });
         }
     })
@@ -283,8 +286,8 @@ function savematerial() {
         },
         function (result) {
             if (result.status == 1) {
+                initSelelct()
                 $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
-                ;
             } else {
                 $('#alertmessage').text(result.message);
                 $('#alertModal').modal('toggle');
