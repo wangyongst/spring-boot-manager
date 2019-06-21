@@ -39,6 +39,7 @@ public class AdminTwoController {
 
     //资源列表
     @GetMapping("/resource/list")
+    //type1 findByProjectName
     public Object resourceList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
         return adminTwoService.resourceList(adminParameter, httpSession).getData();
     }

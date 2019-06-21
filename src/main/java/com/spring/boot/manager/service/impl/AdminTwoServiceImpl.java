@@ -104,14 +104,20 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result resourceList(AdminParameter adminParameter, HttpSession httpSession) {
-        if (StringUtils.isBlank(adminParameter.getName()) && StringUtils.isNotBlank(adminParameter.getName2())) {
-            return ResultUtil.okWithData(resourceRepository.findByProjectName(adminParameter.getName2()));
-        }
-        if (StringUtils.isNotBlank(adminParameter.getName()) && StringUtils.isBlank(adminParameter.getName2())) {
-            return ResultUtil.okWithData(resourceRepository.findByMaterialName(adminParameter.getName()));
-        }
-        if (StringUtils.isNotBlank(adminParameter.getName()) && StringUtils.isNotBlank(adminParameter.getName2())) {
-            return ResultUtil.okWithData(resourceRepository.findByMaterialNameAndProjectName(adminParameter.getName(), adminParameter.getName2()));
+        if (adminParameter.getType() != 0) {
+            if (adminParameter.getType() == 1) {
+                return ResultUtil.okWithData(resourceRepository.findByProjectName(adminParameter.getName()));
+            }
+        } else {
+            if (StringUtils.isBlank(adminParameter.getName()) && StringUtils.isNotBlank(adminParameter.getName2())) {
+                return ResultUtil.okWithData(resourceRepository.findByProjectName(adminParameter.getName2()));
+            }
+            if (StringUtils.isNotBlank(adminParameter.getName()) && StringUtils.isBlank(adminParameter.getName2())) {
+                return ResultUtil.okWithData(resourceRepository.findByMaterialName(adminParameter.getName()));
+            }
+            if (StringUtils.isNotBlank(adminParameter.getName()) && StringUtils.isNotBlank(adminParameter.getName2())) {
+                return ResultUtil.okWithData(resourceRepository.findByMaterialNameAndProjectName(adminParameter.getName(), adminParameter.getName2()));
+            }
         }
         return ResultUtil.okWithData(resourceRepository.findAll());
     }
@@ -183,7 +189,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         if (StringUtils.isBlank(adminParameter.getZhanghu())) return ResultUtil.errorWithMessage("账户银行不能为空！");
         if (StringUtils.isBlank(adminParameter.getShoukuan())) return ResultUtil.errorWithMessage("收款账户不能为空！");
         if (StringUtils.isBlank(adminParameter.getKaihu())) return ResultUtil.errorWithMessage("开户行不能为空！");
-        if (adminParameter.getProducts() == null || adminParameter.getProducts().size() == 0) return ResultUtil.errorWithMessage("产品类型未选择不能为空！");
+        if (adminParameter.getProducts() == null || adminParameter.getProducts().size() == 0)
+            return ResultUtil.errorWithMessage("产品类型未选择不能为空！");
         supplier.setName(adminParameter.getName());
         supplier.setContacts(adminParameter.getContacts());
         supplier.setMobile(adminParameter.getMobile());

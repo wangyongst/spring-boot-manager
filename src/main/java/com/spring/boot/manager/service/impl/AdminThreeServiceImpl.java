@@ -1,10 +1,13 @@
 package com.spring.boot.manager.service.impl;
 
+import com.spring.boot.manager.entity.Material;
+import com.spring.boot.manager.entity.Request;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminThreeService;
 import com.spring.boot.manager.utils.result.Result;
 import com.spring.boot.manager.utils.result.ResultUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 
 
 @Service
@@ -53,11 +57,35 @@ public class AdminThreeServiceImpl implements AdminThreeService {
 
     @Override
     public Result requestSud(AdminParameter adminParameter, HttpSession httpSession) {
-        return null;
+        Request request = null;
+        if (adminParameter.getRequestid() == 0) {
+            request = new Request();
+        } else {
+            request = requestRepository.findById(adminParameter.getResourceid()).get();
+            if (adminParameter.getDelete() != 0) {
+                //requestRepository.delete(request);
+                return ResultUtil.ok();
+            }
+        }
+        if (adminParameter.getResourceid() ==0) return ResultUtil.errorWithMessage("请先依次选择客户名称、项目名称和耗材类型！");
+        if (StringUtils.isBlank(adminParameter.getNum())) return ResultUtil.errorWithMessage("采购数量不能为空！");
+        if (StringUtils.isBlank(adminParameter.getSellnum())) return ResultUtil.errorWithMessage("销售数量不能为空！");
+        if (StringUtils.isBlank(adminParameter.getPrice())) return ResultUtil.errorWithMessage("采购单价不能为空！");
+
+        if (!StringUtils.isNumeric(adminParameter.getNum())) return ResultUtil.errorWithMessage("采购数量只能是整数！");
+        if (!StringUtils.isNumeric(adminParameter.getSellnum())) return ResultUtil.errorWithMessage("销售数量只能是整数！");
+        if (!adminParameter.getPrice().matches("^(([1-9]{1}\\d*)|(0{1}))(\\.\\d{2})$")) return ResultUtil.errorWithMessage("采购单价只能是两位小数或整数！");
+        request.setResource(resourceRepository.findById(adminParameter.getResourceid()).get());
+        request.setNum(Integer.parseInt(adminParameter.getNum()));
+        request.setSellnum(Integer.parseInt(adminParameter.getSellnum()));
+        request.setPrice(BigDecimal.valueOf(Double.parseDouble(adminParameter.getPrice())));
+        request.setTotal(request.getPrice().multiply(new BigDecimal(request.getNum().toString())));
+        requestRepository.save(request);
+        return ResultUtil.okWithData(request);
     }
 
     @Override
     public Result request(AdminParameter adminParameter, HttpSession httpSession) {
-        return null;
+        return ResultUtil.okWithData(requestRepository.findById(adminParameter.getRequestid()).get());
     }
 }

@@ -1,5 +1,6 @@
 package com.spring.boot.manager.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class AdminParameter {
@@ -13,6 +14,7 @@ public class AdminParameter {
     private int supplierid;
     private int projectid;
     private int resourceid;
+    private int requestid;
     private String password;
     private String newpassword;
     private String newpassword2;
@@ -31,6 +33,41 @@ public class AdminParameter {
     private String kaihu;
     private String code;
     private List<Integer> products;
+    private String num;
+    private String sellnum;
+    private String price;
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public String getSellnum() {
+        return sellnum;
+    }
+
+    public void setSellnum(String sellnum) {
+        this.sellnum = sellnum;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public int getRequestid() {
+        return requestid;
+    }
+
+    public void setRequestid(int requestid) {
+        this.requestid = requestid;
+    }
 
     public String getName2() {
         return name2;
