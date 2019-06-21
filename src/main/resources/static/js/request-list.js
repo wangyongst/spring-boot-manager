@@ -80,7 +80,7 @@ $(function () {
 
 
     $("#projectnameselect").change(function () {
-        $.get("admin/resource/list?name=" + $('#projectnameselect').val(),
+        $.get("admin/resource/list?name2=" + $('#projectnameselect').val(),
             function (result) {
                 $('#materialnameselect').html("");
                 $('#materialnameselect').append("<option value=\"0\">请选择耗材类型</option>");

@@ -313,6 +313,7 @@ function cancelmaterial() {
 
 function uploadfile(value) {
     $('#uploadresouceid').val(value);
+    $("#uploadfile").val("")
     $("#uploadfile").click();
 }
 

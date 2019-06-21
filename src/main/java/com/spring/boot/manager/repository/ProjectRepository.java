@@ -13,12 +13,6 @@ import java.util.List;
 @RepositoryDefinition(domainClass = Project.class, idClass = Integer.class)
 public interface ProjectRepository extends JpaRepository<Project, Integer> {
 
-    List<Project> findByCustomerLikeAndNameLike(String customer, String name, Sort sort);
-
-    List<Project> findByCustomerLike(String customer, Sort sort);
-
-    List<Project> findByNameLike(String name, Sort sort);
-
     @Query("select distinct project.customer from Project project")
     List<String> findDistinctCustomer();
 

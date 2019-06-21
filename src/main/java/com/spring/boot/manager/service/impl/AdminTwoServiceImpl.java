@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -51,7 +52,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result projectList(AdminParameter adminParameter, HttpSession httpSession) {
-
         if (adminParameter.getType() == 1) {
             return ResultUtil.okWithData(projectRepository.findDistinctCustomer());
         } else if (adminParameter.getType() == 2) {
@@ -59,17 +59,15 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else if (adminParameter.getType() == 3) {
             return ResultUtil.okWithData(projectRepository.findDistinctName());
         } else {
-
             Sort sort = new Sort(Sort.Direction.DESC, "createtime");
-            if (StringUtils.isBlank(adminParameter.getCustomer()) && StringUtils.isNotBlank(adminParameter.getName())) {
-                return ResultUtil.okWithData(projectRepository.findByNameLike("%" + adminParameter.getName() + "%", sort));
-            } else if (StringUtils.isNotBlank(adminParameter.getCustomer()) && StringUtils.isBlank(adminParameter.getName())) {
-                return ResultUtil.okWithData(projectRepository.findByCustomerLike("%" + adminParameter.getCustomer() + "%", sort));
-            } else if (StringUtils.isNotBlank(adminParameter.getCustomer()) && StringUtils.isNotBlank(adminParameter.getName())) {
-                return ResultUtil.okWithData(projectRepository.findByCustomerLikeAndNameLike("%" + adminParameter.getCustomer() + "%", "%" + adminParameter.getName() + "%", sort));
-            } else {
-                return ResultUtil.okWithData(projectRepository.findAll(sort));
-            }
+            Project project = new Project();
+            if (StringUtils.isNotBlank(adminParameter.getName())) project.setName(adminParameter.getName());
+            if (StringUtils.isNotBlank(adminParameter.getCustomer())) project.setCustomer(adminParameter.getCustomer());
+            ExampleMatcher matcher = ExampleMatcher.matching()
+                    .withMatcher("name", match -> match.contains())
+                    .withMatcher("customer", match -> match.contains());
+            Example<Project> example = Example.of(project, matcher);
+            return ResultUtil.okWithData(projectRepository.findAll(example, sort));
         }
     }
 
