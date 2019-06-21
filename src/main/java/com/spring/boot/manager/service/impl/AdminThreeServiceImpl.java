@@ -67,19 +67,20 @@ public class AdminThreeServiceImpl implements AdminThreeService {
                 return ResultUtil.ok();
             }
         }
-        if (adminParameter.getResourceid() ==0) return ResultUtil.errorWithMessage("请先依次选择客户名称、项目名称和耗材类型！");
-        if (StringUtils.isBlank(adminParameter.getNum())) return ResultUtil.errorWithMessage("采购数量不能为空！");
-        if (StringUtils.isBlank(adminParameter.getSellnum())) return ResultUtil.errorWithMessage("销售数量不能为空！");
-        if (StringUtils.isBlank(adminParameter.getPrice())) return ResultUtil.errorWithMessage("采购单价不能为空！");
-
-        if (!StringUtils.isNumeric(adminParameter.getNum())) return ResultUtil.errorWithMessage("采购数量只能是整数！");
-        if (!StringUtils.isNumeric(adminParameter.getSellnum())) return ResultUtil.errorWithMessage("销售数量只能是整数！");
-        if (!adminParameter.getPrice().matches("^(([1-9]{1}\\d*)|(0{1}))(\\.\\d{2})$")) return ResultUtil.errorWithMessage("采购单价只能是两位小数或整数！");
+        if (adminParameter.getResourceid() == 0) return ResultUtil.errorWithMessage("请先依次选择客户名称、项目名称和耗材类型！");
         request.setResource(resourceRepository.findById(adminParameter.getResourceid()).get());
-        request.setNum(Integer.parseInt(adminParameter.getNum()));
-        request.setSellnum(Integer.parseInt(adminParameter.getSellnum()));
-        request.setPrice(BigDecimal.valueOf(Double.parseDouble(adminParameter.getPrice())));
-        request.setTotal(request.getPrice().multiply(new BigDecimal(request.getNum().toString())));
+        if (StringUtils.isNotBlank(adminParameter.getNum())) {
+            if (StringUtils.isBlank(adminParameter.getSellnum())) return ResultUtil.errorWithMessage("销售数量不能为空！");
+            if (StringUtils.isBlank(adminParameter.getPrice())) return ResultUtil.errorWithMessage("采购单价不能为空！");
+            if (!StringUtils.isNumeric(adminParameter.getNum())) return ResultUtil.errorWithMessage("采购数量只能是整数！");
+            if (!StringUtils.isNumeric(adminParameter.getSellnum())) return ResultUtil.errorWithMessage("销售数量只能是整数！");
+            if (!adminParameter.getPrice().matches("^(([1-9]{1}\\d*)|(0{1}))(\\.\\d{2})$"))
+                return ResultUtil.errorWithMessage("采购单价只能是两位小数或整数！");
+            request.setNum(Integer.parseInt(adminParameter.getNum()));
+            request.setSellnum(Integer.parseInt(adminParameter.getSellnum()));
+            request.setPrice(BigDecimal.valueOf(Double.parseDouble(adminParameter.getPrice())));
+            request.setTotal(request.getPrice().multiply(new BigDecimal(request.getNum().toString())));
+        }
         requestRepository.save(request);
         return ResultUtil.okWithData(request);
     }
