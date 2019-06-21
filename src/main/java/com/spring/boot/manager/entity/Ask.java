@@ -21,9 +21,10 @@ public class Ask {
     @JoinColumn(name = "supplierid", referencedColumnName = "id")
     private Supplier supplier;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "createuserid", referencedColumnName = "id")
-    private User user;
+    @Basic
+    @Column(name = "createusername", nullable = true, length = 255)
+    private String createusername;
+
     @Basic
     @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
@@ -52,12 +53,12 @@ public class Ask {
         this.supplier = supplier;
     }
 
-    public User getUser() {
-        return user;
+    public String getCreateusername() {
+        return createusername;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreateusername(String createusername) {
+        this.createusername = createusername;
     }
 
     public String getCreatetime() {

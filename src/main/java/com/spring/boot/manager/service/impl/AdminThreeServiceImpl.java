@@ -66,6 +66,10 @@ public class AdminThreeServiceImpl implements AdminThreeService {
         Request request = null;
         if (adminParameter.getRequestid() == 0) {
             request = new Request();
+            request.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
+            User me = (User) httpSession.getAttribute("user");
+            request.setCreateusername(me.getName());
+            request.setStatus(1);
         } else {
             request = requestRepository.findById(adminParameter.getResourceid()).get();
             if (adminParameter.getDelete() != 0) {
@@ -98,13 +102,14 @@ public class AdminThreeServiceImpl implements AdminThreeService {
 
     @Override
     public Result requestAsk(AdminParameter adminParameter, HttpSession httpSession) {
+        User me = (User) httpSession.getAttribute("user");
         String[] ids = adminParameter.getIds().split(",");
         for (String id : ids) {
             Request request = requestRepository.findById(Integer.parseInt(id)).get();
             productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
                 Ask ask = new Ask();
                 ask.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
-                ask.setUser((User) httpSession.getAttribute("user"));
+                ask.setCreateusername(me.getName());
                 ask.setRequest(request);
                 ask.setSupplier(e.getSupplier());
                 askRepository.save(ask);

@@ -36,6 +36,7 @@ $(function () {
                 if (result.status == 1) {
                     $('#requestidhidden').val(result.data.id);
                     $('#total').val(result.data.total);
+                    if (result.data.total == undefined) $('#requestModal').modal('toggle');
                     $('#request-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
                 } else {
                     $('#alertmessage').text(result.message);
@@ -64,7 +65,7 @@ $(function () {
     $("#askButton").click(function () {
         var selected = select();
         if (selected.length == 0) {
-            ('#alertmessage').text("请先选择你要发起的记录");
+            $('#alertmessage').text("请先选择你要发起的记录");
             $('#alertModal').modal('toggle');
             return;
         }
@@ -79,24 +80,6 @@ $(function () {
                     $('#alertModal').modal('toggle');
                 }
             });
-
-
-        $.ajax({
-            type: "POST",
-            cache: "false",
-            url: "/admin/setting",
-            data: {
-                settingid: ids[1],
-                operation: 2
-            },
-            dataType: "json",
-            success: function (result) {
-                if (result.status == 1) {
-                    alert("删除记录成功");
-                    $("#myTable").bootstrapTable('refresh');
-                }
-            }
-        });
     });
 
 
