@@ -14,6 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -66,15 +68,14 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Result userList(AdminParameter adminParameter, HttpSession httpSession) {
         Sort sort = new Sort(Sort.Direction.DESC, "createtime");
-        if (StringUtils.isBlank(adminParameter.getMobile()) && StringUtils.isNotBlank(adminParameter.getName())) {
-            return ResultUtil.okWithData(userRepository.findByNameLike("%" + adminParameter.getName() + "%", sort));
-        } else if (StringUtils.isNotBlank(adminParameter.getMobile()) && StringUtils.isBlank(adminParameter.getName())) {
-            return ResultUtil.okWithData(userRepository.findByMobileLike("%" + adminParameter.getMobile() + "%", sort));
-        } else if (StringUtils.isNotBlank(adminParameter.getMobile()) && StringUtils.isNotBlank(adminParameter.getName())) {
-            return ResultUtil.okWithData(userRepository.findByNameLikeAndMobileLike("%" + adminParameter.getName() + "%", "%" + adminParameter.getMobile() + "%", sort));
-        } else {
-            return ResultUtil.okWithData(userRepository.findAll(sort));
-        }
+        User user = new User();
+        if (StringUtils.isNotBlank(adminParameter.getMobile())) user.setMobile(adminParameter.getMobile());
+        if (StringUtils.isNotBlank(adminParameter.getName())) user.setName(adminParameter.getName());
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withMatcher("mobile", match -> match.contains())
+                .withMatcher("name", match -> match.contains());
+        Example<User> example = Example.of(user, matcher);
+        return ResultUtil.okWithData(userRepository.findAll(example, sort));
     }
 
     @Override

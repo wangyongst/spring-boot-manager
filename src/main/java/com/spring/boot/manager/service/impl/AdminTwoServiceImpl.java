@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -104,22 +105,19 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result resourceList(AdminParameter adminParameter, HttpSession httpSession) {
-        if (adminParameter.getType() != 0) {
-            if (adminParameter.getType() == 1) {
-                return ResultUtil.okWithData(resourceRepository.findByProjectName(adminParameter.getName()));
-            }
-        } else {
-            if (StringUtils.isBlank(adminParameter.getName()) && StringUtils.isNotBlank(adminParameter.getName2())) {
-                return ResultUtil.okWithData(resourceRepository.findByProjectName(adminParameter.getName2()));
-            }
-            if (StringUtils.isNotBlank(adminParameter.getName()) && StringUtils.isBlank(adminParameter.getName2())) {
-                return ResultUtil.okWithData(resourceRepository.findByMaterialName(adminParameter.getName()));
-            }
-            if (StringUtils.isNotBlank(adminParameter.getName()) && StringUtils.isNotBlank(adminParameter.getName2())) {
-                return ResultUtil.okWithData(resourceRepository.findByMaterialNameAndProjectName(adminParameter.getName(), adminParameter.getName2()));
-            }
+        Project project = new Project();
+        Material material = new Material();
+        Resource resource = new Resource();
+        if (StringUtils.isNotBlank(adminParameter.getName2())) {
+            project.setName(adminParameter.getName2());
         }
-        return ResultUtil.okWithData(resourceRepository.findAll());
+        if (StringUtils.isNotBlank(adminParameter.getName())) {
+            material.setName(adminParameter.getName());
+        }
+        resource.setMaterial(material);
+        resource.setProject(project);
+        Example<Resource> example = Example.of(resource);
+        return ResultUtil.okWithData(resourceRepository.findAll(example));
     }
 
     @Override
