@@ -14,29 +14,16 @@ public class Ask {
     private Integer id;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "projectid", referencedColumnName = "id")
-    private Project project;
+    @JoinColumn(name = "requestid", referencedColumnName = "id")
+    private Request request;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "materialid", referencedColumnName = "id")
-    private Material material;
+    @JoinColumn(name = "supplierid", referencedColumnName = "id")
+    private Supplier supplier;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "createuserid", referencedColumnName = "id")
     private User user;
-
-    @Basic
-    @Column(name = "applynum", nullable = true)
-    private Integer applynum;
-    @Basic
-    @Column(name = "sellnum", nullable = true)
-    private Integer sellnum;
-    @Basic
-    @Column(name = "price", nullable = true, precision = 2)
-    private BigDecimal price;
-    @Basic
-    @Column(name = "total", nullable = true, precision = 0)
-    private Integer total;
     @Basic
     @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
@@ -49,20 +36,20 @@ public class Ask {
         this.id = id;
     }
 
-    public Project getProject() {
-        return project;
+    public Request getRequest() {
+        return request;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setRequest(Request request) {
+        this.request = request;
     }
 
-    public Material getMaterial() {
-        return material;
+    public Supplier getSupplier() {
+        return supplier;
     }
 
-    public void setMaterial(Material material) {
-        this.material = material;
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
     public User getUser() {
@@ -71,38 +58,6 @@ public class Ask {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Integer getApplynum() {
-        return applynum;
-    }
-
-    public void setApplynum(Integer applynum) {
-        this.applynum = applynum;
-    }
-
-    public Integer getSellnum() {
-        return sellnum;
-    }
-
-    public void setSellnum(Integer sellnum) {
-        this.sellnum = sellnum;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public void setTotal(Integer total) {
-        this.total = total;
     }
 
     public String getCreatetime() {

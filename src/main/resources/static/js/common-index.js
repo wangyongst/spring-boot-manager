@@ -46,3 +46,16 @@ function multiSelect() {
         width: "100%"
     });
 }
+
+function select() {
+    var ids = "";
+    $("input[name=btSelectItem]").each(function () {
+        if ($(this).prop('checked')) {
+            var index = $("table input:checkbox").index(this);
+            val = $("table").find("tr").eq(index).find("td").eq(1).text();
+            ids += "," + val;
+        }
+    });
+    if(ids.length > 1) ids =ids.substr(1);
+    return ids;
+}

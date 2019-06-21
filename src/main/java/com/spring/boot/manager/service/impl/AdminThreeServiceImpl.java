@@ -1,10 +1,13 @@
 package com.spring.boot.manager.service.impl;
 
+import com.spring.boot.manager.entity.Ask;
 import com.spring.boot.manager.entity.Material;
 import com.spring.boot.manager.entity.Request;
+import com.spring.boot.manager.entity.User;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminThreeService;
+import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.result.Result;
 import com.spring.boot.manager.utils.result.ResultUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +41,9 @@ public class AdminThreeServiceImpl implements AdminThreeService {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private ResourceRepository resourceRepository;
@@ -88,5 +94,22 @@ public class AdminThreeServiceImpl implements AdminThreeService {
     @Override
     public Result request(AdminParameter adminParameter, HttpSession httpSession) {
         return ResultUtil.okWithData(requestRepository.findById(adminParameter.getRequestid()).get());
+    }
+
+    @Override
+    public Result requestAsk(AdminParameter adminParameter, HttpSession httpSession) {
+        String[] ids = adminParameter.getIds().split(",");
+        for (String id : ids) {
+            Request request = requestRepository.findById(Integer.parseInt(id)).get();
+            productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
+                Ask ask = new Ask();
+                ask.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
+                ask.setUser((User) httpSession.getAttribute("user"));
+                ask.setRequest(request);
+                ask.setSupplier(e.getSupplier());
+                askRepository.save(ask);
+            });
+        }
+        return ResultUtil.ok();
     }
 }

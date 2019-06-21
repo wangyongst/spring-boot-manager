@@ -36,6 +36,15 @@ public class AdminParameter {
     private String num;
     private String sellnum;
     private String price;
+    private String ids;
+
+    public String getIds() {
+        return ids;
+    }
+
+    public void setIds(String ids) {
+        this.ids = ids;
+    }
 
     public String getNum() {
         return num;

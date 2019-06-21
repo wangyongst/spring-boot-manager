@@ -13,4 +13,6 @@ public interface AdminThreeService {
     Result requestSud(AdminParameter adminParameter, HttpSession httpSession);
 
     Result request(AdminParameter adminParameter, HttpSession httpSession);
+
+    Result requestAsk(AdminParameter adminParameter, HttpSession httpSession);
 }

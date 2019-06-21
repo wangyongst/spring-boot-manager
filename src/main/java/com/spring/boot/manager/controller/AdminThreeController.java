@@ -41,4 +41,9 @@ public class AdminThreeController {
         return adminThreeService.requestSud(adminParameter, httpSession);
     }
 
+    //采购申请增删改
+    @PostMapping("/request/ask")
+    public Result requestAsk(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminThreeService.requestAsk(adminParameter, httpSession);
+    }
 }

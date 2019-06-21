@@ -238,7 +238,7 @@
                             <strong class="card-title">
                                 <div class="pull-right">
                                     <button type="button" class="btn btn-primary" id="createrequestButton">新增耗材</button>
-                                    <button type="button" class="btn btn-success" id="startButton">发起</button>
+                                    <button type="button" class="btn btn-success" id="askButton">发起</button>
                                 </div>
                                 <div class="pull-left">
                                     <form class="form-inline" id="searchrequestForm">
@@ -265,6 +265,7 @@
                                    data-pagination="true">
                                 <thead>
                                 <tr>
+                                    <th data-field="state" data-checkbox="true">全选</th>
                                     <th data-field="id">序号</th>
                                     <th data-field="resource.project.name">项目名称</th>
                                     <th data-field="resource.project.customer">采购公司</th>
