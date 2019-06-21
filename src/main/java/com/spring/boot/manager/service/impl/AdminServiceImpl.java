@@ -209,14 +209,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result upload(MultipartFile file, AdminParameter adminParameter, HttpSession httpSession) {
-        String fileName = null;
-        String origFileName = file.getOriginalFilename();
-        if (origFileName.length() > 10)
-            fileName = origFileName.substring(origFileName.length() - 10, origFileName.length());
-        else {
-            String uuid = UUID.randomUUID().toString();
-            fileName = uuid.substring(0, origFileName.length()) + origFileName;
-        }
+        String fileName = adminParameter.getResourceid() + "-" + file.getOriginalFilename();
         String path = uploadPath + fileName;
         File dest = new File(path);
         try {
