@@ -73,12 +73,8 @@ $(function () {
                 ids: selected
             },
             function (result) {
-                if (result.status == 1) {
-                    $('#request-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
-                } else {
-                    $('#alertmessage').text(result.message);
-                    $('#alertModal').modal('toggle');
-                }
+                $('#alertmessage').text("发起询价成功，等待供应商报价");
+                $('#alertModal').modal('toggle');
             });
     });
 

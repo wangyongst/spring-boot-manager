@@ -4,50 +4,8 @@ $(function () {
     $('#supplier-list-table').bootstrapTable('hideLoading');
     $('#matiral-list-table').bootstrapTable('hideLoading');
 
-    $.get("admin/project/list?type=3",
-        function (result) {
-            $('#projectnameselect').html("");
-            $('#projectnameselect').append("<option value=\"\">请选择项目名称</option>");
-            $.each(result, function (key, val) {
-                $('#projectnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
-            });
-        });
 
-    $.get("admin/material/list?type=3",
-        function (result) {
-            $('#materialnameselect').html("");
-            $('#materialnameselect').append("<option value=\"\">请选择耗材类型</option>");
-            $.each(result, function (key, val) {
-                $('#materialnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
-            });
-        });
-
-    $.get("admin/project/list",
-        function (result) {
-            $('#projectnameselect2').html("");
-            $('#projectnameselect2').append("<option value=\"\">请选择项目名称</option>");
-            $.each(result, function (key, val) {
-                $('#projectnameselect2').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
-            });
-        });
-
-    $.get("admin/material/list?type=1",
-        function (result) {
-            $('#materialcodeselect').html("");
-            $('#materialcodeselect').append("<option value=\"\">请选择耗材编号</option>");
-            $.each(result, function (key, val) {
-                $('#materialcodeselect').append("<option value=\"" + val + "\">" + val + "</option>");
-            });
-        });
-
-    $.get("admin/material/list",
-        function (result) {
-            $.each(result, function (key, val) {
-                $('#productselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
-            });
-            multiSelect();
-        });
-
+    initSelelct();
 
     $("#uploadfile").change(function () {
         var formData = new FormData();
@@ -392,4 +350,50 @@ function resourceformatter(value, row, index) {
 
 function supplierformatter(value, row, index) {
     return "<button type=\"button\" class=\"btn btn-link\" onclick= \"updatesupplier(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delsupplier(" + value + ")\"> 删除</button>";
+}
+
+function initSelelct() {
+    $.get("admin/project/list?type=3",
+        function (result) {
+            $('#projectnameselect').html("");
+            $('#projectnameselect').append("<option value=\"\">请选择项目名称</option>");
+            $.each(result, function (key, val) {
+                $('#projectnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
+            });
+        });
+
+    $.get("admin/material/list?type=3",
+        function (result) {
+            $('#materialnameselect').html("");
+            $('#materialnameselect').append("<option value=\"\">请选择耗材类型</option>");
+            $.each(result, function (key, val) {
+                $('#materialnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
+            });
+        });
+
+    $.get("admin/project/list",
+        function (result) {
+            $('#projectnameselect2').html("");
+            $('#projectnameselect2').append("<option value=\"\">请选择项目名称</option>");
+            $.each(result, function (key, val) {
+                $('#projectnameselect2').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
+            });
+        });
+
+    $.get("admin/material/list?type=1",
+        function (result) {
+            $('#materialcodeselect').html("");
+            $('#materialcodeselect').append("<option value=\"\">请选择耗材编号</option>");
+            $.each(result, function (key, val) {
+                $('#materialcodeselect').append("<option value=\"" + val + "\">" + val + "</option>");
+            });
+        });
+
+    $.get("admin/material/list",
+        function (result) {
+            $.each(result, function (key, val) {
+                $('#productselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
+            });
+            multiSelect();
+        });
 }
