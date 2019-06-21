@@ -88,7 +88,7 @@ public class AdminController {
     }
 
     @PostMapping("/upload")
-    public Result upload(@RequestParam("file") MultipartFile file, HttpSession httpSession) {
-        return adminService.upload(file, httpSession);
+    public Result upload(@RequestParam("uploadfile") MultipartFile file, @ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
+        return adminService.upload(file,adminParameter, httpSession);
     }
 }

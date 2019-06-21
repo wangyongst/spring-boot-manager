@@ -12,17 +12,35 @@ public class Ask {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer projectid;
-    private Integer materialid;
-    private Integer createuserid;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "projectid", referencedColumnName = "id")
+    private Project project;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "materialid", referencedColumnName = "id")
+    private Material material;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "createuserid", referencedColumnName = "id")
+    private User user;
+
+    @Basic
+    @Column(name = "applynum", nullable = true)
     private Integer applynum;
+    @Basic
+    @Column(name = "sellnum", nullable = true)
     private Integer sellnum;
+    @Basic
+    @Column(name = "price", nullable = true, precision = 2)
     private BigDecimal price;
+    @Basic
+    @Column(name = "total", nullable = true, precision = 0)
     private Integer total;
+    @Basic
+    @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
 
-    @Id
-    @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -31,38 +49,30 @@ public class Ask {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "projectid", nullable = true)
-    public Integer getProjectid() {
-        return projectid;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjectid(Integer projectid) {
-        this.projectid = projectid;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
-    @Basic
-    @Column(name = "materialid", nullable = true)
-    public Integer getMaterialid() {
-        return materialid;
+    public Material getMaterial() {
+        return material;
     }
 
-    public void setMaterialid(Integer materialid) {
-        this.materialid = materialid;
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 
-    @Basic
-    @Column(name = "createuserid", nullable = true)
-    public Integer getCreateuserid() {
-        return createuserid;
+    public User getUser() {
+        return user;
     }
 
-    public void setCreateuserid(Integer createuserid) {
-        this.createuserid = createuserid;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    @Basic
-    @Column(name = "applynum", nullable = true)
     public Integer getApplynum() {
         return applynum;
     }
@@ -71,8 +81,6 @@ public class Ask {
         this.applynum = applynum;
     }
 
-    @Basic
-    @Column(name = "sellnum", nullable = true)
     public Integer getSellnum() {
         return sellnum;
     }
@@ -81,8 +89,6 @@ public class Ask {
         this.sellnum = sellnum;
     }
 
-    @Basic
-    @Column(name = "price", nullable = true, precision = 2)
     public BigDecimal getPrice() {
         return price;
     }
@@ -91,8 +97,6 @@ public class Ask {
         this.price = price;
     }
 
-    @Basic
-    @Column(name = "total", nullable = true, precision = 0)
     public Integer getTotal() {
         return total;
     }
@@ -101,8 +105,6 @@ public class Ask {
         this.total = total;
     }
 
-    @Basic
-    @Column(name = "createtime", nullable = true, length = 255)
     public String getCreatetime() {
         return createtime;
     }
@@ -110,5 +112,4 @@ public class Ask {
     public void setCreatetime(String createtime) {
         this.createtime = createtime;
     }
-
 }

@@ -49,6 +49,29 @@ $(function () {
         });
 
 
+    $("#uploadfile").change(function () {
+        var formData = new FormData();
+        formData.append('uploadfile', $('#uploadfile')[0].files[0]);
+        formData.append("resourceid", $('#uploadresouceid').val())
+        $.ajax({
+            url: 'admin/upload',
+            type: 'POST',
+            cache: false,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                if (result.status == 1) {
+                    $('#resource-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                } else {
+                    $('#alertmessage').text(result.message);
+                    $('#alertModal').modal('toggle');
+                }
+            }
+        });
+    });
+
+
     $("#materialcodeselect").change(function () {
         $.get("admin/material/list?type=2&code=" + $('#materialcodeselect').val(),
             function (result) {
@@ -328,7 +351,8 @@ function cancelmaterial() {
 }
 
 function uploadfile(value) {
-    alert(value);
+    $('#uploadresouceid').val(value);
+    $("#uploadfile").click();
 }
 
 

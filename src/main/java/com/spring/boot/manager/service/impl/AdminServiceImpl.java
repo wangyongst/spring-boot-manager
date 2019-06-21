@@ -1,5 +1,6 @@
 package com.spring.boot.manager.service.impl;
 
+import com.spring.boot.manager.entity.Resource;
 import com.spring.boot.manager.entity.Role;
 import com.spring.boot.manager.entity.User;
 import com.spring.boot.manager.model.AdminParameter;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -34,7 +36,7 @@ public class AdminServiceImpl implements AdminService {
 
     private static final Logger logger = LogManager.getLogger(AdminServiceImpl.class);
 
-    @Value("custom.upload.path")
+    @Value("${custom.upload.path}")
     private String uploadPath;
 
     @Autowired
@@ -51,6 +53,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private ResourceRepository resourceRepository;
 
 
     @Override
@@ -202,11 +207,22 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Result upload(MultipartFile file, HttpSession httpSession) {
-        String fileName = uploadPath + UUID.randomUUID() + file.getOriginalFilename();
-        File dest = new File(fileName);
+    public Result upload(MultipartFile file, AdminParameter adminParameter, HttpSession httpSession) {
+        String fileName = null;
+        String origFileName = file.getOriginalFilename();
+        if (origFileName.length() > 10)
+            fileName = origFileName.substring(origFileName.length() - 10, origFileName.length());
+        else {
+            String uuid = UUID.randomUUID().toString();
+            fileName = uuid.substring(0, origFileName.length()) + origFileName;
+        }
+        String path = uploadPath + fileName;
+        File dest = new File(path);
         try {
             file.transferTo(dest);
+            Resource resource = resourceRepository.findById(adminParameter.getResourceid()).get();
+            resource.setFile(fileName);
+            resourceRepository.save(resource);
         } catch (IOException e) {
             e.printStackTrace();
             return ResultUtil.errorWithMessage("文件上传失败！");

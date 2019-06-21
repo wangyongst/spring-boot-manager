@@ -212,7 +212,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             return ResultUtil.okWithData(materialRepository.findByCode(adminParameter.getCode()));
         } else if (adminParameter.getType() == 3) {
             return ResultUtil.okWithData(materialRepository.findDistinctName());
-        } else return ResultUtil.okWithData(materialRepository.findAll());
+        } else {
+            return ResultUtil.okWithData(materialRepository.findAll());
+        }
     }
 
     @Override
