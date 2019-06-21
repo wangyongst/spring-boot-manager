@@ -1,9 +1,6 @@
 package com.spring.boot.manager.service.impl;
 
-import com.spring.boot.manager.entity.Ask;
-import com.spring.boot.manager.entity.Material;
-import com.spring.boot.manager.entity.Request;
-import com.spring.boot.manager.entity.User;
+import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminThreeService;
@@ -14,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -21,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @Service
@@ -58,7 +57,24 @@ public class AdminThreeServiceImpl implements AdminThreeService {
 
     @Override
     public Result requestList(AdminParameter adminParameter, HttpSession httpSession) {
-        return ResultUtil.okWithData(requestRepository.findAll());
+        Request request = new Request();
+        Project project = new Project();
+        Material material = new Material();
+        Resource resource = new Resource();
+        if(StringUtils.isNotBlank(adminParameter.getName())){
+            project.setName(adminParameter.getName());
+        }
+        if(StringUtils.isNotBlank(adminParameter.getName2())){
+            material.setName(adminParameter.getName2());
+        }
+        if(StringUtils.isNotBlank(adminParameter.getCustomer())){
+            project.setCustomer(adminParameter.getCustomer());
+        }
+        resource.setMaterial(material);
+        resource.setProject(project);
+        request.setResource(resource);
+        Example<Request> example = Example.of(request);
+        return ResultUtil.okWithData(requestRepository.findAll(example));
     }
 
     @Override

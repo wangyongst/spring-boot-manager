@@ -113,9 +113,9 @@ $(function () {
     });
 
 
-    $("#searchuserButton").click(function () {
+    $("#searchrequestButton").click(function () {
         $('#request-list-table').bootstrapTable("destroy");
-        $('#request-list-table').bootstrapTable({url: "/admin/request/list?" + $('#searchuserForm').serialize()}).bootstrapTable('hideLoading');
+        $('#request-list-table').bootstrapTable({url: "/admin/request/list?" + $('#searchrequestForm').serialize()}).bootstrapTable('hideLoading');
     });
 });
 
