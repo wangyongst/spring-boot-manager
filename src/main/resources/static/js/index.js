@@ -277,12 +277,12 @@ function newmaterial() {
     $("#matiral-list-table").bootstrapTable('append', data);
 }
 
-function updatematerial(value, index) {
-    $("#table tr:nth-child(" + (index + 1) + ") td.editable").each(function () {
-        var value = $(this).text();
-        $(this).html("<input value='" + value + "'>");
-    });
-}
+// function updatematerial(value, index) {
+//         $("#table tobady:nth-child(" + (index + 1) + ") td.editable").each(function () {
+//         var value = $(this).text();
+//         $(this).html("<input value='" + value + "'>");
+//     });
+// }
 
 function savematerial() {
     $.post("admin/material/sud",
