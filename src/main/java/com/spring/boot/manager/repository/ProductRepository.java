@@ -13,8 +13,7 @@ import java.util.List;
 @RepositoryDefinition(domainClass = Product.class, idClass = Integer.class)
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-    int deleteAllBySupplier(Supplier supplier);
-
     List<Product> findByMaterial(Material material);
 
+    List<Product> findBySupplier(Supplier supplier);
 }

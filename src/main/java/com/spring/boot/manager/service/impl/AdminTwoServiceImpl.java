@@ -89,7 +89,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else {
             project = projectRepository.findById(adminParameter.getProjectid()).get();
             if (adminParameter.getDelete() != 0) {
-                //projectRepository.delete(project);
+                deleteProject(project);
                 return ResultUtil.ok();
             }
         }
@@ -118,7 +118,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         resource.setProject(project);
         Example<Resource> example = Example.of(resource);
         Sort sort = new Sort(Sort.Direction.DESC, "createtime");
-        return ResultUtil.okWithData(resourceRepository.findAll(example,sort));
+        return ResultUtil.okWithData(resourceRepository.findAll(example, sort));
     }
 
     @Override
@@ -137,7 +137,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else {
             resource = resourceRepository.findById(adminParameter.getResourceid()).get();
             if (adminParameter.getDelete() != 0) {
-                //resourceRepository.delete(resource);
+                deleteResource(resource);
                 return ResultUtil.ok();
             }
         }
@@ -177,7 +177,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else {
             supplier = supplierRepository.findById(adminParameter.getSupplierid()).get();
             if (adminParameter.getDelete() != 0) {
-                //supplierRepository.delete(supplier);
+                deleteSupplier(supplier);
                 return ResultUtil.ok();
             }
         }
@@ -201,7 +201,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         supplier.setShoukuan(adminParameter.getShoukuan());
         supplier.setKaihu(adminParameter.getKaihu());
         final Supplier savedSupplier = supplierRepository.save(supplier);
-        productRepository.deleteAllBySupplier(savedSupplier);
+        productRepository.findBySupplier(savedSupplier).forEach(e -> {
+            deleteProduct(e);
+        });
         adminParameter.getProducts().forEach(e -> {
             if (e != null && e != 0) {
                 Product product = new Product();
@@ -234,7 +236,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else {
             material = materialRepository.findById(adminParameter.getMaterialid()).get();
             if (adminParameter.getDelete() != 0) {
-                materialRepository.delete(material);
+                deleteMaterial(material);
                 return ResultUtil.ok();
             }
         }
@@ -244,6 +246,40 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         material.setName(adminParameter.getName());
         materialRepository.save(material);
         return ResultUtil.ok();
+    }
+
+    public void deleteProject(Project project) {
+        resourceRepository.findByProject(project).forEach(e -> {
+            deleteResource(e);
+        });
+        projectRepository.delete(project);
+    }
+
+
+    public void deleteResource(Resource resource) {
+        resourceRepository.delete(resource);
+        ///
+    }
+
+    public void deleteSupplier(Supplier supplier) {
+        productRepository.findBySupplier(supplier).forEach(e -> {
+            productRepository.delete(e);
+        });
+        supplierRepository.delete(supplier);
+    }
+
+    public void deleteMaterial(Material material) {
+        productRepository.findByMaterial(material).forEach(e -> {
+            deleteProduct(e);
+        });
+        resourceRepository.findByMaterial(material).forEach(e -> {
+            deleteResource(e);
+        });
+        materialRepository.delete(material);
+    }
+
+    public void deleteProduct(Product product) {
+        productRepository.delete(product);
     }
 
 }
