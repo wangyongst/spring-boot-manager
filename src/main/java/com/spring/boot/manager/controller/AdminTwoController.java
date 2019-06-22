@@ -9,6 +9,7 @@ import com.spring.boot.manager.service.AdminTwoService;
 import com.spring.boot.manager.utils.excel.PoiExcelExport;
 import com.spring.boot.manager.utils.excel.ServletUtil;
 import com.spring.boot.manager.utils.result.Result;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -131,9 +132,12 @@ public class AdminTwoController {
             parameter.setContacts(e.getContacts());
             parameter.setMobile(e.getMobile());
             e.getProducts().forEach(k -> {
-                adminParameter.setProductsname(adminParameter.getProductsname() + "、" + k.getMaterial().getName());
+                if(StringUtils.isBlank(parameter.getName2())){
+                    parameter.setName2(k.getMaterial().getName());
+                }else {
+                    parameter.setName2(parameter.getName2() + "、" + k.getMaterial().getName());
+                }
             });
-            adminParameter.setProductsname(adminParameter.getProductsname().substring(1));
             parameter.setFapiao(e.getFapiao());
             parameter.setZhanghu(e.getZhanghu());
             parameter.setShoukuan(e.getShoukuan());
@@ -145,7 +149,7 @@ public class AdminTwoController {
         ServletUtil su = new ServletUtil(fileName, req, resp);
         su.poiExcelServlet();
         String[] heads = {"序号", "供应商名称", "联系人", "联系电话", "产品类型", "开票抬头", "账户银行", "收款账户", "开户行"};
-        String[] cols = {"supplierid", "name", "contacts", "mobile", "productsname", "fapiao", "zhanghu", "shoukuan", "kaihu"};
+        String[] cols = {"supplierid", "name", "contacts", "mobile", "name2", "fapiao", "zhanghu", "shoukuan", "kaihu"};
         //这里传第几个字段是数字，从0开始
         int[] numerics = {0};
         ServletUtil suresp = new ServletUtil(resp);

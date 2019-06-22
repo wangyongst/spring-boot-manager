@@ -60,7 +60,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else if (adminParameter.getType() == 3) {
             return ResultUtil.okWithData(projectRepository.findDistinctName());
         } else {
-            Sort sort = new Sort(Sort.Direction.DESC, "createtime");
             Project project = new Project();
             if (StringUtils.isNotBlank(adminParameter.getName())) project.setName(adminParameter.getName());
             if (StringUtils.isNotBlank(adminParameter.getCustomer())) project.setCustomer(adminParameter.getCustomer());
@@ -68,6 +67,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     .withMatcher("name", match -> match.contains())
                     .withMatcher("customer", match -> match.contains());
             Example<Project> example = Example.of(project, matcher);
+            Sort sort = new Sort(Sort.Direction.DESC, "createtime");
             return ResultUtil.okWithData(projectRepository.findAll(example, sort));
         }
     }
@@ -117,7 +117,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         resource.setMaterial(material);
         resource.setProject(project);
         Example<Resource> example = Example.of(resource);
-        return ResultUtil.okWithData(resourceRepository.findAll(example));
+        Sort sort = new Sort(Sort.Direction.DESC, "createtime");
+        return ResultUtil.okWithData(resourceRepository.findAll(example,sort));
     }
 
     @Override

@@ -38,15 +38,6 @@ public class AdminParameter {
     private String price;
     private String ids;
     private String createusername;
-    private String productsname;
-
-    public String getProductsname() {
-        return productsname;
-    }
-
-    public void setProductsname(String productsname) {
-        this.productsname = productsname;
-    }
 
     public String getCreateusername() {
         return createusername;
