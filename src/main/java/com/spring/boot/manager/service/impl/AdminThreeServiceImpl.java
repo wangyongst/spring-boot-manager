@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -77,7 +78,8 @@ public class AdminThreeServiceImpl implements AdminThreeService {
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
-        return ResultUtil.okWithData(requestRepository.findAll(specification));
+        Sort sort = new Sort(Sort.Direction.DESC, "createtime");
+        return ResultUtil.okWithData(requestRepository.findAll(specification,sort));
     }
 
     @Override

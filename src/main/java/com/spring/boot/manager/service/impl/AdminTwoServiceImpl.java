@@ -258,7 +258,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     public void deleteResource(Resource resource) {
         resourceRepository.delete(resource);
-        ///
     }
 
     public void deleteSupplier(Supplier supplier) {
