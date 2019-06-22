@@ -49,4 +49,10 @@ dependencies {
     compile 'org.hibernate:hibernate-entitymanager'
     compile 'io.springfox:springfox-swagger2:2.9.0'
     compile 'io.springfox:springfox-swagger-ui:2.9.0'
+
+    // https://mvnrepository.com/artifact/org.apache.poi/poi
+    compile group: 'org.apache.poi', name: 'poi', version: '3.15'
+    // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
+    compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.15'
+
 }

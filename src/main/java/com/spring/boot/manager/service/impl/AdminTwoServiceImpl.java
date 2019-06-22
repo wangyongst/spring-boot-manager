@@ -72,6 +72,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         }
     }
 
+
     @Override
     public Result project(AdminParameter adminParameter, HttpSession httpSession) {
         return ResultUtil.okWithData(projectRepository.findById(adminParameter.getProjectid()).get());
@@ -156,7 +157,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Override
     public Result supplierList(AdminParameter adminParameter, HttpSession httpSession) {
         if (StringUtils.isNotBlank(adminParameter.getName())) {
-            return ResultUtil.okWithData(supplierRepository.findByNameContains( adminParameter.getName()));
+            return ResultUtil.okWithData(supplierRepository.findByNameContains(adminParameter.getName()));
         } else {
             return ResultUtil.okWithData(supplierRepository.findAll());
         }
@@ -181,7 +182,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         }
         if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("供应商名称未填写，无法提交");
         List<Supplier> supplierList = supplierRepository.findByName(adminParameter.getName());
-        if(supplierList.size() > 0 && supplier.getId() != supplierList.get(0).getId()) return ResultUtil.errorWithMessage("供应商名称重复，无法提交");
+        if (supplierList.size() > 0 && supplier.getId() != supplierList.get(0).getId())
+            return ResultUtil.errorWithMessage("供应商名称重复，无法提交");
         if (StringUtils.isBlank(adminParameter.getContacts())) return ResultUtil.errorWithMessage("联系人未填写，无法提交");
         if (StringUtils.isBlank(adminParameter.getMobile())) return ResultUtil.errorWithMessage("联系电话未填写，无法提交");
         if (StringUtils.isBlank(adminParameter.getFapiao())) return ResultUtil.errorWithMessage("开票抬头未填写，无法提交");
@@ -235,8 +237,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 return ResultUtil.ok();
             }
         }
-        if (StringUtils.isBlank(adminParameter.getCode())) return ResultUtil.errorWithMessage("耗材编号不能为空！");
-        if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("耗材名称不能为空！");
+        if (StringUtils.isBlank(adminParameter.getCode())) return ResultUtil.errorWithMessage("耗材编号未填写，无法提交");
+        if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("耗材名称未填写，无法提交");
         material.setCode(adminParameter.getCode());
         material.setName(adminParameter.getName());
         materialRepository.save(material);

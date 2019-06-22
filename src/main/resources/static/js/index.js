@@ -46,14 +46,32 @@ $(function () {
         $('#project-list-table').bootstrapTable({url: "/admin/project/list?" + $('#searchprojectForm').serialize()}).bootstrapTable('hideLoading');
     });
 
+    $("#exportprojectButton").click(function () {
+        var formData = $('#searchprojectForm');
+        formData.attr("action","admin/project/export").attr("method", "get");
+        formData.submit();
+    });
+
     $("#searchresourceButton").click(function () {
         $('#resource-list-table').bootstrapTable("destroy");
         $('#resource-list-table').bootstrapTable({url: "/admin/resource/list?" + $('#searchresourceForm').serialize()}).bootstrapTable('hideLoading');
     });
 
+    $("#exporresourceButton").click(function () {
+        var formData = $('#searchresourceForm');
+        formData.attr("action","admin/resource/export").attr("method", "get");
+        formData.submit();
+    });
+
     $("#searchsupplierButton").click(function () {
         $('#supplier-list-table').bootstrapTable("destroy");
         $('#supplier-list-table').bootstrapTable({url: "/admin/supplier/list?" + $('#searchsupplierForm').serialize()}).bootstrapTable('hideLoading');
+    });
+
+    $("#exportsupplierButton").click(function () {
+        var formData = $('#searchsupplierForm');
+        formData.attr("action","admin/supplier/export").attr("method", "get");
+        formData.submit();
     });
 
     $("#materialButton").click(function () {
@@ -338,7 +356,7 @@ function fileformatter(value, row, index, field) {
 function productsformatter(value, row, index) {
     var products = "";
     for (var i of value) {
-        products += "," + i.material.name;
+        products += "、" + i.material.name;
     }
     if (products.length > 1) products = products.substr(1);
     return products;
