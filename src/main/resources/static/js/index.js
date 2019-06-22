@@ -1,11 +1,5 @@
 $(function () {
-    $('#project-list-table').bootstrapTable('hideLoading');
-    $('#resource-list-table').bootstrapTable('hideLoading');
-    $('#supplier-list-table').bootstrapTable('hideLoading');
-    $('#matiral-list-table').bootstrapTable('hideLoading');
-
-
-    initSelelct();
+    initPage();
 
     $("#uploadfile").change(function () {
         var formData = new FormData();
@@ -20,7 +14,7 @@ $(function () {
             contentType: false,
             success: function (result) {
                 if (result.status == 1) {
-                    $('#resource-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                    initPage()
                 } else {
                     $('#alertmessage').text(result.message);
                     $('#alertModal').modal('toggle');
@@ -48,7 +42,7 @@ $(function () {
 
     $("#exportprojectButton").click(function () {
         var formData = $('#searchprojectForm');
-        formData.attr("action","admin/project/export").attr("method", "get");
+        formData.attr("action", "admin/project/export").attr("method", "get");
         formData.submit();
     });
 
@@ -59,7 +53,7 @@ $(function () {
 
     $("#exporresourceButton").click(function () {
         var formData = $('#searchresourceForm');
-        formData.attr("action","admin/resource/export").attr("method", "get");
+        formData.attr("action", "admin/resource/export").attr("method", "get");
         formData.submit();
     });
 
@@ -70,7 +64,7 @@ $(function () {
 
     $("#exportsupplierButton").click(function () {
         var formData = $('#searchsupplierForm');
-        formData.attr("action","admin/supplier/export").attr("method", "get");
+        formData.attr("action", "admin/supplier/export").attr("method", "get");
         formData.submit();
     });
 
@@ -91,8 +85,11 @@ $(function () {
     });
 
     $("#suppliernewButton").click(function () {
-        $('#productselect_chosen li.search-choice').remove();
         clearForm($('#supplierForm'));
+        $('#productselect option').each(function () {
+            this.selected = false;
+        })
+        $("#productselect").trigger("chosen:updated");
         $('#supplieridhidden').val(0);
         $('#supplierModal').modal('toggle');
     });
@@ -101,8 +98,7 @@ $(function () {
         $.post("admin/project/sud", $('#projectForm').serialize(),
             function (result) {
                 if (result.status == 1) {
-                    initSelelct()
-                    $('#project-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                    initPage()
                     $('#projectModal').modal('toggle');
                 } else {
                     $('#alertmessage').text(result.message);
@@ -115,8 +111,7 @@ $(function () {
         $.post("admin/resource/sud", $('#resourceForm').serialize(),
             function (result) {
                 if (result.status == 1) {
-                    initSelelct()
-                    $('#resource-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                    initPage()
                     $('#resourceModal').modal('toggle');
                 } else {
                     $('#alertmessage').text(result.message);
@@ -129,8 +124,7 @@ $(function () {
         $.post("admin/supplier/sud", $('#supplierForm').serialize(),
             function (result) {
                 if (result.status == 1) {
-                    initSelelct()
-                    $('#supplier-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                    initPage()
                     $('#supplierModal').modal('toggle');
                 } else {
                     $('#alertmessage').text(result.message);
@@ -147,45 +141,37 @@ $(function () {
             $.post("admin/project/sud",
                 {
                     projectid: deleteid,
-                    delete: 1,
-                },
-                function (result) {
-                    initSelelct()
+                    delete: 1
+                }, function (result) {
+                    initPage()
                     $('#deletealertModal').modal('toggle');
-                    $('#project-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
                 });
         } else if (deletetype == 2) {
             $.post("admin/resource/sud",
                 {
                     resourceid: deleteid,
-                    delete: 1,
-                },
-                function (result) {
-                    initSelelct()
+                    delete: 1
+                }, function (result) {
+                    initPage()
                     $('#deletealertModal').modal('toggle');
-                    $('#resource-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
                 });
         } else if (deletetype == 3) {
             $.post("admin/supplier/sud",
                 {
                     supplierid: deleteid,
-                    delete: 1,
-                },
-                function (result) {
-                    initSelelct()
+                    delete: 1
+                }, function (result) {
+                    initPage()
                     $('#deletealertModal').modal('toggle');
-                    $('#supplier-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
                 });
         } else if (deletetype == 4) {
             $.post("admin/material/sud",
                 {
                     materialid: deleteid,
-                    delete: 1,
-                },
-                function (result) {
-                    initSelelct()
+                    delete: 1
+                }, function (result) {
+                    initPage()
                     $('#deletealertModal').modal('toggle');
-                    $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
                 });
         }
     })
@@ -249,8 +235,8 @@ function delresource(value) {
 
 
 function updatesupplier(value) {
-    $('#productselect_chosen li.search-choice').remove();
     clearForm($('#supplierForm'));
+    $("#productselect").trigger("chosen:updated");
     $.get("admin/supplier?supplierid=" + value,
         function (result) {
             if (result.status == 1) {
@@ -258,10 +244,12 @@ function updatesupplier(value) {
                 $("#supplierForm [name='name']").val(result.data.name);
                 $("#supplierForm [name='contacts']").val(result.data.contacts)
                 $("#supplierForm [name='mobile']").val(result.data.mobile)
-                result.data.products.forEach(e => {
-                    $('#productselect option').each(function () {
-                        debugger;
-                        if (this.value == e.material.id) this.selected = true;
+                $('#productselect option').each(function () {
+                    this.selected = false;
+                    result.data.products.forEach(e => {
+                        if (this.value == e.material.id) {
+                            this.selected = true;
+                        }
                     });
                 })
                 $("#productselect").trigger("chosen:updated");
@@ -304,8 +292,7 @@ function savematerial() {
         },
         function (result) {
             if (result.status == 1) {
-                initSelelct()
-                $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
+                initPage()
             } else {
                 $('#alertmessage').text(result.message);
                 $('#alertModal').modal('toggle');
@@ -322,11 +309,7 @@ function delmaterial(value) {
 }
 
 function cancelmaterial() {
-    $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
-}
-
-function cancelmaterial() {
-    $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
+    initPage()
 }
 
 function uploadfile(value) {
@@ -374,7 +357,12 @@ function supplierformatter(value, row, index) {
     return "<button type=\"button\" class=\"btn btn-link\" onclick= \"updatesupplier(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delsupplier(" + value + ")\"> 删除</button>";
 }
 
-function initSelelct() {
+function initPage() {
+    $('#project-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+    $("#matiral-list-table").bootstrapTable('refresh').bootstrapTable('hideLoading');
+    $('#supplier-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+    $('#resource-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+
     $.get("admin/project/list?type=3",
         function (result) {
             $('#projectnameselect').html("");
@@ -413,6 +401,7 @@ function initSelelct() {
 
     $.get("admin/material/list",
         function (result) {
+            $('#productselect').html("");
             $.each(result, function (key, val) {
                 $('#productselect').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
             });
