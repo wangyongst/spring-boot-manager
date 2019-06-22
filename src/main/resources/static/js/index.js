@@ -277,12 +277,21 @@ function newmaterial() {
     $("#matiral-list-table").bootstrapTable('append', data);
 }
 
-// function updatematerial(value, index) {
-//         $("#table tobady:nth-child(" + (index + 1) + ") td.editable").each(function () {
-//         var value = $(this).text();
-//         $(this).html("<input value='" + value + "'>");
-//     });
-// }
+date
+
+function updatematerial(value, index) {
+    $("#matiral-list-table tbody tr").each(function (i) {
+        if (i == index) {
+            $(this).find("td").each(function (k) {
+                if (k < 2) {
+                    $(this).html("<input class=\"form-control\" value='" + $(this).text() + "'>");
+                } else {
+                    $(this).html("<button type=\"button\" class=\"btn btn-link\" onclick= \"updatesavematerial(" + value + ")\"> 保存</button><button type=\"button\" class=\"btn btn-link\" onclick= \"cancelmaterial()\"> 取消</button>");
+                }
+            })
+        }
+    });
+}
 
 function savematerial() {
     $.post("admin/material/sud",
