@@ -12,5 +12,8 @@ import java.util.List;
 @RepositoryDefinition(domainClass = Supplier.class, idClass = Integer.class)
 public interface SupplierRepository extends JpaRepository<Supplier, Integer> {
 
-    List<Supplier> findByNameLike(String name);
+    List<Supplier> findByNameContains(String name);
+
+
+    List<Supplier> findByName(String name);
 }
