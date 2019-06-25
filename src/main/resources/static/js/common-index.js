@@ -1,5 +1,5 @@
 $(function () {
-    $.get("admin/me",
+    $.get("/admin/me",
         function (result) {
             if (result.status == 1) {
                 $("#usernameButton").text(result.data.name);
@@ -8,16 +8,12 @@ $(function () {
 });
 
 function logout() {
-    $.post("admin/logout",
-        function (result) {
-            if (result.status == 1) {
-                window.location.href = "page-login.html";
-            }
-        });
+    $.post("/shiro/logout");
+    window.location.href = "/page-login";
 };
 
 function changepassword() {
-    window.location.href = "page-changepassword.html";
+    window.location.href = "/view/page-changepassword";
 };
 
 
@@ -56,6 +52,6 @@ function select() {
             ids += "," + val;
         }
     });
-    if(ids.length > 1) ids =ids.substr(1);
+    if (ids.length > 1) ids = ids.substr(1);
     return ids;
 }

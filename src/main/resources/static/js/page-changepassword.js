@@ -2,7 +2,7 @@ $(function () {
     $("#alert").hide();
 
     $("#loginButton").click(function () {
-        $.post("admin/changepassword",
+        $.post("/admin/changepassword",
             {
                 password: $("#password").val(),
                 newpassword: $("#newpassword").val(),
@@ -10,7 +10,7 @@ $(function () {
             },
             function (result) {
                 if (result.status == 1) {
-                    window.location.href = "index.html";
+                    window.location.href = "/";
                 } else {
                     $("#alert").text(result.message);
                     $("#alert").show();

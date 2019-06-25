@@ -1,5 +1,5 @@
 $(function () {
-    $.get("admin/role/list",
+    $.get("/admin/role/list",
         function (result) {
                 $.each(result, function (key, val) {
                     $('#roles').append("<label class=\"form-check-label \">\n" +
@@ -9,10 +9,10 @@ $(function () {
         });
 
     $("#createuserButton").click(function () {
-        $.post("admin/user/sud", $('#usernewForm').serialize(),
+        $.post("/admin/user/sud", $('#usernewForm').serialize(),
             function (result) {
                 if (result.status == 1) {
-                    window.location.href = "user-list.html";
+                    window.location.href = "/view/user-list";
                 } else {
                     $('#alertmessage').text(result.message);
                     $('#alertModal').modal('toggle');

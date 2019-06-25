@@ -22,10 +22,12 @@ public class User {
     @Basic
     @Column(name = "mobile", nullable = true, length = 255)
     private String mobile;
+
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "roleid", referencedColumnName = "id")
     private Role role;
     @Basic
+
     @Column(name = "ischange", nullable = true)
     private Integer ischange;
     @Basic

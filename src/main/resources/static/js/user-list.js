@@ -3,16 +3,16 @@ $(function () {
     $('#user-list-table').bootstrapTable('hideLoading');
 
     $("#createuserButton").click(function () {
-        window.location.href = "user-new.html";
+        window.location.href = "/view/user-new";
     });
 
     $("#rolelistButton").click(function () {
-        window.location.href = "role-list.html";
+        window.location.href = "/view/role-list";
     });
 
     $("#deleteConfirmButton").click(function () {
         var deleteid = $('#deletevalue').val();
-        $.post("admin/user/sud",
+        $.post("/admin/user/sud",
             {
                 userid: deleteid,
                 delete: 1,
@@ -30,7 +30,7 @@ $(function () {
 });
 
 function update(value) {
-    window.location.href = "user-update.html?" + value;
+    window.location.href = "/view/user-update?userid=" + value;
 };
 
 function del(value) {

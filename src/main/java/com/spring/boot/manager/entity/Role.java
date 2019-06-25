@@ -1,7 +1,10 @@
 package com.spring.boot.manager.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Role {
@@ -24,8 +27,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "role", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    private List<Role2Priv> role2Privs;
+    private Set<Role2Permission> role2Permissions;
 
     public String getName() {
         return name;
@@ -59,11 +63,11 @@ public class Role {
         this.id = id;
     }
 
-    public List<Role2Priv> getRole2Privs() {
-        return role2Privs;
+    public Set<Role2Permission> getRole2Permissions() {
+        return role2Permissions;
     }
 
-    public void setRole2Privs(List<Role2Priv> role2Privs) {
-        this.role2Privs = role2Privs;
+    public void setRole2Permissions(Set<Role2Permission> role2Permissions) {
+        this.role2Permissions = role2Permissions;
     }
 }

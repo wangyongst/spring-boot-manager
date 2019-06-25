@@ -24,8 +24,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
-    <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
@@ -39,11 +39,11 @@
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="index.html"><i class="menu-icon fa fa-laptop"></i>首页</a>
+                    <a href="/"><i class="menu-icon fa fa-laptop"></i>首页</a>
                 </li>
                 <li class="menu-title">采购管理</li><!-- /.menu-title -->
                 <li>
-                    <a href="request-list.html"> <i class="menu-icon ti-files"></i>采购申请单 </a>
+                    <a href="/view/request-list"> <i class="menu-icon ti-files"></i>采购申请单 </a>
                 </li>
                 <li>
                     <a href="widgets.html"> <i class="menu-icon ti-file"></i>询价单</a>
@@ -56,7 +56,7 @@
                     <a href="widgets.html"> <i class="menu-icon ti-printer"></i>对账单</a>
                 </li>
                 <li class="active">
-                    <a href="user-list.html"> <i class="menu-icon ti-user"></i>权限管理</a>
+                    <a href="/view/user-list"> <i class="menu-icon ti-user"></i>权限管理</a>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
@@ -72,7 +72,7 @@
     <header id="header" class="header">
         <div class="top-left">
             <div class="navbar-header">
-                <a class="navbar-brand" href="./"><img src="images/logo.png" alt="Logo"></a>
+                <a class="navbar-brand" href="./"><img src="/images/logo.png" alt="Logo"></a>
             </div>
         </div>
         <div class="top-right">
@@ -100,7 +100,7 @@
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>权限管理<span class="ti-angle-right"/>修改用户</h1>
+                            <h1>权限管理<span class="ti-angle-right"/>新增角色</h1>
                         </div>
                     </div>
                 </div>
@@ -126,6 +126,7 @@
                                     </div>
                                     <div class="modal-body" id="alertmessage">
                                         <p>
+
                                         </p>
                                         <input hidden id="deletevalue">
                                     </div>
@@ -139,25 +140,87 @@
 
                         <div class="card-header">
                             <strong class="card-title">
-                                用户信息
+                                角信息
                             </strong>
                         </div>
                         <div class="card-body card-block">
-                            <form id="usernewForm">
-                                <div class="form-group"><label class=" form-control-label">登录姓名</label><input type="text" id="name" name="name" placeholder="最多10个字" class="form-control"></div>
-                                <div class="form-group"><label class=" form-control-label">电话</label><input type="text" id="mobile" name="mobile" placeholder="只能是数字" class="form-control"></div>
-                                <div class="form-group"><label class=" form-control-label">登录密码</label><input type="text" id="password" name="password" placeholder="只能是数字和英文" class="form-control"></div>
-                                <div class="form-group"><label class=" form-control-label">配置角色</label>
-                                    <div class="row form-group">
-                                        <div class="col col-md-12">
-                                            <div class="form-check-inline form-check" id="roles">
+                            <form id="rolenewForm">
+                                <div class="form-group"><label class=" form-control-label">角色名称</label>
+                                    <div class="col-12 col-md-9"><input type="text" name="name" placeholder="最多10个字" class="form-control"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class=" form-control-label">配置权限</label>
+                                    <div class="col-12 col-md-9">
+                                        <div class="form-check">
+                                            <div class="checkbox">
+                                                <label for="checkbox1" class="form-check-label ">
+                                                    <input type="checkbox" id="checkbox1" name="checkbox1" value="option1" class="form-check-input">首页
+                                                </label>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <div class="col col-md-12">
+                                                    <div class="form-check-inline form-check">
+                                                        <div class="col">
+                                                            <label for="inline-checkbox1" class="form-check-label ">
+                                                                <input type="checkbox" id="inline-checkbox1" name="inline-checkbox1" value="option1" class="form-check-input">One
+                                                            </label>
+                                                        </div>
+                                                        <label for="inline-checkbox2" class="form-check-label ">
+                                                            <input type="checkbox" id="inline-checkbox2" name="inline-checkbox2" value="option2" class="form-check-input">Two
+                                                        </label>
+                                                        <label for="inline-checkbox3" class="form-check-label ">
+                                                            <input type="checkbox" id="inline-checkbox3" name="inline-checkbox3" value="option3" class="form-check-input">Three
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <label for="checkbox2" class="form-check-label ">
+                                                    <input type="checkbox" id="checkbox2" name="checkbox2" value="option2" class="form-check-input">采购管理
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label for="checkbox3" class="form-check-label ">
+                                                    <input type="checkbox" id="checkbox3" name="checkbox3" value="option3" class="form-check-input">财务管理
+                                                </label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label for="checkbox4" class="form-check-label ">
+                                                    <input type="checkbox" id="checkbox4" name="checkbox4" value="option4" class="form-check-input">权限中心
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="form-group"><label class=" form-control-label">项目数据权限</label>
+                                    <div class="col-12 col-md-9">
+                                        <select name="select" class="form-control">
+                                            <option value="0">Please select</option>
+                                            <option value="1">Option #1</option>
+                                            <option value="2">Option #2</option>
+                                            <option value="3">Option #3</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group"><label class=" form-control-label">供应商数据权限</label>
+                                    <div class="col-12 col-md-9">
+                                        <select name="select" class="form-control">
+                                            <option value="0">Please select</option>
+                                            <option value="1">Option #1</option>
+                                            <option value="2">Option #2</option>
+                                            <option value="3">Option #3</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <div class="offset-lg-4">
-                                        <button type="button" class="btn btn-success" id="saveButton">保存</button>
+                                        <button type="button" class="btn btn-success" id="createroleButton">保存</button>
                                     </div>
                                 </div>
                             </form>
@@ -184,8 +247,8 @@
 
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/locale/bootstrap-table-zh-CN.min.js"></script>
-<script src="js/common-index.js"></script>
-<script src="js/role-update.js"></script>
+<script src="/js/common-index.js"></script>
+<script src="/js/role-new.js"></script>
 
 </body>
 </html>
