@@ -100,7 +100,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Result userSud(AdminParameter adminParameter) {
         User user = null;
+        if (StringUtils.isBlank(adminParameter.getMobile())) return ResultUtil.errorWithMessage("电话不能为空！");
         if (adminParameter.getUserid() == 0) {
+            if (userRepository.findByMobile(adminParameter.getMobile()).size() > 0)
+                return ResultUtil.errorWithMessage("电话已经存在！");
             user = new User();
             user.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
             user.setIschange(0);
@@ -117,15 +120,12 @@ public class AdminServiceImpl implements AdminService {
         }
         if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("登录姓名不能为空！");
         if (adminParameter.getName().length() > 10) return ResultUtil.errorWithMessage("登录姓名不能超过10个字！");
-        if (StringUtils.isBlank(adminParameter.getMobile())) return ResultUtil.errorWithMessage("电话不能为空！");
         String regex = "^[0-9]+$";
         if (!adminParameter.getMobile().matches(regex)) return ResultUtil.errorWithMessage("电话只能是数字！");
         if (StringUtils.isBlank(adminParameter.getPassword())) return ResultUtil.errorWithMessage("密码不能为空！");
         regex = "^[a-z0-9A-Z]+$";
         if (!adminParameter.getPassword().matches(regex)) return ResultUtil.errorWithMessage("密码只支持数字和英文！");
         if (adminParameter.getRoleid() == 0) return ResultUtil.errorWithMessage("配置角色未选择！");
-        if (userRepository.findByMobile(adminParameter.getMobile()).size() > 0)
-            return ResultUtil.errorWithMessage("电话已经存在！");
         user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
         user.setName(adminParameter.getName());
         user.setPassword(new Md5Hash(adminParameter.getPassword()).toHex());

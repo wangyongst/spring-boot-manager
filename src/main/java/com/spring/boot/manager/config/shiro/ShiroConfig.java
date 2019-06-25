@@ -27,9 +27,11 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/shiro/login", "anon");
         filterChainDefinitionMap.put("/shiro/logout", "logout");
         filterChainDefinitionMap.put("/**.html", "authc");
+        filterChainDefinitionMap.put("/", "authc");
+        filterChainDefinitionMap.put("/view/**", "authc ");
         filterChainDefinitionMap.put("/admin/**", "authc ");
         shiroFilterFactoryBean.setUnauthorizedUrl("/shiro/403");
-        shiroFilterFactoryBean.setLoginUrl("/page-login.html");
+        shiroFilterFactoryBean.setLoginUrl("/page-login");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

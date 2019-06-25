@@ -58,14 +58,6 @@ public class ShiroController {
 
     @ApiOperation(value = "用户登出", notes = "请求头部添加Token参数，接口调用后token被销毁")
     @PostMapping(value = "/logout")
-    public Result logou() {
-        SecurityUtils.getSubject().logout();
-        return ResultUtil.unAuth();
-    }
-
-    @ApiIgnore
-    @RequestMapping(value = "/unauth")
-    public Result unauth() {
-        return ResultUtil.unAuth();
+    public void logout() {
     }
 }

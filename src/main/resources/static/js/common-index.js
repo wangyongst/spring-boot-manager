@@ -1,5 +1,5 @@
 $(function () {
-    $.get("admin/me",
+    $.get("/admin/me",
         function (result) {
             if (result.status == 1) {
                 $("#usernameButton").text(result.data.name);
@@ -8,16 +8,12 @@ $(function () {
 });
 
 function logout() {
-    $.post("shiro/logout",
-        function (result) {
-            if (result.status == 3) {
-                window.location.href = "page-login.html";
-            }
-        });
+    $.post("/shiro/logout");
+    window.location.href = "/page-login";
 };
 
 function changepassword() {
-    window.location.href = "page-changepassword.html";
+    window.location.href = "/view/page-changepassword";
 };
 
 

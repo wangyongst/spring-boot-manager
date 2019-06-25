@@ -3,13 +3,13 @@ $(function () {
     $('#role-list-table').bootstrapTable('hideLoading');
 
     $("#createroleButton").click(function () {
-        window.location.href = "role-new.html";
+        window.location.href = "/view/role-new";
     });
 
 
     $("#deleteConfirmButton").click(function () {
         $('#deletealertModal').modal('toggle');
-        $.post("admin/role/sud",
+        $.post("/admin/role/sud",
             {
                 roleid: $('#deletevalue').val(),
                 delete: 1,
@@ -22,7 +22,7 @@ $(function () {
 });
 
 function update(value) {
-    window.location.href = "role-update.html?" + value;
+    window.location.href = "/view/role-update?" + value;
 };
 
 function del(value) {
