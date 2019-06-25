@@ -3,7 +3,6 @@ package com.spring.boot.manager.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,7 +27,7 @@ public class Role {
     private Integer id;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "role", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private Set<Role2Permission> role2Permissions;
 
     public String getName() {

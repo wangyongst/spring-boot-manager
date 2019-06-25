@@ -38,6 +38,3 @@ function del(value) {
     $('#deletealertModal').modal('toggle');
 };
 
-function userformatter(value, row, index) {
-    return "<button type=\"button\" class=\"btn btn-link\" onclick= \"update(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"del(" + value + ")\"> 删除</button>";
-}

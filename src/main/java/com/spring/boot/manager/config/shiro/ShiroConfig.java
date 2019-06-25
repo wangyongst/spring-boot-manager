@@ -1,5 +1,6 @@
 package com.spring.boot.manager.config.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -81,5 +82,10 @@ public class ShiroConfig {
         properties.put("org.apache.shiro.authz.AuthorizationException", "/shiro/403");
         resolver.setExceptionMappings(properties);
         return resolver;
+    }
+
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 }
