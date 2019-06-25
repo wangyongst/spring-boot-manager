@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Privilege {
+public class Permission {
     private static final long serialVersionUID = 1L;
 
     @Id

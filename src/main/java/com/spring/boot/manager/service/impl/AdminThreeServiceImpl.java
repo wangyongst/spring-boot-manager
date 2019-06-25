@@ -11,6 +11,7 @@ import com.spring.boot.manager.utils.result.ResultUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +23,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
-import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -56,12 +56,12 @@ public class AdminThreeServiceImpl implements AdminThreeService {
     private MaterialRepository materialRepository;
 
     @Override
-    public Result askList(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result askList(AdminParameter adminParameter) {
         return ResultUtil.okWithData(askRepository.findAll());
     }
 
     @Override
-    public Result requestList(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result requestList(AdminParameter adminParameter) {
         Specification specification = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -83,12 +83,12 @@ public class AdminThreeServiceImpl implements AdminThreeService {
     }
 
     @Override
-    public Result requestSud(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result requestSud(AdminParameter adminParameter) {
         Request request = null;
         if (adminParameter.getRequestid() == 0) {
             request = new Request();
             request.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
-            User me = (User) httpSession.getAttribute("user");
+            User me = (User) SecurityUtils.getSubject().getPrincipal();
             request.setCreateusername(me.getName());
             request.setStatus(1);
         } else {
@@ -117,13 +117,13 @@ public class AdminThreeServiceImpl implements AdminThreeService {
     }
 
     @Override
-    public Result request(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result request(AdminParameter adminParameter) {
         return ResultUtil.okWithData(requestRepository.findById(adminParameter.getRequestid()).get());
     }
 
     @Override
-    public Result requestAsk(AdminParameter adminParameter, HttpSession httpSession) {
-        User me = (User) httpSession.getAttribute("user");
+    public Result requestAsk(AdminParameter adminParameter) {
+        User me = (User) SecurityUtils.getSubject().getPrincipal();
         String[] ids = adminParameter.getIds().split(",");
         for (String id : ids) {
             Request request = requestRepository.findById(Integer.parseInt(id)).get();

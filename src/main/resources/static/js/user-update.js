@@ -7,7 +7,6 @@ $(function () {
             if (result.status == 1) {
                 $("#name").val(result.data.name);
                 $("#mobile").val(result.data.mobile);
-                $("#password").val(result.data.password);
                 $.get("admin/role/list",
                     function (result2) {
                         if (result2.status == 1) {

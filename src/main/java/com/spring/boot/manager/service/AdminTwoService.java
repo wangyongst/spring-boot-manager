@@ -3,30 +3,28 @@ package com.spring.boot.manager.service;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.utils.result.Result;
 
-import javax.servlet.http.HttpSession;
-
 public interface AdminTwoService {
 
-    Result projectList(AdminParameter adminParameter, HttpSession httpSession);
+    Result projectList(AdminParameter adminParameter);
 
-    Result project(AdminParameter adminParameter, HttpSession httpSession);
+    Result project(AdminParameter adminParameter);
 
-    Result projectSud(AdminParameter adminParameter, HttpSession httpSession);
+    Result projectSud(AdminParameter adminParameter);
 
-    Result resourceList(AdminParameter adminParameter, HttpSession httpSession);
+    Result resourceList(AdminParameter adminParameter);
 
-    Result resource(AdminParameter adminParameter, HttpSession httpSession);
+    Result resource(AdminParameter adminParameter);
 
-    Result resourceSud(AdminParameter adminParameter, HttpSession httpSession);
+    Result resourceSud(AdminParameter adminParameter);
 
-    Result supplierList(AdminParameter adminParameter, HttpSession httpSession);
+    Result supplierList(AdminParameter adminParameter);
 
-    Result supplier(AdminParameter adminParameter, HttpSession httpSession);
+    Result supplier(AdminParameter adminParameter);
 
-    Result supplierSud(AdminParameter adminParameter, HttpSession httpSession);
+    Result supplierSud(AdminParameter adminParameter);
 
-    Result materialList(AdminParameter adminParameter, HttpSession httpSession);
+    Result materialList(AdminParameter adminParameter);
 
-    Result materialSud(AdminParameter adminParameter, HttpSession httpSession);
+    Result materialSud(AdminParameter adminParameter);
 
 }

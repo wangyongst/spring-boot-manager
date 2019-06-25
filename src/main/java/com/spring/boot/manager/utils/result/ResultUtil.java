@@ -37,4 +37,42 @@ public class ResultUtil {
         result.setMessage(message);
         return result;
     }
+
+    public static boolean checkResult(Result result) {
+        if (result != null && result.getStatus() == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Result noPermission() {
+        Result result = new Result();
+        result.setStatus(2);
+        result.setMessage("你没有访问权限");
+        return result;
+    }
+
+    public static Result unAuth() {
+        Result result = new Result();
+        result.setStatus(3);
+        result.setMessage("你还未登录或已经退出！");
+        return result;
+    }
+
+
+    public static Result loginFail(String message) {
+        Result result = new Result();
+        result.setStatus(4);
+        result.setMessage(message);
+        return result;
+    }
+
+
+    public static Result loginOK(String token,String message) {
+        Result result = new Result();
+        result.setStatus(1);
+        result.setData(token);
+        result.setMessage(message);
+        return result;
+    }
 }

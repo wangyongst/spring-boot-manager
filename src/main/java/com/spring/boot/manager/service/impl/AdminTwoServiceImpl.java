@@ -11,6 +11,7 @@ import com.spring.boot.manager.utils.result.ResultUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -20,7 +21,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
@@ -52,7 +52,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
 
     @Override
-    public Result projectList(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result projectList(AdminParameter adminParameter) {
         if (adminParameter.getType() == 1) {
             return ResultUtil.okWithData(projectRepository.findDistinctCustomer());
         } else if (adminParameter.getType() == 2) {
@@ -74,17 +74,17 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
 
     @Override
-    public Result project(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result project(AdminParameter adminParameter) {
         return ResultUtil.okWithData(projectRepository.findById(adminParameter.getProjectid()).get());
     }
 
     @Override
-    public Result projectSud(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result projectSud(AdminParameter adminParameter) {
         Project project = null;
         if (adminParameter.getProjectid() == 0) {
             project = new Project();
             project.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
-            User me = (User) httpSession.getAttribute("user");
+            User me = (User) SecurityUtils.getSubject().getPrincipal();
             project.setCreateusername(me.getName());
         } else {
             project = projectRepository.findById(adminParameter.getProjectid()).get();
@@ -104,7 +104,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     }
 
     @Override
-    public Result resourceList(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result resourceList(AdminParameter adminParameter) {
         Project project = new Project();
         Material material = new Material();
         Resource resource = new Resource();
@@ -122,17 +122,17 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     }
 
     @Override
-    public Result resource(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result resource(AdminParameter adminParameter) {
         return ResultUtil.okWithData(resourceRepository.findById(adminParameter.getResourceid()).get());
     }
 
     @Override
-    public Result resourceSud(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result resourceSud(AdminParameter adminParameter) {
         Resource resource = null;
         if (adminParameter.getResourceid() == 0) {
             resource = new Resource();
             resource.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
-            User me = (User) httpSession.getAttribute("user");
+            User me =(User) SecurityUtils.getSubject().getPrincipal();
             resource.setCreateusername(me.getName());
         } else {
             resource = resourceRepository.findById(adminParameter.getResourceid()).get();
@@ -156,7 +156,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     }
 
     @Override
-    public Result supplierList(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result supplierList(AdminParameter adminParameter) {
         if (StringUtils.isNotBlank(adminParameter.getName())) {
             return ResultUtil.okWithData(supplierRepository.findByNameContains(adminParameter.getName()));
         } else {
@@ -165,12 +165,12 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     }
 
     @Override
-    public Result supplier(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result supplier(AdminParameter adminParameter) {
         return ResultUtil.okWithData(supplierRepository.findById(adminParameter.getSupplierid()).get());
     }
 
     @Override
-    public Result supplierSud(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result supplierSud(AdminParameter adminParameter) {
         Supplier supplier = null;
         if (adminParameter.getSupplierid() == 0) {
             supplier = new Supplier();
@@ -216,7 +216,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     }
 
     @Override
-    public Result materialList(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result materialList(AdminParameter adminParameter) {
         if (adminParameter.getType() == 1) {
             return ResultUtil.okWithData(materialRepository.findDistinctCode());
         } else if (adminParameter.getType() == 2) {
@@ -229,7 +229,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     }
 
     @Override
-    public Result materialSud(AdminParameter adminParameter, HttpSession httpSession) {
+    public Result materialSud(AdminParameter adminParameter) {
         Material material = null;
         if (adminParameter.getMaterialid() == 0) {
             material = new Material();

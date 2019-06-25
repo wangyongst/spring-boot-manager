@@ -1,4 +1,4 @@
-package com.spring.boot.manager.controller;
+package com.spring.boot.manager.admin.controller;
 
 
 import com.spring.boot.manager.entity.Project;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,14 +30,14 @@ public class AdminTwoController {
     //type2 findDistinctNameByCustomer
     //type3 findDistinctName
     @GetMapping("/project/list")
-    public Object projectList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.projectList(adminParameter, httpSession).getData();
+    public Object projectList(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.projectList(adminParameter).getData();
     }
 
     //项目导出
     @GetMapping("/project/export")
-    public void projectExport(@ModelAttribute AdminParameter adminParameter, HttpServletRequest req, HttpServletResponse resp, HttpSession httpSession) {
-        List<Project> projectList = (List<Project>) adminTwoService.projectList(adminParameter, httpSession).getData();
+    public void projectExport(@ModelAttribute AdminParameter adminParameter, HttpServletRequest req, HttpServletResponse resp) {
+        List<Project> projectList = (List<Project>) adminTwoService.projectList(adminParameter).getData();
         String fileName = "项目管理.xls";
         ServletUtil su = new ServletUtil(fileName, req, resp);
         su.poiExcelServlet();
@@ -53,27 +52,27 @@ public class AdminTwoController {
 
     //项目详情
     @GetMapping("/project")
-    public Result project(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.project(adminParameter, httpSession);
+    public Result project(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.project(adminParameter);
     }
 
     //项目增删改
     @PostMapping("/project/sud")
-    public Result projectSud(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.projectSud(adminParameter, httpSession);
+    public Result projectSud(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.projectSud(adminParameter);
     }
 
     //资源列表
     @GetMapping("/resource/list")
-    public Object resourceList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.resourceList(adminParameter, httpSession).getData();
+    public Object resourceList(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.resourceList(adminParameter).getData();
     }
 
 
     //资源导出
     @GetMapping("/resource/export")
-    public void resourceExport(@ModelAttribute AdminParameter adminParameter, HttpServletRequest req, HttpServletResponse resp, HttpSession httpSession) {
-        List<Resource> resourceList = (List<Resource>) adminTwoService.resourceList(adminParameter, httpSession).getData();
+    public void resourceExport(@ModelAttribute AdminParameter adminParameter, HttpServletRequest req, HttpServletResponse resp) {
+        List<Resource> resourceList = (List<Resource>) adminTwoService.resourceList(adminParameter).getData();
         List<AdminParameter> adminParameterList = new ArrayList<>();
         resourceList.forEach(e -> {
             AdminParameter parameter = new AdminParameter();
@@ -104,26 +103,26 @@ public class AdminTwoController {
 
     //资源详情
     @GetMapping("/resource")
-    public Result resource(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.resource(adminParameter, httpSession);
+    public Result resource(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.resource(adminParameter);
     }
 
     //资源增删改
     @PostMapping("/resource/sud")
-    public Result userSud(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.resourceSud(adminParameter, httpSession);
+    public Result userSud(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.resourceSud(adminParameter);
     }
 
     //供应商列表
     @GetMapping("/supplier/list")
-    public Object supplierList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.supplierList(adminParameter, httpSession).getData();
+    public Object supplierList(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.supplierList(adminParameter).getData();
     }
 
     //供应商列表
     @GetMapping("/supplier/export")
-    public void supplierExport(@ModelAttribute AdminParameter adminParameter, HttpServletRequest req, HttpServletResponse resp, HttpSession httpSession) {
-        List<Supplier> supplierList = (List<Supplier>) adminTwoService.supplierList(adminParameter, httpSession).getData();
+    public void supplierExport(@ModelAttribute AdminParameter adminParameter, HttpServletRequest req, HttpServletResponse resp) {
+        List<Supplier> supplierList = (List<Supplier>) adminTwoService.supplierList(adminParameter).getData();
         List<AdminParameter> adminParameterList = new ArrayList<>();
         supplierList.forEach(e -> {
             AdminParameter parameter = new AdminParameter();
@@ -159,14 +158,14 @@ public class AdminTwoController {
 
     //供应商详情
     @GetMapping("/supplier")
-    public Result user(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.supplier(adminParameter, httpSession);
+    public Result user(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.supplier(adminParameter);
     }
 
     //供应商增删改
     @PostMapping("/supplier/sud")
-    public Result supplierSud(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.supplierSud(adminParameter, httpSession);
+    public Result supplierSud(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.supplierSud(adminParameter);
     }
 
     //耗材列表
@@ -174,14 +173,14 @@ public class AdminTwoController {
     //type2 findByCode
     //type3 findDistinctName
     @GetMapping("/material/list")
-    public Object materialList(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.materialList(adminParameter, httpSession).getData();
+    public Object materialList(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.materialList(adminParameter).getData();
     }
 
     //耗材增删改
     @PostMapping("/material/sud")
-    public Result materialSud(@ModelAttribute AdminParameter adminParameter, HttpSession httpSession) {
-        return adminTwoService.materialSud(adminParameter, httpSession);
+    public Result materialSud(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.materialSud(adminParameter);
     }
 
 }

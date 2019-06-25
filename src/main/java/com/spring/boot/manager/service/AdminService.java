@@ -6,31 +6,28 @@ import com.spring.boot.manager.utils.result.Result;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
-
 public interface AdminService {
-    Result login(AdminParameter adminParameter, HttpSession httpSession);
 
-    Result me(HttpSession httpSession);
+    Result me();
 
-    Result userList(AdminParameter adminParameter, HttpSession httpSession);
+    Result findByUsername(String username);
 
-    Result roleList(AdminParameter adminParameter, HttpSession httpSession);
+    Result userList(AdminParameter adminParameter);
 
-    Result user(AdminParameter adminParameter, HttpSession httpSession);
+    Result roleList(AdminParameter adminParameter);
 
-    Result userSud(AdminParameter adminParameter, HttpSession httpSession);
+    Result user(AdminParameter adminParameter);
 
-    Result role(AdminParameter adminParameter, HttpSession httpSession);
+    Result userSud(AdminParameter adminParameter);
 
-    Result roleSud(AdminParameter adminParameter, HttpSession httpSession);
+    Result role(AdminParameter adminParameter);
 
-    Result privilegeAll(AdminParameter adminParameter, HttpSession httpSession);
+    Result roleSud(AdminParameter adminParameter);
 
-    Result changePassword(AdminParameter adminParameter, HttpSession httpSession);
+    Result privilegeAll(AdminParameter adminParameter);
 
-    Result logout(HttpSession httpSession);
+    Result changePassword(AdminParameter adminParameter);
 
-    Result upload(MultipartFile file,AdminParameter adminParameter, HttpSession httpSession);
+    Result upload(MultipartFile file,AdminParameter adminParameter);
 
 }

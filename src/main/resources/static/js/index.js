@@ -277,8 +277,6 @@ function newmaterial() {
     $("#matiral-list-table").bootstrapTable('append', data);
 }
 
-date
-
 function updatematerial(value, index) {
     $("#matiral-list-table tbody tr").each(function (i) {
         if (i == index) {

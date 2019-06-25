@@ -8,9 +8,9 @@ $(function () {
 });
 
 function logout() {
-    $.post("admin/logout",
+    $.post("shiro/logout",
         function (result) {
-            if (result.status == 1) {
+            if (result.status == 3) {
                 window.location.href = "page-login.html";
             }
         });
@@ -56,6 +56,6 @@ function select() {
             ids += "," + val;
         }
     });
-    if(ids.length > 1) ids =ids.substr(1);
+    if (ids.length > 1) ids = ids.substr(1);
     return ids;
 }
