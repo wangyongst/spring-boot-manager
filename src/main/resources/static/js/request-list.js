@@ -34,9 +34,7 @@ $(function () {
         $.post("admin/request/sud", $('#requestForm').serialize(),
             function (result) {
                 if (result.status == 1) {
-                    $('#requestidhidden').val(result.data.id);
-                    $('#total').val(result.data.total);
-                    if (result.data.total == undefined) $('#requestModal').modal('toggle');
+                    $('#requestModal').modal('toggle');
                     $('#request-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
                 } else {
                     $('#alertmessage').text(result.message);
@@ -134,7 +132,6 @@ function update(value) {
                 $('#num').val(result.data.num);
                 $('#sellnum').val(result.data.sellnum);
                 $('#price').val(result.data.price);
-                $('#total').val(result.data.total);
             }
         });
     $('#requestModal').modal('toggle');
