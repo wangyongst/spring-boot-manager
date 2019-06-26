@@ -14,10 +14,10 @@ public class AdminThreeController {
     @Autowired
     public AdminThreeService adminThreeService;
 
-    //询价单
+    //物料采销表
     @GetMapping("/ask/list")
-    public Result askList(@ModelAttribute AdminParameter adminParameter) {
-        return adminThreeService.askList(adminParameter);
+    public Object askList(@ModelAttribute AdminParameter adminParameter) {
+        return adminThreeService.askList(adminParameter).getData();
     }
 
     //采购申请
@@ -39,7 +39,7 @@ public class AdminThreeController {
         return adminThreeService.requestSud(adminParameter);
     }
 
-    //采购申请增删改
+    //发起
     @PostMapping("/request/ask")
     public Result requestAsk(@ModelAttribute AdminParameter adminParameter) {
         return adminThreeService.requestAsk(adminParameter);

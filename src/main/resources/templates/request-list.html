@@ -1,4 +1,6 @@
 <!doctype html>
+<html lang="zh_CN"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <!--[if lt IE 7]>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>
@@ -44,10 +46,10 @@
                 </li>
                 <li class="menu-title">采购管理</li><!-- /.menu-title -->
                 <li class="active">
-                    <a href="/view/request-list"> <i class="menu-icon ti-files"></i>采购申请单 </a>
+                    <a href="/view/request-list"> <i class="menu-icon ti-files"></i>需求申请表 </a>
                 </li>
                 <li>
-                    <a href="widgets.html"> <i class="menu-icon ti-file"></i>询价单</a>
+                    <a href="/view/ask-list"> <i class="menu-icon ti-file"></i>物料采销表 </a>
                 </li>
                 <li class="menu-title">财务系统</li><!-- /.menu-title -->
                 <li>
@@ -102,7 +104,7 @@
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>采购管理<span class="ti-angle-right"/>采购申请表</h1>
+                            <h1>采购管理<span class="ti-angle-right"/>需求申请表</h1>
                         </div>
                     </div>
                 </div>
@@ -117,7 +119,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">采购申请</h5>
+                            <h5 class="modal-title">需求申请</h5>
                         </div>
                         <div class="modal-body">
                             <form id="requestForm">
@@ -158,17 +160,17 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">采购数量</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" name="num" id="num"
+                                    <div class="col-12 col-md-9"><input type="number" name="num" id="num"
                                                                         class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">销售数量</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="sellnum" name="sellnum" class="form-control">
+                                    <div class="col-12 col-md-9"><input type="number" id="sellnum" name="sellnum" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">采购单价</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="price" name="price" class="form-control">
+                                    <div class="col-12 col-md-9"><input type="number" id="price" name="price" class="form-control">
                                     </div>
                                 </div>
                             </form>
@@ -233,7 +235,9 @@
                             <strong class="card-title">
                                 <div class="pull-right">
                                     <button type="button" class="btn btn-primary" id="createrequestButton">新增耗材</button>
-                                    <button type="button" class="btn btn-success" id="askButton">发起</button>
+<!--                                    <button type="button" class="btn btn-success" id="askPriceButton">发起询价</button>-->
+<!--                                    <button type="button" class="btn btn-success" id="askExampleButton">发起打样</button>-->
+                                    <button type="button" class="btn btn-success" id="askButton">发起采购</button>
                                 </div>
                                 <div class="pull-left">
                                     <form class="form-inline" id="searchrequestForm">
@@ -284,7 +288,10 @@
             </div>
         </div><!-- .animated -->
     </div><!-- .content -->
-
+    <div id="rowoperator" hidden>
+        <button type="button" id="updateoperator" class="btn btn-link" shiro:haspermission="首页"> 修改</button>
+        <button type="button" id="deleteoperator" class="btn btn-link" shiro:haspermission="首页"> 删除</button>
+    </div>
 </div><!-- /#right-panel -->
 
 <!-- Right Panel -->

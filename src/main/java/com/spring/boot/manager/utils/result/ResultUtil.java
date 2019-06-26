@@ -62,7 +62,7 @@ public class ResultUtil {
 
     public static Result loginFail(String message) {
         Result result = new Result();
-        result.setStatus(4);
+        result.setStatus(0);
         result.setMessage(message);
         return result;
     }

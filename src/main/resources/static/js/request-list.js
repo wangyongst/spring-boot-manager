@@ -31,7 +31,7 @@ $(function () {
         });
 
     $("#requestsaveButton").click(function () {
-        $.post("admin/request/sud", $('#requestForm').serialize(),
+        $.post("/admin/request/sud", $('#requestForm').serialize(),
             function (result) {
                 if (result.status == 1) {
                     $('#requestModal').modal('toggle');
@@ -71,6 +71,7 @@ $(function () {
                 ids: selected
             },
             function (result) {
+                $('#request-list-table').bootstrapTable('hideLoading');
                 $('#alertmessage').text("发起询价成功，等待供应商报价");
                 $('#alertModal').modal('toggle');
             });
@@ -144,5 +145,8 @@ function del(value) {
 };
 
 function requestformatter(value, row, index) {
-    return "<button type=\"button\" class=\"btn btn-link\" onclick= \"update(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"del(" + value + ")\"> 删除</button>";
+    $("#updateoperator").attr("onclick", "update(" + value + ");");
+    $('#deleteoperator').attr("onclick", "del(" + value + ");");
+    return $('#rowoperator').html();
+    // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"update(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"del(" + value + ")\"> 删除</button>";
 }
