@@ -22,12 +22,23 @@ public class Ask {
     private Supplier supplier;
 
     @Basic
-    @Column(name = "createusername", nullable = true, length = 255)
-    private String createusername;
+    @Column(name = "acceptprice", nullable = true, precision = 2)
+    private BigDecimal acceptprice;
 
     @Basic
-    @Column(name = "createtime", nullable = true, length = 255)
-    private String createtime;
+    @Column(name = "acceptnum", nullable = true)
+    public Integer getAcceptnum() {
+        return acceptnum;
+    }
+    private Integer acceptnum;
+
+    @Basic
+    @Column(name = "accepttime", nullable = true, length = 255)
+    private String accepttime;
+
+    @Basic
+    @Column(name = "status", nullable = true)
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -53,19 +64,31 @@ public class Ask {
         this.supplier = supplier;
     }
 
-    public String getCreateusername() {
-        return createusername;
+    public BigDecimal getAcceptprice() {
+        return acceptprice;
     }
 
-    public void setCreateusername(String createusername) {
-        this.createusername = createusername;
+    public void setAcceptprice(BigDecimal acceptprice) {
+        this.acceptprice = acceptprice;
     }
 
-    public String getCreatetime() {
-        return createtime;
+    public void setAcceptnum(Integer acceptnum) {
+        this.acceptnum = acceptnum;
     }
 
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime;
+    public String getAccepttime() {
+        return accepttime;
+    }
+
+    public void setAccepttime(String accepttime) {
+        this.accepttime = accepttime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

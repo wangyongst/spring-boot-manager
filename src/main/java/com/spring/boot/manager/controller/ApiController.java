@@ -15,9 +15,9 @@ public class ApiController {
     @Autowired
     private ApiService apiService;
 
-    //登录
-    @PostMapping("/login")
-    public Result login(String mobile,String password) {
+    //
+    @PostMapping("/ask/list")
+    public Result askList(String mobile,String password) {
         return apiService.login(mobile,password);
     }
 }

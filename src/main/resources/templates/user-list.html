@@ -1,4 +1,7 @@
 <!doctype html>
+<html lang="zh_CN"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
 <!--[if lt IE 7]>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>
@@ -43,10 +46,10 @@
                 </li>
                 <li class="menu-title">采购管理</li><!-- /.menu-title -->
                 <li>
-                    <a href="/view/request-list"> <i class="menu-icon ti-files"></i>采购申请单 </a>
+                    <a href="/view/request-list"> <i class="menu-icon ti-files"></i>需求申请表 </a>
                 </li>
                 <li>
-                    <a href="widgets.html"> <i class="menu-icon ti-file"></i>询价单</a>
+                    <a href="/view/ask-list"> <i class="menu-icon ti-file"></i>物料采销表 </a>
                 </li>
                 <li class="menu-title">财务系统</li><!-- /.menu-title -->
                 <li>
@@ -139,7 +142,7 @@
 
                         <div class="card-header">
                             <strong class="card-title">
-                                <button type="button" class="btn btn-primary" id="createuserButton">新增用户</button>
+                                <button type="button" class="btn btn-primary" id="createuserButton" shiro:haspermission="首页">新增用户</button>
                                 <button type="button" class="btn btn-success" id="rolelistButton">角色列表</button>
                                 <div class="pull-right">
                                     <form class="form-inline" id="searchuserForm">
@@ -172,7 +175,10 @@
             </div>
         </div><!-- .animated -->
     </div><!-- .content -->
-
+    <div id="rowoperator" hidden>
+        <button type="button" id="updateoperator" class="btn btn-link" shiro:haspermission="首页"> 修改</button>
+        <button type="button" id="deleteoperator" class="btn btn-link" shiro:haspermission="首页"> 删除</button>
+    </div>
 </div><!-- /#right-panel -->
 
 <!-- Right Panel -->
@@ -188,6 +194,5 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/js/common-index.js"></script>
 <script src="/js/user-list.js"></script>
-
 </body>
 </html>

@@ -1,20 +1,24 @@
 package com.spring.boot.manager.service.impl;
 
 import com.google.common.collect.Lists;
-import com.spring.boot.manager.entity.*;
+import com.spring.boot.manager.entity.Ask;
+import com.spring.boot.manager.entity.Material;
+import com.spring.boot.manager.entity.Request;
+import com.spring.boot.manager.entity.User;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminThreeService;
 import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.result.Result;
 import com.spring.boot.manager.utils.result.ResultUtil;
+import com.spring.boot.manager.utils.result.Status;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -22,7 +26,10 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -57,7 +64,22 @@ public class AdminThreeServiceImpl implements AdminThreeService {
 
     @Override
     public Result askList(AdminParameter adminParameter) {
-        return ResultUtil.okWithData(askRepository.findAll());
+
+        Specification specification = new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = Lists.newArrayList();
+                if (StringUtils.isNotBlank(adminParameter.getName())) {
+                    predicates.add(criteriaBuilder.equal(root.get("request").get("resource").get("material").get("name"), adminParameter.getName()));
+                }
+                if (StringUtils.isNotBlank(adminParameter.getCustomer())) {
+                    predicates.add(criteriaBuilder.like(root.get("request").get("resource").get("project").get("customer"), "%" + adminParameter.getCustomer() + "%"));
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+
+        return ResultUtil.okWithData(askRepository.findAll(specification));
     }
 
     @Override
@@ -79,7 +101,7 @@ public class AdminThreeServiceImpl implements AdminThreeService {
             }
         };
         Sort sort = new Sort(Sort.Direction.DESC, "createtime");
-        return ResultUtil.okWithData(requestRepository.findAll(specification,sort));
+        return ResultUtil.okWithData(requestRepository.findAll(specification, sort));
     }
 
     @Override
@@ -129,10 +151,9 @@ public class AdminThreeServiceImpl implements AdminThreeService {
             Request request = requestRepository.findById(Integer.parseInt(id)).get();
             productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
                 Ask ask = new Ask();
-                ask.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
-                ask.setCreateusername(me.getName());
                 ask.setRequest(request);
                 ask.setSupplier(e.getSupplier());
+                ask.setStatus(Status.ONE);
                 askRepository.save(ask);
             });
         }
