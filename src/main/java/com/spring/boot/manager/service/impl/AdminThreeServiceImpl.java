@@ -64,7 +64,22 @@ public class AdminThreeServiceImpl implements AdminThreeService {
 
     @Override
     public Result askList(AdminParameter adminParameter) {
-        return ResultUtil.okWithData(askRepository.findAll());
+
+        Specification specification = new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = Lists.newArrayList();
+                if (StringUtils.isNotBlank(adminParameter.getName())) {
+                    predicates.add(criteriaBuilder.equal(root.get("request").get("resource").get("material").get("name"), adminParameter.getName()));
+                }
+                if (StringUtils.isNotBlank(adminParameter.getCustomer())) {
+                    predicates.add(criteriaBuilder.like(root.get("request").get("resource").get("project").get("customer"), "%" + adminParameter.getCustomer() + "%"));
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+
+        return ResultUtil.okWithData(askRepository.findAll(specification));
     }
 
     @Override
