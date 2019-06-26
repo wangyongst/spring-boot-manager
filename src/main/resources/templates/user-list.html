@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+<html lang="zh_CN"
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <!--[if lt IE 7]>
@@ -142,7 +142,7 @@
 
                         <div class="card-header">
                             <strong class="card-title">
-                                <button type="button" class="btn btn-primary" id="createuserButton" shiro:haspermission="ok-test">新增用户</button>
+                                <button type="button" class="btn btn-primary" id="createuserButton" shiro:haspermission="首页">新增用户</button>
                                 <button type="button" class="btn btn-success" id="rolelistButton">角色列表</button>
                                 <div class="pull-right">
                                     <form class="form-inline" id="searchuserForm">
@@ -175,7 +175,10 @@
             </div>
         </div><!-- .animated -->
     </div><!-- .content -->
-
+    <div id="rowoperator" hidden>
+        <button type="button" id="updateoperator" class="btn btn-link" shiro:haspermission="首页"> 修改</button>
+        <button type="button" id="deleteoperator" class="btn btn-link" shiro:haspermission="首页"> 删除</button>
+    </div>
 </div><!-- /#right-panel -->
 
 <!-- Right Panel -->
@@ -191,16 +194,5 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/js/common-index.js"></script>
 <script src="/js/user-list.js"></script>
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    function userformatter(value, row, index) {
-        return "<shiro:haspermission name =\"ok\"><button  type=\"button\" class=\"btn btn-link\" onclick= \"update(" + value + ")\"> 修改</button></shiro:haspermission><button type=\"button\" class=\"btn btn-link\" onclick=\"del(" + value + ")\"> 删除</button>";
-    }
-
-    /*]]>*/
-</script>
-
-
 </body>
 </html>

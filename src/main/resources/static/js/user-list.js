@@ -19,22 +19,31 @@ $(function () {
             },
             function (result) {
                 $('#deletealertModal').modal('toggle');
-                $('#user-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');;
+                $('#user-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+                ;
             });
     });
 
     $("#searchuserButton").click(function () {
         $('#user-list-table').bootstrapTable("destroy");
-        $('#user-list-table').bootstrapTable({url: "/admin/user/list?" + $('#searchuserForm').serialize()}).bootstrapTable('hideLoading');;
+        $('#user-list-table').bootstrapTable({url: "/admin/user/list?" + $('#searchuserForm').serialize()}).bootstrapTable('hideLoading');
+        ;
     });
 });
 
 function update(value) {
+    alert(value);
     window.location.href = "/view/user-update?userid=" + value;
 };
 
 function del(value) {
+    alert(value);
     $('#deletevalue').val(value);
     $('#deletealertModal').modal('toggle');
 };
 
+function userformatter(value, row, index) {
+    $("#updateoperator").attr("onclick", "update(" + value + ");");
+    $('#deleteoperator').attr("onclick", "del(" + value + ");");
+    return $('#rowoperator').html();
+}
