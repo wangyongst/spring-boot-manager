@@ -9,6 +9,7 @@ import com.spring.boot.manager.utils.result.ResultUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -43,5 +44,10 @@ public class ApiServiceImpl implements ApiService {
         } else {
             return ResultUtil.errorWithMessage("您的账号/密码错误，请重新输入！");
         }
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(new Md5Hash("admin").toHex());
     }
 }

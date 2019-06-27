@@ -166,7 +166,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Result privilegeAll(AdminParameter adminParameter) {
+    public Result permissionAll(AdminParameter adminParameter) {
 //        Sort sort = new Sort(Sort.Direction.DESC,"id");
         return ResultUtil.okWithData(userRepository.findAll());
     }

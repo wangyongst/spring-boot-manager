@@ -63,9 +63,9 @@ public class AdminController {
     }
 
     //权限
-    @GetMapping("/privilege/all")
-    public Result privilegeAll(@ModelAttribute AdminParameter adminParameter) {
-        return adminService.privilegeAll(adminParameter);
+    @GetMapping("/permission/all")
+    public Result permissionAll(@ModelAttribute AdminParameter adminParameter) {
+        return adminService.permissionAll(adminParameter);
     }
 
     //修改密码
