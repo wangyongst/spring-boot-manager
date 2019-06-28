@@ -36,6 +36,7 @@ function update(value) {
 };
 
 function del(value) {
+    alert(value);
     $('#deletevalue').val(value);
     $('#deletealertModal').modal('toggle');
 };
