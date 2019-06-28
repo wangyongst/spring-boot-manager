@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="zh_CN"
-      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+>
 <!--[if lt IE 7]>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>
@@ -102,7 +102,7 @@
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>权限管理<span class="ti-angle-right"/>修改用户</h1>
+                            <h1>权限管理<span class="ti-angle-right"/>新增角色</h1>
                         </div>
                     </div>
                 </div>
@@ -128,6 +128,7 @@
                                     </div>
                                     <div class="modal-body" id="alertmessage">
                                         <p>
+
                                         </p>
                                         <input hidden id="deletevalue">
                                     </div>
@@ -141,25 +142,70 @@
 
                         <div class="card-header">
                             <strong class="card-title">
-                                用户信息
+                                角色信息
                             </strong>
                         </div>
                         <div class="card-body card-block">
-                            <form id="usernewForm">
-                                <div class="form-group"><label class=" form-control-label">登录姓名</label><input type="text" id="name" name="name" placeholder="最多10个字" class="form-control"></div>
-                                <div class="form-group"><label class=" form-control-label">电话</label><input type="text" id="mobile" name="mobile" placeholder="只能是数字" class="form-control"></div>
-                                <div class="form-group"><label class=" form-control-label">登录密码</label><input type="text" id="password" name="password" placeholder="只能是数字和英文" class="form-control"></div>
-                                <div class="form-group"><label class=" form-control-label">配置角色</label>
-                                    <div class="row form-group">
-                                        <div class="col col-md-12">
-                                            <div class="form-check-inline form-check" id="roles">
-                                            </div>
+                            <form id="rolenewForm">
+                                <input name="roleid" th:value="${role.id}" hidden>
+                                <div class="form-group"><label class=" form-control-label">角色名称</label>
+                                    <div class="col-12 col-md-9"><input type="text" name="name" placeholder="最多10个字" class="form-control" th:value="${role.name}"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class=" form-control-label">配置权限</label>
+                                    <div class="col-12 col-md-9">
+                                        <div class="form-check">
+                                            <th:block th:each="permission:${permissions}">
+                                                <th:block th:if=" ${permission.type} eq '0'">
+                                                    <div class="checkbox">
+                                                        <label class="form-check-label ">
+                                                            <input type="checkbox" name="permission" class="form-check-input" th:value="${permission.id}" th:text="${permission.cname}"
+                                                                   th:attr="checked=${thymeleafutils.contains(permission.id,role)?true:false}">
+                                                        </label>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col col-md-12">
+                                                            <div class="form-check-inline form-check">
+                                                                <div class="col">
+                                                                    <th:block th:each="permission2:${permissions}">
+                                                                        <th:block th:if=" ${permission2.type} eq '2' and ${permission2.parentid} eq ${permission.id}">
+                                                                            <label class="form-check-label ">
+                                                                                <input type="checkbox" name="permission" class="form-check-input" th:value="${permission2.id}" th:text="${permission2.cname}" th:attr="checked=${thymeleafutils.contains(permission2.id,role)?true:false}">
+                                                                            </label>
+                                                                        </th:block>
+                                                                    </th:block>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </th:block>
+                                            </th:block>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="form-group"><label class=" form-control-label">项目数据权限</label>
+                                    <div class="col-12 col-md-9">
+                                        <select name="projectid" class="form-control">
+                                            <option value="0">请选择项目数据权限</option>
+                                            <option th:selected="${role.projectid eq project.id}" th:each="project:${projects}" th:value="${project.id}" th:text="${project.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group"><label class=" form-control-label">供应商数据权限</label>
+                                    <div class="col-12 col-md-9">
+                                        <select name="supplierid" class="form-control">
+                                            <option value="0">请选择供应商数据权限</option>
+                                            <option th:selected="${role.supplierid eq supplier.id}" th:each="supplier:${suppliers}" th:value="${supplier.id}" th:text="${supplier.name}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <div class="offset-lg-4">
-                                        <button type="button" class="btn btn-success" id="saveButton">保存</button>
+                                        <button type="button" class="btn btn-success" id="createroleButton">保存</button>
                                     </div>
                                 </div>
                             </form>
@@ -187,7 +233,7 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/js/common-index.js"></script>
-<script src="/js/role-update.js"></script>
+<script src="/js/role-new.js"></script>
 
 </body>
 </html>

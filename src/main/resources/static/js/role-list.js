@@ -22,7 +22,7 @@ $(function () {
 });
 
 function update(value) {
-    window.location.href = "/view/role-update?" + value;
+    window.location.href = "/view/role-update?roleid=" + value;
 };
 
 function del(value) {
@@ -34,5 +34,4 @@ function roleformatter(value, row, index) {
     $("#updateoperator").attr("onclick", "update(" + value + ");");
     $('#deleteoperator').attr("onclick", "del(" + value + ");");
     return $('#rowoperator').html();
-    // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"update(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"del(" + value + ")\"> 删除</button>";
 }

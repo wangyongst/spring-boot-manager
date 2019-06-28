@@ -62,7 +62,6 @@ public class AdminController {
         return adminService.roleSud(adminParameter);
     }
 
-
     //修改密码
     @PostMapping("/changepassword")
     public Result changePassword(@ModelAttribute AdminParameter adminParameter) {

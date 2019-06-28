@@ -1,11 +1,14 @@
 package com.spring.boot.manager.admin.controller;
 
+import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.service.AdminService;
+import com.spring.boot.manager.service.AdminTwoService;
+import com.spring.boot.manager.utils.ThymeleafUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/view")
@@ -13,6 +16,9 @@ public class ViewController {
 
     @Autowired
     public AdminService adminService;
+
+    @Autowired
+    public AdminTwoService adminTwoService;
 
     @RequestMapping("/ask-list")
     public String ask() {
@@ -36,12 +42,20 @@ public class ViewController {
 
     @RequestMapping("/role-new")
     public String rolenew(Model model) {
-        model.addAttribute("permissionF", adminService.permissionList(null));
+        AdminParameter adminParameter = new AdminParameter();
+        model.addAttribute("permissions", adminService.permissionList(adminParameter).getData());
+        model.addAttribute("projects", adminTwoService.projectList(adminParameter).getData());
+        model.addAttribute("suppliers", adminTwoService.supplierList(adminParameter).getData());
         return "role-new";
     }
 
     @RequestMapping("/role-update")
-    public String roleupdate() {
+    public String roleupdate(@ModelAttribute AdminParameter adminParameter, Model model) {
+        model.addAttribute("permissions", adminService.permissionList(adminParameter).getData());
+        model.addAttribute("projects", adminTwoService.projectList(adminParameter).getData());
+        model.addAttribute("suppliers", adminTwoService.supplierList(adminParameter).getData());
+        model.addAttribute("role", adminService.role(adminParameter).getData());
+        model.addAttribute("thymeleafutils", new ThymeleafUtils());
         return "role-update";
     }
 

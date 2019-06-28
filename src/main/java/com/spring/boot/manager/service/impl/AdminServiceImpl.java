@@ -2,6 +2,7 @@ package com.spring.boot.manager.service.impl;
 
 import com.spring.boot.manager.entity.Resource;
 import com.spring.boot.manager.entity.Role;
+import com.spring.boot.manager.entity.Role2Permission;
 import com.spring.boot.manager.entity.User;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.repository.*;
@@ -52,7 +53,7 @@ public class AdminServiceImpl implements AdminService {
     private PermissionRepository permissionRepository;
 
     @Autowired
-    private Role2PermissionRepository role2PrivRepository;
+    private Role2PermissionRepository role2PermissionRepository;
 
     @Autowired
     private SupplierRepository supplierRepository;
@@ -139,7 +140,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result role(AdminParameter adminParameter) {
-        return ResultUtil.okWithData(userRepository.findById(adminParameter.getRoleid()).get());
+        return ResultUtil.okWithData(roleRepository.findById(adminParameter.getRoleid()).get());
     }
 
     @Override
@@ -154,7 +155,7 @@ public class AdminServiceImpl implements AdminService {
                     e.setRole(null);
                     userRepository.save(e);
                 });
-                role2PrivRepository.deleteAllByRole(role);
+                role2PermissionRepository.deleteAllByRole(role);
                 roleRepository.delete(role);
                 return ResultUtil.ok();
             }
@@ -162,16 +163,24 @@ public class AdminServiceImpl implements AdminService {
         if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("角色名称不能为空！");
         if (adminParameter.getName().length() > 10) return ResultUtil.errorWithMessage("角色名称最多10个字！");
         role.setName(adminParameter.getName());
-        role.setProjectid(projectRepository.findById(adminParameter.getProjectid()).get().getId());
-        role.setSupplierid(supplierRepository.findById(adminParameter.getSupplierid()).get().getId());
-        roleRepository.save(role);
+        if (adminParameter.getProjectid() != 0) role.setProjectid(projectRepository.findById(adminParameter.getProjectid()).get().getId());
+        if (adminParameter.getSupplierid() != 0) role.setSupplierid(supplierRepository.findById(adminParameter.getSupplierid()).get().getId());
+        Role saveedRole = roleRepository.save(role);
+        if(adminParameter.getPermission().size() > 0){
+            adminParameter.getPermission().forEach(e->{
+                Role2Permission role2Permission = new Role2Permission();
+                role2Permission.setRole(saveedRole);
+                role2Permission.setPermission(permissionRepository.findById(e).get());
+                role2PermissionRepository.save(role2Permission);
+            });
+        }
         return ResultUtil.ok();
     }
 
     @Override
     public Result permissionList(AdminParameter adminParameter) {
-//        Sort sort = new Sort(Sort.Direction.DESC,"id");
-        return ResultUtil.okWithData(permissionRepository.findAll());
+        Sort sort = new Sort(Sort.Direction.ASC,"id");
+        return ResultUtil.okWithData(permissionRepository.findAll(sort));
     }
 
     @Override

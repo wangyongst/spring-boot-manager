@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh_CN"
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
 >
 <!--[if lt IE 7]>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -142,7 +142,7 @@
 
                         <div class="card-header">
                             <strong class="card-title">
-                                角信息
+                                角色信息
                             </strong>
                         </div>
                         <div class="card-body card-block">
@@ -155,67 +155,52 @@
                                     <label class=" form-control-label">配置权限</label>
                                     <div class="col-12 col-md-9">
                                         <div class="form-check">
-                                            <div>
-                                                <div class="checkbox">
-                                                    <label for="checkbox1" class="form-check-label ">
-                                                        <input type="checkbox" id="checkbox1" name="checkbox1" value="option1" class="form-check-input">首页
-                                                    </label>
-                                                </div>
-                                                <div class="row form-group">
-                                                    <div class="col col-md-12">
-                                                        <div class="form-check-inline form-check">
-                                                            <div class="col">
-                                                                <label for="inline-checkbox1" class="form-check-label ">
-                                                                    <input type="checkbox" id="inline-checkbox1" name="inline-checkbox1" value="option1" class="form-check-input">One
-                                                                </label>
+                                            <th:block th:each="permission:${permissions}">
+                                                <th:block th:if=" ${permission.type} eq '0'">
+                                                    <div class="checkbox">
+                                                        <label class="form-check-label ">
+                                                            <input type="checkbox" name="permission" class="form-check-input" th:value="${permission.id}" th:text="${permission.cname}">
+                                                        </label>
+                                                    </div>
+                                                    <div class="row form-group">
+                                                        <div class="col col-md-12">
+                                                            <div class="form-check-inline form-check">
+                                                                <div class="col">
+                                                                    <th:block  th:each="permission2:${permissions}">
+                                                                    <th:block th:if=" ${permission2.type} eq '2' and ${permission2.parentid} eq ${permission.id}">
+                                                                        <label class="form-check-label ">
+                                                                            <input type="checkbox" name="permission" class="form-check-input" th:value="${permission2.id}" th:text="${permission2.cname}">
+                                                                        </label>
+                                                                    </th:block>
+                                                                    </th:block>
+                                                                </div>
                                                             </div>
-                                                            <label for="inline-checkbox2" class="form-check-label ">
-                                                                <input type="checkbox" id="inline-checkbox2" name="inline-checkbox2" value="option2" class="form-check-input">Two
-                                                            </label>
-                                                            <label for="inline-checkbox3" class="form-check-label ">
-                                                                <input type="checkbox" id="inline-checkbox3" name="inline-checkbox3" value="option3" class="form-check-input">Three
-                                                            </label>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label for="checkbox2" class="form-check-label ">
-                                                    <input type="checkbox" id="checkbox2" name="checkbox2" value="option2" class="form-check-input">采购管理
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label for="checkbox3" class="form-check-label ">
-                                                    <input type="checkbox" id="checkbox3" name="checkbox3" value="option3" class="form-check-input">财务管理
-                                                </label>
-                                            </div>
-                                            <div class="checkbox">
-                                                <label for="checkbox4" class="form-check-label ">
-                                                    <input type="checkbox" id="checkbox4" name="checkbox4" value="option4" class="form-check-input">权限中心
-                                                </label>
-                                            </div>
+                                                </th:block>
+                                            </th:block>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group"><label class=" form-control-label">项目数据权限</label>
                                     <div class="col-12 col-md-9">
-                                        <select name="select" class="form-control">
-                                            <option value="0">Please select</option>
-                                            <option value="1">Option #1</option>
-                                            <option value="2">Option #2</option>
-                                            <option value="3">Option #3</option>
+                                        <select name="projectid" class="form-control">
+                                            <option value="0">请选择项目数据权限</option>
+                                            <th:block th:each="project:${projects}">
+                                            <option th:value="${project.id}" th:text="${project.name}"></option>
+                                            </th:block>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="form-group"><label class=" form-control-label">供应商数据权限</label>
                                     <div class="col-12 col-md-9">
-                                        <select name="select" class="form-control">
-                                            <option value="0">Please select</option>
-                                            <option value="1">Option #1</option>
-                                            <option value="2">Option #2</option>
-                                            <option value="3">Option #3</option>
+                                        <select name="supplierid" class="form-control">
+                                            <option value="0">请选择供应商数据权限</option>
+                                            <th:block th:each="supplier:${suppliers}">
+                                                <option th:value="${supplier.id}" th:text="${supplier.name}"></option>
+                                            </th:block>
                                         </select>
                                     </div>
                                 </div>

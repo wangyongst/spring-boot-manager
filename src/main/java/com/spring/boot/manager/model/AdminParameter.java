@@ -33,11 +33,20 @@ public class AdminParameter {
     private String kaihu;
     private String code;
     private List<Integer> products;
+    private List<Integer> permission;
     private String num;
     private String sellnum;
     private String price;
     private String ids;
     private String createusername;
+
+    public List<Integer> getPermission() {
+        return permission;
+    }
+
+    public void setPermission(List<Integer> permission) {
+        this.permission = permission;
+    }
 
     public String getCreateusername() {
         return createusername;
