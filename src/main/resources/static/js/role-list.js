@@ -34,5 +34,17 @@ function roleformatter(value, row, index) {
     $("#updateoperator").attr("onclick", "update(" + value + ");");
     $('#deleteoperator').attr("onclick", "del(" + value + ");");
     return $('#rowoperator').html();
-    // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"update(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"del(" + value + ")\"> 删除</button>";
+}
+
+function permissionformatter(value, row, index) {
+    var html = "";
+    if (value == null || value.length == 0) return html;
+    else {
+        for (let i in value) {
+            if (value[i].permission.parentid == 0) {
+                html = html + "," + value[i].permission.cname;
+            }
+        }
+        return html.substr(1);
+    }
 }

@@ -27,7 +27,6 @@ $(function () {
     $("#searchuserButton").click(function () {
         $('#user-list-table').bootstrapTable("destroy");
         $('#user-list-table').bootstrapTable({url: "/admin/user/list?" + $('#searchuserForm').serialize()}).bootstrapTable('hideLoading');
-        ;
     });
 });
 
