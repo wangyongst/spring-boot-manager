@@ -24,7 +24,7 @@ public interface AdminService {
 
     Result roleSud(AdminParameter adminParameter);
 
-    Result privilegeAll(AdminParameter adminParameter);
+    Result permissionList(AdminParameter adminParameter);
 
     Result changePassword(AdminParameter adminParameter);
 

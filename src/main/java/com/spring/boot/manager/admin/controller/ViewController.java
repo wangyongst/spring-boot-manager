@@ -1,12 +1,18 @@
 package com.spring.boot.manager.admin.controller;
 
+import com.spring.boot.manager.service.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/view")
 public class ViewController {
+
+    @Autowired
+    public AdminService adminService;
 
     @RequestMapping("/ask-list")
     public String ask() {
@@ -29,7 +35,8 @@ public class ViewController {
     }
 
     @RequestMapping("/role-new")
-    public String rolenew() {
+    public String rolenew(Model model) {
+        model.addAttribute("permissionF", adminService.permissionList(null));
         return "role-new";
     }
 
@@ -50,7 +57,7 @@ public class ViewController {
 
     @RequestMapping("/user-update")
     public String userupdate(String userid, Model model) {
-        model.addAttribute("userid",userid);
+        model.addAttribute("userid", userid);
         return "user-update";
     }
 }

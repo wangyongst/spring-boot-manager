@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RepositoryDefinition(domainClass = Permission.class, idClass = Integer.class)
-public interface PrivilegeRepository extends JpaRepository<Permission,Integer> {
+public interface PermissionRepository extends JpaRepository<Permission,Integer> {
 }

@@ -11,13 +11,19 @@ public class Permission {
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Basic
+    @Column(name = "name", nullable = true, length = 255)
     private String name;
-    private String url;
+    @Basic
+    @Column(name = "cname", nullable = true, length = 255)
+    private String cname;
+    @Basic
+    @Column(name = "type", nullable = true)
     private Integer type;
+    @Basic
+    @Column(name = "parentid", nullable = true)
     private Integer parentid;
 
-    @Id
-    @Column(name = "id", nullable = false)
     public Integer getId() {
         return id;
     }
@@ -26,8 +32,6 @@ public class Permission {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "name", nullable = true, length = 255)
     public String getName() {
         return name;
     }
@@ -36,18 +40,14 @@ public class Permission {
         this.name = name;
     }
 
-    @Basic
-    @Column(name = "url", nullable = true, length = 255)
-    public String getUrl() {
-        return url;
+    public String getCname() {
+        return cname;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setCname(String cname) {
+        this.cname = cname;
     }
 
-    @Basic
-    @Column(name = "type", nullable = true)
     public Integer getType() {
         return type;
     }
@@ -56,8 +56,6 @@ public class Permission {
         this.type = type;
     }
 
-    @Basic
-    @Column(name = "parentid", nullable = true)
     public Integer getParentid() {
         return parentid;
     }
@@ -65,5 +63,4 @@ public class Permission {
     public void setParentid(Integer parentid) {
         this.parentid = parentid;
     }
-
 }

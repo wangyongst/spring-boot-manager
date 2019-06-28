@@ -49,7 +49,10 @@ public class AdminServiceImpl implements AdminService {
     private RoleRepository roleRepository;
 
     @Autowired
-    private Role2PrivRepository role2PrivRepository;
+    private PermissionRepository permissionRepository;
+
+    @Autowired
+    private Role2PermissionRepository role2PrivRepository;
 
     @Autowired
     private SupplierRepository supplierRepository;
@@ -70,7 +73,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Result findByUsername(String username) {
         List<User> userList = userRepository.findByMobile(username);
-        if(userList.size() == 1) return ResultUtil.okWithData(userList.get(0));
+        if (userList.size() == 1) return ResultUtil.okWithData(userList.get(0));
         return null;
     }
 
@@ -166,9 +169,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Result privilegeAll(AdminParameter adminParameter) {
+    public Result permissionList(AdminParameter adminParameter) {
 //        Sort sort = new Sort(Sort.Direction.DESC,"id");
-        return ResultUtil.okWithData(userRepository.findAll());
+        return ResultUtil.okWithData(permissionRepository.findAll());
     }
 
     @Override

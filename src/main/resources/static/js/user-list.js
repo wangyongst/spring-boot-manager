@@ -32,7 +32,6 @@ $(function () {
 });
 
 function update(value) {
-    alert(value);
     window.location.href = "/view/user-update?userid=" + value;
 };
 

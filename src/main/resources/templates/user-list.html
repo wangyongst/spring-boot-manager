@@ -142,7 +142,7 @@
 
                         <div class="card-header">
                             <strong class="card-title">
-                                <button type="button" class="btn btn-primary" id="createuserButton" shiro:haspermission="首页">新增用户</button>
+                                <button type="button" class="btn btn-primary" id="createuserButton" shiro:haspermission="permission-create">新增用户</button>
                                 <button type="button" class="btn btn-success" id="rolelistButton">角色列表</button>
                                 <div class="pull-right">
                                     <form class="form-inline" id="searchuserForm">
@@ -176,8 +176,8 @@
         </div><!-- .animated -->
     </div><!-- .content -->
     <div id="rowoperator" hidden>
-        <button type="button" id="updateoperator" class="btn btn-link" shiro:haspermission="首页"> 修改</button>
-        <button type="button" id="deleteoperator" class="btn btn-link" shiro:haspermission="首页"> 删除</button>
+        <button type="button" id="updateoperator" class="btn btn-link" shiro:haspermission="permission-update"> 修改</button>
+        <button type="button" id="deleteoperator" class="btn btn-link" shiro:haspermission="permission-delete"> 删除</button>
     </div>
 </div><!-- /#right-panel -->
 

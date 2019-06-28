@@ -8,7 +8,7 @@ package com.spring.boot.manager.repository;
 
 @Repository
 @RepositoryDefinition(domainClass = Role2Permission.class, idClass = Integer.class)
-public interface Role2PrivRepository extends JpaRepository<Role2Permission, Integer> {
+public interface Role2PermissionRepository extends JpaRepository<Role2Permission, Integer> {
 
     void deleteAllByRole(Role role);
 }
