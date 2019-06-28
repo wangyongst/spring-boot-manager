@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html lang="zh_CN"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <!--[if lt IE 7]>
 <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -155,31 +155,18 @@
                             </strong>
                         </div>
                         <div class="card-body">
-                            <table data-toggle="table" class="table table-striped table-bordered table-condensed" id="user-list-table" data-pagination="true">
+                            <table data-toggle="table" data-url="/admin/user/list" class="table table-striped table-bordered table-condensed" id="user-list-table" data-pagination="true">
                                 <thead>
                                 <tr>
-                                    <th >序号</th>
-                                    <th >名称</th>
-                                    <th >电话</th>
-                                    <th >角色</th>
-                                    <th >创建人</th>
-                                    <th >创建时间</th>
-                                    <th data-align="center">操作</th>
+                                    <th data-field="id">序号</th>
+                                    <th data-field="name">名称</th>
+                                    <th data-field="mobile">电话</th>
+                                    <th data-field="role.name">角色</th>
+                                    <th data-field="createusername">创建人</th>
+                                    <th data-field="createtime">创建时间</th>
+                                    <th data-field="id" data-formatter="userformatter" data-align="center">操作</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr th:each="user:${users}">
-                                    <td th:text="${user.id}"></td>
-                                    <td th:text="${user.name}"></td>
-                                    <td th:text="${user.role.name}"></td>
-                                    <td th:text="${user.createusername}"></td>
-                                    <td th:text="${user.createtime}"></td>
-                                    <td>
-                                        <button type="button" class="btn btn-link" shiro:haspermission="permission-update" th:onclick="'javascript:update(\''+${user.id}+'\')'"> 修改</button>
-                                        <button type="button" class="btn btn-link" shiro:haspermission="permission-delete"  th:onclick="'javascript:del(\''+${user.id}+'\')'"> 删除</button>
-                                    </td>
-                                </tr>
-                                </tbody>
                             </table>
                         </div>
                     </div>

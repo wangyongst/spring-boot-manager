@@ -39,3 +39,9 @@ function del(value) {
     $('#deletevalue').val(value);
     $('#deletealertModal').modal('toggle');
 };
+
+function userformatter(value, row, index) {
+    $("#updateoperator").attr("onclick", "update(" + value + ");");
+    $('#deleteoperator').attr("onclick", "del(" + value + ");");
+    return $('#rowoperator').html();
+}

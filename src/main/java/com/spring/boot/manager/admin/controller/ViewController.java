@@ -36,9 +36,7 @@ public class ViewController {
     }
 
     @RequestMapping("/role-list")
-    public String role(Model model) {
-        AdminParameter adminParameter = new AdminParameter();
-        model.addAttribute("roles", adminService.roleList(adminParameter).getData());
+    public String role() {
         return "role-list";
     }
 
@@ -62,9 +60,7 @@ public class ViewController {
     }
 
     @RequestMapping("/user-list")
-    public String user(Model model) {
-        AdminParameter adminParameter = new AdminParameter();
-        model.addAttribute("users", adminService.userList(adminParameter).getData());
+    public String user() {
         return "user-list";
     }
 
