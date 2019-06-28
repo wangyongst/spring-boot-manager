@@ -14,7 +14,7 @@ $(function () {
     $("#searchaskButton").click(function () {
         $('#request-list-table').bootstrapTable("destroy");
         $('#request-list-table').bootstrapTable({url: "/admin/ask/list?" + $('#searchaskForm').serialize()}).bootstrapTable('hideLoading');
-    });
+    })
 });
 
 
