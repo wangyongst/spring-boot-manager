@@ -22,7 +22,7 @@ $(function () {
 });
 
 function update(value) {
-    window.location.href = "/view/role-update?" + value;
+    window.location.href = "/view/role-update?roleid=" + value;
 };
 
 function del(value) {
