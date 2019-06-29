@@ -330,9 +330,9 @@ function materialformatter(value, row, index) {
     if (value == undefined) {
         return "<button type=\"button\" class=\"btn btn-link\" onclick= \"savematerial()\"> 保存</button><button type=\"button\" class=\"btn btn-link\" onclick= \"cancelmaterial()\"> 取消</button>";
     } else {
-        $("#newoperator2").attr("onclick", "newmaterial();");
-        $("#updateoperator2").attr("onclick", "updatematerial(" + value + ");");
-        $('#deleteoperator2').attr("onclick", "delmaterial(" + value + ");");
+        $("#rowoperator2 [name='newoperator2']").attr("onclick", "newmaterial();");
+        $("#rowoperator2 [name='updateoperator2']").attr("onclick", "updatematerial(" + value + ");");
+        $("#rowoperator2 [name='deleteoperator2']").attr("onclick", "delmaterial(" + value + ");");
         return $('#rowoperator2').html();
         // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"newmaterial()\"> 新增</button><button type=\"button\" class=\"btn btn-link\" onclick= \"updatematerial(" + value + "," + index + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delmaterial(" + value + ")\"> 删除</button>";
     }
@@ -340,12 +340,12 @@ function materialformatter(value, row, index) {
 
 
 function fileformatter(value, row, index) {
-    $("#updateoperator1").attr("onclick", "uploadfile(" + row.id + ");");
+    $("#rowoperator1 [name='updateoperator1']").attr("onclick", "uploadfile(" + row.id + ");");
     if (value == null) {
-        $("#updateoperator1").text("上传")
+        $("#rowoperator1 [name='updateoperator1']").text("上传")
         // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"uploadfile(" + row.id + ")\">上传</button>";
     } else {
-        $("#updateoperator1").text(value)
+        $("#rowoperator1 [name='updateoperator1']").text(value)
         // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"uploadfile(" + row.id + ")\">" + value + "</button>";
     }
     return $('#rowoperator1').html();
@@ -361,24 +361,24 @@ function productsformatter(value, row, index) {
 }
 
 function projectformatter(value, row, index) {
-    $("#updateoperator").attr("onclick", "updateproject(" + value + ");");
-    $('#deleteoperator').attr("onclick", "delproject(" + value + ");");
+    $("#rowoperator [name='updateoperator']").attr("onclick", "updateproject(" + value + ");");
+    $("#rowoperator [name='deleteoperator']").attr("onclick", "delproject(" + value + ");");
     return $('#rowoperator').html();
     // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"updateproject(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delproject(" + value + ")\"> 删除</button>";
 }
 
 function resourceformatter(value, row, index) {
-    $("#updateoperator").attr("onclick", "updateresource(" + value + ");");
-    $('#deleteoperator').attr("onclick", "delresource(" + value + ");");
+    $("#rowoperator [name='updateoperator']").attr("onclick", "updateresource(" + value + ");");
+    $("#rowoperator [name='deleteoperator']").attr("onclick", "delresource(" + value + ");");
     return $('#rowoperator').html();
     //return "<button type=\"button\" class=\"btn btn-link\" onclick= \"updateresource(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delresource(" + value + ")\"> 删除</button>";
 }
 
 function supplierformatter(value, row, index) {
-    $("#updateoperator").attr("onclick", "updatesupplier(" + value + ");");
-    $('#deleteoperator').attr("onclick", "delsupplier(" + value + ");");
+    $("#rowoperator [name='updateoperator']").attr("onclick", "updatesupplier(" + value + ");");
+    $("#rowoperator [name='deleteoperator']").attr("onclick", "delsupplier(" + value + ");");
     return $('#rowoperator').html();
-   // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"updatesupplier(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delsupplier(" + value + ")\"> 删除</button>";
+    // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"updatesupplier(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delsupplier(" + value + ")\"> 删除</button>";
 }
 
 function initPage() {

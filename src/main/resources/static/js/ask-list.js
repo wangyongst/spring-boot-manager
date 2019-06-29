@@ -23,6 +23,6 @@ function ok(value) {
 };
 
 function askformatter(value, row, index) {
-    $("#updateoperator").attr("onclick", "ok(" + value + ");");
+    $("#rowoperator [name='updateoperator']").attr("onclick", "ok(" + value + ");");
     return $('#rowoperator').html();
 }
