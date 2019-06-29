@@ -40,7 +40,7 @@ function del(value) {
 };
 
 function userformatter(value, row, index) {
-    $("#updateoperator").attr("onclick", "update(" + value + ");");
-    $('#deleteoperator').attr("onclick", "del(" + value + ");");
+    $("#rowoperator [name='updateoperator']").attr("onclick", "update(" + value+");");
+    $("#rowoperator [name='deleteoperator']").attr("onclick", "del(" + value+");");
     return $('#rowoperator').html();
 }

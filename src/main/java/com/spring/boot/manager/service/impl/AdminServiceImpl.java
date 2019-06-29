@@ -104,8 +104,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Result userSud(AdminParameter adminParameter) {
         User user = null;
-        if (StringUtils.isBlank(adminParameter.getMobile())) return ResultUtil.errorWithMessage("电话不能为空！");
         if (adminParameter.getUserid() == 0) {
+            if (StringUtils.isBlank(adminParameter.getMobile())) return ResultUtil.errorWithMessage("电话不能为空！");
             if (userRepository.findByMobile(adminParameter.getMobile()).size() > 0)
                 return ResultUtil.errorWithMessage("电话已经存在！");
             user = new User();
@@ -122,6 +122,7 @@ public class AdminServiceImpl implements AdminService {
                 return ResultUtil.ok();
             }
         }
+        if (StringUtils.isBlank(adminParameter.getMobile())) return ResultUtil.errorWithMessage("电话不能为空！");
         if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("登录姓名不能为空！");
         if (adminParameter.getName().length() > 10) return ResultUtil.errorWithMessage("登录姓名不能超过10个字！");
         String regex = "^[0-9]+$";
