@@ -18,19 +18,21 @@ function changepassword() {
 
 
 function clearForm(form) {
-    // input清空
-    $(':input', form).each(function () {
-        var tag = this.tagName.toLowerCase(); // normalize case
-        if (tag == 'input' || tag == 'textarea') {
-            this.value = "";
-        } else if (tag == 'select') {
-            this.selectedIndex = -1;
-        }
+    $('input', form).each(function () {
+        this.value = "";
     });
-    var boxes = $("input[type=checkbox]", form);
-    for (i = 0; i < boxes.length; i++) {
-        boxes[i].checked = false;
-    }
+
+    $('textarea', form).each(function () {
+        this.value = "";
+    });
+
+    $('select', form).each(function () {
+        this.selectedIndex = -1;
+    });
+
+    $('checkbox', form).each(function () {
+        this.checked = false;
+    });
 }
 
 
