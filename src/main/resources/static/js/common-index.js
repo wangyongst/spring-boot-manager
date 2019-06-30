@@ -20,9 +20,8 @@ function changepassword() {
 function clearForm(form) {
     // input清空
     $(':input', form).each(function () {
-        var type = this.type;
         var tag = this.tagName.toLowerCase(); // normalize case
-        if (type == 'text' || type == 'password' || tag == 'textarea' || tag == "tel") {
+        if (tag == 'input' || tag == 'textarea') {
             this.value = "";
         } else if (tag == 'select') {
             this.selectedIndex = -1;
@@ -54,4 +53,12 @@ function select() {
     });
     if (ids.length > 1) ids = ids.substr(1);
     return ids;
+}
+
+function getWebRootPath() {
+    var href = window.document.location.href;
+    var pathname = window.document.location.pathname;
+    var pos = href.indexOf(pathname);
+    var path = href.substring(0, pos);
+    return path;
 }

@@ -1,34 +1,6 @@
 $(function () {
 
-    $('#request-list-table').bootstrapTable('hideLoading');
-
-
-    $.get("/admin/project/list?type=3",
-        function (result) {
-            $('#projectnameselect2').html("");
-            $('#projectnameselect2').append("<option value=\"\">请选择项目名称</option>");
-            $.each(result, function (key, val) {
-                $('#projectnameselect2').append("<option value=\"" + val + "\">" + val + "</option>");
-            });
-        });
-
-    $.get("/admin/material/list?type=3",
-        function (result) {
-            $('#materialnameselect2').html("");
-            $('#materialnameselect2').append("<option value=\"\">请选择耗材类型</option>");
-            $.each(result, function (key, val) {
-                $('#materialnameselect2').append("<option value=\"" + val + "\">" + val + "</option>");
-            });
-        });
-
-    $.get("/admin/project/list?type=1",
-        function (result) {
-            $('#projectcustomerselect').html("");
-            $('#projectcustomerselect').append("<option value=\"\">请选择客户名称</option>");
-            $.each(result, function (key, val) {
-                $('#projectcustomerselect').append("<option value=\"" + val + "\">" + val + "</option>");
-            });
-        });
+    initPage();
 
     $("#requestsaveButton").click(function () {
         $.post("/admin/request/sud", $('#requestForm').serialize(),
@@ -142,11 +114,52 @@ function del(value) {
     $('#deletevalue').val(value);
     $('#deletealertmessage').text("确定要删除这个申请吗？");
     $('#deletealertModal').modal('toggle');
-};
+}
+
+function showfile(value) {
+    window.open(getWebRootPath() + "/file/" + value);
+}
 
 function requestformatter(value, row, index) {
     $("#rowoperator [name='updateoperator']").attr("onclick", "update(" + value + ");");
     $("#rowoperator [name='deleteoperator']").attr("onclick", "del(" + value + ");");
     return $('#rowoperator').html();
     // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"update(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"del(" + value + ")\"> 删除</button>";
+}
+
+function fileformatter(value, row, index) {
+    if(value == null) return value;
+    return "<button type=\"button\" class=\"btn btn-link\" onclick= \"showfile('" + value + "')\">" + value + "</button>";
+}
+
+function initPage() {
+
+    $('#request-list-table').bootstrapTable('hideLoading');
+
+    $.get("/admin/project/list?type=3",
+        function (result) {
+            $('#projectnameselect2').html("");
+            $('#projectnameselect2').append("<option value=\"\">请选择项目名称</option>");
+            $.each(result, function (key, val) {
+                $('#projectnameselect2').append("<option value=\"" + val + "\">" + val + "</option>");
+            });
+        });
+
+    $.get("/admin/material/list?type=3",
+        function (result) {
+            $('#materialnameselect2').html("");
+            $('#materialnameselect2').append("<option value=\"\">请选择耗材类型</option>");
+            $.each(result, function (key, val) {
+                $('#materialnameselect2').append("<option value=\"" + val + "\">" + val + "</option>");
+            });
+        });
+
+    $.get("/admin/project/list?type=1",
+        function (result) {
+            $('#projectcustomerselect').html("");
+            $('#projectcustomerselect').append("<option value=\"\">请选择客户名称</option>");
+            $.each(result, function (key, val) {
+                $('#projectcustomerselect').append("<option value=\"" + val + "\">" + val + "</option>");
+            });
+        });
 }

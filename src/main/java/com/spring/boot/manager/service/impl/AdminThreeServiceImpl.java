@@ -114,9 +114,9 @@ public class AdminThreeServiceImpl implements AdminThreeService {
             request.setCreateusername(me.getName());
             request.setStatus(1);
         } else {
-            request = requestRepository.findById(adminParameter.getResourceid()).get();
+            request = requestRepository.findById(adminParameter.getRequestid()).get();
             if (adminParameter.getDelete() != 0) {
-                //requestRepository.delete(request);
+                deleteRequest(request);
                 return ResultUtil.ok();
             }
         }
@@ -127,7 +127,7 @@ public class AdminThreeServiceImpl implements AdminThreeService {
             if (StringUtils.isBlank(adminParameter.getPrice())) return ResultUtil.errorWithMessage("采购单价不能为空！");
             if (!StringUtils.isNumeric(adminParameter.getNum())) return ResultUtil.errorWithMessage("采购数量只能是整数！");
             if (!StringUtils.isNumeric(adminParameter.getSellnum())) return ResultUtil.errorWithMessage("销售数量只能是整数！");
-            if (!adminParameter.getPrice().matches("^(([1-9]{1}\\d*)|(0{1}))(\\.\\d{2})$"))
+            if (!adminParameter.getPrice().matches("^(([1-9]\\d{0,9})|0)(\\.\\d{1,2})?$"))
                 return ResultUtil.errorWithMessage("采购单价只能是两位小数或整数！");
             request.setNum(Integer.parseInt(adminParameter.getNum()));
             request.setSellnum(Integer.parseInt(adminParameter.getSellnum()));
@@ -158,5 +158,9 @@ public class AdminThreeServiceImpl implements AdminThreeService {
             });
         }
         return ResultUtil.ok();
+    }
+
+    public void deleteRequest(Request request) {
+        requestRepository.delete(request);
     }
 }
