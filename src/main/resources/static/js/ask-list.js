@@ -29,6 +29,7 @@ $(function () {
                 delete: 1
             }, function (result) {
                 $('#deletealertModal').modal('toggle');
+                $('#ask-list-table').bootstrapTable("refresh");
             });
     });
 
