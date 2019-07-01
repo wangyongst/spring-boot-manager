@@ -23,7 +23,6 @@ $(function () {
 
     $('#ask-list-table').on('click-row.bs.table', function (e, row, element,field)
     {
-
         alert(field);
     });
 
