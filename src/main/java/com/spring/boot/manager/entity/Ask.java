@@ -17,24 +17,9 @@ public class Ask {
     @JoinColumn(name = "requestid", referencedColumnName = "id")
     private Request request;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "supplierid", referencedColumnName = "id")
-    private Supplier supplier;
-
     @Basic
-    @Column(name = "acceptprice", nullable = true, precision = 2)
-    private BigDecimal acceptprice;
-
-    @Basic
-    @Column(name = "acceptnum", nullable = true)
-    public Integer getAcceptnum() {
-        return acceptnum;
-    }
-    private Integer acceptnum;
-
-    @Basic
-    @Column(name = "accepttime", nullable = true, length = 255)
-    private String accepttime;
+    @Column(name = "type", nullable = true)
+    private Integer type;
 
     @Basic
     @Column(name = "status", nullable = true)
@@ -56,32 +41,12 @@ public class Ask {
         this.request = request;
     }
 
-    public Supplier getSupplier() {
-        return supplier;
+    public Integer getType() {
+        return type;
     }
 
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
-
-    public BigDecimal getAcceptprice() {
-        return acceptprice;
-    }
-
-    public void setAcceptprice(BigDecimal acceptprice) {
-        this.acceptprice = acceptprice;
-    }
-
-    public void setAcceptnum(Integer acceptnum) {
-        this.acceptnum = acceptnum;
-    }
-
-    public String getAccepttime() {
-        return accepttime;
-    }
-
-    public void setAccepttime(String accepttime) {
-        this.accepttime = accepttime;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Integer getStatus() {

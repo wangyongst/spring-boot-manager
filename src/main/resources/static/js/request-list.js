@@ -32,6 +32,68 @@ $(function () {
             });
     });
 
+    $("#settingButton").click(function () {
+        $('#settingModal').modal('toggle');
+    });
+
+    $("#settingsaveButton").click(function () {
+        $.post("/admin/setting/sud?type=1",$('#settingForm').serialize(),
+            function (result) {
+                if (result.status == 1) {
+                    $('#settingModal').modal('toggle');
+                } else {
+                    $('#alertmessage').text(result.message);
+                    $('#alertModal').modal('toggle');
+                }
+            });
+    });
+
+    $("#askPriceButton").click(function () {
+        var selected = select();
+        if (selected.length == 0) {
+            $('#alertmessage').text("请先选择你要发起的记录");
+            $('#alertModal').modal('toggle');
+            return;
+        }
+        $.post("/admin/request/ask", {
+                ids: selected,
+                type:1
+            },
+            function (result) {
+                if (result.status == 1) {
+                    $('#alertmessage').text("发起询价成功，等待供应商报价");
+                    $('#alertModal').modal('toggle');
+                } else {
+                    $('#alertmessage').text(result.message);
+                    $('#alertModal').modal('toggle');
+                }
+            });
+    });
+
+
+    $("#askExampleButton").click(function () {
+        var selected = select();
+        if (selected.length == 0) {
+            $('#alertmessage').text("请先选择你要发起的记录");
+            $('#alertModal').modal('toggle');
+            return;
+        }
+        $.post("/admin/request/ask", {
+                ids: selected,
+                type:2
+            },
+            function (result) {
+                if (result.status == 1) {
+                    $('#alertmessage').text("发起打样成功，等待供应商送货");
+                    $('#alertModal').modal('toggle');
+                } else {
+                    $('#alertmessage').text(result.message);
+                    $('#alertModal').modal('toggle');
+                }
+            });
+    });
+
+
     $("#askButton").click(function () {
         var selected = select();
         if (selected.length == 0) {
@@ -40,12 +102,17 @@ $(function () {
             return;
         }
         $.post("/admin/request/ask", {
-                ids: selected
+                ids: selected,
+                type:3
             },
             function (result) {
-                $('#request-list-table').bootstrapTable('hideLoading');
-                $('#alertmessage').text("发起询价成功，等待供应商报价");
-                $('#alertModal').modal('toggle');
+                if (result.status == 1) {
+                    $('#alertmessage').text("发起采购成功，等待供应商报价");
+                    $('#alertModal').modal('toggle');
+                } else {
+                    $('#alertmessage').text(result.message);
+                    $('#alertModal').modal('toggle');
+                }
             });
     });
 
@@ -124,8 +191,7 @@ function requestformatter(value, row, index) {
     $("#rowoperator [name='updateoperator']").attr("onclick", "update(" + value + ");");
     $("#rowoperator [name='deleteoperator']").attr("onclick", "del(" + value + ");");
     return $('#rowoperator').html();
-    // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"update(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"del(" + value + ")\"> 删除</button>";
-}
+  }
 
 function fileformatter(value, row, index) {
     if(value == null) return value;

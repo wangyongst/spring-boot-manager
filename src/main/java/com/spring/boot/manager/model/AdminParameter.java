@@ -36,9 +36,18 @@ public class AdminParameter {
     private List<Integer> permission;
     private String num;
     private String sellnum;
+    private String value;
     private String price;
     private String ids;
     private String createusername;
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 
     public List<Integer> getPermission() {
         return permission;

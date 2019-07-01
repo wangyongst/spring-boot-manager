@@ -1,10 +1,7 @@
 package com.spring.boot.manager.service.impl;
 
 import com.google.common.collect.Lists;
-import com.spring.boot.manager.entity.Ask;
-import com.spring.boot.manager.entity.Material;
-import com.spring.boot.manager.entity.Request;
-import com.spring.boot.manager.entity.User;
+import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminThreeService;
@@ -17,8 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -43,6 +38,9 @@ public class AdminThreeServiceImpl implements AdminThreeService {
 
     @Autowired
     private AskRepository askRepository;
+
+    @Autowired
+    private PurchRepository purchRepository;
 
     @Autowired
     private RequestRepository requestRepository;
@@ -149,13 +147,54 @@ public class AdminThreeServiceImpl implements AdminThreeService {
         String[] ids = adminParameter.getIds().split(",");
         for (String id : ids) {
             Request request = requestRepository.findById(Integer.parseInt(id)).get();
-            productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
+            if (adminParameter.getType() == 1) {
+                if ((request.getNum() == null || request.getNum() == 0) && (request.getSellnum() == null || request.getSellnum() == 0)) {
+                    Ask ask = new Ask();
+                    ask.setRequest(request);
+                    ask.setStatus(Status.ONE);
+                    ask.setType(1);
+                    final Ask saveedask = askRepository.save(ask);
+                    productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
+                        Purch purch = new Purch();
+                        purch.setAsk(saveedask);
+                        purch.setSupplier(e.getSupplier());
+                        purch.setStatus(Status.ONE);
+                        purchRepository.save(purch);
+                    });
+                } else {
+                    return ResultUtil.errorWithMessage("采购数量必须为0，销售数量必须为0！");
+                }
+            } else if (adminParameter.getType() == 2) {
+                if (request.getNum() == 1 && (request.getSellnum() == null || request.getSellnum() == 0)) {
+                    Ask ask = new Ask();
+                    ask.setRequest(request);
+                    ask.setStatus(Status.ONE);
+                    ask.setType(2);
+                    final Ask saveedask = askRepository.save(ask);
+                    productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
+                        Purch purch = new Purch();
+                        purch.setAsk(saveedask);
+                        purch.setSupplier(e.getSupplier());
+                        purch.setStatus(Status.SEVEN);
+                        purchRepository.save(purch);
+                    });
+                } else {
+                    return ResultUtil.errorWithMessage("采购数量必须为1，销售数量必须为0！");
+                }
+            } else if (adminParameter.getType() == 3) {
                 Ask ask = new Ask();
                 ask.setRequest(request);
-                ask.setSupplier(e.getSupplier());
                 ask.setStatus(Status.ONE);
-                askRepository.save(ask);
-            });
+                ask.setType(2);
+                final Ask saveedask = askRepository.save(ask);
+                productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
+                    Purch purch = new Purch();
+                    purch.setAsk(saveedask);
+                    purch.setSupplier(e.getSupplier());
+                    purch.setStatus(Status.ONE);
+                    purchRepository.save(purch);
+                });
+            }
         }
         return ResultUtil.ok();
     }

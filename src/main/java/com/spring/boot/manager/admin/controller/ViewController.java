@@ -1,5 +1,6 @@
 package com.spring.boot.manager.admin.controller;
 
+import com.spring.boot.manager.entity.Setting;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.service.AdminService;
 import com.spring.boot.manager.service.AdminTwoService;
@@ -31,7 +32,10 @@ public class ViewController {
     }
 
     @RequestMapping("/request-list")
-    public String request() {
+    public String request(Model model) {
+        AdminParameter adminParameter = new AdminParameter();
+        adminParameter.setType(1);
+        model.addAttribute("value", ((Setting) adminService.setting(adminParameter).getData()).getValue());
         return "request-list";
     }
 

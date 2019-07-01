@@ -63,6 +63,12 @@ public class AdminController {
         return adminService.changePassword(adminParameter);
     }
 
+    //系统设置
+    @PostMapping("/setting/sud")
+    public Result settingSud(@ModelAttribute AdminParameter adminParameter) {
+        return adminService.settingSud(adminParameter);
+    }
+
     @PostMapping("/upload")
     public Result upload(@RequestParam("uploadfile") MultipartFile file, @ModelAttribute AdminParameter adminParameter) {
         return adminService.upload(file,adminParameter);

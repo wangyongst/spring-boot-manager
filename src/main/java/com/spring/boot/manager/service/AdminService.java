@@ -28,6 +28,10 @@ public interface AdminService {
 
     Result changePassword(AdminParameter adminParameter);
 
+    Result setting(AdminParameter adminParameter);
+
+    Result settingSud(AdminParameter adminParameter);
+
     Result upload(MultipartFile file,AdminParameter adminParameter);
 
 }

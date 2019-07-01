@@ -2,7 +2,7 @@ package com.spring.boot.manager.utils.result;
 
 public class Status {
 
-//     1.待报价 2.待审核 3.待结单 4.待送货 5.待收货 6.待出账 7.完结
+//     1.待报价 2.待审核 3.待接单 4.待送货 5.待收货 6.待出账 7.完结
 
     public static int ONE = 1;
     public static int TWO = 2;

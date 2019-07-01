@@ -1,9 +1,6 @@
 package com.spring.boot.manager.service.impl;
 
-import com.spring.boot.manager.entity.Resource;
-import com.spring.boot.manager.entity.Role;
-import com.spring.boot.manager.entity.Role2Permission;
-import com.spring.boot.manager.entity.User;
+import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminService;
@@ -28,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 ;
@@ -63,6 +61,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private ResourceRepository resourceRepository;
+
+    @Autowired
+    private SettingRepository settingRepository;
 
 
     @Override
@@ -168,8 +169,8 @@ public class AdminServiceImpl implements AdminService {
         if (adminParameter.getSupplierid() != 0) role.setSupplierid(supplierRepository.findById(adminParameter.getSupplierid()).get().getId());
         Role saveedRole = roleRepository.save(role);
         role2PermissionRepository.deleteAllByRole(role);
-        if(adminParameter.getPermission() != null && adminParameter.getPermission().size() > 0){
-            adminParameter.getPermission().forEach(e->{
+        if (adminParameter.getPermission() != null && adminParameter.getPermission().size() > 0) {
+            adminParameter.getPermission().forEach(e -> {
                 Role2Permission role2Permission = new Role2Permission();
                 role2Permission.setRole(saveedRole);
                 role2Permission.setPermission(permissionRepository.findById(e).get());
@@ -181,7 +182,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result permissionList(AdminParameter adminParameter) {
-        Sort sort = new Sort(Sort.Direction.ASC,"id");
+        Sort sort = new Sort(Sort.Direction.ASC, "id");
         return ResultUtil.okWithData(permissionRepository.findAll(sort));
     }
 
@@ -206,6 +207,26 @@ public class AdminServiceImpl implements AdminService {
         } else {
             return ResultUtil.errorWithMessage("原密码错误！");
         }
+    }
+
+    @Override
+    public Result setting(AdminParameter adminParameter) {
+        return ResultUtil.okWithData(settingRepository.findByType(adminParameter.getType()).get(0));
+    }
+
+    @Override
+    public Result settingSud(AdminParameter adminParameter) {
+        if (adminParameter.getType() == 1) {
+            if (StringUtils.isBlank(adminParameter.getValue())) return ResultUtil.errorWithMessage("价格系数不能为空！");
+            if (!adminParameter.getValue().matches("^(([1-9]\\d{0,9})|0)(\\.\\d{1,2})?$"))
+                return ResultUtil.errorWithMessage("价格系数只能是两位以内小数或整数！");
+            Setting setting = settingRepository.findByType(adminParameter.getType()).get(0);
+            setting.setType(1);
+            setting.setValue(BigDecimal.valueOf(Double.parseDouble(adminParameter.getValue())));
+            settingRepository.save(setting);
+            return ResultUtil.ok();
+        }
+        return null;
     }
 
     @Override
