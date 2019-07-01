@@ -62,22 +62,35 @@ public class AdminThreeServiceImpl implements AdminThreeService {
 
     @Override
     public Result askList(AdminParameter adminParameter) {
-
         Specification specification = new Specification() {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
-                if (StringUtils.isNotBlank(adminParameter.getName())) {
-                    predicates.add(criteriaBuilder.equal(root.get("request").get("resource").get("material").get("name"), adminParameter.getName()));
+                predicates.add(criteriaBuilder.notEqual(root.get("type"), 2));
+                if (StringUtils.isNotBlank(adminParameter.getCreatetime())) {
+                    predicates.add(criteriaBuilder.like(root.get("createtime"), adminParameter.getCreatetime() + "%"));
                 }
-                if (StringUtils.isNotBlank(adminParameter.getCustomer())) {
-                    predicates.add(criteriaBuilder.like(root.get("request").get("resource").get("project").get("customer"), "%" + adminParameter.getCustomer() + "%"));
+                if (adminParameter.getStatus() != 0) {
+                    if (adminParameter.getStatus() == 99) {
+                        predicates.add(criteriaBuilder.notEqual(root.get("status"), 7));
+                    } else if (adminParameter.getStatus() == 100) {
+                        predicates.add(criteriaBuilder.equal(root.get("status"), 7));
+                    }
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
+        Sort sort = new Sort(Sort.Direction.DESC, "createtime");
+        return ResultUtil.okWithData(askRepository.findAll(specification, sort));
+    }
 
-        return ResultUtil.okWithData(askRepository.findAll(specification));
+    @Override
+    public Result askSud(AdminParameter adminParameter) {
+        if (adminParameter.getDelete() == 1) {
+            Ask ask = askRepository.findById(adminParameter.getAskid()).get();
+            deleteAsk(ask);
+        }
+        return ResultUtil.ok();
     }
 
     @Override
@@ -147,11 +160,13 @@ public class AdminThreeServiceImpl implements AdminThreeService {
         String[] ids = adminParameter.getIds().split(",");
         for (String id : ids) {
             Request request = requestRepository.findById(Integer.parseInt(id)).get();
+            Ask ask = new Ask();
+            ask.setStatus(Status.ONE);
+            ask.setRequest(request);
+            ask.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
+            ask.setCreateusername(me.getName());
             if (adminParameter.getType() == 1) {
                 if ((request.getNum() == null || request.getNum() == 0) && (request.getSellnum() == null || request.getSellnum() == 0)) {
-                    Ask ask = new Ask();
-                    ask.setRequest(request);
-                    ask.setStatus(Status.ONE);
                     ask.setType(1);
                     final Ask saveedask = askRepository.save(ask);
                     productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
@@ -166,9 +181,6 @@ public class AdminThreeServiceImpl implements AdminThreeService {
                 }
             } else if (adminParameter.getType() == 2) {
                 if (request.getNum() == 1 && (request.getSellnum() == null || request.getSellnum() == 0)) {
-                    Ask ask = new Ask();
-                    ask.setRequest(request);
-                    ask.setStatus(Status.ONE);
                     ask.setType(2);
                     final Ask saveedask = askRepository.save(ask);
                     productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
@@ -182,9 +194,6 @@ public class AdminThreeServiceImpl implements AdminThreeService {
                     return ResultUtil.errorWithMessage("采购数量必须为1，销售数量必须为0！");
                 }
             } else if (adminParameter.getType() == 3) {
-                Ask ask = new Ask();
-                ask.setRequest(request);
-                ask.setStatus(Status.ONE);
                 ask.setType(2);
                 final Ask saveedask = askRepository.save(ask);
                 productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
@@ -201,5 +210,9 @@ public class AdminThreeServiceImpl implements AdminThreeService {
 
     public void deleteRequest(Request request) {
         requestRepository.delete(request);
+    }
+
+    public void deleteAsk(Ask ask) {
+        askRepository.delete(ask);
     }
 }

@@ -15,6 +15,7 @@ public class AdminParameter {
     private int projectid;
     private int resourceid;
     private int requestid;
+    private int askid;
     private String password;
     private String newpassword;
     private String newpassword2;
@@ -22,6 +23,7 @@ public class AdminParameter {
     private String customer;
     private String zimu;
     private int materialid;
+    private int status;
     private String size;
     private String special;
     private String model;
@@ -40,6 +42,22 @@ public class AdminParameter {
     private String price;
     private String ids;
     private String createusername;
+
+    public int getAskid() {
+        return askid;
+    }
+
+    public void setAskid(int askid) {
+        this.askid = askid;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getValue() {
         return value;

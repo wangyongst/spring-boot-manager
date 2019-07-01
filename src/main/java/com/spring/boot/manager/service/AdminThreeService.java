@@ -6,6 +6,8 @@ import com.spring.boot.manager.utils.result.Result;
 public interface AdminThreeService {
     Result askList(AdminParameter adminParameter);
 
+    Result askSud(AdminParameter adminParameter);
+
     Result requestList(AdminParameter adminParameter);
 
     Result requestSud(AdminParameter adminParameter);

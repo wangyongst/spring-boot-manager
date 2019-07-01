@@ -20,6 +20,13 @@ public class AdminThreeController {
         return adminThreeService.askList(adminParameter).getData();
     }
 
+
+    //物料采销表增删改
+    @PostMapping("/ask/sud")
+    public Object askSud(@ModelAttribute AdminParameter adminParameter) {
+        return adminThreeService.askSud(adminParameter).getData();
+    }
+
     //采购申请
     @GetMapping("/request/list")
     public Object requestList(@ModelAttribute AdminParameter adminParameter) {

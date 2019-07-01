@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RepositoryDefinition(domainClass = Ask.class, idClass = Integer.class)
 public interface AskRepository extends JpaRepository<Ask,Integer> , JpaSpecificationExecutor {
+    List<Ask> findAllByTypeNot(int type);
 }
