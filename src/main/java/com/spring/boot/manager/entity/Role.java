@@ -13,9 +13,9 @@ public class Role {
     @Column(name = "name", nullable = true, length = 255)
     private String name;
 
-    @Basic
-    @Column(name = "supplierid", nullable = true)
-    private Integer supplierid;
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "supplierid", referencedColumnName = "id")
+    private Supplier supplier;
 
     @Basic
     @Column(name = "projectid", nullable = true)
@@ -37,12 +37,12 @@ public class Role {
         this.name = name;
     }
 
-    public Integer getSupplierid() {
-        return supplierid;
+    public Supplier getSupplier() {
+        return supplier;
     }
 
-    public void setSupplierid(Integer supplierid) {
-        this.supplierid = supplierid;
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
     public Integer getProjectid() {

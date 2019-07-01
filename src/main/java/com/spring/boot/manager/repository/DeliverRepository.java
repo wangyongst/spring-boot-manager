@@ -1,6 +1,7 @@
 package com.spring.boot.manager.repository;
 
 import com.spring.boot.manager.entity.Ask;
+import com.spring.boot.manager.entity.Deliver;
 import com.spring.boot.manager.entity.Purch;
 import com.spring.boot.manager.entity.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,10 +12,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@RepositoryDefinition(domainClass = Purch.class, idClass = Integer.class)
-public interface PurchRepository extends JpaRepository<Purch, Integer>, JpaSpecificationExecutor {
+@RepositoryDefinition(domainClass = Deliver.class, idClass = Integer.class)
+public interface DeliverRepository extends JpaRepository<Deliver, Integer>, JpaSpecificationExecutor {
 
-    void deleteAllByAsk(Ask ask);
-
-    List<Purch> findAllBySupplierAndStatus(Supplier suppliler, int status);
+    List<Deliver> findByPurch(Purch purch);
 }

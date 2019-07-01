@@ -25,13 +25,6 @@ public class Purch {
     private BigDecimal acceptprice;
 
     @Basic
-    @Column(name = "acceptnum", nullable = true)
-    public Integer getAcceptnum() {
-        return acceptnum;
-    }
-    private Integer acceptnum;
-
-    @Basic
     @Column(name = "accepttime", nullable = true, length = 255)
     private String accepttime;
 
@@ -69,10 +62,6 @@ public class Purch {
 
     public void setAcceptprice(BigDecimal acceptprice) {
         this.acceptprice = acceptprice;
-    }
-
-    public void setAcceptnum(Integer acceptnum) {
-        this.acceptnum = acceptnum;
     }
 
     public String getAccepttime() {

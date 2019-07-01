@@ -8,7 +8,7 @@ import com.spring.boot.manager.service.AdminThreeService;
 import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.result.Result;
 import com.spring.boot.manager.utils.result.ResultUtil;
-import com.spring.boot.manager.utils.result.Status;
+import com.spring.boot.manager.utils.Status;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -212,7 +212,7 @@ public class AdminThreeServiceImpl implements AdminThreeService {
                         Purch purch = new Purch();
                         purch.setAsk(saveedask);
                         purch.setSupplier(e.getSupplier());
-                        purch.setStatus(Status.SEVEN);
+                        purch.setStatus(Status.TWO);
                         purchRepository.save(purch);
                     });
                 } else {

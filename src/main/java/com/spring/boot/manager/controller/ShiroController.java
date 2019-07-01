@@ -52,7 +52,7 @@ public class ShiroController {
             return ResultUtil.loginOK(subject.getSession().getId().toString(),user.getIschange() + "");
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultUtil.loginFail("登录失败");
+            return ResultUtil.loginFail("您输入的账户或密码有误，请重新输入！");
         }
     }
 

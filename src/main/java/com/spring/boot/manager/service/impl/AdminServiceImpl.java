@@ -165,8 +165,10 @@ public class AdminServiceImpl implements AdminService {
         if (StringUtils.isBlank(adminParameter.getName())) return ResultUtil.errorWithMessage("角色名称不能为空！");
         if (adminParameter.getName().length() > 10) return ResultUtil.errorWithMessage("角色名称最多10个字！");
         role.setName(adminParameter.getName());
-        if (adminParameter.getProjectid() != 0) role.setProjectid(projectRepository.findById(adminParameter.getProjectid()).get().getId());
-        if (adminParameter.getSupplierid() != 0) role.setSupplierid(supplierRepository.findById(adminParameter.getSupplierid()).get().getId());
+        if (adminParameter.getProjectid() != 0)
+            role.setProjectid(projectRepository.findById(adminParameter.getProjectid()).get().getId());
+        if (adminParameter.getSupplierid() != 0)
+            role.setSupplier(supplierRepository.findById(adminParameter.getSupplierid()).get());
         Role saveedRole = roleRepository.save(role);
         role2PermissionRepository.deleteAllByRole(role);
         if (adminParameter.getPermission() != null && adminParameter.getPermission().size() > 0) {
