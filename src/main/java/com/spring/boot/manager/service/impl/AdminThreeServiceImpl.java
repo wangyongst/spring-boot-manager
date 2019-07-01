@@ -209,10 +209,14 @@ public class AdminThreeServiceImpl implements AdminThreeService {
     }
 
     public void deleteRequest(Request request) {
+        askRepository.findAllByRequest(request).forEach(e -> {
+            deleteAsk(e);
+        });
         requestRepository.delete(request);
     }
 
     public void deleteAsk(Ask ask) {
+        purchRepository.deleteAllByAsk(ask);
         askRepository.delete(ask);
     }
 }

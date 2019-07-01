@@ -1,6 +1,7 @@
 package com.spring.boot.manager.repository;
 
 import com.spring.boot.manager.entity.Ask;
+import com.spring.boot.manager.entity.Request;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.RepositoryDefinition;
@@ -11,5 +12,8 @@ import java.util.List;
 @Repository
 @RepositoryDefinition(domainClass = Ask.class, idClass = Integer.class)
 public interface AskRepository extends JpaRepository<Ask,Integer> , JpaSpecificationExecutor {
+
     List<Ask> findAllByTypeNot(int type);
+
+    List<Ask> findAllByRequest(Request request);
 }
