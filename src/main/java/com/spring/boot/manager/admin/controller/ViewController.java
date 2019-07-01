@@ -26,6 +26,13 @@ public class ViewController {
         return "ask-list";
     }
 
+
+    @RequestMapping("/purch-list")
+    public String purch(@ModelAttribute AdminParameter adminParameter, Model model) {
+        model.addAttribute("askid", adminParameter.getAskid());
+        return "purch-list";
+    }
+
     @RequestMapping("/page-changepassword")
     public String changepassword() {
         return "page-changepassword";

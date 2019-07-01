@@ -21,9 +21,10 @@ $(function () {
         $('#ask-list-table').bootstrapTable({url: "/admin/ask/list?status=100&" + $('#searchaskForm').serialize()}).bootstrapTable('hideLoading');
     });
 
-    $('#ask-list-table').on('click-row.bs.table', function (e, row, element,field)
-    {
-        alert(field);
+    $('#ask-list-table').on('click-row.bs.table', function (e, row, element, field) {
+        if (field != "id") {
+            window.location.href = "/view/purch-list?askid=" + row["id"];
+        }
     });
 
     $("#deleteConfirmButton").click(function () {

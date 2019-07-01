@@ -15,6 +15,12 @@ public class AdminThreeController {
     public AdminThreeService adminThreeService;
 
     //物料采销表
+    @GetMapping("/purch/list")
+    public Object purchList(@ModelAttribute AdminParameter adminParameter) {
+        return adminThreeService.purchList(adminParameter).getData();
+    }
+
+    //物料采销表
     @GetMapping("/ask/list")
     public Object askList(@ModelAttribute AdminParameter adminParameter) {
         return adminThreeService.askList(adminParameter).getData();

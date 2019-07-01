@@ -61,6 +61,31 @@ public class AdminThreeServiceImpl implements AdminThreeService {
     private MaterialRepository materialRepository;
 
     @Override
+    public Result purchList(AdminParameter adminParameter) {
+//        Specification specification = new Specification() {
+//            @Override
+//            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+//                List<Predicate> predicates = Lists.newArrayList();
+//                predicates.add(criteriaBuilder.notEqual(root.get("type"), 2));
+//                if (StringUtils.isNotBlank(adminParameter.getCreatetime())) {
+//                    predicates.add(criteriaBuilder.like(root.get("createtime"), adminParameter.getCreatetime() + "%"));
+//                }
+//                if (adminParameter.getStatus() != 0) {
+//                    if (adminParameter.getStatus() == 99) {
+//                        predicates.add(criteriaBuilder.notEqual(root.get("status"), 7));
+//                    } else if (adminParameter.getStatus() == 100) {
+//                        predicates.add(criteriaBuilder.equal(root.get("status"), 7));
+//                    }
+//                }
+//                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+//            }
+//        };
+//        Sort sort = new Sort(Sort.Direction.DESC, "createtime");
+//        return ResultUtil.okWithData(askRepository.findAll(specification, sort));
+        return ResultUtil.okWithData(purchRepository.findAll());
+    }
+
+    @Override
     public Result askList(AdminParameter adminParameter) {
         Specification specification = new Specification() {
             @Override

@@ -4,6 +4,9 @@ import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.utils.result.Result;
 
 public interface AdminThreeService {
+
+    Result purchList(AdminParameter adminParameter);
+
     Result askList(AdminParameter adminParameter);
 
     Result askSud(AdminParameter adminParameter);

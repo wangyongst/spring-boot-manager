@@ -1,6 +1,6 @@
 $(function () {
 
-    $('#request-list-table').bootstrapTable('hideLoading');
+    $('#purch-list-table').bootstrapTable('hideLoading');
 
     $.get("/admin/material/list?type=3",
         function (result) {
@@ -12,8 +12,8 @@ $(function () {
         });
 
     $("#searchaskButton").click(function () {
-        $('#request-list-table').bootstrapTable("destroy");
-        $('#request-list-table').bootstrapTable({url: "/admin/ask/list?" + $('#searchaskForm').serialize()}).bootstrapTable('hideLoading');
+        $('#purch-list-table').bootstrapTable("destroy");
+        $('#purch-list-table').bootstrapTable({url: "/admin/purch/list?" + $('#searchaskForm').serialize()}).bootstrapTable('hideLoading');
     });
 });
 
