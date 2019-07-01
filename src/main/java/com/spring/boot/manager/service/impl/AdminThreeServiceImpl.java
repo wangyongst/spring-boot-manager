@@ -219,7 +219,7 @@ public class AdminThreeServiceImpl implements AdminThreeService {
                     return ResultUtil.errorWithMessage("采购数量必须为1，销售数量必须为0！");
                 }
             } else if (adminParameter.getType() == 3) {
-                ask.setType(2);
+                ask.setType(3);
                 final Ask saveedask = askRepository.save(ask);
                 productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
                     Purch purch = new Purch();
