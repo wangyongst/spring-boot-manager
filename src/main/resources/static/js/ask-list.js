@@ -21,6 +21,11 @@ $(function () {
         $('#ask-list-table').bootstrapTable({url: "/admin/ask/list?status=100&" + $('#searchaskForm').serialize()}).bootstrapTable('hideLoading');
     });
 
+    $('#ask-list-table').on('click-row.bs.table', function (e, row, element)
+    {
+        alert(row["id"]);
+    });
+
     $("#deleteConfirmButton").click(function () {
         var deleteid = $('#deletevalue').val();
         $.post("/admin/ask/sud",
