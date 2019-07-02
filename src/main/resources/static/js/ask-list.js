@@ -59,3 +59,9 @@ function typeformatter(value, row, index) {
     else if (value == 3) return "采购";
     else return null;
 }
+
+function statusformatter(value, row, index) {
+    if (value == 1) return "未完结";
+    else if (value == 2) return "已完结";
+    else return null;
+}
