@@ -1,4 +1,22 @@
 $(function () {
+
+    // $.ajax({
+    //     url: 'http://2504od2888.wicp.vip:17742/api/usercheck/checkUser',
+    //     type: 'POST',
+    //     beforeSend: function (request) {
+    //         request.setRequestHeader("Token", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    //     },
+    //     data: {
+    //         id: "iugfhye-szrqX5L-8fs7XVb-dwdfeaqe",
+    //         status: 1,
+    //         checkDescription: ""
+    //     },
+    //     success: function (result) {
+    //         alert(result);
+    //     }
+    // });
+
+
     $.get("/admin/role/list",
         function (result) {
             var html = "";
@@ -12,6 +30,7 @@ $(function () {
             html += "</div></div>";
             $('#roles').append(html);
         });
+
 
     $("#createuserButton").click(function () {
         $.post("/admin/user/sud", $('#usernewForm').serialize(),
