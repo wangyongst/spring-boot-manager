@@ -180,8 +180,9 @@
                                     <th data-field="acceptnum">收货数量</th>
                                     <th data-field="ask.request.total">采购单价(元)</th>
                                     <th data-field="ask.request.price">销售单价(元)</th>
-                                    <th data-field="ask.request.total">应收金额(元)</th>
-                                    <th data-field="ask.request.total">应付金额(元)</th>
+                                    <th data-field="acceptprice" data-visible="false">报价</th>
+                                    <th data-field="id" data-formatter="yingshouformatter">应收金额(元)</th>
+                                    <th data-field="id" data-formatter="yingfuformatter">应付金额(元)</th>
                                     <th data-field="status" data-formatter="financeformatter">操作</th>
                                     <th data-field="status" data-formatter="statusformatter">状态</th>
                                 </tr>
@@ -194,7 +195,10 @@
         </div><!-- .animated -->
     </div><!-- .content -->
     <div id="rowoperator" hidden>
-        <button type="button" name="updateoperator" class="btn btn-link" shiro:haspermission="purch-update"> 确定</button>
+        <button type="button" name="updateoperator" class="btn btn-link" shiro:haspermission="purch-update">确定</button>
+    </div>
+    <div id="rowoperator2" hidden>
+        <button type="button" name="updateoperator" class="btn btn-link" shiro:haspermission="purch-update">取消</button>
     </div>
 </div><!-- /#right-panel -->
 

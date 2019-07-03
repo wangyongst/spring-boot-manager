@@ -282,13 +282,22 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     predicates.add(criteriaBuilder.equal(root.get("status"), adminParameter.getStatus()));
                 }
                 if (adminParameter.getStatus() != 0 && adminParameter.getStatus() == 19) {
-                    predicates.add(criteriaBuilder.between(root.get("status"), 2,9));
+                    predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
                 }
                 predicates.add(criteriaBuilder.notEqual(root.get("ask").get("type"), 2));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
         return ResultUtil.okWithData(purchRepository.findAll(specification));
+    }
+
+    @Override
+    public Result purchCoc(AdminParameter adminParameter) {
+        Purch purch = purchRepository.findById(adminParameter.getPurchid()).get();
+        if (purch.getStatus() == Status.THREE) purch.setStatus(Status.FOUR);
+        else if (purch.getStatus() == Status.FOUR) purch.setStatus(Status.THREE);
+        purchRepository.save(purch);
+        return ResultUtil.ok();
     }
 
     @Override

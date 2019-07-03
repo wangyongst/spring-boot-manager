@@ -16,6 +16,7 @@ public class AdminParameter {
     private int resourceid;
     private int requestid;
     private int askid;
+    private int purchid;
     private String password;
     private String newpassword;
     private String newpassword2;
@@ -42,6 +43,14 @@ public class AdminParameter {
     private String price;
     private String ids;
     private String createusername;
+
+    public int getPurchid() {
+        return purchid;
+    }
+
+    public void setPurchid(int purchid) {
+        this.purchid = purchid;
+    }
 
     public int getAskid() {
         return askid;

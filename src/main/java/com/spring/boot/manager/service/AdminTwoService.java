@@ -29,6 +29,8 @@ public interface AdminTwoService {
 
     Result purchList(AdminParameter adminParameter);
 
+    Result purchCoc(AdminParameter adminParameter);
+
     Result askList(AdminParameter adminParameter);
 
     Result askSud(AdminParameter adminParameter);

@@ -20,6 +20,12 @@ public class AdminThreeController {
         return adminTwoService.purchList(adminParameter).getData();
     }
 
+    //采购申请确认
+    @PostMapping("/purch/coc")
+    public Result purchCoc(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.purchCoc(adminParameter);
+    }
+
     //物料采销表
     @GetMapping("/ask/list")
     public Object askList(@ModelAttribute AdminParameter adminParameter) {
@@ -51,6 +57,7 @@ public class AdminThreeController {
     public Result requestSud(@ModelAttribute AdminParameter adminParameter) {
         return adminTwoService.requestSud(adminParameter);
     }
+
 
     //发起
     @PostMapping("/request/ask")
