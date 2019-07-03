@@ -6,22 +6,22 @@ $(function () {
         $('#purch-list-table').bootstrapTable("destroy");
         $('#purch-list-table').bootstrapTable({url: "/admin/purch/list?" + $('#searchaskForm').serialize()}).bootstrapTable('hideLoading');
     });
+
+    $("#settingButting").click(function () {
+        $('#settingModal').modal('toggle');
+    });
+
+    $("#exportpurchButton").click(function () {
+        $('#settingModal').modal('toggle');
+    });
+
 });
-
-
-function ok(value) {
-    alert(value);
-};
-
-function askformatter(value, row, index) {
-    $("#rowoperator [name='updateoperator']").attr("onclick", "ok(" + value + ");");
-    return $('#rowoperator').html();
-}
 
 function financeformatter(value, row, index) {
     if(value != null){
         if(value == 3) return "确定";
         else if(value ==4 ) return "取消";
+        else return null;
     };
 }
 

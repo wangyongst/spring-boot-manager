@@ -278,9 +278,13 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (adminParameter.getAskid() != 0) {
                     predicates.add(criteriaBuilder.equal(root.get("ask").get("id"), adminParameter.getAskid()));
                 }
-                if (adminParameter.getStatus() != 0) {
+                if (adminParameter.getStatus() != 0 && adminParameter.getStatus() < 12) {
                     predicates.add(criteriaBuilder.equal(root.get("status"), adminParameter.getStatus()));
                 }
+                if (adminParameter.getStatus() != 0 && adminParameter.getStatus() == 19) {
+                    predicates.add(criteriaBuilder.between(root.get("status"), 2,9));
+                }
+                predicates.add(criteriaBuilder.notEqual(root.get("ask").get("type"), 2));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
