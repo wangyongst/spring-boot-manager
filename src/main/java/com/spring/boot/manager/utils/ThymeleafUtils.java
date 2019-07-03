@@ -15,4 +15,9 @@ public class ThymeleafUtils {
         }
         return (ids.contains(id));
     }
+
+    public String contact(String str1, String str2) {
+        return str1 + str2;
+    }
+
 }

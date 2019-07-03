@@ -62,27 +62,24 @@ public class AdminThreeServiceImpl implements AdminThreeService {
 
     @Override
     public Result purchList(AdminParameter adminParameter) {
-//        Specification specification = new Specification() {
-//            @Override
-//            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-//                List<Predicate> predicates = Lists.newArrayList();
-//                predicates.add(criteriaBuilder.notEqual(root.get("type"), 2));
-//                if (StringUtils.isNotBlank(adminParameter.getCreatetime())) {
-//                    predicates.add(criteriaBuilder.like(root.get("createtime"), adminParameter.getCreatetime() + "%"));
-//                }
-//                if (adminParameter.getStatus() != 0) {
-//                    if (adminParameter.getStatus() == 99) {
-//                        predicates.add(criteriaBuilder.notEqual(root.get("status"), 7));
-//                    } else if (adminParameter.getStatus() == 100) {
-//                        predicates.add(criteriaBuilder.equal(root.get("status"), 7));
-//                    }
-//                }
-//                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-//            }
-//        };
-//        Sort sort = new Sort(Sort.Direction.DESC, "createtime");
-//        return ResultUtil.okWithData(askRepository.findAll(specification, sort));
-        return ResultUtil.okWithData(purchRepository.findAll());
+        Specification specification = new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = Lists.newArrayList();
+                if (adminParameter.getAskid() != 0) {
+                    predicates.add(criteriaBuilder.equal(root.get("ask").get("id"), adminParameter.getAskid()));
+                }
+                if (adminParameter.getStatus() != 0) {
+                    if (adminParameter.getStatus() == 99) {
+                        predicates.add(criteriaBuilder.notEqual(root.get("status"), 7));
+                    } else if (adminParameter.getStatus() == 100) {
+                        predicates.add(criteriaBuilder.equal(root.get("status"), 7));
+                    }
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+        return ResultUtil.okWithData(purchRepository.findAll(specification));
     }
 
     @Override
@@ -205,7 +202,7 @@ public class AdminThreeServiceImpl implements AdminThreeService {
                     return ResultUtil.errorWithMessage("采购数量必须为0，销售数量必须为0！");
                 }
             } else if (adminParameter.getType() == 2) {
-                if (request.getNum() == 1 && (request.getSellnum() == null || request.getSellnum() == 0)) {
+                if (request.getNum() != null && request.getNum() == 1 && (request.getSellnum() == null || request.getSellnum() == 0)) {
                     ask.setType(2);
                     final Ask saveedask = askRepository.save(ask);
                     productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {

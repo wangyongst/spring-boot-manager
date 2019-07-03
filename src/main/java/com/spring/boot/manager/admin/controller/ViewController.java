@@ -26,10 +26,15 @@ public class ViewController {
         return "ask-list";
     }
 
+    @RequestMapping("/finance-list")
+    public String finance() {
+        return "finance-list";
+    }
 
     @RequestMapping("/purch-list")
     public String purch(@ModelAttribute AdminParameter adminParameter, Model model) {
-        model.addAttribute("askid", adminParameter.getAskid());
+        model.addAttribute("askid", adminParameter.getAskid()+"");
+        model.addAttribute("thymeleafutils", new ThymeleafUtils());
         return "purch-list";
     }
 
