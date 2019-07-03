@@ -18,11 +18,6 @@ function askformatter(value, row, index) {
     return $('#rowoperator').html();
 }
 
-function dateformatter(value, row, index) {
-   if(value != null) return value.substr(0,10);
-   else return null;
-}
-
 function financeformatter(value, row, index) {
     if(value != null){
         if(value == 3) return "确定";

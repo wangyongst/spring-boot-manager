@@ -64,3 +64,8 @@ function getWebRootPath() {
     var path = href.substring(0, pos);
     return path;
 }
+
+function dateformatter(value, row, index) {
+    if(value != null) return value.substr(0,10);
+    else return null;
+}
