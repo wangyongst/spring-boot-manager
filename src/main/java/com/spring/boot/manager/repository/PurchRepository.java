@@ -14,7 +14,7 @@ import java.util.List;
 @RepositoryDefinition(domainClass = Purch.class, idClass = Integer.class)
 public interface PurchRepository extends JpaRepository<Purch, Integer>, JpaSpecificationExecutor {
 
-    void deleteAllByAsk(Ask ask);
+    List<Purch> findAllByAsk(Ask ask);
 
     List<Purch> findAllBySupplierAndStatus(Supplier suppliler, int status);
 }

@@ -63,8 +63,8 @@ public class ApiServiceImpl implements ApiService {
     public Result purchPrice(Integer id, String price) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         if (StringUtils.isBlank(price)) return ResultUtil.errorWithMessage("报价不能为空！");
-        if (price.matches("^(([1-9]\\d{0,9})|0)(\\.\\d{1,2})?$"))
-            return ResultUtil.errorWithMessage("采购单价只能是两位小数或整数！");
+        if (!price.matches("^(([1-9]\\d{0,9})|0)(\\.\\d{1,2})?$"))
+            return ResultUtil.errorWithMessage("报价只能是两位小数或整数！");
         Purch purch = purchRepository.findById(id).get();
         if (purch.getStatus() == Status.TWO) {
             purch.setStatus(Status.THREE);

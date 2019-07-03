@@ -35,7 +35,7 @@ public class ApiController {
             @ApiImplicitParam(name = "id", value = "订单id", required = true, dataType = "Integer")
 
     })
-    @GetMapping("/purch/accept")
+    @PostMapping("/purch/accept")
     public Result purchAccept(@RequestParam Integer id) {
         return apiService.purchAccept(id);
     }
@@ -57,7 +57,7 @@ public class ApiController {
             @ApiImplicitParam(name = "price", value = "报价", required = true, dataType = "String")
 
     })
-    @GetMapping("/purch/price")
+    @PostMapping("/purch/price")
     public Result purchPrice(@RequestParam Integer id, @RequestParam String price) {
         return apiService.purchPrice(id, price);
     }
@@ -67,7 +67,7 @@ public class ApiController {
             @ApiImplicitParam(name = "id", value = "订单id", required = true, dataType = "Integer")
 
     })
-    @GetMapping("/purch/send")
+    @PostMapping("/purch/send")
     public Result purchPrice(@RequestParam Integer id) {
         return apiService.purchSend(id);
     }
@@ -78,7 +78,7 @@ public class ApiController {
             @ApiImplicitParam(name = "delivernum", value = "送货数量", required = true, dataType = "Integer")
 
     })
-    @GetMapping("/purch/deliver")
+    @PostMapping("/purch/deliver")
     public Result purchDeliver(@RequestParam Integer id,@RequestParam Integer delivernum) {
         return apiService.purchDeliver(id,delivernum);
     }

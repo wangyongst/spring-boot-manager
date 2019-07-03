@@ -117,9 +117,9 @@ public class AdminServiceImpl implements AdminService {
         } else {
             user = userRepository.findById(adminParameter.getUserid()).get();
             if (adminParameter.getDelete() != 0) {
-                userRepository.delete(user);
                 if (user.getId() == ((User) SecurityUtils.getSubject().getPrincipal()).getId())
                     SecurityUtils.getSubject().logout();
+                deleteUser(user);
                 return ResultUtil.ok();
             }
         }
@@ -153,12 +153,7 @@ public class AdminServiceImpl implements AdminService {
         } else {
             role = roleRepository.findById(adminParameter.getRoleid()).get();
             if (adminParameter.getDelete() != 0) {
-                userRepository.findByRole(role).forEach(e -> {
-                    e.setRole(null);
-                    userRepository.save(e);
-                });
-                role2PermissionRepository.deleteAllByRole(role);
-                roleRepository.delete(role);
+                deleteRole(role);
                 return ResultUtil.ok();
             }
         }
@@ -247,5 +242,19 @@ public class AdminServiceImpl implements AdminService {
         } finally {
             return ResultUtil.okWithData(fileName);
         }
+    }
+
+    @Override
+    public void deleteRole(Role role) {
+        userRepository.findByRole(role).forEach(e -> {
+            e.setRole(null);
+            userRepository.save(e);
+        });
+        role2PermissionRepository.deleteAllByRole(role);
+        roleRepository.delete(role);
+    }
+
+    public void deleteUser(User user) {
+        userRepository.delete(user);
     }
 }

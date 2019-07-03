@@ -133,15 +133,15 @@
                             </strong>
                         </div>
                         <div class="card-body">
-                            <table data-toggle="table" th:attr="data-url=${thymeleafutils.contact('/admin/purch/list?askid=',askid)}"
+                            <table data-toggle="table" data-url="/admin/purch/list?status=3"
                                    class="table table-striped table-bordered table-condensed" id="finance-list-table"
                                    data-pagination="true" style="font-size:xx-small">
                                 <thead>
                                 <tr>
                                     <th data-field="id">编号</th>
                                     <th data-field="ask.request.createtime" data-formatter="dateformatter">采购日期</th>
-                                    <th data-field="accepttime">接单日期</th>
-                                    <th data-field="accepttime">签收日期</th>
+                                    <th data-field="accepttime" data-formatter="dateformatter">接单日期</th>
+                                    <th data-field="null" data-formatter="dateformatter">签收日期</th>
                                     <th data-field="ask.request.resource.project.name">项目名称</th>
                                     <th data-field="ask.request.resource.project.customer">采购公司</th>
                                     <th data-field="supplier.name">供应商名称</th>
@@ -157,8 +157,8 @@
                                     <th data-field="ask.request.price">销售单价(元)</th>
                                     <th data-field="ask.request.total">应收金额(元)</th>
                                     <th data-field="ask.request.total">应付金额(元)</th>
-                                    <th data-field="id">操作</th>
-                                    <th data-field="status">状态</th>
+                                    <th data-field="status" data-formatter="financeformatter">操作</th>
+                                    <th data-field="status" data-formatter="statusformatter">状态</th>
                                 </tr>
                                 </thead>
                             </table>

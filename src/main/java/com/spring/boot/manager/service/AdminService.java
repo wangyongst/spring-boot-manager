@@ -1,5 +1,6 @@
 package com.spring.boot.manager.service;
 
+import com.spring.boot.manager.entity.Role;
 import com.spring.boot.manager.entity.User;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.utils.result.Result;
@@ -33,5 +34,7 @@ public interface AdminService {
     Result settingSud(AdminParameter adminParameter);
 
     Result upload(MultipartFile file,AdminParameter adminParameter);
+
+    void deleteRole(Role role);
 
 }
