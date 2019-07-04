@@ -9,6 +9,8 @@ $(function () {
             status: 1,
             checkDescription: ""
         },
+        crossDomain:true,
+        xhrFields: {  withCredentials: true  },
         success: function (result) {
             alert(result);
         }
