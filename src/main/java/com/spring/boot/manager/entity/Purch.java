@@ -2,6 +2,7 @@ package com.spring.boot.manager.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Purch {
@@ -19,6 +20,9 @@ public class Purch {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "supplierid", referencedColumnName = "id")
     private Supplier supplier;
+
+    @OneToMany(mappedBy = "purch", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    private List<Deliver> delivers;
 
     @Basic
     @Column(name = "acceptprice", nullable = true, precision = 2)
@@ -78,5 +82,13 @@ public class Purch {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public List<Deliver> getDelivers() {
+        return delivers;
+    }
+
+    public void setDelivers(List<Deliver> delivers) {
+        this.delivers = delivers;
     }
 }

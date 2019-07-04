@@ -3,6 +3,7 @@ package com.spring.boot.manager.service.impl;
 import com.spring.boot.manager.entity.Deliver;
 import com.spring.boot.manager.entity.Purch;
 import com.spring.boot.manager.entity.User;
+import com.spring.boot.manager.model.vo.PurchV;
 import com.spring.boot.manager.repository.DeliverRepository;
 import com.spring.boot.manager.repository.PurchRepository;
 import com.spring.boot.manager.service.ApiService;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,7 +39,8 @@ public class ApiServiceImpl implements ApiService {
     public Result purchList(Integer status) {
         if (status == null || status <= 0 || status >= 10) return ResultUtil.errorWithMessage("状态参数不正确");
         User me = (User) SecurityUtils.getSubject().getPrincipal();
-        return ResultUtil.okWithData(purchRepository.findAllBySupplierAndStatus(me.getRole().getSupplier(), status));
+        List<Purch> purchList = purchRepository.findAllBySupplierAndStatus(me.getRole().getSupplier(), status);
+        return ResultUtil.okWithData(change(purchList));
     }
 
     @Override
@@ -56,7 +59,8 @@ public class ApiServiceImpl implements ApiService {
     public Result purch(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         User me = (User) SecurityUtils.getSubject().getPrincipal();
-        return ResultUtil.okWithData(purchRepository.findById(id).get());
+        Purch purch = purchRepository.findById(id).get();
+        return ResultUtil.okWithData(change(purch));
     }
 
     @Override
@@ -106,5 +110,44 @@ public class ApiServiceImpl implements ApiService {
                 return ResultUtil.okWithMessage("与订单采购数量相差" + (deliverCount.intValue() - purch.getAsk().getRequest().getNum()) + "个，是否终结此次生产任务?");
             } else return ResultUtil.ok();
         } else return ResultUtil.errorWithMessage("该订单不是生产中状态，不能送货");
+    }
+
+
+    public PurchV changeVo(Purch purch) {
+        PurchV p = new PurchV();
+        p.setType(purch.getAsk().getType());
+        p.setCreatetime(purch.getAsk().getCreatetime());
+        p.setStatus(purch.getStatus());
+        p.setProjectname(purch.getAsk().getRequest().getResource().getProject().getName());
+        p.setFile(purch.getAsk().getRequest().getResource().getFile());
+        p.setSize(purch.getAsk().getRequest().getResource().getSize());
+        p.setSpecial(purch.getAsk().getRequest().getResource().getSpecial());
+        p.setModel(purch.getAsk().getRequest().getResource().getModel());
+        p.setCode(purch.getAsk().getRequest().getResource().getMaterial().getCode());
+        p.setMaterialname(purch.getAsk().getRequest().getResource().getMaterial().getName());
+        p.setNum(purch.getAsk().getRequest().getNum());
+//        //待生产数量
+//        private Integer productnum;
+//        //送货数量
+//        private Integer delivernum;
+//        //实收数量
+//        private Integer acceptnum;
+        p.setAcceptprice(purch.getAcceptprice());
+        p.setContact(purch.getSupplier().getContacts());
+        p.setMobile(purch.getSupplier().getMobile());
+        return p;
+    }
+
+    public Object change(Object object) {
+        if (object instanceof Purch) {
+            return changeVo((Purch) object);
+        } else if (object instanceof List) {
+            List<PurchV> purchVS = new ArrayList<>();
+            ((List<Purch>) object).forEach(e -> {
+                purchVS.add(changeVo(e));
+            });
+            return purchVS;
+        }
+        return null;
     }
 }
