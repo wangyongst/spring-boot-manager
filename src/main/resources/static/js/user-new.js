@@ -3,9 +3,7 @@ $(function () {
     // $.ajax({
     //     url: 'http://2504od2888.wicp.vip:17742/api/usercheck/checkUser',
     //     type: 'POST',
-    //     beforeSend: function (request) {
-    //         request.setRequestHeader("Token", "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-    //     },
+    //     headers: {'token': "faea0eb2-5909-46b9-8ec7-fb842fbc0026"},
     //     data: {
     //         id: "iugfhye-szrqX5L-8fs7XVb-dwdfeaqe",
     //         status: 1,
