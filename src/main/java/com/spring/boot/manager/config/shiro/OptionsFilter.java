@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @Component
-public class HeaderFilter extends UserFilter {
+public class OptionsFilter extends UserFilter {
 
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
