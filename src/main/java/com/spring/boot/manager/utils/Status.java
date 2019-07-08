@@ -12,6 +12,6 @@ public class Status {
     public static int SIX = 6;
     public static int SEVEN = 7;
     public static int EIGHT = 8;
-    public static int NINE = 9;
+    public static int FINISH = 9;
 
 }
