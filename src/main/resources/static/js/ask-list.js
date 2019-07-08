@@ -56,6 +56,7 @@ function askformatter(value, row, index) {
 
 function typeformatter(value, row, index) {
     if (value == 1) return "询价";
+    if (value == 2) return "打样";
     else if (value == 3) return "采购";
     else return null;
 }

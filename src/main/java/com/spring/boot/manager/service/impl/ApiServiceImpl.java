@@ -1,11 +1,11 @@
 package com.spring.boot.manager.service.impl;
 
-import com.spring.boot.manager.entity.Deliver;
-import com.spring.boot.manager.entity.Purch;
-import com.spring.boot.manager.entity.User;
+import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.vo.PurchV;
+import com.spring.boot.manager.repository.AskRepository;
 import com.spring.boot.manager.repository.DeliverRepository;
 import com.spring.boot.manager.repository.PurchRepository;
+import com.spring.boot.manager.repository.RequestRepository;
 import com.spring.boot.manager.service.ApiService;
 import com.spring.boot.manager.utils.Status;
 import com.spring.boot.manager.utils.db.TimeUtils;
@@ -31,6 +31,12 @@ public class ApiServiceImpl implements ApiService {
 
     @Autowired
     private PurchRepository purchRepository;
+
+    @Autowired
+    private RequestRepository requestRepository;
+
+    @Autowired
+    private AskRepository askRepository;
 
     @Autowired
     private DeliverRepository deliverRepository;
@@ -70,10 +76,24 @@ public class ApiServiceImpl implements ApiService {
         if (!price.matches("^(([1-9]\\d{0,9})|0)(\\.\\d{1,2})?$"))
             return ResultUtil.errorWithMessage("报价只能是两位小数或整数！");
         Purch purch = purchRepository.findById(id).get();
-        if (purch.getStatus() == Status.TWO) {
-            purch.setStatus(Status.THREE);
+        if (purch.getStatus() == Status.ONE) {
+            if (purch.getAsk().getType() == 1) {
+                purch.setStatus(Status.NINE);
+            } else {
+                purch.setStatus(Status.TWO);
+            }
             purch.setAcceptprice(BigDecimal.valueOf(Double.parseDouble(price)));
             purchRepository.save(purch);
+            Ask ask = purch.getAsk();
+            List<Purch> purchList = purchRepository.findAllByAsk(ask);
+            boolean iscomplete = true;
+            for(Purch p:purchList) {
+               if(purch.getAcceptprice() == null) iscomplete = false;
+            }
+            if(iscomplete){
+                ask.setStatus(Status.TWO);
+                askRepository.save(ask);
+            }
             return ResultUtil.ok();
         } else return ResultUtil.errorWithMessage("该订单不是待报价状态，不能报价");
     }
@@ -106,7 +126,7 @@ public class ApiServiceImpl implements ApiService {
             for (Deliver deli : delivers) {
                 deliverCount += deli.getDelivernum();
             }
-            if (deliverCount > 0 && deliverCount / purch.getAsk().getRequest().getNum() > 0.9) {
+            if (deliverCount > 0 && deliverCount / purch.getAsk().getRequest().getNum() >= 0.9) {
                 return ResultUtil.okWithMessage("与订单采购数量相差" + (deliverCount.intValue() - purch.getAsk().getRequest().getNum()) + "个，是否终结此次生产任务?");
             } else return ResultUtil.ok();
         } else return ResultUtil.errorWithMessage("该订单不是生产中状态，不能送货");

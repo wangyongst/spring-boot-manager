@@ -148,22 +148,25 @@
                             <form id="requestForm">
                                 <input id="requestidhidden" name="requestid" hidden>
                                 <div class="row form-group">
-                                    <div class="col col-md-3"><label class=" form-control-label">采购公司</label></div>
-                                    <div class="col-12 col-md-9"><select id="projectcustomerselect"
-                                                                         class="form-control">
-                                    </select>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">项目名称</label></div>
                                     <div class="col-12 col-md-9"><select id="projectnameselect" class="form-control">
                                     </select></div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col col-md-3"><label class=" form-control-label">耗材类型</label></div>
-                                    <div class="col-12 col-md-9"><select id="materialnameselect" name="resourceid"
+                                    <div class="col col-md-3"><label class=" form-control-label">客户名称</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" id="projectcustomer" disabled
+                                                                        class="form-control"></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">耗材编号</label></div>
+                                    <div class="col-12 col-md-9"><select id="materialcodeselect" name="resourceid"
                                                                          class="form-control">
                                     </select></div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">耗材名称</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" id="materialname" disabled
+                                                                        class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">尺寸大小</label></div>
@@ -197,6 +200,11 @@
                                     <div class="col-12 col-md-9"><input type="number" step="0.01" id="price"
                                                                         name="price" class="form-control">
                                     </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">销售总价</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" id="total" disabled
+                                                                        class="form-control"></div>
                                 </div>
                             </form>
                         </div>
@@ -261,9 +269,9 @@
                                 <div class="pull-right">
                                     <button type="button" class="btn btn-primary" id="settingButton" shiro:haspermission="purch-update">价格系数</button>
                                     <button type="button" class="btn btn-primary" id="createrequestButton" shiro:haspermission="purch-create">新增耗材</button>
+                                    <button type="button" class="btn btn-success" id="askButton" shiro:haspermission="purch-start">发起采购</button>
                                     <button type="button" class="btn btn-success" id="askPriceButton" shiro:haspermission="purch-start">发起询价</button>
                                     <button type="button" class="btn btn-success" id="askExampleButton" shiro:haspermission="purch-start">发起打样</button>
-                                    <button type="button" class="btn btn-success" id="askButton" shiro:haspermission="purch-start">发起采购</button>
                                 </div>
                                 <div class="pull-left">
                                     <form class="form-inline" id="searchrequestForm">

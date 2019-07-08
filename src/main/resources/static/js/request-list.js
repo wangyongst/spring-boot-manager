@@ -21,23 +21,12 @@ $(function () {
         $('#requestModal').modal('toggle');
     });
 
-    $("#projectcustomerselect").change(function () {
-        $.get("/admin/project/list?type=2&customer=" + $('#projectcustomerselect').val(),
-            function (result) {
-                $('#projectnameselect').html("");
-                $('#projectnameselect').append("<option value=\"\">请选择项目名称</option>");
-                $.each(result, function (key, val) {
-                    $('#projectnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
-                });
-            });
-    });
-
     $("#settingButton").click(function () {
         $('#settingModal').modal('toggle');
     });
 
     $("#settingsaveButton").click(function () {
-        $.post("/admin/setting/sud?type=1",$('#settingForm').serialize(),
+        $.post("/admin/setting/sud?type=1", $('#settingForm').serialize(),
             function (result) {
                 if (result.status == 1) {
                     $('#settingModal').modal('toggle');
@@ -57,7 +46,7 @@ $(function () {
         }
         $.post("/admin/request/ask", {
                 ids: selected,
-                type:1
+                type: 1
             },
             function (result) {
                 if (result.status == 1) {
@@ -80,7 +69,7 @@ $(function () {
         }
         $.post("/admin/request/ask", {
                 ids: selected,
-                type:2
+                type: 2
             },
             function (result) {
                 if (result.status == 1) {
@@ -103,7 +92,7 @@ $(function () {
         }
         $.post("/admin/request/ask", {
                 ids: selected,
-                type:3
+                type: 3
             },
             function (result) {
                 if (result.status == 1) {
@@ -118,19 +107,29 @@ $(function () {
 
 
     $("#projectnameselect").change(function () {
+        if ($('#projectnameselect').val() == "未选择") {
+            $('#projectcustomer').val("");
+            $('#materialcodeselect').html("");
+            $('#materialname').val("")
+            $('#size').val("");
+            $('#special').val("");
+            $('#model').val("");
+        }
         $.get("/admin/resource/list?name2=" + $('#projectnameselect').val(),
             function (result) {
-                $('#materialnameselect').html("");
-                $('#materialnameselect').append("<option value=\"0\">请选择耗材类型</option>");
+                $('#projectcustomer').val(result[0].project.customer)
+                $('#materialcodeselect').html("");
+                $('#materialcodeselect').append("<option value=\"0\">请选择耗材编号</option>");
                 $.each(result, function (key, val) {
-                    $('#materialnameselect').append("<option value=\"" + val.id + "\">" + val.material.name + "</option>");
+                    $('#materialcodeselect').append("<option value=\"" + val.id + "\">" + val.material.code + "</option>");
                 });
             });
     });
 
-    $("#materialnameselect").change(function () {
-        $.get("/admin/resource?resourceid=" + $('#materialnameselect').val(),
+    $("#materialcodeselect").change(function () {
+        $.get("/admin/resource?resourceid=" + $('#materialcodeselect').val(),
             function (result) {
+                $('#materialname').val(result.data.material.name)
                 $('#size').val(result.data.size);
                 $('#special').val(result.data.special);
                 $('#model').val(result.data.model);
@@ -150,6 +149,18 @@ $(function () {
             });
     });
 
+    $("#price").change(function () {
+        var sellnum = $("#sellnum").val();
+        var price = $("#price").val();
+        $("#total").val(sellnum * price);
+    });
+
+    $("#sellnum").change(function () {
+        var sellnum = $("#sellnum").val();
+        var price = $("#price").val();
+        $("#total").val(sellnum * price);
+    });
+
 
     $("#searchrequestButton").click(function () {
         $('#request-list-table').bootstrapTable("destroy");
@@ -163,15 +174,17 @@ function update(value) {
         function (result) {
             if (result.status == 1) {
                 $('#requestidhidden').val(result.data.id);
-                $('#projectcustomerselect').val(result.data.resource.project.customer);
-                $('#projectnameselect').html("<option selected>" + result.data.resource.project.name + "</option>");
-                $('#materialnameselect').html("<option value=\"" + result.data.resource.id + "\">" + result.data.resource.material.name + "</option>");
+                $('#projectnameselect').val(result.data.resource.project.name);
+                $('#projectcustomer').val(result.data.resource.project.customer);
+                $('#materialcodeselect').html("<option value=\"" + result.data.resource.id + "\">" + result.data.resource.material.code + "</option>");
+                $('#materialname').val(result.data.resource.material.name);
                 $('#size').val(result.data.resource.size);
                 $('#special').val(result.data.resource.special);
                 $('#model').val(result.data.resource.model);
                 $('#num').val(result.data.num);
                 $('#sellnum').val(result.data.sellnum);
                 $('#price').val(result.data.price);
+                $('#total').val(result.data.total);
             }
         });
     $('#requestModal').modal('toggle');
@@ -191,10 +204,10 @@ function requestformatter(value, row, index) {
     $("#rowoperator [name='updateoperator']").attr("onclick", "update(" + value + ");");
     $("#rowoperator [name='deleteoperator']").attr("onclick", "del(" + value + ");");
     return $('#rowoperator').html();
-  }
+}
 
 function fileformatter(value, row, index) {
-    if(value == null) return value;
+    if (value == null) return value;
     return "<button type=\"button\" class=\"btn btn-link\" onclick= \"showfile('" + value + "')\">" + value + "</button>";
 }
 
@@ -204,9 +217,12 @@ function initPage() {
 
     $.get("/admin/project/list?type=3",
         function (result) {
+            $('#projectnameselect').html("");
             $('#projectnameselect2').html("");
+            $('#projectnameselect').append("<option value=\"未选择\">请选择项目名称</option>");
             $('#projectnameselect2').append("<option value=\"\">请选择项目名称</option>");
             $.each(result, function (key, val) {
+                $('#projectnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
                 $('#projectnameselect2').append("<option value=\"" + val + "\">" + val + "</option>");
             });
         });
@@ -217,15 +233,6 @@ function initPage() {
             $('#materialnameselect2').append("<option value=\"\">请选择耗材类型</option>");
             $.each(result, function (key, val) {
                 $('#materialnameselect2').append("<option value=\"" + val + "\">" + val + "</option>");
-            });
-        });
-
-    $.get("/admin/project/list?type=1",
-        function (result) {
-            $('#projectcustomerselect').html("");
-            $('#projectcustomerselect').append("<option value=\"\">请选择客户名称</option>");
-            $.each(result, function (key, val) {
-                $('#projectcustomerselect').append("<option value=\"" + val + "\">" + val + "</option>");
             });
         });
 }

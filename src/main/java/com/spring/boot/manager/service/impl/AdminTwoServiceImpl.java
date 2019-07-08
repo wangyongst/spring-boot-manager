@@ -386,7 +386,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             request.setNum(Integer.parseInt(adminParameter.getNum()));
             request.setSellnum(Integer.parseInt(adminParameter.getSellnum()));
             request.setPrice(BigDecimal.valueOf(Double.parseDouble(adminParameter.getPrice())));
-            request.setTotal(request.getPrice().multiply(new BigDecimal(request.getNum().toString())));
+            request.setTotal(request.getPrice().multiply(new BigDecimal(request.getSellnum().toString())));
         }
         requestRepository.save(request);
         return ResultUtil.okWithData(request);
@@ -408,6 +408,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             ask.setRequest(request);
             ask.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
             ask.setCreateusername(me.getName());
+            //询价
             if (adminParameter.getType() == 1) {
                 if ((request.getNum() == null || request.getNum() == 0) && (request.getSellnum() == null || request.getSellnum() == 0)) {
                     ask.setType(1);
@@ -422,6 +423,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 } else {
                     return ResultUtil.errorWithMessage("采购数量必须为0，销售数量必须为0！");
                 }
+                //打样
             } else if (adminParameter.getType() == 2) {
                 if (request.getNum() != null && request.getNum() == 1 && (request.getSellnum() == null || request.getSellnum() == 0)) {
                     ask.setType(2);
@@ -430,13 +432,16 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                         Purch purch = new Purch();
                         purch.setAsk(saveedask);
                         purch.setSupplier(e.getSupplier());
-                        purch.setStatus(Status.TWO);
+                        purch.setStatus(Status.THREE);
                         purchRepository.save(purch);
                     });
                 } else {
                     return ResultUtil.errorWithMessage("采购数量必须为1，销售数量必须为0！");
                 }
+                //采购
             } else if (adminParameter.getType() == 3) {
+                if ((request.getNum() == null || request.getNum() == 0) || (request.getSellnum() == null || request.getSellnum() == 0) || (request.getPrice() == null || request.getSellnum() == 0))
+                    return ResultUtil.errorWithMessage("采购数量、销售数量不能为0！");
                 ask.setType(3);
                 final Ask saveedask = askRepository.save(ask);
                 productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {

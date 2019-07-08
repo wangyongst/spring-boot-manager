@@ -26,14 +26,13 @@ public class AdminThreeController {
         return adminTwoService.purchCoc(adminParameter);
     }
 
-    //物料采销表
+    //询价单
     @GetMapping("/ask/list")
     public Object askList(@ModelAttribute AdminParameter adminParameter) {
         return adminTwoService.askList(adminParameter).getData();
     }
 
-
-    //物料采销表增删改
+    //询价单增删改
     @PostMapping("/ask/sud")
     public Object askSud(@ModelAttribute AdminParameter adminParameter) {
         return adminTwoService.askSud(adminParameter).getData();
