@@ -197,8 +197,8 @@
                                     <div class="col-12 col-md-9">
                                         <select name="supplierid" class="form-control">
                                             <option value="0">请选择供应商数据权限</option>
-                                            <option th:if="${role.supplier ne null}" th:selected="${role.supplier.id eq supplier.id}" th:each="supplier:${suppliers}" th:value="${supplier.id}" th:text="${supplier.name}"></option>
-                                            <option th:if="${role.supplier eq null}" th:each="supplier:${suppliers}" th:value="${supplier.id}" th:text="${supplier.name}"></option>
+                                            <option th:if="${role.supplierid ne null}" th:selected="${role.supplierid eq supplier.id}" th:each="supplier:${suppliers}" th:value="${supplier.id}" th:text="${supplier.name}"></option>
+                                            <option th:if="${role.supplierid eq null}" th:each="supplier:${suppliers}" th:value="${supplier.id}" th:text="${supplier.name}"></option>
                                         </select>
                                     </div>
                                 </div>

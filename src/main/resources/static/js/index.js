@@ -284,7 +284,7 @@ function updatematerial(value, index) {
                 if (k < 2) {
                     $(this).html("<input class=\"form-control\" value='" + $(this).text() + "'>");
                 } else {
-                    $(this).html("<button type=\"button\" class=\"btn btn-link\" onclick= \"updatesavematerial(" + value + ")\"> 保存</button><button type=\"button\" class=\"btn btn-link\" onclick= \"cancelmaterial()\"> 取消</button>");
+                    $(this).html("<button type=\"button\" class=\"btn btn-link\" onclick= \"updatesavematerial(" + value + "," + index + ")\"> 保存</button><button type=\"button\" class=\"btn btn-link\" onclick= \"cancelmaterial()\"> 取消</button>");
                 }
             })
         }
@@ -296,6 +296,34 @@ function savematerial() {
         {
             code: $('#newmaterialcode').val(),
             name: $('#newmaterialname').val(),
+        },
+        function (result) {
+            if (result.status == 1) {
+                initPage()
+            } else {
+                $('#alertmessage').text(result.message);
+                $('#alertModal').modal('toggle');
+            }
+        });
+}
+
+function updatesavematerial(value,index) {
+    var code;
+    var name;
+    $("#matiral-list-table tbody tr").each(function (i) {
+        if (i == index) {
+            $(this).find("td").each(function (k) {
+                if(k == 0) code = $(this).find("input").val();
+                else if(k == 1) name = $(this).find("input").val();
+            })
+        }
+    });
+
+    $.post("/admin/material/sud",
+        {
+            materialid: value,
+            code: code,
+            name: name
         },
         function (result) {
             if (result.status == 1) {
@@ -331,10 +359,9 @@ function materialformatter(value, row, index) {
         return "<button type=\"button\" class=\"btn btn-link\" onclick= \"savematerial()\"> 保存</button><button type=\"button\" class=\"btn btn-link\" onclick= \"cancelmaterial()\"> 取消</button>";
     } else {
         $("#rowoperator2 [name='newoperator2']").attr("onclick", "newmaterial();");
-        $("#rowoperator2 [name='updateoperator2']").attr("onclick", "updatematerial(" + value + ");");
+        $("#rowoperator2 [name='updateoperator2']").attr("onclick", "updatematerial(" + value + "," + index + ");");
         $("#rowoperator2 [name='deleteoperator2']").attr("onclick", "delmaterial(" + value + ");");
         return $('#rowoperator2').html();
-        // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"newmaterial()\"> 新增</button><button type=\"button\" class=\"btn btn-link\" onclick= \"updatematerial(" + value + "," + index + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delmaterial(" + value + ")\"> 删除</button>";
     }
 }
 
@@ -343,10 +370,8 @@ function fileformatter(value, row, index) {
     $("#rowoperator1 [name='updateoperator1']").attr("onclick", "uploadfile(" + row.id + ");");
     if (value == null) {
         $("#rowoperator1 [name='updateoperator1']").text("上传")
-        // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"uploadfile(" + row.id + ")\">上传</button>";
     } else {
         $("#rowoperator1 [name='updateoperator1']").text(value)
-        // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"uploadfile(" + row.id + ")\">" + value + "</button>";
     }
     return $('#rowoperator1').html();
 }
@@ -364,21 +389,18 @@ function projectformatter(value, row, index) {
     $("#rowoperator [name='updateoperator']").attr("onclick", "updateproject(" + value + ");");
     $("#rowoperator [name='deleteoperator']").attr("onclick", "delproject(" + value + ");");
     return $('#rowoperator').html();
-    // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"updateproject(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delproject(" + value + ")\"> 删除</button>";
 }
 
 function resourceformatter(value, row, index) {
     $("#rowoperator [name='updateoperator']").attr("onclick", "updateresource(" + value + ");");
     $("#rowoperator [name='deleteoperator']").attr("onclick", "delresource(" + value + ");");
     return $('#rowoperator').html();
-    //return "<button type=\"button\" class=\"btn btn-link\" onclick= \"updateresource(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delresource(" + value + ")\"> 删除</button>";
 }
 
 function supplierformatter(value, row, index) {
     $("#rowoperator [name='updateoperator']").attr("onclick", "updatesupplier(" + value + ");");
     $("#rowoperator [name='deleteoperator']").attr("onclick", "delsupplier(" + value + ");");
     return $('#rowoperator').html();
-    // return "<button type=\"button\" class=\"btn btn-link\" onclick= \"updatesupplier(" + value + ")\"> 修改</button><button type=\"button\" class=\"btn btn-link\" onclick=\"delsupplier(" + value + ")\"> 删除</button>";
 }
 
 function initPage() {
