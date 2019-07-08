@@ -1,21 +1,6 @@
 $(function () {
 
-    $.ajax({
-        url: 'http://2504od2888.wicp.vip:17742/api/usercheck/checkUser',
-        type: 'POST',
-        headers: {'token': "88cbc33c-d81d-49d4-b281-df348f7b4b6b"},
-        data: {
-            id: "iugfhye-szrqX5L-8fs7XVb-dwdfeaqe",
-            status: 1,
-            checkDescription: ""
-        },
-        crossDomain:true,
-        xhrFields: {  withCredentials: true  },
-        success: function (result) {
-            alert(result);
-        }
-    });
-
+    $("#supplierselecteddiv").hide();
 
     $.get("/admin/role/list",
         function (result) {
@@ -30,6 +15,15 @@ $(function () {
             html += "</div></div>";
             $('#roles').append(html);
         });
+
+    $("#roles").change(function () {
+        var roleid=$('input:radio[name="roleid"]:checked').val();
+        if (roleid == -1) {
+            $("#supplierselecteddiv").show();
+        } else {
+            $("#supplierselecteddiv").hide();
+        }
+    });
 
 
     $("#createuserButton").click(function () {

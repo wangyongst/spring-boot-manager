@@ -39,6 +39,15 @@ function del(value) {
     $('#deletealertModal').modal('toggle');
 };
 
+function roleformatter(value, row, index) {
+    if(row["role"] == null){
+        if(row["deliver"] != null) return "收货员";
+        if(row["supplier"] != null ) return "供应商";
+    }else{
+        return value;
+    }
+}
+
 function userformatter(value, row, index) {
     $("#rowoperator [name='updateoperator']").attr("onclick", "update(" + value+");");
     $("#rowoperator [name='deleteoperator']").attr("onclick", "del(" + value+");");

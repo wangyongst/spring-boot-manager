@@ -38,7 +38,7 @@ public class ViewController {
 
     @RequestMapping("/purch-list")
     public String purch(@ModelAttribute AdminParameter adminParameter, Model model) {
-        model.addAttribute("askid", adminParameter.getAskid()+"");
+        model.addAttribute("askid", adminParameter.getAskid() + "");
         model.addAttribute("thymeleafutils", new ThymeleafUtils());
         return "purch-list";
     }
@@ -86,13 +86,15 @@ public class ViewController {
     }
 
     @RequestMapping("/user-new")
-    public String usernew() {
+    public String usernew(@ModelAttribute AdminParameter adminParameter, Model model) {
+        model.addAttribute("suppliers", adminTwoService.supplierList(adminParameter).getData());
         return "user-new";
     }
 
     @RequestMapping("/user-update")
-    public String userupdate(String userid, Model model) {
-        model.addAttribute("userid", userid);
+    public String userupdate(@ModelAttribute AdminParameter adminParameter, Model model) {
+        model.addAttribute("user", adminService.user(adminParameter).getData());
+        model.addAttribute("suppliers", adminTwoService.supplierList(adminParameter).getData());
         return "user-update";
     }
 }

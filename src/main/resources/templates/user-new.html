@@ -51,7 +51,7 @@
                 </li>
                 <li class="menu-title">财务系统</li><!-- /.menu-title -->
                 <li>
-                      <a href="/view/finance-list"> <i class="menu-icon ti-money"></i>采购记录表</a>
+                    <a href="/view/finance-list"> <i class="menu-icon ti-money"></i>采购记录表</a>
                 </li>
                 <li>
                     <a href="widgets.html"> <i class="menu-icon ti-printer"></i>对账单</a>
@@ -154,6 +154,35 @@
                                     <div class="col-12 col-md-9"><input type="password" name="password" placeholder="只能是数字和英文" class="form-control"></div>
                                 </div>
                                 <div class="form-group" id="roles"><label class=" form-control-label">配置角色</label>
+                                    <div class="col col-md-9">
+                                        <div class="form-check-inline form-check col-12 col-md-12">
+                                            <div class="col-md-4">
+                                                <label class="form-check-label ">
+                                                    <input type="radio" name="roleid" value="13" class="form-check-input">系统管理员
+                                                </label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-check-label ">
+                                                    <input type="radio" name="roleid" value="-1" lass="form-check-input">供应商
+                                                </label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form-check-label ">
+                                                    <input type="radio" name="roleid" value="-2" class="form-check-input">收货员
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="supplierselecteddiv">
+                                    <div class="col-12 col-md-9">
+                                        <select name="supplierid" class="form-control">
+                                            <option value="0">请选择供应商</option>
+                                            <th:block th:each="supplier:${suppliers}">
+                                                <option th:value="${supplier.id}" th:text="${supplier.name}"></option>
+                                            </th:block>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="offset-lg-4">

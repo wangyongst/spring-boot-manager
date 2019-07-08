@@ -39,7 +39,7 @@ public class ApiServiceImpl implements ApiService {
     public Result purchList(Integer status) {
         if (status == null || status <= 0 || status >= 10) return ResultUtil.errorWithMessage("状态参数不正确");
         User me = (User) SecurityUtils.getSubject().getPrincipal();
-        List<Purch> purchList = purchRepository.findAllBySupplierAndStatus(me.getRole().getSupplier(), status);
+        List<Purch> purchList = purchRepository.findAllBySupplierAndStatus(me.getSupplier(), status);
         return ResultUtil.okWithData(change(purchList));
     }
 

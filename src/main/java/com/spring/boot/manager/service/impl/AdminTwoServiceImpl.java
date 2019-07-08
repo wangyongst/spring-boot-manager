@@ -47,6 +47,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     private RoleRepository roleRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private SupplierRepository supplierRepository;
 
     @Autowired
@@ -467,8 +470,12 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         productRepository.findBySupplier(supplier).forEach(e -> {
             deleteProduct(e);
         });
-        roleRepository.findAllBySupplier(supplier).forEach(e -> {
+        roleRepository.findAllBySupplierid(supplier.getId()).forEach(e -> {
             adminService.deleteRole(e);
+        });
+        userRepository.findBySupplier(supplier).forEach(e -> {
+            e.setSupplier(null);
+            userRepository.save(e);
         });
         supplierRepository.delete(supplier);
     }

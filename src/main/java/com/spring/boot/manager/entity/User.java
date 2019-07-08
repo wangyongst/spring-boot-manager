@@ -26,13 +26,36 @@ public class User {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "roleid", referencedColumnName = "id")
     private Role role;
-    @Basic
+
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "supplierid", referencedColumnName = "id")
+    private Supplier supplier;
+
+    @Column(name = "deliver", nullable = true)
+    private Integer deliver;
 
     @Column(name = "ischange", nullable = true)
     private Integer ischange;
     @Basic
     @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
+
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    public Integer getDeliver() {
+        return deliver;
+    }
+
+    public void setDeliver(Integer deliver) {
+        this.deliver = deliver;
+    }
 
     public String getCreatetime() {
         return createtime;

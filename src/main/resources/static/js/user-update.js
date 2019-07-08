@@ -1,5 +1,7 @@
 $(function () {
 
+    $("#supplierselecteddiv").hide();
+
     var userid = window.location.search.substr(1);
 
     $.get("/admin/user?" + userid,
@@ -7,6 +9,15 @@ $(function () {
             if (result.status == 1) {
                 $("#name").val(result.data.name);
                 $("#mobile").val(result.data.mobile);
+                if(result.data.role != null && result.data.role.name == "系统管理员") {
+                    $("#adminrole").prop("checked",true);
+                }
+                else if(result.data.supplier != null) {
+                    $("#supplierrole").prop("checked",true);
+                    $("#supplierselecteddiv").show();
+                }else if(result.data.deliver == 1){
+                    $("#deliverrole").prop("checked",true);
+                }
                 $.get("/admin/role/list",
                     function (result2) {
                         var html = "";
@@ -26,6 +37,17 @@ $(function () {
                     });
             }
         });
+
+
+    $("#roles").change(function () {
+        var roleid=$('input:radio[name="roleid"]:checked').val();
+        if (roleid == -1) {
+            $("#supplierselecteddiv").show();
+        } else {
+            $("#supplierselecteddiv").hide();
+        }
+    });
+
 
     $("#saveButton").click(function () {
         $.post("/admin/user/sud?" + userid, $('#usernewForm').serialize(),

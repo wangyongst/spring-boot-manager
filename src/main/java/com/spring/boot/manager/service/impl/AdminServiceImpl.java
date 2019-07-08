@@ -94,7 +94,10 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result roleList(AdminParameter adminParameter) {
-        return ResultUtil.okWithData(roleRepository.findAll());
+        List<Role> roles = roleRepository.findAll();
+        Role role = roleRepository.findById(13).get();
+        roles.remove(role);
+        return ResultUtil.okWithData(roles);
     }
 
     @Override
@@ -132,7 +135,22 @@ public class AdminServiceImpl implements AdminService {
         regex = "^[a-z0-9A-Z]+$";
         if (!adminParameter.getPassword().matches(regex)) return ResultUtil.errorWithMessage("密码只支持数字和英文！");
         if (adminParameter.getRoleid() == 0) return ResultUtil.errorWithMessage("配置角色未选择！");
-        user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
+        if (adminParameter.getRoleid() == -1){
+            if(adminParameter.getSupplierid() == 0) return ResultUtil.errorWithMessage("供应商未选择！");
+            user.setSupplier(supplierRepository.findById(adminParameter.getSupplierid()).get());
+            user.setRole(null);
+            user.setDeliver(null);
+        }
+        else if (adminParameter.getRoleid() == -2) {
+            user.setDeliver(1);
+            user.setSupplier(null);
+            user.setRole(null);
+        }
+        else {
+            user.setSupplier(null);
+            user.setDeliver(null);
+            user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
+        }
         user.setName(adminParameter.getName());
         user.setPassword(new Md5Hash(adminParameter.getPassword()).toHex());
         user.setMobile(adminParameter.getMobile());
@@ -163,7 +181,7 @@ public class AdminServiceImpl implements AdminService {
         if (adminParameter.getProjectid() != 0)
             role.setProjectid(projectRepository.findById(adminParameter.getProjectid()).get().getId());
         if (adminParameter.getSupplierid() != 0)
-            role.setSupplier(supplierRepository.findById(adminParameter.getSupplierid()).get());
+            role.setSupplierid(supplierRepository.findById(adminParameter.getSupplierid()).get().getId());
         Role saveedRole = roleRepository.save(role);
         role2PermissionRepository.deleteAllByRole(role);
         if (adminParameter.getPermission() != null && adminParameter.getPermission().size() > 0) {
