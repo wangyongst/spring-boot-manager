@@ -135,18 +135,16 @@ public class AdminServiceImpl implements AdminService {
         regex = "^[a-z0-9A-Z]+$";
         if (!adminParameter.getPassword().matches(regex)) return ResultUtil.errorWithMessage("密码只支持数字和英文！");
         if (adminParameter.getRoleid() == 0) return ResultUtil.errorWithMessage("配置角色未选择！");
-        if (adminParameter.getRoleid() == -1){
-            if(adminParameter.getSupplierid() == 0) return ResultUtil.errorWithMessage("供应商未选择！");
+        if (adminParameter.getRoleid() == -1) {
+            if (adminParameter.getSupplierid() == 0) return ResultUtil.errorWithMessage("供应商未选择！");
             user.setSupplier(supplierRepository.findById(adminParameter.getSupplierid()).get());
             user.setRole(null);
             user.setDeliver(null);
-        }
-        else if (adminParameter.getRoleid() == -2) {
+        } else if (adminParameter.getRoleid() == -2) {
             user.setDeliver(1);
             user.setSupplier(null);
             user.setRole(null);
-        }
-        else {
+        } else {
             user.setSupplier(null);
             user.setDeliver(null);
             user.setRole(roleRepository.findById(adminParameter.getRoleid()).get());
