@@ -20,7 +20,7 @@ public class AdminThreeController {
         return adminTwoService.purchList(adminParameter).getData();
     }
 
-    //采购申请确认
+    //采购申请撤回
     @PostMapping("/purch/sud")
     public Result purchSud(@ModelAttribute AdminParameter adminParameter) {
         return adminTwoService.purchSud(adminParameter);
