@@ -18,4 +18,12 @@ public interface ApiService {
     Result purchSend(Integer id);
 
     Result purchDeliver(Integer id, Integer delivernum);
+
+    Result deliverList(Integer status);
+
+    Result deliver(Integer id);
+
+    Result deliverAccept(Integer id, Integer delivernum);
+
+    Result deliverAccept(Integer id);
 }

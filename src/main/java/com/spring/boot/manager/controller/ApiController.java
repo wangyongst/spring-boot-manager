@@ -26,14 +26,14 @@ public class ApiController {
             @ApiImplicitParam(name = "code", value = " code（必需）,String型", required = true, dataType = "String")
     })
     @PostMapping(value = "/banding")
-    public Result banding( @RequestParam("code") String code) {
+    public Result banding(@RequestParam("code") String code) {
         return apiService.banding(code);
     }
 
 
     @ApiOperation(value = "订单列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "status", value = " 1.待报价 3.待接单 4 生产中 5.待送货 6.待收货 7.待确定 8.待出账 9已出账/完结", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "status", value = " 1.待报价 3.待接单 4 生产中 8.待出账 9已出账/完结", required = true, dataType = "Integer")
 
     })
     @GetMapping("/purch/list")
@@ -83,7 +83,7 @@ public class ApiController {
         return apiService.purchSend(id);
     }
 
-    @ApiOperation(value = "送货")
+    @ApiOperation(value = "生产中送货")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "订单id", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "delivernum", value = "送货数量", required = true, dataType = "Integer")
@@ -94,5 +94,43 @@ public class ApiController {
         return apiService.purchDeliver(id, delivernum);
     }
 
+    @ApiOperation(value = "送货单列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "status", value = "5待发货 6待收货 7待确认", required = true, dataType = "Integer")
+    })
+    @GetMapping("/deliver/list")
+    public Result deliverList(@RequestParam Integer status) {
+        return apiService.deliverList(status);
+    }
+
+    @ApiOperation(value = "订单详情")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "订单id", required = true, dataType = "Integer")
+
+    })
+    @GetMapping("/deliver")
+    public Result deliver(@RequestParam Integer id) {
+        return apiService.deliver(id);
+    }
+
+
+    @ApiOperation(value = "收货确定(收货员)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "送货单id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "delivernum", value = "收货数量", required = true, dataType = "Integer")
+    })
+    @PostMapping("/deliver/accept")
+    public Result deliverAccept(@RequestParam Integer id, @RequestParam Integer delivernum) {
+        return apiService.deliverAccept(id, delivernum);
+    }
+
+    @ApiOperation(value = "收货确定(供应商)")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "送货单id", required = true, dataType = "Integer")
+    })
+    @PostMapping("/deliver/confirm")
+    public Result deliverConfirm(@RequestParam Integer id) {
+        return apiService.deliverConfirm(id);
+    }
 
 }

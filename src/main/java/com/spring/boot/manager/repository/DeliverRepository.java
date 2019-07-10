@@ -16,4 +16,9 @@ import java.util.List;
 public interface DeliverRepository extends JpaRepository<Deliver, Integer>, JpaSpecificationExecutor {
 
     List<Deliver> findByPurch(Purch purch);
+
+    List<Deliver> findByConfirmnumIsNull();
+
+    List<Deliver> findByConfirmnumIsNotNull();
+
 }

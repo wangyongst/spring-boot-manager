@@ -171,6 +171,47 @@ public class ApiServiceImpl implements ApiService {
         } else return ResultUtil.errorWithMessage("该订单不是生产中状态，不能送货");
     }
 
+    @Override
+    public Result deliverList(Integer status) {
+        if (status == null || status <= 4 || status >= 8) return ResultUtil.errorWithMessage("状态参数不正确");
+        User me = (User) SecurityUtils.getSubject().getPrincipal();
+        List<Deliver> deliverList = null;
+        if (status == Status.FIVE || status == Status.SIX) {
+            deliverList = deliverRepository.findByConfirmnumIsNull();
+        } else if (status == Status.SEVEN) {
+            deliverList = deliverRepository.findByConfirmnumIsNotNull();
+        }
+        return ResultUtil.okWithData(change(deliverList));
+    }
+
+    @Override
+    public Result deliver(Integer id) {
+        if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        Deliver deliver = deliverRepository.findById(id).get();
+        return ResultUtil.okWithData(changeVo(deliver));
+    }
+
+    @Override
+    public Result deliverAccept(Integer id, Integer delivernum) {
+        if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        if (delivernum == null) return ResultUtil.errorWithMessage("收货数量不能为空");
+        Deliver deliver = deliverRepository.findById(id).get();
+        deliver.setConfirmnum(delivernum);
+        deliverRepository.save(deliver);
+        return ResultUtil.ok();
+    }
+
+    @Override
+    public Result deliverAccept(Integer id) {
+        if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        Deliver deliver = deliverRepository.findById(id).get();
+        Purch purch = deliver.getPurch();
+        purch.setAcceptnum(purch.getAcceptnum() + deliver.getConfirmnum());
+        purchRepository.save(purch);
+        deleteDeliver(deliver);
+        return ResultUtil.ok();
+    }
+
 
     public PurchV changeVo(Purch purch, Setting acceptSetting, Setting priceSetting) {
         PurchV p = new PurchV();
@@ -217,6 +258,30 @@ public class ApiServiceImpl implements ApiService {
         return p;
     }
 
+
+    public PurchV changeVo(Deliver deliver) {
+        PurchV p = new PurchV();
+        p.setId(deliver.getId());
+        p.setType(deliver.getPurch().getAsk().getType());
+        p.setCreatetime(deliver.getPurch().getAsk().getCreatetime());
+        p.setStatus(deliver.getPurch().getStatus());
+        p.setProjectname(deliver.getPurch().getAsk().getRequest().getResource().getProject().getName());
+        p.setFile(deliver.getPurch().getAsk().getRequest().getResource().getFile());
+        p.setSize(deliver.getPurch().getAsk().getRequest().getResource().getSize());
+        p.setSpecial(deliver.getPurch().getAsk().getRequest().getResource().getSpecial());
+        p.setModel(deliver.getPurch().getAsk().getRequest().getResource().getModel());
+        p.setCode(deliver.getPurch().getAsk().getRequest().getResource().getMaterial().getCode());
+        p.setMaterialname(deliver.getPurch().getAsk().getRequest().getResource().getMaterial().getName());
+        p.setNum(deliver.getPurch().getAsk().getRequest().getNum());
+        p.setAcceptnum(deliver.getPurch().getAcceptnum());
+        p.setDelivernum(deliver.getDelivernum());
+        p.setContact(deliver.getPurch().getSupplier().getContacts());
+        p.setMobile(deliver.getPurch().getSupplier().getMobile());
+        p.setAcceptprice(deliver.getPurch().getAcceptprice());
+        return p;
+    }
+
+
     public Object change(Object object, Setting acceptSetting, Setting priceSetting) {
         if (object instanceof Purch) {
             return changeVo((Purch) object, acceptSetting, priceSetting);
@@ -228,5 +293,24 @@ public class ApiServiceImpl implements ApiService {
             return purchVS;
         }
         return null;
+    }
+
+
+    public Object change(Object object) {
+        if (object instanceof Deliver) {
+            return changeVo((Deliver) object);
+        } else if (object instanceof List) {
+            List<PurchV> purchVS = new ArrayList<>();
+            ((List<Deliver>) object).forEach(e -> {
+                purchVS.add(changeVo(e));
+            });
+            return purchVS;
+        }
+        return null;
+    }
+
+
+    public void deleteDeliver(Deliver deliver) {
+        deliverRepository.delete(deliver);
     }
 }
