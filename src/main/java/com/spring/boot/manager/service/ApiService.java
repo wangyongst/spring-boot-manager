@@ -25,5 +25,5 @@ public interface ApiService {
 
     Result deliverAccept(Integer id, Integer delivernum);
 
-    Result deliverAccept(Integer id);
+    Result deliverConfirm(Integer id);
 }
