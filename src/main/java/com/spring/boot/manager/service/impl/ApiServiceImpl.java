@@ -89,8 +89,8 @@ public class ApiServiceImpl implements ApiService {
     public Result purchAccept(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         Purch purch = purchRepository.findById(id).get();
-        if (purch.getStatus() == Status.ONE) {
-            purch.setStatus(Status.TWO);
+        if (purch.getStatus() == Status.THREE) {
+            purch.setStatus(Status.FOUR);
             purch.setAccepttime(TimeUtils.format(System.currentTimeMillis()));
             purchRepository.save(purch);
             return ResultUtil.ok();
@@ -111,6 +111,7 @@ public class ApiServiceImpl implements ApiService {
     public Result purchPrice(Integer id, String price) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         if (StringUtils.isBlank(price)) return ResultUtil.errorWithMessage("报价不能为空！");
+        if (!StringUtils.isNumeric(price)) return ResultUtil.errorWithMessage("报价只能是数字！");
         if (!price.matches("^(([1-9]\\d{0,9})|0)(\\.\\d{1,2})?$"))
             return ResultUtil.errorWithMessage("报价只能是两位小数或整数！");
         Purch purch = purchRepository.findById(id).get();
@@ -151,7 +152,7 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public Result purchDeliver(Integer id, Integer delivernum) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
-        if (delivernum == null || delivernum == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        if (delivernum == null || delivernum == 0) return ResultUtil.errorWithMessage("送货数量不能为空");
         if (delivernum < 0) return ResultUtil.errorWithMessage("送货数量不正确");
         Purch purch = purchRepository.findById(id).get();
         if (purch.getStatus() == Status.FOUR) {
@@ -165,7 +166,7 @@ public class ApiServiceImpl implements ApiService {
                 deliverCount += deli.getDelivernum();
             }
             if (deliverCount > 0 && deliverCount / purch.getAsk().getRequest().getNum() >= 0.9) {
-                return ResultUtil.okWithMessage("与订单采购数量相差" + (deliverCount.intValue() - purch.getAsk().getRequest().getNum()) + "个，是否终结此次生产任务?");
+                return ResultUtil.okWithMessage("与订单采购数量相差" + (purch.getAsk().getRequest().getNum() - deliverCount.intValue()) + "个，是否终结此次生产任务?");
             } else return ResultUtil.ok();
         } else return ResultUtil.errorWithMessage("该订单不是生产中状态，不能送货");
     }
@@ -205,7 +206,7 @@ public class ApiServiceImpl implements ApiService {
                 e.printStackTrace();
             }
         }
-        if (p.getStatus() == 3 && p.getType() ==3) {
+        if (p.getStatus() == 3 && p.getType() != 1) {
             try {
                 p.setTime(priceSetting.getValue().multiply(new BigDecimal(3600000)).longValue() - (System.currentTimeMillis() - TimeUtils.parse(purch.getAsk().getConfirmtime())));
             } catch (ParseException e) {
