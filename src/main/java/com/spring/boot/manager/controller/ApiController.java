@@ -21,7 +21,7 @@ public class ApiController {
     private ApiService apiService;
 
 
-    @ApiOperation(value = "绑定微信", notes = "微信登录获取的code实现和后台账号绑定")
+    @ApiOperation(value = "绑定微信", notes = "回传微信登录获取的code,实现和后台账号绑定")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "code", value = " code（必需）,String型", required = true, dataType = "String")
     })
