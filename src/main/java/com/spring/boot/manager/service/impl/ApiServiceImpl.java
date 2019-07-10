@@ -205,7 +205,7 @@ public class ApiServiceImpl implements ApiService {
                 e.printStackTrace();
             }
         }
-        if (p.getStatus() == 3) {
+        if (p.getStatus() == 3 && p.getType() ==3) {
             try {
                 p.setTime(priceSetting.getValue().multiply(new BigDecimal(3600000)).longValue() - (System.currentTimeMillis() - TimeUtils.parse(purch.getAsk().getConfirmtime())));
             } catch (ParseException e) {
