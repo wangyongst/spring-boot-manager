@@ -312,11 +312,20 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (adminParameter.getStatus() != 0 && adminParameter.getStatus() == 49) {
                     predicates.add(criteriaBuilder.between(root.get("status"), 4, 9));
                 }
-                predicates.add(criteriaBuilder.notEqual(root.get("ask").get("type"), 2));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
         return ResultUtil.okWithData(purchRepository.findAll(specification));
+    }
+
+    @Override
+    public Result purchSud(AdminParameter adminParameter) {
+        Purch purch = purchRepository.findById(adminParameter.getPurchid()).get();
+        if (adminParameter.getDelete() != 0) {
+            deletePurch(purch);
+            return ResultUtil.ok();
+        }
+        return ResultUtil.ok();
     }
 
     @Override
@@ -334,15 +343,14 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
-                predicates.add(criteriaBuilder.notEqual(root.get("type"), 2));
                 if (StringUtils.isNotBlank(adminParameter.getCreatetime())) {
                     predicates.add(criteriaBuilder.like(root.get("createtime"), adminParameter.getCreatetime() + "%"));
                 }
                 if (adminParameter.getStatus() != 0) {
                     if (adminParameter.getStatus() == 99) {
-                        predicates.add(criteriaBuilder.notEqual(root.get("status"), 7));
+                        predicates.add(criteriaBuilder.notEqual(root.get("status"), 2));
                     } else if (adminParameter.getStatus() == 100) {
-                        predicates.add(criteriaBuilder.equal(root.get("status"), 7));
+                        predicates.add(criteriaBuilder.equal(root.get("status"), 2));
                     }
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));

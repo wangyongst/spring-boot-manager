@@ -52,7 +52,7 @@
                 </li>
                 <li class="menu-title">财务系统</li><!-- /.menu-title -->
                 <li>
-                      <a href="/view/finance-list"> <i class="menu-icon ti-money"></i>采购记录表</a>
+                    <a href="/view/finance-list"> <i class="menu-icon ti-money"></i>采购记录表</a>
                 </li>
                 <li>
                     <a href="widgets.html"> <i class="menu-icon ti-printer"></i>对账单</a>
@@ -117,6 +117,33 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
+
+                            <div class="modal fade" id="deletealertModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="smallmodalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="smallmodalLabel">请确认</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true"></span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" id="deletealertmessage">
+                                            <p>
+                                            </p>
+                                        </div>
+                                        <input hidden id="deletevalue">
+                                        <input hidden id="timesvalue" th:value="${value}">
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" id="deleteConfirmButton">确认
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <strong class="card-title">
                                 <div class="pull-right">
                                     <form class="form-inline" id="searchaskForm">
@@ -151,7 +178,7 @@
                                     <th data-field="ask.request.resource.file">附件</th>
                                     <th data-field="ask.request.num">采购数量</th>
                                     <th data-field="ask.request.sellnum">销售数量</th>
-<!--                                    <th data-field="ask.request.price" >销售单价(元)</th>-->
+                                    <!--                                    <th data-field="ask.request.price" >销售单价(元)</th>-->
                                     <th data-field="ask.type" data-formatter="priceformatter">销售单价(元)</th>
                                     <th data-field="ask.request.total">销售总价(元)</th>
                                     <th data-field="supplier.name">供应商</th>

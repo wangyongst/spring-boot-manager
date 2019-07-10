@@ -163,6 +163,7 @@ public class ApiServiceImpl implements ApiService {
 
     public PurchV changeVo(Purch purch) {
         PurchV p = new PurchV();
+        p.setId(purch.getId());
         p.setType(purch.getAsk().getType());
         p.setCreatetime(purch.getAsk().getCreatetime());
         p.setStatus(purch.getStatus());

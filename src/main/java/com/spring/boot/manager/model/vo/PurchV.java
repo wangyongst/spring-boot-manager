@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class PurchV {
+    private int id;
     //操作类型  1 询价 2 打样 3 采购
     private int type;
     //发起日期
@@ -40,6 +41,14 @@ public class PurchV {
     private String contact;
     //收货人联系电话
     private String mobile;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getType() {
         return type;

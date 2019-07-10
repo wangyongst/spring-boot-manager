@@ -38,7 +38,9 @@ public class ViewController {
 
     @RequestMapping("/purch-list")
     public String purch(@ModelAttribute AdminParameter adminParameter, Model model) {
+        adminParameter.setType(1);
         model.addAttribute("askid", adminParameter.getAskid() + "");
+        model.addAttribute("value", ((Setting) adminService.setting(adminParameter).getData()).getValue());
         model.addAttribute("thymeleafutils", new ThymeleafUtils());
         return "purch-list";
     }

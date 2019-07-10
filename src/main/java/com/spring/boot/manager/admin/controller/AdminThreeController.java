@@ -21,6 +21,12 @@ public class AdminThreeController {
     }
 
     //采购申请确认
+    @PostMapping("/purch/sud")
+    public Result purchSud(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.purchSud(adminParameter);
+    }
+
+    //采购申请确认
     @PostMapping("/purch/coc")
     public Result purchCoc(@ModelAttribute AdminParameter adminParameter) {
         return adminTwoService.purchCoc(adminParameter);

@@ -1,4 +1,5 @@
 $(function () {
+
     $('#purch-list-table').bootstrapTable('hideLoading');
 
     $.get("/admin/material/list?type=3",
@@ -9,6 +10,19 @@ $(function () {
                 $('#materialnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
             });
         });
+
+    $("#deleteConfirmButton").click(function () {
+        var deleteid = $('#deletevalue').val();
+        $.post("/admin/purch/sud",
+            {
+                purchid: deleteid,
+                delete: 1,
+            },
+            function (result) {
+                $('#deletealertModal').modal('toggle');
+                $('#purch-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
+            });
+    });
 });
 
 function del(value) {
@@ -25,7 +39,7 @@ function typeformatter(value, row, index) {
 }
 
 function acceptformatter(value, row, index) {
-    if (value == 1) return "未接单";
+    if (value < 3) return "未接单";
     else return "已接单";
 }
 
@@ -45,4 +59,9 @@ function statusformatter(value, row, index) {
 function purchformatter(value, row, index) {
     $("#rowoperator [name='deleteoperator']").attr("onclick", "del(" + value + ");");
     return $('#rowoperator').html();
+}
+
+function priceformatter(value, row, index) {
+    if (value != null || value == 0) return row["acceptprice"] * $('#timesvalue').val();
+    return value;
 }
