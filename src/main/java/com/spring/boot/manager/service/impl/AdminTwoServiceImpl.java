@@ -333,11 +333,10 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Override
     public Result purchCoc(AdminParameter adminParameter) {
         Purch purch = purchRepository.findById(adminParameter.getPurchid()).get();
-        if (purch.getStatus() == Status.TWO){
+        if (purch.getStatus() == Status.TWO) {
             purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
             purch.setStatus(Status.THREE);
-        }
-        else if (purch.getStatus() == Status.THREE){
+        } else if (purch.getStatus() == Status.THREE) {
             purch.getAsk().setConfirmtime(null);
             purch.setStatus(Status.TWO);
         }
@@ -406,7 +405,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             request = new Request();
             request.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
             User me = (User) SecurityUtils.getSubject().getPrincipal();
-            request.setCreateusername(me.getName());
+            request.setCreateuser(me);
             request.setStatus(1);
         } else {
             request = requestRepository.findById(adminParameter.getRequestid()).get();

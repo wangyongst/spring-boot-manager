@@ -245,8 +245,8 @@ public class ApiServiceImpl implements ApiService {
             });
             //待生产数量
             p.setProductnum(purch.getAsk().getRequest().getNum() - p.getAcceptnum() - p.getDelivernum());
-            p.setContact(purch.getSupplier().getContacts());
-            p.setMobile(purch.getSupplier().getMobile());
+            p.setContact(purch.getAsk().getRequest().getCreateuser().getName());
+            p.setMobile(purch.getAsk().getRequest().getCreateuser().getMobile());
         }
         if (p.getStatus() == 1) {
             try {
@@ -283,8 +283,8 @@ public class ApiServiceImpl implements ApiService {
         p.setNum(deliver.getPurch().getAsk().getRequest().getNum());
         p.setAcceptnum(deliver.getPurch().getAcceptnum());
         p.setDelivernum(deliver.getDelivernum());
-        p.setContact(deliver.getPurch().getSupplier().getContacts());
-        p.setMobile(deliver.getPurch().getSupplier().getMobile());
+        p.setContact(deliver.getPurch().getAsk().getRequest().getCreateuser().getName());
+        p.setMobile(deliver.getPurch().getAsk().getRequest().getCreateuser().getMobile());
         p.setAcceptprice(deliver.getPurch().getAcceptprice());
         return p;
     }

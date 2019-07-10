@@ -34,9 +34,9 @@ public class Request {
     @Column(name = "total", nullable = true, precision = 2)
     private BigDecimal total;
 
-    @Basic
-    @Column(name = "createusername", nullable = true, length = 255)
-    private String createusername;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @JoinColumn(name = "createuserid", referencedColumnName = "id")
+    private User createuser;
 
     @Basic
     @Column(name = "createtime", nullable = true, length = 255)
@@ -86,12 +86,12 @@ public class Request {
         this.total = total;
     }
 
-    public String getCreateusername() {
-        return createusername;
+    public User getCreateuser() {
+        return createuser;
     }
 
-    public void setCreateusername(String createusername) {
-        this.createusername = createusername;
+    public void setCreateuser(User createuser) {
+        this.createuser = createuser;
     }
 
     public String getCreatetime() {
