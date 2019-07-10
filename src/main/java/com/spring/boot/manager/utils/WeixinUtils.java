@@ -14,9 +14,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ResourceBundle;
 
 public class WeixinUtils {
-
     @Value("${custom.weixin.appid}")
     private static String appid;
+    @Value("${custom.weixin.mpappid}")
+    private static String mpappid;
     @Value("${custom.weixin.secret}")
     private static String secret;
     @Value("${custom.weixin.template_id}")
@@ -55,7 +56,7 @@ public class WeixinUtils {
 
     public static WeiXinMessageM makeMessage(String accessToken, String touser, String data) {
         MpTemplateMsg mpTemplateMsg = new MpTemplateMsg();
-        mpTemplateMsg.setAppid(appid);
+        mpTemplateMsg.setAppid(mpappid);
         mpTemplateMsg.setTemplate_id(template_id);
         mpTemplateMsg.setData(data);
         WeiXinMessageM weiXinMessageM = new WeiXinMessageM();
