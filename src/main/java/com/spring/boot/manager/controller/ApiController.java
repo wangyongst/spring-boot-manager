@@ -83,7 +83,7 @@ public class ApiController {
         return apiService.purchSend(id);
     }
 
-    @ApiOperation(value = "生产中送货")
+    @ApiOperation(value = "送货")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "订单id", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "delivernum", value = "送货数量", required = true, dataType = "Integer")
