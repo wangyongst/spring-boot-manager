@@ -94,6 +94,16 @@ public class ApiController {
         return apiService.purchDeliver(id, delivernum);
     }
 
+    @ApiOperation(value = "完成订单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "订单id", required = true, dataType = "Integer")
+
+    })
+    @PostMapping("/purch/complete")
+    public Result purchComplete(@RequestParam Integer id) {
+        return apiService.purchComplete(id);
+    }
+
     @ApiOperation(value = "送货单列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "status", value = "5待发货 6待收货 7待确认", required = true, dataType = "Integer")

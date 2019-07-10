@@ -202,6 +202,14 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
+    public Result purchComplete(Integer id) {
+        if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        Purch purch = purchRepository.findById(id).get();
+        purch.setStatus(Status.SEVEN);
+        return ResultUtil.ok();
+    }
+
+    @Override
     public Result deliverConfirm(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         Deliver deliver = deliverRepository.findById(id).get();
