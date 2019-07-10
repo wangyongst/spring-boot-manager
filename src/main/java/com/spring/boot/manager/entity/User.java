@@ -17,29 +17,37 @@ public class User {
     @Column(name = "password", nullable = true, length = 255)
     private String password;
     @Basic
+    @Column(name = "openid", nullable = true, length = 255)
+    private String openid;
+    @Basic
     @Column(name = "createusername", nullable = true, length = 255)
     private String createusername;
     @Basic
     @Column(name = "mobile", nullable = true, length = 255)
     private String mobile;
-
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "roleid", referencedColumnName = "id")
     private Role role;
-
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "supplierid", referencedColumnName = "id")
     private Supplier supplier;
-
+    @Basic
     @Column(name = "deliver", nullable = true)
     private Integer deliver;
-
+    @Basic
     @Column(name = "ischange", nullable = true)
     private Integer ischange;
     @Basic
     @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
 
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid;
+    }
 
     public Supplier getSupplier() {
         return supplier;

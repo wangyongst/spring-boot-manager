@@ -5,6 +5,8 @@ import com.spring.boot.manager.utils.result.Result;
 
 public interface AdminTwoService {
 
+    Result sendMessage(AdminParameter adminParameter);
+
     Result projectList(AdminParameter adminParameter);
 
     Result project(AdminParameter adminParameter);

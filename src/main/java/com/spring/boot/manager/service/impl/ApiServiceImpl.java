@@ -1,13 +1,13 @@
 package com.spring.boot.manager.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.boot.manager.entity.*;
+import com.spring.boot.manager.model.weixin.WeiXinM;
 import com.spring.boot.manager.model.vo.PurchV;
-import com.spring.boot.manager.repository.AskRepository;
-import com.spring.boot.manager.repository.DeliverRepository;
-import com.spring.boot.manager.repository.PurchRepository;
-import com.spring.boot.manager.repository.RequestRepository;
+import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.ApiService;
 import com.spring.boot.manager.utils.Status;
+import com.spring.boot.manager.utils.WeixinUtils;
 import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.result.Result;
 import com.spring.boot.manager.utils.result.ResultUtil;
@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,12 @@ import java.util.List;
 @SuppressWarnings("All")
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = Exception.class, readOnly = false)
 public class ApiServiceImpl implements ApiService {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private PurchRepository purchRepository;
@@ -40,6 +48,26 @@ public class ApiServiceImpl implements ApiService {
 
     @Autowired
     private DeliverRepository deliverRepository;
+
+    @Override
+    public Result banding(String code) {
+        if (StringUtils.isBlank(code)) return ResultUtil.errorWithMessage("code不能为空！");
+        String response = WeixinUtils.getOpenId(restTemplate, code);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            WeiXinM weiXinM = mapper.readValue(response, WeiXinM.class);
+            if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0 && StringUtils.isNotBlank(weiXinM.getOpenid())) {
+                User me = (User) SecurityUtils.getSubject().getPrincipal();
+                User user = userRepository.findById(me.getId()).get();
+                user.setOpenid(weiXinM.getOpenid());
+                userRepository.save(user);
+                return ResultUtil.ok();
+            } else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResultUtil.errorWithMessage("授权失败，无法获取openid");
+    }
 
     @Override
     public Result purchList(Integer status) {
@@ -87,10 +115,10 @@ public class ApiServiceImpl implements ApiService {
             Ask ask = purch.getAsk();
             List<Purch> purchList = purchRepository.findAllByAsk(ask);
             boolean iscomplete = true;
-            for(Purch p:purchList) {
-               if(purch.getAcceptprice() == null) iscomplete = false;
+            for (Purch p : purchList) {
+                if (purch.getAcceptprice() == null) iscomplete = false;
             }
-            if(iscomplete){
+            if (iscomplete) {
                 ask.setStatus(Status.TWO);
                 askRepository.save(ask);
             }

@@ -1,12 +1,15 @@
 package com.spring.boot.manager.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
+import com.spring.boot.manager.model.weixin.WeiXinM;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminService;
 import com.spring.boot.manager.service.AdminTwoService;
 import com.spring.boot.manager.utils.Status;
+import com.spring.boot.manager.utils.WeixinUtils;
 import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.result.Result;
 import com.spring.boot.manager.utils.result.ResultUtil;
@@ -23,11 +26,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -39,6 +44,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     private static final Logger logger = LogManager.getLogger(AdminTwoServiceImpl.class);
 
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Autowired
     public AdminService adminService;
@@ -73,6 +80,24 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Autowired
     private RequestRepository requestRepository;
 
+
+    @Override
+    public Result sendMessage(AdminParameter adminParameter) {
+        String response = WeixinUtils.getAccessToken(restTemplate);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            WeiXinM weiXinM = mapper.readValue(response, WeiXinM.class);
+            if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0 && StringUtils.isNotBlank(weiXinM.getAccess_token())) {
+                response = WeixinUtils.sendMessage(restTemplate, weiXinM.getAccess_token(), null, null);
+                weiXinM = mapper.readValue(response, WeiXinM.class);
+                if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0) return ResultUtil.ok();
+                else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
+            } else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResultUtil.errorWithMessage("消息发送失败");
+    }
 
     @Override
     public Result projectList(AdminParameter adminParameter) {

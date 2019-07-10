@@ -5,6 +5,8 @@ import com.spring.boot.manager.utils.result.Result;
 
 public interface ApiService {
 
+    Result banding(String code);
+
     Result purchList(Integer status);
 
     Result purchAccept(Integer id);

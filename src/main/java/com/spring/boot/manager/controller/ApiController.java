@@ -20,6 +20,17 @@ public class ApiController {
     @Autowired
     private ApiService apiService;
 
+
+    @ApiOperation(value = "绑定微信", notes = "微信登录获取的code实现和后台账号绑定")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "code", value = " code（必需）,String型", required = true, dataType = "String")
+    })
+    @PostMapping(value = "/banding")
+    public Result banding( @RequestParam("code") String code) {
+        return apiService.banding(code);
+    }
+
+
     @ApiOperation(value = "订单列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "status", value = " 1.待报价 2.待审核 3.待接单 4 生产中 5.待送货 5.待收货 6.待确定 7.待出账 8已出账 9完结", required = true, dataType = "Integer")
