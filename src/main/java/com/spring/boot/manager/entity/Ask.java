@@ -22,6 +22,11 @@ public class Ask {
     private String createusername;
 
     @Basic
+    @Column(name = "confirmtime", nullable = true, length = 255)
+    private String confirmtime;
+
+
+    @Basic
     @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
 
@@ -32,6 +37,14 @@ public class Ask {
     @Basic
     @Column(name = "status", nullable = true)
     private Integer status;
+
+    public String getConfirmtime() {
+        return confirmtime;
+    }
+
+    public void setConfirmtime(String confirmtime) {
+        this.confirmtime = confirmtime;
+    }
 
     public String getCreateusername() {
         return createusername;

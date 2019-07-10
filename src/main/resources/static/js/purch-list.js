@@ -39,7 +39,7 @@ function typeformatter(value, row, index) {
 }
 
 function acceptformatter(value, row, index) {
-    if (value < 3) return "未接单";
+    if (value <= 3) return "未接单";
     else return "已接单";
 }
 

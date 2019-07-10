@@ -309,8 +309,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (adminParameter.getStatus() != 0 && adminParameter.getStatus() < 10) {
                     predicates.add(criteriaBuilder.equal(root.get("status"), adminParameter.getStatus()));
                 }
-                if (adminParameter.getStatus() != 0 && adminParameter.getStatus() == 49) {
-                    predicates.add(criteriaBuilder.between(root.get("status"), 4, 9));
+                if (adminParameter.getStatus() != 0 && adminParameter.getStatus() == 29) {
+                    predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
+                    predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
@@ -322,7 +323,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     public Result purchSud(AdminParameter adminParameter) {
         Purch purch = purchRepository.findById(adminParameter.getPurchid()).get();
         if (adminParameter.getDelete() != 0) {
-            deletePurch(purch);
+            if (purch.getStatus() < Status.SIX)
+                deletePurch(purch);
             return ResultUtil.ok();
         }
         return ResultUtil.ok();
@@ -331,8 +333,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Override
     public Result purchCoc(AdminParameter adminParameter) {
         Purch purch = purchRepository.findById(adminParameter.getPurchid()).get();
-        if (purch.getStatus() == Status.THREE) purch.setStatus(Status.FOUR);
-        else if (purch.getStatus() == Status.FOUR) purch.setStatus(Status.THREE);
+        if (purch.getStatus() == Status.TWO) purch.setStatus(Status.THREE);
+        else if (purch.getStatus() == Status.THREE) purch.setStatus(Status.TWO);
         purchRepository.save(purch);
         return ResultUtil.ok();
     }

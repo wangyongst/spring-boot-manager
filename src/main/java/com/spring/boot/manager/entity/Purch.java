@@ -33,8 +33,20 @@ public class Purch {
     private String accepttime;
 
     @Basic
+    @Column(name = "acceptnum", nullable = true)
+    private Integer acceptnum;
+
+    @Basic
     @Column(name = "status", nullable = true)
     private Integer status;
+
+    public Integer getAcceptnum() {
+        return acceptnum;
+    }
+
+    public void setAcceptnum(Integer acceptnum) {
+        this.acceptnum = acceptnum;
+    }
 
     public Integer getId() {
         return id;

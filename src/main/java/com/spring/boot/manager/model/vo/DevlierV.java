@@ -1,11 +1,8 @@
 package com.spring.boot.manager.model.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.math.BigDecimal;
-import java.util.List;
 
-public class PurchV {
+public class DevlierV {
     private int id;
     //操作类型  1 询价 2 打样 3 采购
     private int type;
@@ -32,10 +29,8 @@ public class PurchV {
     //待生产数量
     private Integer productnum;
     //送货数量
-    @JsonIgnore
     private Integer delivernum;
     //实收数量
-    @JsonIgnore
     private Integer acceptnum;
     //采购单价
     private BigDecimal price;

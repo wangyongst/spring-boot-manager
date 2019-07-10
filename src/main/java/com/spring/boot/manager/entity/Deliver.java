@@ -17,8 +17,8 @@ public class Deliver {
     private Purch purch;
 
     @Basic
-    @Column(name = "acceptnum", nullable = true)
-    private Integer acceptnum;
+    @Column(name = "confirmnum", nullable = true)
+    private Integer confirmnum;
 
     @Basic
     @Column(name = "delivernum", nullable = true)
@@ -32,12 +32,12 @@ public class Deliver {
         this.id = id;
     }
 
-    public Integer getAcceptnum() {
-        return acceptnum;
+    public Integer getConfirmnum() {
+        return confirmnum;
     }
 
-    public void setAcceptnum(Integer acceptnum) {
-        this.acceptnum = acceptnum;
+    public void setConfirmnum(Integer confirmnum) {
+        this.confirmnum = confirmnum;
     }
 
     public Purch getPurch() {

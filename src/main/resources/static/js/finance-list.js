@@ -30,8 +30,8 @@ function financeformatter(value, row, index) {
     $("#rowoperator [name='updateoperator']").attr("onclick", "confirm(" + row["id"]+");");
     $("#rowoperator2 [name='updateoperator']").attr("onclick", "confirm(" + row["id"]+");");
     if (value != null) {
-        if (value == 3) return $('#rowoperator').html();
-        else if (value == 4) {
+        if (value == 2) return $('#rowoperator').html();
+        else if (value == 3) {
             return $('#rowoperator2').html();
         }
         else return null;
@@ -56,9 +56,9 @@ function yingfuformatter(value, row, index) {
 }
 
 function statusformatter(value, row, index) {
-    if (value == 1) return "待接单";
-    else if (value == 2) return "待报价";
-    else if (value == 3) return "待审核";
+    if (value == 1) return "待报价";
+    else if (value == 2) return "待审核";
+    else if (value == 3) return "待接单";
     else if (value == 4) return "待收货";
     else if (value == 5) return "待收货";
     else if (value == 6) return "待确定";

@@ -22,7 +22,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -49,6 +52,9 @@ public class ApiServiceImpl implements ApiService {
     @Autowired
     private DeliverRepository deliverRepository;
 
+    @Autowired
+    private SettingRepository settingRepository;
+
     @Override
     public Result banding(String code) {
         if (StringUtils.isBlank(code)) return ResultUtil.errorWithMessage("code不能为空！");
@@ -74,7 +80,9 @@ public class ApiServiceImpl implements ApiService {
         if (status == null || status <= 0 || status >= 10) return ResultUtil.errorWithMessage("状态参数不正确");
         User me = (User) SecurityUtils.getSubject().getPrincipal();
         List<Purch> purchList = purchRepository.findAllBySupplierAndStatus(me.getSupplier(), status);
-        return ResultUtil.okWithData(change(purchList));
+        Setting acceptSetting = settingRepository.findByType(2).get(0);
+        Setting priceSetting = settingRepository.findByType(3).get(0);
+        return ResultUtil.okWithData(change(purchList, acceptSetting, priceSetting));
     }
 
     @Override
@@ -94,7 +102,9 @@ public class ApiServiceImpl implements ApiService {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         User me = (User) SecurityUtils.getSubject().getPrincipal();
         Purch purch = purchRepository.findById(id).get();
-        return ResultUtil.okWithData(change(purch));
+        Setting acceptSetting = settingRepository.findByType(2).get(0);
+        Setting priceSetting = settingRepository.findByType(3).get(0);
+        return ResultUtil.okWithData(change(purch, acceptSetting, priceSetting));
     }
 
     @Override
@@ -161,7 +171,7 @@ public class ApiServiceImpl implements ApiService {
     }
 
 
-    public PurchV changeVo(Purch purch) {
+    public PurchV changeVo(Purch purch, Setting acceptSetting, Setting priceSetting) {
         PurchV p = new PurchV();
         p.setId(purch.getId());
         p.setType(purch.getAsk().getType());
@@ -175,25 +185,44 @@ public class ApiServiceImpl implements ApiService {
         p.setCode(purch.getAsk().getRequest().getResource().getMaterial().getCode());
         p.setMaterialname(purch.getAsk().getRequest().getResource().getMaterial().getName());
         p.setNum(purch.getAsk().getRequest().getNum());
-//        //待生产数量
-//        private Integer productnum;
-//        //送货数量
-//        private Integer delivernum;
-//        //实收数量
-//        private Integer acceptnum;
+        if (purch.getStatus() > Status.THREE) {
+            p.setAcceptnum(purch.getAcceptnum());
+            if (p.getAcceptnum() == null) p.setAcceptnum(0);
+            //送货数量
+            p.setDelivernum(0);
+            purch.getDelivers().forEach(e -> {
+                p.setDelivernum(p.getDelivernum() + e.getDelivernum());
+            });
+            //待生产数量
+            p.setProductnum(purch.getAsk().getRequest().getNum() - p.getAcceptnum() - p.getDelivernum());
+            p.setContact(purch.getSupplier().getContacts());
+            p.setMobile(purch.getSupplier().getMobile());
+        }
+        if (p.getStatus() == 1) {
+            try {
+                p.setTime(acceptSetting.getValue().multiply(new BigDecimal(3600000)).longValue() - (System.currentTimeMillis() - TimeUtils.parse(purch.getAsk().getCreatetime())));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if (p.getStatus() == 3) {
+            try {
+                p.setTime(priceSetting.getValue().multiply(new BigDecimal(3600000)).longValue() - (System.currentTimeMillis() - TimeUtils.parse(purch.getAsk().getConfirmtime())));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         p.setAcceptprice(purch.getAcceptprice());
-        p.setContact(purch.getSupplier().getContacts());
-        p.setMobile(purch.getSupplier().getMobile());
         return p;
     }
 
-    public Object change(Object object) {
+    public Object change(Object object, Setting acceptSetting, Setting priceSetting) {
         if (object instanceof Purch) {
-            return changeVo((Purch) object);
+            return changeVo((Purch) object, acceptSetting, priceSetting);
         } else if (object instanceof List) {
             List<PurchV> purchVS = new ArrayList<>();
             ((List<Purch>) object).forEach(e -> {
-                purchVS.add(changeVo(e));
+                purchVS.add(changeVo(e, acceptSetting, priceSetting));
             });
             return purchVS;
         }
