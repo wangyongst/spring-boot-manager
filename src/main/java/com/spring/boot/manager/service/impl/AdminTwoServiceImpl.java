@@ -310,13 +310,17 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     predicates.add(criteriaBuilder.equal(root.get("status"), adminParameter.getStatus()));
                 }
                 if (adminParameter.getStatus() != 0 && adminParameter.getStatus() == 29) {
-                    predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
+                    //predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
                     predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
-        return ResultUtil.okWithData(purchRepository.findAll(specification));
+        if (adminParameter.getStatus() != 0 && adminParameter.getStatus() == 29 ) {
+            Sort sort = new Sort(Sort.Direction.ASC, "acceptprice");
+            return ResultUtil.okWithData(purchRepository.findAll(specification, sort));
+        }
+        else return ResultUtil.okWithData(purchRepository.findAll(specification));
     }
 
     @Override
@@ -325,7 +329,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         if (adminParameter.getDelete() != 0) {
             if (purch.getStatus() <= Status.FOUR && purch.getDelivers() == null) {
                 deletePurch(purch);
-            }else{
+            } else {
                 return ResultUtil.errorWithMessage("当前状态不允许撤回");
             }
             return ResultUtil.ok();
@@ -408,7 +412,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             request = new Request();
             request.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
             User me = (User) SecurityUtils.getSubject().getPrincipal();
-            request.setCreateuser(me);
+            request.setCreateusername(me.getName());
+            request.setCreateusermobile(me.getMobile());
             request.setStatus(1);
         } else {
             request = requestRepository.findById(adminParameter.getRequestid()).get();
@@ -432,7 +437,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             request.setTotal(request.getPrice().multiply(new BigDecimal(request.getSellnum().toString())));
         }
         requestRepository.save(request);
-        return ResultUtil.okWithData(request);
+        return ResultUtil.ok();
     }
 
     @Override

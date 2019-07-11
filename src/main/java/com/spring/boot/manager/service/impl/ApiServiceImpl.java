@@ -235,6 +235,8 @@ public class ApiServiceImpl implements ApiService {
         p.setCode(purch.getAsk().getRequest().getResource().getMaterial().getCode());
         p.setMaterialname(purch.getAsk().getRequest().getResource().getMaterial().getName());
         p.setNum(purch.getAsk().getRequest().getNum());
+        p.setContact(purch.getAsk().getRequest().getCreateusername());
+        p.setMobile(purch.getAsk().getRequest().getCreateusermobile());
         if (purch.getStatus() > Status.THREE) {
             p.setAcceptnum(purch.getAcceptnum());
             if (p.getAcceptnum() == null) p.setAcceptnum(0);
@@ -245,8 +247,6 @@ public class ApiServiceImpl implements ApiService {
             });
             //待生产数量
             p.setProductnum(purch.getAsk().getRequest().getNum() - p.getAcceptnum() - p.getDelivernum());
-            p.setContact(purch.getAsk().getRequest().getCreateuser().getName());
-            p.setMobile(purch.getAsk().getRequest().getCreateuser().getMobile());
         }
         if (p.getStatus() == 1) {
             try {
@@ -283,8 +283,8 @@ public class ApiServiceImpl implements ApiService {
         p.setNum(deliver.getPurch().getAsk().getRequest().getNum());
         p.setAcceptnum(deliver.getPurch().getAcceptnum());
         p.setDelivernum(deliver.getDelivernum());
-        p.setContact(deliver.getPurch().getAsk().getRequest().getCreateuser().getName());
-        p.setMobile(deliver.getPurch().getAsk().getRequest().getCreateuser().getMobile());
+        p.setContact(deliver.getPurch().getAsk().getRequest().getCreateusername());
+        p.setMobile(deliver.getPurch().getAsk().getRequest().getCreateusermobile());
         p.setAcceptprice(deliver.getPurch().getAcceptprice());
         return p;
     }
