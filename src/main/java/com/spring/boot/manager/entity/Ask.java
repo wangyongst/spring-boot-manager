@@ -27,6 +27,10 @@ public class Ask {
 
 
     @Basic
+    @Column(name = "overtime", nullable = true, length = 255)
+    private String overtime;
+
+    @Basic
     @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
 
@@ -37,6 +41,14 @@ public class Ask {
     @Basic
     @Column(name = "status", nullable = true)
     private Integer status;
+
+    public String getOvertime() {
+        return overtime;
+    }
+
+    public void setOvertime(String overtime) {
+        this.overtime = overtime;
+    }
 
     public String getConfirmtime() {
         return confirmtime;

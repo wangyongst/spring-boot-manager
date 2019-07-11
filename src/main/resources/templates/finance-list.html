@@ -114,6 +114,28 @@
     <div class="content">
         <div class="animated fadeIn">
 
+            <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="smallmodalLabel">请确认</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="alertmessage">
+                            <p>
+
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
@@ -145,12 +167,23 @@
             </div>
 
 
-
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <strong class="card-title">
+                                <div class="pull-left">
+                                    <form class="form-inline" id="searchaskForm">
+                                        <div class="form-group"><input type="date" name="createtime" placeholder="签收时间"
+                                                                       required="" class="form-control">
+                                        </div>
+                                        <div class="form-group"><input type="text" name="name" placeholder="供应商名称"
+                                                                       required="" class="form-control">
+                                        </div>
+                                        <button type="button" class="btn btn-primary" id="searchaskButton">筛选
+                                        </button>
+                                    </form>
+                                </div>
                                 <div class="pull-right">
                                     <button type="button" class="btn btn-primary" id="settingButting">设置</button>
                                     <button type="button" class="btn btn-primary" id="exportpurchButton">导出</button>
@@ -166,7 +199,7 @@
                                     <th data-field="id">编号</th>
                                     <th data-field="ask.request.createtime" data-formatter="dateformatter">采购日期</th>
                                     <th data-field="accepttime" data-formatter="dateformatter">接单日期</th>
-                                    <th data-field="null" data-formatter="dateformatter">签收日期</th>
+                                    <th data-field="ask.voertime" data-formatter="dateformatter">签收日期</th>
                                     <th data-field="ask.request.resource.project.name">项目名称</th>
                                     <th data-field="ask.request.resource.project.customer">采购公司</th>
                                     <th data-field="supplier.name">供应商名称</th>

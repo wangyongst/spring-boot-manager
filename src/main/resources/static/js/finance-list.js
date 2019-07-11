@@ -18,23 +18,27 @@ $(function () {
 });
 
 function confirm(value) {
-   $.post("/admin/purch/coc?purchid="+value,function (result) {
-       $('#finance-list-table').bootstrapTable('refresh').bootstrapTable('hideLoading');
-   });
+    $.post("/admin/purch/coc?purchid=" + value,
+        function (result) {
+            if (result.status == 1) {
+                $('#finance-list-table').bootstrapTable('refresh').bootstrapTable('hideLoading');
+            } else {
+                $('#alertmessage').text(result.message);
+                $('#alertModal').modal('toggle');
+            }
+        });
 
 }
 
 
-
 function financeformatter(value, row, index) {
-    $("#rowoperator [name='updateoperator']").attr("onclick", "confirm(" + row["id"]+");");
-    $("#rowoperator2 [name='updateoperator']").attr("onclick", "confirm(" + row["id"]+");");
+    $("#rowoperator [name='updateoperator']").attr("onclick", "confirm(" + row["id"] + ");");
+    $("#rowoperator2 [name='updateoperator']").attr("onclick", "confirm(" + row["id"] + ");");
     if (value != null) {
         if (value == 2) return $('#rowoperator').html();
         else if (value == 3) {
             return $('#rowoperator2').html();
-        }
-        else return null;
+        } else return null;
     }
 }
 
