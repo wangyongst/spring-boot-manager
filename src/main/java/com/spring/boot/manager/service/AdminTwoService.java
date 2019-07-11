@@ -46,4 +46,8 @@ public interface AdminTwoService {
     Result request(AdminParameter adminParameter);
 
     Result requestAsk(AdminParameter adminParameter);
+
+    Result priceSchedu();
+
+    Result acceptSchedu();
 }

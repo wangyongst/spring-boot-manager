@@ -46,10 +46,6 @@ public class Request {
     @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
 
-    @Basic
-    @Column(name = "status", nullable = true)
-    private Integer status;
-
     public Resource getResource() {
         return resource;
     }
@@ -112,14 +108,6 @@ public class Request {
 
     public void setCreatetime(String createtime) {
         this.createtime = createtime;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public Integer getId() {

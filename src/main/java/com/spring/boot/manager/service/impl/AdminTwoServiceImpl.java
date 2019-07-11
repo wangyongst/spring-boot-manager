@@ -80,6 +80,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Autowired
     private RequestRepository requestRepository;
 
+    @Autowired
+    private SettingRepository settingRepository;
+
 
     @Override
     public Result sendMessage(AdminParameter adminParameter) {
@@ -316,11 +319,10 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
-        if (adminParameter.getStatus() != 0 && adminParameter.getStatus() == 29 ) {
+        if (adminParameter.getStatus() != 0 && adminParameter.getStatus() == 29) {
             Sort sort = new Sort(Sort.Direction.ASC, "acceptprice");
             return ResultUtil.okWithData(purchRepository.findAll(specification, sort));
-        }
-        else return ResultUtil.okWithData(purchRepository.findAll(specification));
+        } else return ResultUtil.okWithData(purchRepository.findAll(specification));
     }
 
     @Override
@@ -414,7 +416,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             User me = (User) SecurityUtils.getSubject().getPrincipal();
             request.setCreateusername(me.getName());
             request.setCreateusermobile(me.getMobile());
-            request.setStatus(1);
         } else {
             request = requestRepository.findById(adminParameter.getRequestid()).get();
             if (adminParameter.getDelete() != 0) {
@@ -500,6 +501,47 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purchRepository.save(purch);
                 });
             }
+        }
+        return ResultUtil.ok();
+    }
+
+    @Override
+    public Result priceSchedu() {
+        Setting setting = settingRepository.findByType(2).get(0);
+        Long time = System.currentTimeMillis() - setting.getValue().longValue() * 360000;
+        List<Ask> asks = askRepository.findByTypeAndCreatetimeLessThanEqualAndConfirmtimeIsNull(Status.ONE, TimeUtils.format(time));
+        for (Ask ask : asks) {
+            List<Purch> purches = purchRepository.findAllByAsk(ask);
+            for (Purch purch : purches) {
+                if (purch == purchRepository.findTop1ByStatusAndAskOrderByAcceptpriceDesc(Status.TWO, ask)) {
+                    purch.setStatus(Status.THREE);
+                    purch.setAccepttime(TimeUtils.format(System.currentTimeMillis()));
+                    purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
+                    purch.getAsk().setStatus(Status.TWO);
+                } else {
+                    purch.setStatus(Status.FINISH);
+                }
+                purchRepository.save(purch);
+            }
+        }
+        return ResultUtil.ok();
+    }
+
+    @Override
+    public Result acceptSchedu() {
+        Setting setting = settingRepository.findByType(3).get(0);
+        Long time = System.currentTimeMillis() - setting.getValue().longValue() * 360000;
+        List<Ask> asks = askRepository.findByTypeAndConfirmtimeLessThanEqual(Status.TWO, TimeUtils.format(time));
+        for (Ask ask : asks) {
+            List<Purch> purches = purchRepository.findAllByAsk(ask);
+            for (Purch purch : purches) {
+                if (purch.getStatus() < Status.FOUR) {
+                    purch.setStatus(Status.FINISH);
+                }
+                purchRepository.save(purch);
+            }
+            ask.setStatus(Status.THREE);
+            askRepository.save(ask);
         }
         return ResultUtil.ok();
     }

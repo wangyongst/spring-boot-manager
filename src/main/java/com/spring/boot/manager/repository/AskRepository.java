@@ -11,9 +11,14 @@ import java.util.List;
 
 @Repository
 @RepositoryDefinition(domainClass = Ask.class, idClass = Integer.class)
-public interface AskRepository extends JpaRepository<Ask,Integer> , JpaSpecificationExecutor {
+public interface AskRepository extends JpaRepository<Ask, Integer>, JpaSpecificationExecutor {
 
     List<Ask> findAllByTypeNot(int type);
 
     List<Ask> findAllByRequest(Request request);
+
+    List<Ask> findByTypeAndCreatetimeLessThanEqualAndConfirmtimeIsNull(int type, String time);
+
+    List<Ask> findByTypeAndConfirmtimeLessThanEqual(int type, String time);
+
 }

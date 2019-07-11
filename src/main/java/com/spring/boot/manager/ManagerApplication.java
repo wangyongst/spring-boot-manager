@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
@@ -23,6 +24,7 @@ import java.security.cert.X509Certificate;
 @EnableJpaRepositories(basePackages = {"com.spring.boot.manager.repository"})
 @EntityScan(basePackages = {"com.spring.boot.manager.entity"})
 @ServletComponentScan
+@EnableScheduling
 public class ManagerApplication {
     public static void main(String[] args) {
         SpringApplication.run(ManagerApplication.class, args);

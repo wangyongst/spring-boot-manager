@@ -63,6 +63,6 @@ function typeformatter(value, row, index) {
 
 function statusformatter(value, row, index) {
     if (value == 1) return "未完结";
-    else if (value == 2) return "已完结";
+    else if (value >= 2) return "已完结";
     else return null;
 }
