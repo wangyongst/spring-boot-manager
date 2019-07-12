@@ -570,6 +570,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     public Result billdetailSud(AdminParameter adminParameter) {
         Billdetail billdetail = billdetailRepository.findById(adminParameter.getBilldetailid()).get();
         billdetail.setBillno(adminParameter.getBillno());
+        billdetail.setStatus(3);
         billdetailRepository.save(billdetail);
         return ResultUtil.ok();
     }

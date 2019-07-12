@@ -113,6 +113,32 @@
 
     <div class="content">
         <div class="animated fadeIn">
+
+            <div class="modal fade" id="billdetailModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">填写发票号</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form id="billdetailForm">
+                                <input id="billdetailid" name="billdetailid" hidden>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label class=" form-control-label">发票号</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" name="billno"
+                                                                        class="form-control"></div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="billnosaveButton">保存</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -169,7 +195,7 @@
         </div><!-- .animated -->
     </div><!-- .content -->
     <div id="rowoperator" hidden>
-        <button type="button" name="deleteoperator" class="btn btn-link" shiro:haspermission="purch-delete"> 撤回</button>
+        <button type="button" name="updateoperator" class="btn btn-link" shiro:haspermission="finance-fapiao"> 填写发票号</button>
     </div>
 </div><!-- /#right-panel -->
 
