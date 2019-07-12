@@ -13,10 +13,10 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Basic
-    @Column(name = "billtime")
+    @Column(name = "billtime", nullable = true, length = 255)
     private String billtime;
     @Basic
-    @Column(name = "createtime")
+    @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "supplierid", referencedColumnName = "id")

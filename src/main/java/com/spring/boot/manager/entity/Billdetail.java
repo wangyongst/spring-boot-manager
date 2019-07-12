@@ -15,11 +15,19 @@ public class Billdetail {
     @JoinColumn(name = "billid", referencedColumnName = "id")
     private Bill bill;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "purchid", referencedColumnName = "id")
-    private Purch purch;
+    @JoinColumn(name = "askid", referencedColumnName = "id")
+    private Ask ask;
     @Basic
     @Column(name = "billno", nullable = true, length = 255)
     private String createtime;
+
+    public Ask getAsk() {
+        return ask;
+    }
+
+    public void setAsk(Ask ask) {
+        this.ask = ask;
+    }
 
     public Integer getId() {
         return id;
@@ -35,14 +43,6 @@ public class Billdetail {
 
     public void setBill(Bill bill) {
         this.bill = bill;
-    }
-
-    public Purch getPurch() {
-        return purch;
-    }
-
-    public void setPurch(Purch purch) {
-        this.purch = purch;
     }
 
     public String getCreatetime() {
