@@ -20,6 +20,17 @@ public class Billdetail {
     @Basic
     @Column(name = "billno", nullable = true, length = 255)
     private String billno;
+    @Basic
+    @Column(name = "status", nullable = true)
+    private Integer status;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public Ask getAsk() {
         return ask;

@@ -34,6 +34,7 @@ public class ViewController {
     @RequestMapping("/billdetail-list")
     public String billdetail(@ModelAttribute AdminParameter adminParameter, Model model) {
         model.addAttribute("billid", adminParameter.getBillid());
+        model.addAttribute("thymeleafutils", new ThymeleafUtils());
         return "billdetail-list";
     }
 

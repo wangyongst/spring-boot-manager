@@ -24,9 +24,6 @@ public class Bill {
     @Basic
     @Column(name = "total")
     private BigDecimal total;
-    @Basic
-    @Column(name = "status", nullable = true)
-    private Integer status;
 
     public Integer getId() {
         return id;
@@ -66,13 +63,5 @@ public class Bill {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 }

@@ -103,7 +103,7 @@
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>财务系统<span class="ti-angle-right"/>对账单</h1>
+                            <h1>财务系统<span class="ti-angle-right"/>详情</h1>
                         </div>
                     </div>
                 </div>
@@ -118,20 +118,47 @@
                     <div class="card">
                         <div class="card-header">
                             <strong class="card-title">
+                                <div class="pull-left">
+                                    <button type="button" class="btn btn-primary" id="allButton">全部</button>
+                                    <button type="button" class="btn btn-primary" id="notbilldetailButton">已出账</button>
+                                    <button type="button" class="btn btn-primary" id="billdetailButton">未出账</button>
+                                    <button type="button" class="btn btn-primary" id="completeButton">已完结</button>
+                                </div>
+                                <div class="pull-right">
+                                    <form class="form-inline" id="searchaskForm">
+                                        <div class="form-group"><input type="date" name="overtime" placeholder="签收时间"
+                                                                       required="" class="form-control">
+                                        </div>
+                                        <div class="form-group"><input type="date" name="name" placeholder="供应商名称"
+                                                                       required="" class="form-control">
+                                        </div>
+                                        <button type="button" class="btn btn-primary" id="searchbillButton">筛选
+                                        </button>
+                                    </form>
+                                </div>
                             </strong>
                         </div>
                         <div class="card-body">
-                            <table data-toggle="table" data-url="/admin/bill/list"
-                                   class="table table-striped table-bordered table-condensed" id="bill-list-table"
+                            <table data-toggle="table" th:attr="data-url=${thymeleafutils.contact('/admin/billdetail/list?billid=',billid)}"
+                                   class="table table-striped table-bordered table-condensed" id="billdetail-list-table"
                                    data-pagination="true">
                                 <thead>
                                 <tr>
                                     <th data-field="id">序号</th>
-                                    <th data-field="id">对账单编号</th>
-                                    <th data-field="billtime" data-formatter="dateformatter">账单日期</th>
-                                    <th data-field="createtime" data-formatter="dateformatter">提交日期</th>
-                                    <th data-field="supplier.name">供应商</th>
-                                    <th data-field="total">总金额</th>
+                                    <th data-field="id">采购编号</th>
+                                    <th data-field="ask.createtime" data-formatter="dateformatter">采购日期</th>
+                                    <th data-field="ask.confirmtime" data-formatter="dateformatter">送货日期</th>
+                                    <th data-field="bill.supplier.name">供应商名称</th>
+                                    <th data-field="ask.request.resource.material.code">耗材编号</th>
+                                    <th data-field="ask.request.resource.material.name">耗材类型</th>
+                                    <th data-field="ask.request.num">采购数量</th>
+                                    <th data-field="ask.request.num">送货数量</th>
+                                    <th data-field="ask.request.createusername">签收人</th>
+                                    <th data-field="ask.overtime" data-formatter="dateformatter">签收日期</th>
+                                    <th data-field="bill.total">应付金额</th>
+                                    <th data-field="billno">发票号</th>
+                                    <th data-field="status" data-formatter="statusformatter" data-align="center">状态</th>
+                                    <th data-field="id" data-formatter="billdetailformatter">填写发票号</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -141,6 +168,9 @@
             </div>
         </div><!-- .animated -->
     </div><!-- .content -->
+    <div id="rowoperator" hidden>
+        <button type="button" name="deleteoperator" class="btn btn-link" shiro:haspermission="purch-delete"> 撤回</button>
+    </div>
 </div><!-- /#right-panel -->
 
 <!-- Right Panel -->
@@ -155,7 +185,7 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.14.2/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/js/common-index.js"></script>
-<script src="/js/bill-list.js"></script>
+<script src="/js/billdetail-list.js"></script>
 
 </body>
 </html>
