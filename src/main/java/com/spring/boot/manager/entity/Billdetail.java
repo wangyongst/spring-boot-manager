@@ -18,8 +18,8 @@ public class Billdetail {
     @JoinColumn(name = "purchid", referencedColumnName = "id")
     private Purch purch;
     @Basic
-    @Column(name = "billno")
-    private Integer billno;
+    @Column(name = "billno", nullable = true, length = 255)
+    private String createtime;
 
     public Integer getId() {
         return id;
@@ -45,11 +45,11 @@ public class Billdetail {
         this.purch = purch;
     }
 
-    public Integer getBillno() {
-        return billno;
+    public String getCreatetime() {
+        return createtime;
     }
 
-    public void setBillno(Integer billno) {
-        this.billno = billno;
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime;
     }
 }
