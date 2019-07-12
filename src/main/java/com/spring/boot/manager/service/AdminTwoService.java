@@ -50,4 +50,10 @@ public interface AdminTwoService {
     Result priceSchedu();
 
     Result acceptSchedu();
+
+    Result billList(AdminParameter adminParameter);
+
+    Result billdetailList(AdminParameter adminParameter);
+
+    Result billdetailSud(AdminParameter adminParameter);
 }

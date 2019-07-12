@@ -26,6 +26,17 @@ public class ViewController {
         return "ask-list";
     }
 
+    @RequestMapping("/bill-list")
+    public String bill() {
+        return "bill-list";
+    }
+
+    @RequestMapping("/billdetail-list")
+    public String billdetail(@ModelAttribute AdminParameter adminParameter, Model model) {
+        model.addAttribute("billid", adminParameter.getBillid());
+        return "billdetail-list";
+    }
+
     @RequestMapping("/finance-list")
     public String finance(Model model) {
         AdminParameter adminParameter = new AdminParameter();

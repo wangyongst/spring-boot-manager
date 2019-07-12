@@ -15,6 +15,8 @@ public class AdminParameter {
     private int projectid;
     private int resourceid;
     private int requestid;
+    private int billid;
+    private int billdetailid;
     private int askid;
     private int purchid;
     private String password;
@@ -43,6 +45,31 @@ public class AdminParameter {
     private String price;
     private String ids;
     private String createusername;
+    private String billno;
+
+    public int getBilldetailid() {
+        return billdetailid;
+    }
+
+    public void setBilldetailid(int billdetailid) {
+        this.billdetailid = billdetailid;
+    }
+
+    public int getBillid() {
+        return billid;
+    }
+
+    public void setBillid(int billid) {
+        this.billid = billid;
+    }
+
+    public String getBillno() {
+        return billno;
+    }
+
+    public void setBillno(String billno) {
+        this.billno = billno;
+    }
 
     public int getPurchid() {
         return purchid;

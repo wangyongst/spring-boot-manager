@@ -83,6 +83,12 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Autowired
     private SettingRepository settingRepository;
 
+    @Autowired
+    private BillRepository billRepository;
+
+    @Autowired
+    private BilldetailRepository billdetailRepository;
+
 
     @Override
     public Result sendMessage(AdminParameter adminParameter) {
@@ -549,6 +555,25 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         return ResultUtil.ok();
     }
 
+    @Override
+    public Result billList(AdminParameter adminParameter) {
+        return ResultUtil.okWithData(billRepository.findAll());
+    }
+
+    @Override
+    public Result billdetailList(AdminParameter adminParameter) {
+        Bill bill = billRepository.findById(adminParameter.getBillid()).get();
+        return ResultUtil.okWithData(billdetailRepository.findByBill(bill));
+    }
+
+    @Override
+    public Result billdetailSud(AdminParameter adminParameter) {
+        Billdetail billdetail = billdetailRepository.findById(adminParameter.getBilldetailid()).get();
+        billdetail.setBillno(adminParameter.getBillno());
+        billdetailRepository.save(billdetail);
+        return ResultUtil.ok();
+    }
+
     public void deleteProject(Project project) {
         resourceRepository.findByProject(project).forEach(e -> {
             deleteResource(e);
@@ -574,6 +599,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         userRepository.findBySupplier(supplier).forEach(e -> {
             e.setSupplier(null);
             userRepository.save(e);
+        });
+        billRepository.findBySupplier(supplier).forEach(e -> {
+            deleteBill(e);
         });
         supplierRepository.delete(supplier);
     }
@@ -607,7 +635,20 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         purchRepository.findAllByAsk(ask).forEach(e -> {
             deletePurch(e);
         });
+        billdetailRepository.findByAsk(ask).forEach(e -> {
+            deleteBilldetail(e);
+        });
         askRepository.delete(ask);
     }
 
+    public void deleteBilldetail(Billdetail billdetail) {
+        billdetailRepository.delete(billdetail);
+    }
+
+    public void deleteBill(Bill bill) {
+        billdetailRepository.findByBill(bill).forEach(e -> {
+            deleteBilldetail(e);
+        });
+        billRepository.delete(bill);
+    }
 }

@@ -19,7 +19,7 @@ public class Billdetail {
     private Ask ask;
     @Basic
     @Column(name = "billno", nullable = true, length = 255)
-    private String createtime;
+    private String billno;
 
     public Ask getAsk() {
         return ask;
@@ -45,11 +45,11 @@ public class Billdetail {
         this.bill = bill;
     }
 
-    public String getCreatetime() {
-        return createtime;
+    public String getBillno() {
+        return billno;
     }
 
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime;
+    public void setBillno(String billno) {
+        this.billno = billno;
     }
 }

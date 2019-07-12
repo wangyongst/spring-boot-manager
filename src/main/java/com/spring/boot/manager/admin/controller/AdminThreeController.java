@@ -56,17 +56,33 @@ public class AdminThreeController {
         return adminTwoService.request(adminParameter);
     }
 
-
     //采购申请增删改
     @PostMapping("/request/sud")
     public Result requestSud(@ModelAttribute AdminParameter adminParameter) {
         return adminTwoService.requestSud(adminParameter);
     }
 
-
     //发起
     @PostMapping("/request/ask")
     public Result requestAsk(@ModelAttribute AdminParameter adminParameter) {
         return adminTwoService.requestAsk(adminParameter);
+    }
+
+    //对账单
+    @GetMapping("/bill/list")
+    public Object billList(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.billList(adminParameter).getData();
+    }
+
+    //对账单
+    @GetMapping("/billdetail/list")
+    public Object billdetailList(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.billdetailList(adminParameter).getData();
+    }
+
+    //对账单
+    @PostMapping("/billdetail/sud")
+    public Object billdetailSud(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.billdetailSud(adminParameter);
     }
 }
