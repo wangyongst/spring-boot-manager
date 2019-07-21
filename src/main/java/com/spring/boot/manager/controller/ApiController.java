@@ -33,7 +33,7 @@ public class ApiController {
 
     @ApiOperation(value = "订单列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "status", value = " 1.待报价 3.待接单 4 生产中 8.待出账 9已出账/完结", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "status", value = " 1.待报价 3.待接单 5 生产中 8.待出账 9完结", required = true, dataType = "Integer")
 
     })
     @GetMapping("/purch/list")
