@@ -528,7 +528,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                     purch.getAsk().setStatus(Status.TWO);
                 } else {
-                    purch.setStatus(Status.FINISH);
+                    purch.setStatus(Status.FOUR);
                 }
                 purchRepository.save(purch);
             }
@@ -545,7 +545,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
                 if (purch.getStatus() < Status.FIVE) {
-                    purch.setStatus(Status.FINISH);
+                    purch.setStatus(Status.FOUR);
                 }
                 purchRepository.save(purch);
             }
