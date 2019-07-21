@@ -90,7 +90,7 @@ public class ApiServiceImpl implements ApiService {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         Purch purch = purchRepository.findById(id).get();
         if (purch.getStatus() == Status.THREE) {
-            purch.setStatus(Status.FOUR);
+            purch.setStatus(Status.FIVE);
             purch.setAccepttime(TimeUtils.format(System.currentTimeMillis()));
             purchRepository.save(purch);
             return ResultUtil.ok();
@@ -142,7 +142,7 @@ public class ApiServiceImpl implements ApiService {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         Purch purch = purchRepository.findById(id).get();
         if (purch.getAsk().getType() != 2) return ResultUtil.errorWithMessage("该订单不是打样订单，不能发货");
-        if (purch.getStatus() == Status.FOUR) {
+        if (purch.getStatus() == Status.FIVE) {
             purch.setStatus(Status.FINISH);
             purchRepository.save(purch);
             return ResultUtil.ok();
@@ -155,7 +155,7 @@ public class ApiServiceImpl implements ApiService {
         if (delivernum == null || delivernum == 0) return ResultUtil.errorWithMessage("送货数量不能为空");
         if (delivernum < 0) return ResultUtil.errorWithMessage("送货数量不正确");
         Purch purch = purchRepository.findById(id).get();
-        if (purch.getStatus() == Status.FOUR) {
+        if (purch.getStatus() == Status.FIVE) {
             Deliver deliver = new Deliver();
             deliver.setPurch(purch);
             deliver.setDelivernum(delivernum);

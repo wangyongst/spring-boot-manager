@@ -335,7 +335,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     public Result purchSud(AdminParameter adminParameter) {
         Purch purch = purchRepository.findById(adminParameter.getPurchid()).get();
         if (adminParameter.getDelete() != 0) {
-            if (purch.getStatus() <= Status.FOUR && purch.getDelivers() == null) {
+            if (purch.getStatus() <= Status.FIVE && purch.getDelivers() == null) {
                 deletePurch(purch);
             } else {
                 return ResultUtil.errorWithMessage("当前状态不允许撤回");
@@ -544,7 +544,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch.getStatus() < Status.FOUR) {
+                if (purch.getStatus() < Status.FIVE) {
                     purch.setStatus(Status.FINISH);
                 }
                 purchRepository.save(purch);
