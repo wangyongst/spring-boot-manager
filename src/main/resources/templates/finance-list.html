@@ -40,24 +40,24 @@
     <nav class="navbar navbar-expand-sm navbar-default">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li>
+                <li shiro:haspermission="index">
                     <a href="/"><i class="menu-icon fa fa-laptop"></i>首页</a>
                 </li>
-                <li class="menu-title">采购管理</li><!-- /.menu-title -->
-                <li>
-                    <a href="/view/request-list"> <i class="menu-icon ti-files"></i>需求申请表 </a>
+                <li class="menu-title" shiro:haspermission="purch">采购管理</li><!-- /.menu-title -->
+                <li shiro:haspermission="purch">
+                    <a href="/view/request-list"> <i class="menu-icon ti-files"></i>采购申请单 </a>
                 </li>
-                <li>
-                    <a href="/view/ask-list"> <i class="menu-icon ti-file"></i>物料采销表</a>
+                <li shiro:haspermission="purch">
+                    <a href="/view/ask-list"> <i class="menu-icon ti-file"></i>询价单</a>
                 </li>
-                <li class="menu-title">财务系统</li><!-- /.menu-title -->
-                <li class="active">
+                <li class="menu-title" shiro:haspermission="finance" >财务系统</li><!-- /.menu-title -->
+                <li shiro:haspermission="finance" class="active" >
                     <a href="/view/finance-list"> <i class="menu-icon ti-money"></i>采购记录表</a>
                 </li>
-                <li>
+                <li shiro:haspermission="finance" >
                     <a href="/view/bill-list"> <i class="menu-icon ti-printer"></i>对账单</a>
                 </li>
-                <li>
+                <li shiro:haspermission="permission">
                     <a href="/view/user-list"> <i class="menu-icon ti-user"></i>权限管理</a>
                 </li>
             </ul>

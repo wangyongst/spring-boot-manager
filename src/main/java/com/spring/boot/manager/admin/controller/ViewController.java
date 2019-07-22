@@ -88,7 +88,6 @@ public class ViewController {
     public String roleupdate(@ModelAttribute AdminParameter adminParameter, Model model) {
         model.addAttribute("permissions", adminService.permissionList(adminParameter).getData());
         model.addAttribute("projects", adminTwoService.projectList(adminParameter).getData());
-        model.addAttribute("suppliers", adminTwoService.supplierList(adminParameter).getData());
         model.addAttribute("role", adminService.role(adminParameter).getData());
         model.addAttribute("thymeleafutils", new ThymeleafUtils());
         return "role-update";
