@@ -117,7 +117,7 @@ public class ApiServiceImpl implements ApiService {
         Purch purch = purchRepository.findById(id).get();
         if (purch.getStatus() == Status.ONE) {
             if (purch.getAsk().getType() == 1) {
-                purch.setStatus(Status.FINISH);
+                purch.setStatus(Status.SEVEN);
             } else {
                 purch.setStatus(Status.TWO);
             }
@@ -143,7 +143,7 @@ public class ApiServiceImpl implements ApiService {
         Purch purch = purchRepository.findById(id).get();
         if (purch.getAsk().getType() != 2) return ResultUtil.errorWithMessage("该订单不是打样订单，不能发货");
         if (purch.getStatus() == Status.FIVE) {
-            purch.setStatus(Status.FINISH);
+            purch.setStatus(Status.SEVEN);
             purchRepository.save(purch);
             return ResultUtil.ok();
         } else return ResultUtil.errorWithMessage("该订单不是生产中状态，不能发货");
