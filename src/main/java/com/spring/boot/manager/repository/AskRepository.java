@@ -21,4 +21,6 @@ public interface AskRepository extends JpaRepository<Ask, Integer>, JpaSpecifica
 
     List<Ask> findByTypeAndConfirmtimeLessThanEqual(int type, String time);
 
+    long countByCreatetimeLike(String createtime);
+
 }

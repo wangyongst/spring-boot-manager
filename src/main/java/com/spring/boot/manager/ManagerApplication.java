@@ -1,5 +1,6 @@
 package com.spring.boot.manager;
 
+import io.swagger.models.auth.In;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -34,10 +35,10 @@ import java.security.cert.X509Certificate;
 @EnableScheduling
 public class ManagerApplication {
 
-    @Value("server.port")
+    @Value("${server.port}")
     private int httpsPort;
 
-    @Value("http.port")
+    @Value("${custom.http.port}")
     private int httpPort;
 
 

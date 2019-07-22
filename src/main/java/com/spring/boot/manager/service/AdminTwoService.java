@@ -56,4 +56,6 @@ public interface AdminTwoService {
     Result billdetailList(AdminParameter adminParameter);
 
     Result billdetailSud(AdminParameter adminParameter);
+
+    Result count(AdminParameter adminParameter);
 }

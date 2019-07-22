@@ -23,6 +23,7 @@ public class IndexController {
         model.addAttribute("resources", adminTwoService.resourceList(adminParameter).getData());
         model.addAttribute("projects", adminTwoService.projectList(adminParameter).getData());
         model.addAttribute("suppliers", adminTwoService.supplierList(adminParameter).getData());
+        model.addAttribute("count", adminTwoService.count(adminParameter).getData());
         return "index";
     }
 

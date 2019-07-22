@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
+import com.spring.boot.manager.model.vo.CountV;
 import com.spring.boot.manager.model.weixin.WeiXinM;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminService;
@@ -573,6 +574,14 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         billdetail.setStatus(3);
         billdetailRepository.save(billdetail);
         return ResultUtil.ok();
+    }
+
+    @Override
+    public Result count(AdminParameter adminParameter) {
+        String date = TimeUtils.format(System.currentTimeMillis()).substring(0, 10);
+        CountV countV = new CountV();
+        countV.setCount2(askRepository.countByCreatetimeLike(date + "%"));
+        return ResultUtil.okWithData(countV);
     }
 
     public void deleteProject(Project project) {
