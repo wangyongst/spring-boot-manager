@@ -594,9 +594,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         productRepository.findBySupplier(supplier).forEach(e -> {
             deleteProduct(e);
         });
-        roleRepository.findAllBySupplierid(supplier.getId()).forEach(e -> {
-            adminService.deleteRole(e);
-        });
         userRepository.findBySupplier(supplier).forEach(e -> {
             e.setSupplier(null);
             userRepository.save(e);

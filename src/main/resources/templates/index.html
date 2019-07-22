@@ -382,7 +382,7 @@
                                             <div class="card">
                                                 <div class="card-header">
                                                     <strong class="card-title">
-                                                        <div class="pull-left">
+                                                        <div class="pull-left" shiro:haspermission="index-query">
                                                             <form class="form-inline" id="searchprojectForm">
                                                                 <div class="form-group">客户名称<input type="text" name="customer" placeholder="请输入客户名称" required="" class="form-control">
                                                                 </div>
@@ -392,8 +392,8 @@
                                                             </form>
                                                         </div>
                                                         <div class="pull-right">
-                                                            <button type="button" class="btn btn-primary btn-sm" id="exportprojectButton">导出</button>
-                                                            <button type="button" class="btn btn-success btn-sm" id="projectnewButton">新增</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" id="exportprojectButton" shiro:haspermission="index-export">导出</button>
+                                                            <button type="button" class="btn btn-success btn-sm" id="projectnewButton" shiro:haspermission="index-create">新增</button>
                                                         </div>
                                                     </strong>
                                                 </div>
@@ -422,7 +422,7 @@
                                             <div class="card">
                                                 <div class="card-header">
                                                     <strong class="card-title">
-                                                        <div class="pull-left">
+                                                        <div class="pull-left" shiro:haspermission="index-query">
                                                             <form class="form-inline" id="searchresourceForm">
                                                                 <div class="form-group">耗材类型
                                                                     <select id="materialnameselect" class="form-control" name="name">
@@ -436,9 +436,9 @@
                                                             </form>
                                                         </div>
                                                         <div class="pull-right">
-                                                            <button type="button" class="btn btn-primary btn-sm" id="materialButton">耗材类型</button>
-                                                            <button type="button" class="btn btn-primary btn-sm" id="exporresourceButton">导出</button>
-                                                            <button type="button" class="btn btn-success btn-sm" id="resourcenewButton">新增</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" id="materialButton" shiro:haspermission="index-material">耗材类型</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" id="exporresourceButton" shiro:haspermission="index-export">导出</button>
+                                                            <button type="button" class="btn btn-success btn-sm" id="resourcenewButton" shiro:haspermission="index-create">新增</button>
                                                         </div>
                                                     </strong>
                                                 </div>
@@ -471,7 +471,7 @@
                                             <div class="card">
                                                 <div class="card-header">
                                                     <strong class="card-title">
-                                                        <div class="pull-left">
+                                                        <div class="pull-left" shiro:haspermission="index-query">
                                                             <form class="form-inline" id="searchsupplierForm">
                                                                 <div class="form-group">供应商名称<input type="text" name="name" placeholder="请输入供应商名称" required="" class="form-control">
                                                                 </div>
@@ -479,8 +479,8 @@
                                                             </form>
                                                         </div>
                                                         <div class="pull-right">
-                                                            <button type="button" class="btn btn-primary btn-sm" id="exportsupplierButton">导出</button>
-                                                            <button type="button" class="btn btn-success btn-sm" id="suppliernewButton">新增</button>
+                                                            <button type="button" class="btn btn-primary btn-sm" id="exportsupplierButton" shiro:haspermission="index-export">导出</button>
+                                                            <button type="button" class="btn btn-success btn-sm" id="suppliernewButton" shiro:haspermission="index-create">新增</button>
                                                         </div>
                                                     </strong>
                                                 </div>

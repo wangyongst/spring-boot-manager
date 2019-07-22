@@ -178,8 +178,6 @@ public class AdminServiceImpl implements AdminService {
         role.setName(adminParameter.getName());
         if (adminParameter.getProjectid() != 0)
             role.setProjectid(projectRepository.findById(adminParameter.getProjectid()).get().getId());
-        if (adminParameter.getSupplierid() != 0)
-            role.setSupplierid(supplierRepository.findById(adminParameter.getSupplierid()).get().getId());
         Role saveedRole = roleRepository.save(role);
         role2PermissionRepository.deleteAllByRole(role);
         if (adminParameter.getPermission() != null && adminParameter.getPermission().size() > 0) {

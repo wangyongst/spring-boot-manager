@@ -143,7 +143,7 @@
                             <strong class="card-title">
                                 <button type="button" class="btn btn-primary" id="createuserButton" shiro:haspermission="permission-create">新增用户</button>
                                 <button type="button" class="btn btn-success" id="rolelistButton">角色列表</button>
-                                <div class="pull-right">
+                                <div class="pull-right" shiro:haspermission="permission-query">
                                     <form class="form-inline" id="searchuserForm">
                                         <div class="form-group"><input type="text" name="name" placeholder="名称" required="" class="form-control">
                                         </div>

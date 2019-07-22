@@ -143,12 +143,12 @@
 
                         <div class="card-header">
                             <strong class="card-title">
-                                <div class="pull-left">
+                                <div class="pull-left" shiro:haspermission="purch-query">
                                     <button type="button" class="btn btn-primary" id="allButton">全部</button>
                                     <button type="button" class="btn btn-primary" id="notcompleteButton">未完结</button>
                                     <button type="button" class="btn btn-primary" id="completeButton">已完结</button>
                                 </div>
-                                <div class="pull-right">
+                                <div class="pull-right"  shiro:haspermission="purch-query">
                                     <form class="form-inline" id="searchaskForm">
                                         <div class="form-group"><input type="date" name="createtime" placeholder="发起时间"
                                                                        required="" class="form-control">
@@ -182,7 +182,7 @@
         </div><!-- .animated -->
     </div><!-- .content -->
     <div id="rowoperator" hidden>
-        <button type="button" name="deleteoperator" class="btn btn-link" shiro:haspermission="purch-delete"> 撤回</button>
+        <button type="button" name="deleteoperator" class="btn btn-link" shiro:haspermission="purch-back"> 撤回</button>
     </div>
 </div><!-- /#right-panel -->
 

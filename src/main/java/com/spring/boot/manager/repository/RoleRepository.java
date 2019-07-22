@@ -11,6 +11,4 @@ import java.util.List;
 @Repository
 @RepositoryDefinition(domainClass = Role.class, idClass = Integer.class)
 public interface RoleRepository extends JpaRepository<Role,Integer> {
-
-    List<Role> findAllBySupplierid(int supplierid);
 }

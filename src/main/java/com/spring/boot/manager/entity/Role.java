@@ -14,10 +14,6 @@ public class Role {
     private String name;
 
     @Basic
-    @Column(name = "supplierid", nullable = true)
-    private Integer supplierid;
-
-    @Basic
     @Column(name = "projectid", nullable = true)
     private Integer projectid;
 
@@ -35,14 +31,6 @@ public class Role {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getSupplierid() {
-        return supplierid;
-    }
-
-    public void setSupplierid(Integer supplierid) {
-        this.supplierid = supplierid;
     }
 
     public Integer getProjectid() {
