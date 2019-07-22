@@ -8,6 +8,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -32,6 +33,14 @@ import java.security.cert.X509Certificate;
 @ServletComponentScan
 @EnableScheduling
 public class ManagerApplication {
+
+    @Value("server.port")
+    private int httpsPort;
+
+    @Value("http.port")
+    private int httpPort;
+
+
     public static void main(String[] args) {
         SpringApplication.run(ManagerApplication.class, args);
     }
@@ -50,7 +59,7 @@ public class ManagerApplication {
 
     @Bean
     public ServletWebServerFactory servletContainer() {
-        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory(){
+        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
             protected void postProcessContext(Context context) {
                 SecurityConstraint securityConstraint = new SecurityConstraint();
                 securityConstraint.setUserConstraint("CONFIDENTIAL");
@@ -63,13 +72,14 @@ public class ManagerApplication {
         tomcat.addAdditionalTomcatConnectors(httpConnector());
         return tomcat;
     }
+
     @Bean
     public Connector httpConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
-        connector.setPort(8080);  //Connector监听的http的端口号
+        connector.setPort(httpPort);
         connector.setSecure(false);
-        connector.setRedirectPort(8443); //监听到http的端口号后转向到的https的端口号
+        connector.setRedirectPort(httpsPort);
         return connector;
     }
 }
