@@ -11,7 +11,7 @@ public class PurchV {
     private int type;
     //发起日期
     private String createtime;
-    //1.待报价 2.待审核 3.待接单 4 生产中 5.待收货 6.待确定 7.待出账 8已出账 9完结
+    //1.待报价 2.待审核 3.待接单 4 已失效 5.生产中 6.待送货 7.已完成 8待出账 9完结
     private Integer status;
     //项目名称
     private String projectname;
