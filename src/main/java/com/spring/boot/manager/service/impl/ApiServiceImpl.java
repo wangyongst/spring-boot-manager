@@ -173,7 +173,8 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public Result deliverList(Integer status) {
-        if (status == null || status <= Status.FOUR || status >= Status.EIGHT) return ResultUtil.errorWithMessage("状态参数不正确");
+        if (status == null || status <= Status.FOUR || status >= Status.EIGHT)
+            return ResultUtil.errorWithMessage("状态参数不正确");
         User me = (User) SecurityUtils.getSubject().getPrincipal();
         List<Deliver> deliverList = null;
         if (status == Status.FIVE || status == Status.SIX) {
@@ -237,6 +238,8 @@ public class ApiServiceImpl implements ApiService {
         p.setNum(purch.getAsk().getRequest().getNum());
         p.setContact(purch.getAsk().getRequest().getCreateusername());
         p.setMobile(purch.getAsk().getRequest().getCreateusermobile());
+        p.setPrice(purch.getAsk().getRequest().getPrice());
+        p.setProjectname(purch.getAsk().getRequest().getResource().getProject().getName());
         if (purch.getStatus() > Status.THREE) {
             p.setAcceptnum(purch.getAcceptnum());
             if (p.getAcceptnum() == null) p.setAcceptnum(0);
@@ -286,6 +289,8 @@ public class ApiServiceImpl implements ApiService {
         p.setContact(deliver.getPurch().getAsk().getRequest().getCreateusername());
         p.setMobile(deliver.getPurch().getAsk().getRequest().getCreateusermobile());
         p.setAcceptprice(deliver.getPurch().getAcceptprice());
+        p.setPrice(deliver.getPurch().getAsk().getRequest().getPrice());
+        p.setProjectname(deliver.getPurch().getAsk().getRequest().getResource().getProject().getName());
         return p;
     }
 
