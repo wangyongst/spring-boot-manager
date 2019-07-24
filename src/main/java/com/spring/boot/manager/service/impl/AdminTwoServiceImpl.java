@@ -35,6 +35,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -518,21 +521,22 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Override
     public Result priceSchedu() {
         Setting setting = settingRepository.findByType(2).get(0);
-        Long time = System.currentTimeMillis() - setting.getValue().longValue() * 360000;
-        List<Ask> asks = askRepository.findByTypeAndCreatetimeLessThanEqualAndConfirmtimeIsNull(Status.ONE, TimeUtils.format(time));
+        Integer hous = 0 - setting.getValue().intValue();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR_OF_DAY, hous);
+        List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqualAndConfirmtimeIsNull(Status.ONE, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch == purchRepository.findTop1ByStatusAndAskOrderByAcceptpriceDesc(Status.TWO, ask)) {
-                    purch.setStatus(Status.THREE);
-                    purch.setAccepttime(TimeUtils.format(System.currentTimeMillis()));
-                    purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-                    purch.getAsk().setStatus(Status.TWO);
-                } else {
+                if (purch.getStatus() == Status.ONE) {
                     purch.setStatus(Status.FOUR);
                 }
                 purchRepository.save(purch);
             }
+            ask.setStatus(Status.THREE);
+            askRepository.save(ask);
         }
         return ResultUtil.ok();
     }
@@ -540,13 +544,18 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Override
     public Result acceptSchedu() {
         Setting setting = settingRepository.findByType(3).get(0);
-        Long time = System.currentTimeMillis() - setting.getValue().longValue() * 360000;
-        List<Ask> asks = askRepository.findByTypeAndConfirmtimeLessThanEqual(Status.TWO, TimeUtils.format(time));
+        Integer hous = 0 - setting.getValue().intValue();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR_OF_DAY, hous);
+        List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqualAndConfirmtimeIsNull(Status.TWO, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch.getStatus() < Status.FIVE) {
-                    purch.setStatus(Status.FOUR);
+                if (purch == purchRepository.findTop1ByStatusAndAskOrderByAcceptpriceDesc(Status.TWO, ask)) {
+                    purch.setStatus(Status.THREE);
+                    purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                 }
                 purchRepository.save(purch);
             }

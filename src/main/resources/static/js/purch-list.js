@@ -39,8 +39,9 @@ function typeformatter(value, row, index) {
 }
 
 function acceptformatter(value, row, index) {
-    if (value <= 3) return "未接单";
-    else return "已接单";
+    if(value == 4) return null;
+    else if (value < 3) return "未接单";
+    else if(value >=3) return "已接单";
 }
 
 function statusformatter(value, row, index) {

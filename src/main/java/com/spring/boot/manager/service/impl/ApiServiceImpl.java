@@ -257,6 +257,7 @@ public class ApiServiceImpl implements ApiService {
         }
         if (p.getStatus() == 3 && p.getType() != 1) {
             try {
+                System.out.println();
                 p.setTime(priceSetting.getValue().multiply(new BigDecimal(3600000)).longValue() - (System.currentTimeMillis() - TimeUtils.parse(purch.getAsk().getConfirmtime())));
             } catch (ParseException e) {
                 e.printStackTrace();
