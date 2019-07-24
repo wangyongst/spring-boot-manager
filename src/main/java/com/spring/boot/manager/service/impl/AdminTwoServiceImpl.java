@@ -322,14 +322,14 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (adminParameter.getStatus() != 0 && adminParameter.getStatus() < 10) {
                     predicates.add(criteriaBuilder.equal(root.get("status"), adminParameter.getStatus()));
                 }
-                if (adminParameter.getStatus() != 0 && adminParameter.getStatus() == 29) {
+                if (adminParameter.getStatus() == 29) {
                     //predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
                     predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
-        if (adminParameter.getStatus() != 0 && adminParameter.getStatus() == 29) {
+        if (adminParameter.getStatus() == 29) {
             Sort sort = new Sort(Sort.Direction.ASC, "acceptprice");
             return ResultUtil.okWithData(purchRepository.findAll(specification, sort));
         } else return ResultUtil.okWithData(purchRepository.findAll(specification));
@@ -553,7 +553,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch == purchRepository.findTop1ByStatusAndAskOrderByAcceptpriceDesc(Status.TWO, ask)) {
+                if (purch == purchRepository.findTop1ByStatusAndAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(Status.TWO, ask)) {
                     purch.setStatus(Status.THREE);
                     purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                 }

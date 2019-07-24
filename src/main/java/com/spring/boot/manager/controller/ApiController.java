@@ -106,7 +106,7 @@ public class ApiController {
 
     @ApiOperation(value = "送货单列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "status", value = "5待发货 6待收货 7待确认", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "status", value = "6 待送货", required = true, dataType = "Integer")
     })
     @GetMapping("/deliver/list")
     public Result deliverList(@RequestParam Integer status) {

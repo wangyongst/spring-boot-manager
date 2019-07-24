@@ -173,11 +173,11 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public Result deliverList(Integer status) {
-        if (status == null || status <= Status.FOUR || status >= Status.EIGHT)
+        if (status == null || status != Status.FIVE)
             return ResultUtil.errorWithMessage("状态参数不正确");
         User me = (User) SecurityUtils.getSubject().getPrincipal();
         List<Deliver> deliverList = null;
-        if (status == Status.FIVE || status == Status.SIX) {
+        if (status == Status.FIVE) {
             deliverList = deliverRepository.findByConfirmnumIsNull();
         } else if (status == Status.SEVEN) {
             deliverList = deliverRepository.findByConfirmnumIsNotNull();
