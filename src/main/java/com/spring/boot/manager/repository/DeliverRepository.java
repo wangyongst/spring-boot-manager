@@ -17,8 +17,5 @@ public interface DeliverRepository extends JpaRepository<Deliver, Integer>, JpaS
 
     List<Deliver> findByPurch(Purch purch);
 
-    List<Deliver> findByConfirmnumIsNull();
-
-    List<Deliver> findByConfirmnumIsNotNull();
-
+    List<Deliver> findByStatus(int status);
 }

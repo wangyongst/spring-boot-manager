@@ -159,6 +159,7 @@ public class ApiServiceImpl implements ApiService {
             Deliver deliver = new Deliver();
             deliver.setPurch(purch);
             deliver.setDelivernum(delivernum);
+            deliver.setStatus(Status.ONE);
             deliverRepository.save(deliver);
             Double deliverCount = 0D;
             List<Deliver> delivers = deliverRepository.findByPurch(purch);
@@ -173,15 +174,9 @@ public class ApiServiceImpl implements ApiService {
 
     @Override
     public Result deliverList(Integer status) {
-        if (status == null || status != Status.FIVE)
-            return ResultUtil.errorWithMessage("状态参数不正确");
+        if (status == null || status <= 0) return ResultUtil.errorWithMessage("状态参数不正确");
         User me = (User) SecurityUtils.getSubject().getPrincipal();
-        List<Deliver> deliverList = null;
-        if (status == Status.FIVE) {
-            deliverList = deliverRepository.findByConfirmnumIsNull();
-        } else if (status == Status.SEVEN) {
-            deliverList = deliverRepository.findByConfirmnumIsNotNull();
-        }
+        List<Deliver> deliverList = deliverRepository.findByStatus(status);
         return ResultUtil.okWithData(change(deliverList));
     }
 
@@ -198,6 +193,7 @@ public class ApiServiceImpl implements ApiService {
         if (delivernum == null) return ResultUtil.errorWithMessage("收货数量不能为空");
         Deliver deliver = deliverRepository.findById(id).get();
         deliver.setConfirmnum(delivernum);
+        deliver.setStatus(Status.TWO);
         deliverRepository.save(deliver);
         return ResultUtil.ok();
     }
@@ -214,6 +210,8 @@ public class ApiServiceImpl implements ApiService {
     public Result deliverConfirm(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         Deliver deliver = deliverRepository.findById(id).get();
+        deliver.setStatus(Status.THREE);
+        deliverRepository.save(deliver);
         Purch purch = deliver.getPurch();
         purch.setAcceptnum(purch.getAcceptnum() + deliver.getConfirmnum());
         purchRepository.save(purch);
@@ -276,7 +274,7 @@ public class ApiServiceImpl implements ApiService {
         p.setId(deliver.getId());
         p.setType(deliver.getPurch().getAsk().getType());
         p.setCreatetime(deliver.getPurch().getAsk().getCreatetime());
-        p.setStatus(deliver.getPurch().getStatus());
+        p.setStatus(deliver.getStatus());
         p.setProjectname(deliver.getPurch().getAsk().getRequest().getResource().getProject().getName());
         p.setFile(deliver.getPurch().getAsk().getRequest().getResource().getFile());
         p.setSize(deliver.getPurch().getAsk().getRequest().getResource().getSize());

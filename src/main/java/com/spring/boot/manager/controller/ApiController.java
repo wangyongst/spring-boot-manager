@@ -83,7 +83,7 @@ public class ApiController {
         return apiService.purchSend(id);
     }
 
-    @ApiOperation(value = "送货")
+    @ApiOperation(value = "生成送货单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "订单id", required = true, dataType = "Integer"),
             @ApiImplicitParam(name = "delivernum", value = "送货数量", required = true, dataType = "Integer")
@@ -106,14 +106,14 @@ public class ApiController {
 
     @ApiOperation(value = "送货单列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "status", value = "6 待送货", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "status", value = "1 待送货 2送货中 3送货完", required = true, dataType = "Integer")
     })
     @GetMapping("/deliver/list")
     public Result deliverList(@RequestParam Integer status) {
         return apiService.deliverList(status);
     }
 
-    @ApiOperation(value = "订单详情")
+    @ApiOperation(value = "送货单详情")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "订单id", required = true, dataType = "Integer")
 
