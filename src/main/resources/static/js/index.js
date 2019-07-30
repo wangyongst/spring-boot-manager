@@ -274,7 +274,11 @@ function newmaterial() {
         code: '<input id="newmaterialcode" class="form-control">',
         name: '<input id="newmaterialname" class="form-control">'
     };
-    $("#matiral-list-table").bootstrapTable('append', data);
+    if($("#newmaterialcode").length>0){
+        return;
+    }else{
+        $("#matiral-list-table").bootstrapTable('append', data);
+    }
 }
 
 function updatematerial(value, index) {

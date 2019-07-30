@@ -19,7 +19,7 @@ public interface ApiService {
 
     Result purchDeliver(Integer id, Integer delivernum);
 
-    Result deliverList(Integer status);
+    Result deliverList();
 
     Result deliver(Integer id);
 

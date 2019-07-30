@@ -104,13 +104,10 @@ public class ApiController {
         return apiService.purchComplete(id);
     }
 
-    @ApiOperation(value = "送货单列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "status", value = "1 待送货 2送货中 3送货完", required = true, dataType = "Integer")
-    })
+    @ApiOperation(value = "送货单列表(1待送货 2送货中)")
     @GetMapping("/deliver/list")
-    public Result deliverList(@RequestParam Integer status) {
-        return apiService.deliverList(status);
+    public Result deliverList() {
+        return apiService.deliverList();
     }
 
     @ApiOperation(value = "送货单详情")

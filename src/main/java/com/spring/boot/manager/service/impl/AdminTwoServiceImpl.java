@@ -36,6 +36,7 @@ import javax.persistence.criteria.Root;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -323,14 +324,17 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     predicates.add(criteriaBuilder.equal(root.get("status"), adminParameter.getStatus()));
                 }
                 if (adminParameter.getStatus() == 29) {
-                    //predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
+                    predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
                     predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
         if (adminParameter.getStatus() == 29) {
-            Sort sort = new Sort(Sort.Direction.ASC, "acceptprice");
+            List<String> orders = new ArrayList<>();
+            orders.add("status");
+            orders.add("acceptprice");
+            Sort sort = new Sort(Sort.Direction.ASC, orders);
             return ResultUtil.okWithData(purchRepository.findAll(specification, sort));
         } else return ResultUtil.okWithData(purchRepository.findAll(specification));
     }

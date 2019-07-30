@@ -1,6 +1,7 @@
 package com.spring.boot.manager.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.weixin.WeiXinM;
 import com.spring.boot.manager.model.vo.PurchV;
@@ -14,12 +15,17 @@ import com.spring.boot.manager.utils.result.ResultUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -173,10 +179,19 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public Result deliverList(Integer status) {
-        if (status == null || status <= 0) return ResultUtil.errorWithMessage("状态参数不正确");
+    public Result deliverList() {
         User me = (User) SecurityUtils.getSubject().getPrincipal();
-        List<Deliver> deliverList = deliverRepository.findByStatus(status);
+        if (me.getSupplier() == null) return ResultUtil.errorWithMessage("不是供应商");
+        Specification specification = new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = Lists.newArrayList();
+                predicates.add(criteriaBuilder.equal(root.get("purch").get("supplier"), me.getSupplier()));
+                predicates.add(criteriaBuilder.between(root.get("status"), Status.ONE, Status.TWO));
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+        List<Deliver> deliverList = deliverRepository.findAll(specification);
         return ResultUtil.okWithData(change(deliverList));
     }
 
@@ -192,6 +207,7 @@ public class ApiServiceImpl implements ApiService {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         if (delivernum == null) return ResultUtil.errorWithMessage("收货数量不能为空");
         Deliver deliver = deliverRepository.findById(id).get();
+        if (deliver.getStatus() != Status.TWO) return ResultUtil.errorWithMessage("不可以收货");
         deliver.setConfirmnum(delivernum);
         deliver.setStatus(Status.TWO);
         deliverRepository.save(deliver);
@@ -210,6 +226,7 @@ public class ApiServiceImpl implements ApiService {
     public Result deliverConfirm(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         Deliver deliver = deliverRepository.findById(id).get();
+        if (deliver.getStatus() != Status.TWO) return ResultUtil.errorWithMessage("不可以确认");
         deliver.setStatus(Status.THREE);
         deliverRepository.save(deliver);
         Purch purch = deliver.getPurch();
