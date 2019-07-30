@@ -325,6 +325,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 }
                 if (adminParameter.getStatus() == 29) {
                     predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
+                    predicates.add(criteriaBuilder.notEqual(root.get("status"), 4));
                     predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));

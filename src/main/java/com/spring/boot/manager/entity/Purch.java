@@ -1,5 +1,7 @@
 package com.spring.boot.manager.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,6 +23,7 @@ public class Purch {
     @JoinColumn(name = "supplierid", referencedColumnName = "id")
     private Supplier supplier;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "purch", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private List<Deliver> delivers;
 
