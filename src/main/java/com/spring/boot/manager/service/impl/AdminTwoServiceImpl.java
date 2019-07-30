@@ -585,12 +585,14 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     bill.setBilltime(billtime);
                     bill.setSupplier(purch.getSupplier());
                     bill.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
+                    bill.setTotal(new BigDecimal(0));
                     billRepository.save(bill);
                 }
                 Billdetail billdetail = new Billdetail();
                 billdetail.setStatus(Status.ONE);
                 billdetail.setBill(bill);
                 billdetail.setAsk(purch.getAsk());
+                bill.setTotal(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAcceptnum())).add(bill.getTotal()));
                 billdetailRepository.save(billdetail);
             }
             purch.setStatus(Status.EIGHT);

@@ -21,6 +21,9 @@ public class Bill {
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "supplierid", referencedColumnName = "id")
     private Supplier supplier;
+    @Basic
+    @Column(name = "total")
+    private BigDecimal total;
 
     public Integer getId() {
         return id;
@@ -54,4 +57,11 @@ public class Bill {
         this.supplier = supplier;
     }
 
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
 }
