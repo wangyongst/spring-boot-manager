@@ -680,15 +680,15 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     }
 
     public void deletePurch(Purch purch) {
+        billdetailRepository.findByPurch(purch).forEach(e -> {
+            deleteBilldetail(e);
+        });
         purchRepository.delete(purch);
     }
 
     public void deleteAsk(Ask ask) {
         purchRepository.findAllByAsk(ask).forEach(e -> {
             deletePurch(e);
-        });
-        billdetailRepository.findByAsk(ask).forEach(e -> {
-            deleteBilldetail(e);
         });
         askRepository.delete(ask);
     }

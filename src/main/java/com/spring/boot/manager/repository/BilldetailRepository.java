@@ -3,6 +3,7 @@ package com.spring.boot.manager.repository;
 import com.spring.boot.manager.entity.Ask;
 import com.spring.boot.manager.entity.Bill;
 import com.spring.boot.manager.entity.Billdetail;
+import com.spring.boot.manager.entity.Purch;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.RepositoryDefinition;
@@ -16,5 +17,5 @@ public interface BilldetailRepository extends JpaRepository<Billdetail, Integer>
 
     List<Billdetail> findByBill(Bill bill);
 
-    List<Billdetail> findByAsk(Ask ask);
+    List<Billdetail> findByPurch(Purch purch);
 }
