@@ -570,6 +570,34 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     }
 
     @Override
+    public Result billSchedu() {
+        List<Purch> purchList = purchRepository.findAllByStatus(Status.SEVEN);
+        for (Purch purch : purchList) {
+            if (purch.getAsk().getType() == 3) {
+                String billtime = purch.getAsk().getOvertime().substring(0, 10);
+                List<Bill> bills = billRepository.findBySupplierAndBilltime(purch.getSupplier(), billtime);
+                Bill bill = null;
+                if (bills.size() == 1) bill = bills.get(0);
+                else {
+                    bill = new Bill();
+                    bill.setBilltime(billtime);
+                    bill.setSupplier(purch.getSupplier());
+                    bill.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
+                    bill = billRepository.save(bill);
+                }
+                Billdetail billdetail = new Billdetail();
+                billdetail.setStatus(Status.ONE);
+                billdetail.setBill(bill);
+                billdetail.setAsk(purch.getAsk());
+                billdetailRepository.save(billdetail);
+            }
+            purch.setStatus(Status.EIGHT);
+            purchRepository.save(purch);
+        }
+        return ResultUtil.ok();
+    }
+
+    @Override
     public Result billList(AdminParameter adminParameter) {
         return ResultUtil.okWithData(billRepository.findAll());
     }

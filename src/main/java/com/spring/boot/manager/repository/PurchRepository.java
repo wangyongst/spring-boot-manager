@@ -20,4 +20,6 @@ public interface PurchRepository extends JpaRepository<Purch, Integer>, JpaSpeci
 
     List<Purch> findAllBySupplierAndStatus(Supplier suppliler, int status);
 
+    List<Purch> findAllByStatus(int status);
+
 }

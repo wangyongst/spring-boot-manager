@@ -14,5 +14,8 @@ import java.util.List;
 @Repository
 @RepositoryDefinition(domainClass = Bill.class, idClass = Integer.class)
 public interface BillRepository extends JpaRepository<Bill, Integer>, JpaSpecificationExecutor {
+
     List<Bill> findBySupplier(Supplier supplier);
+
+    List<Bill> findBySupplierAndBilltime(Supplier supplier, String billtime);
 }
