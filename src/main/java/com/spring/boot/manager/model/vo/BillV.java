@@ -1,32 +1,47 @@
 package com.spring.boot.manager.model.vo;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 public class BillV {
+    //月份
+    private String month;
+    //1.待出账 2已账账 3已完成
+    private Integer status;
+    //总金额
+    private BigDecimal total;
+    //详情
+    private List<BillDetailV> billDetailVList;
 
-    private long count1;
-    private long count2;
-    private long count3;
-
-    public long getCount1() {
-        return count1;
+    public String getMonth() {
+        return month;
     }
 
-    public void setCount1(long count1) {
-        this.count1 = count1;
+    public void setMonth(String month) {
+        this.month = month;
     }
 
-    public long getCount2() {
-        return count2;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCount2(long count2) {
-        this.count2 = count2;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public long getCount3() {
-        return count3;
+    public BigDecimal getTotal() {
+        return total;
     }
 
-    public void setCount3(long count3) {
-        this.count3 = count3;
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public List<BillDetailV> getBillDetailVList() {
+        return billDetailVList;
+    }
+
+    public void setBillDetailVList(List<BillDetailV> billDetailVList) {
+        this.billDetailVList = billDetailVList;
     }
 }

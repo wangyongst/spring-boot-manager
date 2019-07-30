@@ -15,8 +15,8 @@ public class Billdetail {
     @JoinColumn(name = "billid", referencedColumnName = "id")
     private Bill bill;
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    @JoinColumn(name = "askid", referencedColumnName = "id")
-    private Ask ask;
+    @JoinColumn(name = "purchid", referencedColumnName = "id")
+    private Purch purch;
     @Basic
     @Column(name = "billno", nullable = true, length = 255)
     private String billno;
@@ -32,12 +32,12 @@ public class Billdetail {
         this.status = status;
     }
 
-    public Ask getAsk() {
-        return ask;
+    public Purch getPurch() {
+        return purch;
     }
 
-    public void setAsk(Ask ask) {
-        this.ask = ask;
+    public void setPurch(Purch purch) {
+        this.purch = purch;
     }
 
     public Integer getId() {

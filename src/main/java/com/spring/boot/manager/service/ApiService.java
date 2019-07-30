@@ -28,4 +28,8 @@ public interface ApiService {
     Result purchComplete(Integer id);
 
     Result deliverConfirm(Integer id);
+
+    Result billList();
+
+    Result billOk(Integer id);
 }

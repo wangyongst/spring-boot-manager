@@ -576,7 +576,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         List<Purch> purchList = purchRepository.findAllByStatus(Status.SEVEN);
         for (Purch purch : purchList) {
             if (purch.getAsk().getType() == 3) {
-                String billtime = purch.getAsk().getOvertime().substring(0, 10);
+                String billtime = purch.getAsk().getOvertime().substring(0, 7);
                 List<Bill> bills = billRepository.findBySupplierAndBilltime(purch.getSupplier(), billtime);
                 Bill bill = null;
                 if (bills.size() == 1) bill = bills.get(0);
@@ -591,7 +591,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 Billdetail billdetail = new Billdetail();
                 billdetail.setStatus(Status.ONE);
                 billdetail.setBill(bill);
-                billdetail.setAsk(purch.getAsk());
+                billdetail.setPurch(purch);
                 bill.setTotal(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAcceptnum())).add(bill.getTotal()));
                 billdetailRepository.save(billdetail);
             }

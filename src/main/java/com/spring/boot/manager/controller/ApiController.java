@@ -140,4 +140,18 @@ public class ApiController {
         return apiService.deliverConfirm(id);
     }
 
+    @ApiOperation(value = "对账单")
+    @GetMapping("/bill/list")
+    public Result billList() {
+        return apiService.billList();
+    }
+
+    @ApiOperation(value = "提交对账单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "对账单id", required = true, dataType = "Integer")
+    })
+    @GetMapping("/bill/ok")
+    public Result billOk(@RequestParam Integer id) {
+        return apiService.billOk(id);
+    }
 }

@@ -3,6 +3,8 @@ package com.spring.boot.manager.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import com.spring.boot.manager.entity.*;
+import com.spring.boot.manager.model.vo.BillDetailV;
+import com.spring.boot.manager.model.vo.BillV;
 import com.spring.boot.manager.model.weixin.WeiXinM;
 import com.spring.boot.manager.model.vo.PurchV;
 import com.spring.boot.manager.repository.*;
@@ -60,6 +62,12 @@ public class ApiServiceImpl implements ApiService {
 
     @Autowired
     private SettingRepository settingRepository;
+
+    @Autowired
+    private BillRepository billRepository;
+
+    @Autowired
+    private BilldetailRepository billdetailRepository;
 
     @Override
     public Result banding(String code) {
@@ -236,6 +244,29 @@ public class ApiServiceImpl implements ApiService {
         return ResultUtil.ok();
     }
 
+    @Override
+    public Result billList() {
+        User me = (User) SecurityUtils.getSubject().getPrincipal();
+        if (me.getSupplier() == null) return ResultUtil.errorWithMessage("不是供应商");
+        List<Bill> bills = billRepository.findBySupplier(me.getSupplier());
+        return ResultUtil.okWithData(changeB(bills));
+    }
+
+    @Override
+    public Result billOk(Integer id) {
+        if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        Bill bill = billRepository.findById(id).get();
+        List<Billdetail> billdetails = billdetailRepository.findByBill(bill);
+        billdetails.forEach(e -> {
+            e.setStatus(Status.TWO);
+            billdetailRepository.save(e);
+            Purch purch = e.getPurch();
+            purch.setStatus(Status.FINISH);
+            purchRepository.save(purch);
+        });
+        return ResultUtil.ok();
+    }
+
 
     public PurchV changeVo(Purch purch, Setting acceptSetting, Setting priceSetting) {
         PurchV p = new PurchV();
@@ -310,6 +341,32 @@ public class ApiServiceImpl implements ApiService {
         return p;
     }
 
+    public BillV changeVo(Bill bill) {
+        BillV b = new BillV();
+        b.setMonth(bill.getBilltime());
+        if (bill.getBilldetails().get(0).getStatus() == Status.ONE) b.setStatus(Status.ONE);
+        else b.setStatus(Status.TWO);
+        b.setTotal(bill.getTotal());
+        List<BillDetailV> billDetailVS = new ArrayList<>();
+        bill.getBilldetails().forEach(e -> {
+            BillDetailV bv = new BillDetailV();
+            bv.setCode(e.getPurch().getAsk().getRequest().getResource().getMaterial().getCode());
+            bv.setMaterialname(e.getPurch().getAsk().getRequest().getResource().getMaterial().getName());
+            bv.setOvertime(e.getPurch().getAsk().getOvertime());
+            Integer delivernum = 0;
+            for (Deliver deliver : e.getPurch().getDelivers()) {
+                delivernum += deliver.getDelivernum();
+            }
+            bv.setDelivernum(delivernum);
+            bv.setNum(e.getPurch().getAsk().getRequest().getNum());
+            bv.setPrice(e.getPurch().getAsk().getRequest().getPrice());
+            bv.setAcceptprice(e.getPurch().getAcceptprice());
+            billDetailVS.add(bv);
+        });
+        b.setBillDetailVList(billDetailVS);
+        return b;
+    }
+
 
     public Object change(Object object, Setting acceptSetting, Setting priceSetting) {
         if (object instanceof Purch) {
@@ -334,6 +391,17 @@ public class ApiServiceImpl implements ApiService {
                 purchVS.add(changeVo(e));
             });
             return purchVS;
+        }
+        return null;
+    }
+
+    public Object changeB(Object object) {
+        if (object instanceof List) {
+            List<BillV> billVS = new ArrayList<>();
+            ((List<Bill>) object).forEach(e -> {
+                billVS.add(changeVo(e));
+            });
+            return billVS;
         }
         return null;
     }

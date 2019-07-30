@@ -2,6 +2,7 @@ package com.spring.boot.manager.entity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -24,6 +25,16 @@ public class Bill {
     @Basic
     @Column(name = "total")
     private BigDecimal total;
+    @OneToMany(mappedBy = "bill", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    private List<Billdetail> billdetails;
+
+    public List<Billdetail> getBilldetails() {
+        return billdetails;
+    }
+
+    public void setBilldetails(List<Billdetail> billdetails) {
+        this.billdetails = billdetails;
+    }
 
     public Integer getId() {
         return id;
