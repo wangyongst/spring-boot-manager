@@ -115,7 +115,7 @@ public class ApiController {
 
     @ApiOperation(value = "送货单详情")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "订单id", required = true, dataType = "Integer")
+            @ApiImplicitParam(name = "id", value = "送货单id", required = true, dataType = "Integer")
 
     })
     @GetMapping("/deliver")
