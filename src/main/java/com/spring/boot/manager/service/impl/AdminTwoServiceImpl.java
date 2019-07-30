@@ -499,6 +499,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                         Purch purch = new Purch();
                         purch.setAsk(saveedask);
                         purch.setSupplier(e.getSupplier());
+                        purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                         purch.setStatus(Status.THREE);
                         purchRepository.save(purch);
                     });
@@ -540,6 +541,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 }
                 purchRepository.save(purch);
             }
+            ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
             ask.setStatus(Status.THREE);
             askRepository.save(ask);
         }
@@ -566,6 +568,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 }
                 purchRepository.save(purch);
             }
+            ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
             ask.setStatus(Status.THREE);
             askRepository.save(ask);
         }
