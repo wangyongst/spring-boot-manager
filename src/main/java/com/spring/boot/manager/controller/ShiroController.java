@@ -49,6 +49,7 @@ public class ShiroController {
         try {
             subject.login(token);
             User user = (User) SecurityUtils.getSubject().getPrincipal();
+            SecurityUtils.getSubject().getSession().setTimeout(-1000l);
             return ResultUtil.loginOK(subject.getSession().getId().toString(), user.getOpenid());
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,6 +70,7 @@ public class ShiroController {
         try {
             subject.login(token);
             User user = (User) SecurityUtils.getSubject().getPrincipal();
+            SecurityUtils.getSubject().getSession().setTimeout(-1000l);
             return ResultUtil.loginOK(subject.getSession().getId().toString(), user.getIschange() + "");
         } catch (Exception e) {
             e.printStackTrace();
