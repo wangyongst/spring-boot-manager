@@ -150,7 +150,7 @@ public class ApiController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "对账单id", required = true, dataType = "Integer")
     })
-    @GetMapping("/bill/ok")
+    @PostMapping("/bill/ok")
     public Result billOk(@RequestParam Integer id) {
         return apiService.billOk(id);
     }
