@@ -560,6 +560,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (purch == purchRepository.findTop1ByStatusAndAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(Status.TWO, ask)) {
                     purch.setStatus(Status.THREE);
                     purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
+                } else {
+                    purch.setStatus(Status.FOUR);
                 }
                 purchRepository.save(purch);
             }
@@ -583,7 +585,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     bill.setBilltime(billtime);
                     bill.setSupplier(purch.getSupplier());
                     bill.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
-                    bill = billRepository.save(bill);
+                    billRepository.save(bill);
                 }
                 Billdetail billdetail = new Billdetail();
                 billdetail.setStatus(Status.ONE);
