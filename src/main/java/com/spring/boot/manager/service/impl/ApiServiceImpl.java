@@ -140,7 +140,7 @@ public class ApiServiceImpl implements ApiService {
             List<Purch> purchList = purchRepository.findAllByAsk(ask);
             boolean iscomplete = true;
             for (Purch p : purchList) {
-                if (purch.getAcceptprice() == null) iscomplete = false;
+                if (p.getAcceptprice() == null) iscomplete = false;
             }
             if (iscomplete) {
                 ask.setStatus(Status.TWO);
