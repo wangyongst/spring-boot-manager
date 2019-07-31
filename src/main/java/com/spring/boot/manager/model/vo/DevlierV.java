@@ -4,11 +4,13 @@ import java.math.BigDecimal;
 
 public class DevlierV {
     private int id;
+    //订单编号
+    private int purchid;
     //操作类型  1 询价 2 打样 3 采购
     private int type;
     //发起日期
     private String createtime;
-    //1.待报价 2.待审核 3.待接单 4 生产中 5.待收货 6.待确定 7.待出账 8已出账 9完结
+    //1待送货 2送货中 3已完成
     private Integer status;
     //项目名称
     private String projectname;
@@ -42,6 +44,34 @@ public class DevlierV {
     private String mobile;
     //接单倒计时
     private Long time;
+    //采购公司
+    private String customer;
+    //供应商名称
+    private String suppliername;
+
+    public int getPurchid() {
+        return purchid;
+    }
+
+    public void setPurchid(int purchid) {
+        this.purchid = purchid;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
+    public String getSuppliername() {
+        return suppliername;
+    }
+
+    public void setSuppliername(String suppliername) {
+        this.suppliername = suppliername;
+    }
 
     public Long getTime() {
         return time;

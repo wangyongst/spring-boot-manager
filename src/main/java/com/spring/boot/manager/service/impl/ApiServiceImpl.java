@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.vo.BillDetailV;
 import com.spring.boot.manager.model.vo.BillV;
+import com.spring.boot.manager.model.vo.DevlierV;
 import com.spring.boot.manager.model.weixin.WeiXinM;
 import com.spring.boot.manager.model.vo.PurchV;
 import com.spring.boot.manager.repository.*;
@@ -96,12 +97,14 @@ public class ApiServiceImpl implements ApiService {
         List<Purch> purchList = purchRepository.findAllBySupplierAndStatus(me.getSupplier(), status);
         Setting acceptSetting = settingRepository.findByType(2).get(0);
         Setting priceSetting = settingRepository.findByType(3).get(0);
+        if (purchList == null || purchList.size() == 0 || acceptSetting == null || priceSetting == null) return ResultUtil.ok();
         return ResultUtil.okWithData(change(purchList, acceptSetting, priceSetting));
     }
 
     @Override
     public Result purchAccept(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        if (!purchRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Purch purch = purchRepository.findById(id).get();
         if (purch.getStatus() == Status.THREE) {
             purch.setStatus(Status.FIVE);
@@ -115,9 +118,11 @@ public class ApiServiceImpl implements ApiService {
     public Result purch(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         User me = (User) SecurityUtils.getSubject().getPrincipal();
+        if (!purchRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Purch purch = purchRepository.findById(id).get();
         Setting acceptSetting = settingRepository.findByType(2).get(0);
         Setting priceSetting = settingRepository.findByType(3).get(0);
+        if (acceptSetting == null || priceSetting == null) return ResultUtil.ok();
         return ResultUtil.okWithData(change(purch, acceptSetting, priceSetting));
     }
 
@@ -127,6 +132,7 @@ public class ApiServiceImpl implements ApiService {
         if (StringUtils.isBlank(price)) return ResultUtil.errorWithMessage("报价不能为空！");
         if (!price.matches("^(([1-9]\\d{0,9})|0)(\\.\\d{1,2})?$"))
             return ResultUtil.errorWithMessage("报价只能是两位小数或整数！");
+        if (!purchRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Purch purch = purchRepository.findById(id).get();
         if (purch.getStatus() == Status.ONE) {
             if (purch.getAsk().getType() == 1) {
@@ -153,6 +159,7 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public Result purchSend(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        if (!purchRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Purch purch = purchRepository.findById(id).get();
         if (purch.getAsk().getType() != 2) return ResultUtil.errorWithMessage("该订单不是打样订单，不能发货");
         if (purch.getStatus() == Status.FIVE) {
@@ -167,6 +174,7 @@ public class ApiServiceImpl implements ApiService {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         if (delivernum == null || delivernum == 0) return ResultUtil.errorWithMessage("送货数量不能为空");
         if (delivernum < 0) return ResultUtil.errorWithMessage("送货数量不正确");
+        if (!purchRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Purch purch = purchRepository.findById(id).get();
         if (purch.getStatus() == Status.FIVE) {
             Deliver deliver = new Deliver();
@@ -199,12 +207,14 @@ public class ApiServiceImpl implements ApiService {
             }
         };
         List<Deliver> deliverList = deliverRepository.findAll(specification);
+        if (deliverList == null || deliverList.size() == 0) return ResultUtil.ok();
         return ResultUtil.okWithData(change(deliverList));
     }
 
     @Override
     public Result deliver(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        if (!deliverRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Deliver deliver = deliverRepository.findById(id).get();
         return ResultUtil.okWithData(changeVo(deliver));
     }
@@ -213,6 +223,7 @@ public class ApiServiceImpl implements ApiService {
     public Result deliverAccept(Integer id, Integer delivernum) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         if (delivernum == null) return ResultUtil.errorWithMessage("收货数量不能为空");
+        if (!deliverRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Deliver deliver = deliverRepository.findById(id).get();
         if (deliver.getStatus() != Status.TWO) return ResultUtil.errorWithMessage("不可以收货");
         deliver.setConfirmnum(delivernum);
@@ -224,14 +235,17 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public Result purchComplete(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        if (!purchRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Purch purch = purchRepository.findById(id).get();
         purch.setStatus(Status.SEVEN);
+        purchRepository.save(purch);
         return ResultUtil.ok();
     }
 
     @Override
     public Result deliverConfirm(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        if (!deliverRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Deliver deliver = deliverRepository.findById(id).get();
         if (deliver.getStatus() != Status.TWO) return ResultUtil.errorWithMessage("不可以确认");
         deliver.setStatus(Status.THREE);
@@ -248,12 +262,14 @@ public class ApiServiceImpl implements ApiService {
         User me = (User) SecurityUtils.getSubject().getPrincipal();
         if (me.getSupplier() == null) return ResultUtil.errorWithMessage("不是供应商");
         List<Bill> bills = billRepository.findBySupplier(me.getSupplier());
+        if (bills == null || bills.size() == 0) return ResultUtil.ok();
         return ResultUtil.okWithData(changeB(bills));
     }
 
     @Override
     public Result billOk(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        if (!billdetailRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Bill bill = billRepository.findById(id).get();
         List<Billdetail> billdetails = billdetailRepository.findByBill(bill);
         billdetails.forEach(e -> {
@@ -315,28 +331,31 @@ public class ApiServiceImpl implements ApiService {
     }
 
 
-    public PurchV changeVo(Deliver deliver) {
-        PurchV p = new PurchV();
-        p.setId(deliver.getId());
-        p.setType(deliver.getPurch().getAsk().getType());
-        p.setCreatetime(deliver.getPurch().getAsk().getCreatetime());
-        p.setStatus(deliver.getStatus());
-        p.setProjectname(deliver.getPurch().getAsk().getRequest().getResource().getProject().getName());
-        p.setFile(deliver.getPurch().getAsk().getRequest().getResource().getFile());
-        p.setSize(deliver.getPurch().getAsk().getRequest().getResource().getSize());
-        p.setSpecial(deliver.getPurch().getAsk().getRequest().getResource().getSpecial());
-        p.setModel(deliver.getPurch().getAsk().getRequest().getResource().getModel());
-        p.setCode(deliver.getPurch().getAsk().getRequest().getResource().getMaterial().getCode());
-        p.setMaterialname(deliver.getPurch().getAsk().getRequest().getResource().getMaterial().getName());
-        p.setNum(deliver.getPurch().getAsk().getRequest().getNum());
-        p.setAcceptnum(deliver.getPurch().getAcceptnum());
-        p.setDelivernum(deliver.getDelivernum());
-        p.setContact(deliver.getPurch().getAsk().getRequest().getCreateusername());
-        p.setMobile(deliver.getPurch().getAsk().getRequest().getCreateusermobile());
-        p.setAcceptprice(deliver.getPurch().getAcceptprice());
-        p.setPrice(deliver.getPurch().getAsk().getRequest().getPrice());
-        p.setProjectname(deliver.getPurch().getAsk().getRequest().getResource().getProject().getName());
-        return p;
+    public DevlierV changeVo(Deliver deliver) {
+        DevlierV d = new DevlierV();
+        d.setId(deliver.getId());
+        d.setPurchid(deliver.getPurch().getId());
+        d.setType(deliver.getPurch().getAsk().getType());
+        d.setCreatetime(deliver.getPurch().getAsk().getCreatetime());
+        d.setStatus(deliver.getStatus());
+        d.setProjectname(deliver.getPurch().getAsk().getRequest().getResource().getProject().getName());
+        d.setFile(deliver.getPurch().getAsk().getRequest().getResource().getFile());
+        d.setSize(deliver.getPurch().getAsk().getRequest().getResource().getSize());
+        d.setSpecial(deliver.getPurch().getAsk().getRequest().getResource().getSpecial());
+        d.setModel(deliver.getPurch().getAsk().getRequest().getResource().getModel());
+        d.setCode(deliver.getPurch().getAsk().getRequest().getResource().getMaterial().getCode());
+        d.setMaterialname(deliver.getPurch().getAsk().getRequest().getResource().getMaterial().getName());
+        d.setNum(deliver.getPurch().getAsk().getRequest().getNum());
+        d.setAcceptnum(deliver.getPurch().getAcceptnum());
+        d.setDelivernum(deliver.getDelivernum());
+        d.setContact(deliver.getPurch().getAsk().getRequest().getCreateusername());
+        d.setMobile(deliver.getPurch().getAsk().getRequest().getCreateusermobile());
+        d.setAcceptprice(deliver.getPurch().getAcceptprice());
+        d.setPrice(deliver.getPurch().getAsk().getRequest().getPrice());
+        d.setProjectname(deliver.getPurch().getAsk().getRequest().getResource().getProject().getName());
+        d.setCustomer(deliver.getPurch().getAsk().getRequest().getResource().getProject().getCustomer());
+        d.setSuppliername(deliver.getPurch().getSupplier().getName());
+        return d;
     }
 
     public BillV changeVo(Bill bill) {
@@ -384,11 +403,11 @@ public class ApiServiceImpl implements ApiService {
         if (object instanceof Deliver) {
             return changeVo((Deliver) object);
         } else if (object instanceof List) {
-            List<PurchV> purchVS = new ArrayList<>();
+            List<DevlierV> devlierVS = new ArrayList<>();
             ((List<Deliver>) object).forEach(e -> {
-                purchVS.add(changeVo(e));
+                devlierVS.add(changeVo(e));
             });
-            return purchVS;
+            return devlierVS;
         }
         return null;
     }
