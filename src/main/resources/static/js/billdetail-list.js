@@ -6,7 +6,6 @@ $(function () {
             , function (result) {
                 $('#billdetailModal').modal('toggle');
                 $('#billdetail-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
-                ;
             });
     });
 });
