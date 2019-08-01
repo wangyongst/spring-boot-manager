@@ -19,6 +19,13 @@ function billdetailformatter(value, row, index) {
     }else return null;
 }
 
+function moneyformatter(value, row, index) {
+    if (row["status"] == 2) {
+        $("#rowoperator [name='updateoperator']").attr("onclick", "update(" + value + ");");
+        return $('#rowoperator').html();
+    }else return 0;
+}
+
 
 function update(value) {
     $("#billdetailid").val(value);
