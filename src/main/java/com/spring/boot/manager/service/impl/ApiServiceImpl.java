@@ -377,6 +377,7 @@ public class ApiServiceImpl implements ApiService {
                 delivernum += deliver.getDelivernum();
             }
             bv.setDelivernum(delivernum);
+            bv.setAcceptnum(e.getPurch().getAcceptnum());
             bv.setNum(e.getPurch().getAsk().getRequest().getNum());
             bv.setPrice(e.getPurch().getAsk().getRequest().getPrice());
             bv.setAcceptprice(e.getPurch().getAcceptprice());
