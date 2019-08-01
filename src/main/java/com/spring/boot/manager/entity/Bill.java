@@ -1,5 +1,7 @@
 package com.spring.boot.manager.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,6 +27,7 @@ public class Bill {
     @Basic
     @Column(name = "total")
     private BigDecimal total;
+    @JsonIgnore
     @OneToMany(mappedBy = "bill", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private List<Billdetail> billdetails;
 
