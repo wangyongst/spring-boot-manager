@@ -20,10 +20,7 @@ function billdetailformatter(value, row, index) {
 }
 
 function moneyformatter(value, row, index) {
-    if (row["status"] == 2) {
-        $("#rowoperator [name='updateoperator']").attr("onclick", "update(" + value + ");");
-        return $('#rowoperator').html();
-    }else return 0;
+    return 0;
 }
 
 
