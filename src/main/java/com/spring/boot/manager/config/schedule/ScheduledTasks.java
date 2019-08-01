@@ -15,6 +15,7 @@ public class ScheduledTasks {
     public void minCron() {
         adminTwoService.priceSchedu();
         adminTwoService.acceptSchedu();
+//        adminTwoService.billSchedu();
     }
 
     @Scheduled(cron = "0 0 0 1 * ?")

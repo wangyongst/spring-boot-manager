@@ -28,6 +28,18 @@ public class Deliver {
     @Column(name = "status", nullable = true)
     private Integer status;
 
+    @Basic
+    @Column(name = "createtime", nullable = true, length = 255)
+    private String createtime;
+
+    public String getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(String createtime) {
+        this.createtime = createtime;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -48,6 +48,16 @@ public class DevlierV {
     private String customer;
     //供应商名称
     private String suppliername;
+    //送货时间
+    private String delivertime;
+
+    public String getDelivertime() {
+        return delivertime;
+    }
+
+    public void setDelivertime(String delivertime) {
+        this.delivertime = delivertime;
+    }
 
     public int getPurchid() {
         return purchid;
