@@ -362,6 +362,7 @@ public class ApiServiceImpl implements ApiService {
 
     public BillV changeVo(Bill bill) {
         BillV b = new BillV();
+        b.setId(bill.getId());
         b.setMonth(bill.getBilltime());
         if (bill.getBilldetails().get(0).getStatus() == Status.ONE) b.setStatus(Status.ONE);
         else b.setStatus(Status.TWO);

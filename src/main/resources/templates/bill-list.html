@@ -118,6 +118,18 @@
                     <div class="card">
                         <div class="card-header">
                             <strong class="card-title">
+                                <div class="pull-right" shiro:haspermission="finance-query">
+                                    <form class="form-inline" id="searchaskForm">
+                                        <div class="form-group"><input type="date" name="overtime" placeholder="账单时间"
+                                                                       required="" class="form-control">
+                                        </div>
+                                        <div class="form-group"><input type="text" name="name" placeholder="供应商名称"
+                                                                       required="" class="form-control">
+                                        </div>
+                                        <button type="button" class="btn btn-primary" id="searchbillButton">筛选
+                                        </button>
+                                    </form>
+                                </div>
                             </strong>
                         </div>
                         <div class="card-body">

@@ -382,9 +382,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 }
                 if (adminParameter.getStatus() != 0) {
                     if (adminParameter.getStatus() == 99) {
-                        predicates.add(criteriaBuilder.notEqual(root.get("status"), 2));
+                        predicates.add(criteriaBuilder.equal(root.get("status"), 1));
                     } else if (adminParameter.getStatus() == 100) {
-                        predicates.add(criteriaBuilder.equal(root.get("status"), 2));
+                        predicates.add(criteriaBuilder.notEqual(root.get("status"), 1));
                     }
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -494,6 +494,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             } else if (adminParameter.getType() == 2) {
                 if (request.getNum() != null && request.getNum() == 1 && (request.getSellnum() == null || request.getSellnum() == 0)) {
                     ask.setType(2);
+                    ask.setStatus(Status.TWO);
                     final Ask saveedask = askRepository.save(ask);
                     productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
                         Purch purch = new Purch();
@@ -614,7 +615,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Override
     public Result billdetailList(AdminParameter adminParameter) {
         Bill bill = billRepository.findById(adminParameter.getBillid()).get();
-        return ResultUtil.okWithData(billdetailRepository.findByBill(bill));
+        if (adminParameter.getStatus() == 0) {
+            return ResultUtil.okWithData(billdetailRepository.findByBill(bill));
+        } else return ResultUtil.okWithData(billdetailRepository.findByBillAndStatus(bill, adminParameter.getStatus()));
     }
 
     @Override

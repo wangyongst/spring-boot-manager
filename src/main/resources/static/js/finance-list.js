@@ -2,9 +2,9 @@ $(function () {
 
     $('#finance-list-table').bootstrapTable('hideLoading');
 
-    $("#searchaskButton").click(function () {
-        $('#purch-list-table').bootstrapTable("destroy");
-        $('#purch-list-table').bootstrapTable({url: "/admin/purch/list?" + $('#searchaskForm').serialize()}).bootstrapTable('hideLoading');
+    $("#searchfinancButton").click(function () {
+        $('#finance-list-table').bootstrapTable("destroy");
+        $('#finance-list-table').bootstrapTable({url: "/admin/finance/list?" + $('#searchaskForm').serialize()}).bootstrapTable('hideLoading');
     });
 
     $("#settingButting").click(function () {
@@ -12,7 +12,9 @@ $(function () {
     });
 
     $("#exportpurchButton").click(function () {
-        $('#settingModal').modal('toggle');
+        var formData = $('#searchfinanceForm');
+        formData.attr("action", "/admin/finance/export").attr("method", "get");
+        formData.submit();
     });
 
 });
@@ -27,7 +29,6 @@ function confirm(value) {
                 $('#alertModal').modal('toggle');
             }
         });
-
 }
 
 
