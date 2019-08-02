@@ -270,7 +270,7 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public Result billOk(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
-        if (!billdetailRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
+        if (!billRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Bill bill = billRepository.findById(id).get();
         List<Billdetail> billdetails = billdetailRepository.findByBill(bill);
         billdetails.forEach(e -> {
