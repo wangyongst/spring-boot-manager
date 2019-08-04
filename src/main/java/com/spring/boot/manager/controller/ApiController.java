@@ -121,6 +121,17 @@ public class ApiController {
     }
 
 
+    @ApiOperation(value = "送货单修改送货数量")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "送货单id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "delivernum", value = "送货数量", required = true, dataType = "Integer")
+    })
+    @PostMapping("/deliver/number")
+    public Result deliverNumber(@RequestParam Integer id, @RequestParam Integer delivernum) {
+        return apiService.deliverNumber(id, delivernum);
+    }
+
+
     @ApiOperation(value = "收货确定(收货员)")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "送货单id", required = true, dataType = "Integer"),

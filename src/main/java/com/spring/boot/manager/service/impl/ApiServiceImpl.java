@@ -97,7 +97,8 @@ public class ApiServiceImpl implements ApiService {
         List<Purch> purchList = purchRepository.findAllBySupplierAndStatus(me.getSupplier(), status);
         Setting acceptSetting = settingRepository.findByType(2).get(0);
         Setting priceSetting = settingRepository.findByType(3).get(0);
-        if (purchList == null || purchList.size() == 0 || acceptSetting == null || priceSetting == null) return ResultUtil.ok();
+        if (purchList == null || purchList.size() == 0 || acceptSetting == null || priceSetting == null)
+            return ResultUtil.ok();
         return ResultUtil.okWithData(change(purchList, acceptSetting, priceSetting));
     }
 
@@ -234,6 +235,18 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
+    public Result deliverNumber(Integer id, Integer delivernum) {
+        if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
+        if (delivernum == null) return ResultUtil.errorWithMessage("收货数量不能为空");
+        if (!deliverRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
+        Deliver deliver = deliverRepository.findById(id).get();
+        if (deliver.getStatus() != Status.ONE) return ResultUtil.errorWithMessage("不可以修改");
+        deliver.setDelivernum(delivernum);
+        deliverRepository.save(deliver);
+        return ResultUtil.ok();
+    }
+
+    @Override
     public Result purchComplete(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         if (!purchRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
@@ -252,7 +265,7 @@ public class ApiServiceImpl implements ApiService {
         if (deliver.getStatus() != Status.TWO) return ResultUtil.errorWithMessage("不可以确认");
         deliver.setStatus(Status.THREE);
         Purch purch = deliver.getPurch();
-        if(purch.getAcceptnum() == null || purch.getAcceptnum() == 0) purch.setAcceptnum(deliver.getConfirmnum());
+        if (purch.getAcceptnum() == null || purch.getAcceptnum() == 0) purch.setAcceptnum(deliver.getConfirmnum());
         else purch.setAcceptnum(purch.getAcceptnum() + deliver.getConfirmnum());
         deliverRepository.save(deliver);
         return ResultUtil.ok();
@@ -357,6 +370,13 @@ public class ApiServiceImpl implements ApiService {
         d.setCustomer(deliver.getPurch().getAsk().getRequest().getResource().getProject().getCustomer());
         d.setSuppliername(deliver.getPurch().getSupplier().getName());
         d.setDelivertime(deliver.getCreatetime());
+        int accpetnum = 0;
+        if (deliver.getPurch().getAcceptnum() != null) accpetnum = deliver.getPurch().getAcceptnum();
+        int delivernum = 0;
+        for (Deliver deliver1 : deliver.getPurch().getDelivers()) {
+            delivernum += deliver1.getDelivernum();
+        }
+        d.setProductnum(deliver.getPurch().getAsk().getRequest().getNum() - accpetnum - delivernum);
         return d;
     }
 
