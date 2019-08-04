@@ -270,7 +270,7 @@ public class ApiServiceImpl implements ApiService {
     @Override
     public Result billOk(Integer id) {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
-        if (!billdetailRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
+        if (!billRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Bill bill = billRepository.findById(id).get();
         List<Billdetail> billdetails = billdetailRepository.findByBill(bill);
         billdetails.forEach(e -> {
@@ -362,6 +362,7 @@ public class ApiServiceImpl implements ApiService {
 
     public BillV changeVo(Bill bill) {
         BillV b = new BillV();
+        b.setId(bill.getId());
         b.setMonth(bill.getBilltime());
         if (bill.getBilldetails().get(0).getStatus() == Status.ONE) b.setStatus(Status.ONE);
         else b.setStatus(Status.TWO);

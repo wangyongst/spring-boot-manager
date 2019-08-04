@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class BillV {
+    private int id;
     //月份
     private String month;
     //1.待出账 2已账账 3已完成
@@ -12,6 +13,14 @@ public class BillV {
     private BigDecimal total;
     //详情
     private List<BillDetailV> billDetailVList;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getMonth() {
         return month;

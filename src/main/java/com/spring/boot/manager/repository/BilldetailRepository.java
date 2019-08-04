@@ -18,4 +18,6 @@ public interface BilldetailRepository extends JpaRepository<Billdetail, Integer>
     List<Billdetail> findByBill(Bill bill);
 
     List<Billdetail> findByPurch(Purch purch);
+
+    List<Billdetail> findByBillAndStatus(Bill bill, int status);
 }
