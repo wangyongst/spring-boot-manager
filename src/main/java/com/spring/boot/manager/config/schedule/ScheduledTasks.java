@@ -22,6 +22,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0 0 0 1 * ?")
     public void monCron() {
+        //生成对账单
         adminTwoService.billSchedu();
     }
 }
