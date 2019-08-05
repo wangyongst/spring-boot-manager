@@ -23,6 +23,12 @@ $(function () {
                 $('#purch-list-table').bootstrapTable("refresh").bootstrapTable('hideLoading');
             });
     });
+
+    $("#searchpurchButton").click(function () {
+        $('#purch-list-table').bootstrapTable("destroy");
+        $('#purch-list-table').bootstrapTable({url: "/admin/purch/list?" + $('#searchaskForm').serialize() + "&askid=" + $('#myaskid').val()}).bootstrapTable('hideLoading');
+    });
+
 });
 
 function del(value) {
@@ -39,9 +45,9 @@ function typeformatter(value, row, index) {
 }
 
 function acceptformatter(value, row, index) {
-    if(value == 4) return null;
+    if (value == 4) return null;
     else if (value < 3) return "未接单";
-    else if(value >=3) return "已接单";
+    else if (value >= 3) return "已接单";
 }
 
 function statusformatter(value, row, index) {
@@ -50,7 +56,6 @@ function statusformatter(value, row, index) {
     else if (value == 3) return "待接单";
     else if (value == 4) return "已失效";
     else if (value == 5) return "生产中";
-    else if (value == 6) return "待送货";
     else if (value == 7) return "已完成";
     else if (value == 8) return "待出账";
     else if (value == 9) return "完结";

@@ -323,6 +323,12 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (adminParameter.getStatus() != 0 && adminParameter.getStatus() < 10) {
                     predicates.add(criteriaBuilder.equal(root.get("status"), adminParameter.getStatus()));
                 }
+                if (StringUtils.isNotBlank(adminParameter.getCustomer())) {
+                    predicates.add(criteriaBuilder.like(root.get("ask").get("request").get("resource").get("project").get("customer"), "%" + adminParameter.getCustomer() + "%"));
+                }
+                if (StringUtils.isNotBlank(adminParameter.getName())) {
+                    predicates.add(criteriaBuilder.like(root.get("ask").get("request").get("resource").get("material").get("name"), "%" + adminParameter.getName() + "%"));
+                }
                 if (adminParameter.getStatus() == 29) {
                     predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
                     predicates.add(criteriaBuilder.notEqual(root.get("status"), 4));
@@ -338,6 +344,40 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             Sort sort = new Sort(Sort.Direction.ASC, orders);
             return ResultUtil.okWithData(purchRepository.findAll(specification, sort));
         } else return ResultUtil.okWithData(purchRepository.findAll(specification));
+    }
+
+    @Override
+    public Result financeHistory(AdminParameter adminParameter) {
+        Specification specification = new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = Lists.newArrayList();
+                predicates.add(criteriaBuilder.equal(root.get("ask").get("id"), adminParameter.getAskid()));
+                predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
+                predicates.add(criteriaBuilder.notEqual(root.get("status"), 4));
+                predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
+                Predicate predicate = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+                if (StringUtils.isNotBlank(adminParameter.getName())) {
+                    String name = "%" + adminParameter.getName() + "%";
+                    Predicate p = criteriaBuilder.like(root.get("supplier").get("name"), name);
+                    Predicate p2 = criteriaBuilder.like(root.get("ask").get("request").get("resource").get("project").get("name"), name);
+                    Predicate p3 = criteriaBuilder.like(root.get("id"), name);
+                    predicate = criteriaBuilder.or(criteriaBuilder.and(predicate, p), criteriaBuilder.and(predicate, p2), criteriaBuilder.and(predicate, p3));
+                }
+                if (StringUtils.isNotBlank(adminParameter.getCreatetime())) {
+                    String date = adminParameter.getCreatetime() + "%";
+                    Predicate p = criteriaBuilder.like(root.get("ask").get("request").get("createtime"), date);
+                    Predicate p2 = criteriaBuilder.like(root.get("ask").get("overtime"), date);
+                    predicate = criteriaBuilder.or(criteriaBuilder.and(predicate, p), criteriaBuilder.and(predicate, p2));
+                }
+                return predicate;
+            }
+        };
+        List<String> orders = new ArrayList<>();
+        orders.add("status");
+        orders.add("acceptprice");
+        Sort sort = new Sort(Sort.Direction.ASC, orders);
+        return ResultUtil.okWithData(purchRepository.findAll(specification, sort));
     }
 
     @Override

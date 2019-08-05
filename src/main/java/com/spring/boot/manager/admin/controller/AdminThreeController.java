@@ -28,6 +28,13 @@ public class AdminThreeController {
         return adminTwoService.purchList(adminParameter).getData();
     }
 
+    //采购记录表
+    @GetMapping("/finance/history")
+    public Object financeHistory(@ModelAttribute AdminParameter adminParameter) {
+        return adminTwoService.financeHistory(adminParameter).getData();
+    }
+
+
     //采购申请撤回
     @PostMapping("/purch/sud")
     public Result purchSud(@ModelAttribute AdminParameter adminParameter) {
@@ -97,7 +104,7 @@ public class AdminThreeController {
     //对账单
     @GetMapping("/finance/list")
     public Object financeList(@ModelAttribute AdminParameter adminParameter) {
-         return adminTwoService.purchList(adminParameter).getData();
+        return adminTwoService.purchList(adminParameter).getData();
     }
 
     //项目导出
@@ -107,7 +114,7 @@ public class AdminThreeController {
         String fileName = "采购记录.xls";
         ServletUtil su = new ServletUtil(fileName, req, resp);
         su.poiExcelServlet();
-        String[] heads = {"采购编号", "采购日期", "接单日期", "签收日期", "项目名称", "采购公司","供应商名称", "耗材编号", "耗材类型", "尺寸大小", "特殊要求", "材质规格","采购数量", "销售数量", "收货数量", "采购单价（元）", "销售单价（元）", "应收金额（元）","应付金额（元）", "状态"};
+        String[] heads = {"采购编号", "采购日期", "接单日期", "签收日期", "项目名称", "采购公司", "供应商名称", "耗材编号", "耗材类型", "尺寸大小", "特殊要求", "材质规格", "采购数量", "销售数量", "收货数量", "采购单价（元）", "销售单价（元）", "应收金额（元）", "应付金额（元）", "状态"};
         String[] cols = {"id", "customer", "name", "zimu", "createusername", "createtime"};
         int[] numerics = {0};
         ServletUtil suresp = new ServletUtil(resp);

@@ -31,6 +31,8 @@ public interface AdminTwoService {
 
     Result purchList(AdminParameter adminParameter);
 
+    Result financeHistory(AdminParameter adminParameter);
+
     Result purchSud(AdminParameter adminParameter);
 
     Result purchCoc(AdminParameter adminParameter);

@@ -2,9 +2,9 @@ $(function () {
 
     $('#finance-list-table').bootstrapTable('hideLoading');
 
-    $("#searchfinancButton").click(function () {
+    $("#searchfinanceButton").click(function () {
         $('#finance-list-table').bootstrapTable("destroy");
-        $('#finance-list-table').bootstrapTable({url: "/admin/finance/list?" + $('#searchaskForm').serialize()}).bootstrapTable('hideLoading');
+        $('#finance-list-table').bootstrapTable({url: "/admin/finance/history?" + $('#searchaskForm').serialize()}).bootstrapTable('hideLoading');
     });
 
     $("#settingButting").click(function () {
