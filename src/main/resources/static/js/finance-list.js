@@ -4,7 +4,7 @@ $(function () {
 
     $("#searchfinanceButton").click(function () {
         $('#finance-list-table').bootstrapTable("destroy");
-        $('#finance-list-table').bootstrapTable({url: "/admin/finance/history?" + $('#searchaskForm').serialize()}).bootstrapTable('hideLoading');
+        $('#finance-list-table').bootstrapTable({url: "/admin/finance/history?" + $('#searchfinanceForm').serialize()}).bootstrapTable('hideLoading');
     });
 
     $("#settingButting").click(function () {

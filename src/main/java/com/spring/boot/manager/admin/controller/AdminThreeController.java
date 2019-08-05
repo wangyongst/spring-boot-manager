@@ -1,10 +1,12 @@
 package com.spring.boot.manager.admin.controller;
 
 
-import com.spring.boot.manager.entity.Project;
-import com.spring.boot.manager.entity.Purch;
+import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
+import com.spring.boot.manager.model.vo.*;
 import com.spring.boot.manager.service.AdminTwoService;
+import com.spring.boot.manager.utils.Status;
+import com.spring.boot.manager.utils.db.TimeUtils;
 import com.spring.boot.manager.utils.excel.PoiExcelExport;
 import com.spring.boot.manager.utils.excel.ServletUtil;
 import com.spring.boot.manager.utils.result.Result;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -110,15 +115,50 @@ public class AdminThreeController {
     //项目导出
     @GetMapping("/finance/export")
     public void financeExport(@ModelAttribute AdminParameter adminParameter, HttpServletRequest req, HttpServletResponse resp) {
-        List<Purch> projectList = (List<Purch>) adminTwoService.purchList(adminParameter).getData();
+        List<Purch> purchList = (List<Purch>) adminTwoService.financeHistory(adminParameter).getData();
+        List<PurchV2> purchV2List = change(purchList);
         String fileName = "采购记录.xls";
         ServletUtil su = new ServletUtil(fileName, req, resp);
         su.poiExcelServlet();
         String[] heads = {"采购编号", "采购日期", "接单日期", "签收日期", "项目名称", "采购公司", "供应商名称", "耗材编号", "耗材类型", "尺寸大小", "特殊要求", "材质规格", "采购数量", "销售数量", "收货数量", "采购单价（元）", "销售单价（元）", "应收金额（元）", "应付金额（元）", "状态"};
-        String[] cols = {"id", "customer", "name", "zimu", "createusername", "createtime"};
+        String[] cols = {"id", "createtime", "acceptime", "overtime", "projectname", "customer", "suppliername", "code", "materialname", "size", "special", "model", "num", "sellnum", "acceptnum", "price", "sellprice", "totalprice", "totalpay", "status"};
         int[] numerics = {0};
         ServletUtil suresp = new ServletUtil(resp);
-        PoiExcelExport<Purch> pee = new PoiExcelExport<>(fileName, heads, cols, projectList, numerics, suresp.getOut());
+        PoiExcelExport<PurchV2> pee = new PoiExcelExport<>(fileName, heads, cols, purchV2List, numerics, suresp.getOut());
         pee.exportExcel();
     }
+
+
+    public PurchV2 changeVo(Purch purch) {
+        PurchV2 p = new PurchV2();
+        p.setId(purch.getId());
+        p.setCreatetime(purch.getAsk().getCreatetime());
+        p.setStatus(purch.getStatus());
+        p.setProjectname(purch.getAsk().getRequest().getResource().getProject().getName());
+        p.setSize(purch.getAsk().getRequest().getResource().getSize());
+        p.setSpecial(purch.getAsk().getRequest().getResource().getSpecial());
+        p.setModel(purch.getAsk().getRequest().getResource().getModel());
+        p.setCode(purch.getAsk().getRequest().getResource().getMaterial().getCode());
+        p.setMaterialname(purch.getAsk().getRequest().getResource().getMaterial().getName());
+        p.setNum(purch.getAsk().getRequest().getNum());
+        p.setPrice(purch.getAsk().getRequest().getPrice());
+        p.setProjectname(purch.getAsk().getRequest().getResource().getProject().getName());
+        p.setSuppliername(purch.getSupplier().getName());
+        p.setCustomer(purch.getAsk().getRequest().getResource().getProject().getCustomer());
+        p.setSellnum(purch.getAsk().getRequest().getSellnum());
+        p.setAcceptnum(purch.getAcceptnum());
+        p.setAcceptime(purch.getAccepttime());
+        p.setCreatetime(purch.getAsk().getCreatetime());
+        return p;
+    }
+
+
+    public List<PurchV2> change(List<Purch> purchList) {
+        List<PurchV2> purchVS = new ArrayList<>();
+        ((List<Purch>) purchList).forEach(e -> {
+            purchVS.add(changeVo(e));
+        });
+        return purchVS;
+    }
+
 }

@@ -352,7 +352,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
-                predicates.add(criteriaBuilder.equal(root.get("ask").get("id"), adminParameter.getAskid()));
                 predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
                 predicates.add(criteriaBuilder.notEqual(root.get("status"), 4));
                 predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
@@ -361,14 +360,17 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     String name = "%" + adminParameter.getName() + "%";
                     Predicate p = criteriaBuilder.like(root.get("supplier").get("name"), name);
                     Predicate p2 = criteriaBuilder.like(root.get("ask").get("request").get("resource").get("project").get("name"), name);
-                    Predicate p3 = criteriaBuilder.like(root.get("id"), name);
-                    predicate = criteriaBuilder.or(criteriaBuilder.and(predicate, p), criteriaBuilder.and(predicate, p2), criteriaBuilder.and(predicate, p3));
+                    if (StringUtils.isNumeric(adminParameter.getName())) {
+                        predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(p, p2, criteriaBuilder.equal(root.get("id"), Integer.parseInt(adminParameter.getName()))));
+                    } else {
+                        predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(p, p2));
+                    }
                 }
                 if (StringUtils.isNotBlank(adminParameter.getCreatetime())) {
                     String date = adminParameter.getCreatetime() + "%";
                     Predicate p = criteriaBuilder.like(root.get("ask").get("request").get("createtime"), date);
                     Predicate p2 = criteriaBuilder.like(root.get("ask").get("overtime"), date);
-                    predicate = criteriaBuilder.or(criteriaBuilder.and(predicate, p), criteriaBuilder.and(predicate, p2));
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(p, p2));
                 }
                 return predicate;
             }
