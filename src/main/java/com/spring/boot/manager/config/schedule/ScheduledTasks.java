@@ -13,7 +13,9 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0 0/1 * * * ?")
     public void minCron() {
+        //报价失效
         adminTwoService.priceSchedu();
+        //接单失效
         adminTwoService.acceptSchedu();
 //        adminTwoService.billSchedu();
     }
