@@ -28,7 +28,7 @@ public class AdminThreeController {
         return adminTwoService.purchList(adminParameter).getData();
     }
 
-    //采购记录表
+    //采购记录表检索
     @GetMapping("/finance/history")
     public Object financeHistory(@ModelAttribute AdminParameter adminParameter) {
         return adminTwoService.financeHistory(adminParameter).getData();
