@@ -177,9 +177,9 @@ public class AdminThreeController {
 //        private BigDecimal totalprice;
 //        //应付金额 供应商的报价*送货数量
 //        private BigDecimal totalpay;
-//        if (purch.getAsk().getRequest().getNum() != null && purch.getAsk().getRequest().getPrice() != null) {
-//            p.setTotalprice(purch.getAsk().getRequest()().multiply(new BigDecimal(purch.getAsk().getRequest().getNum().intValue())));
-//        }
+        if (purch.getAsk().getRequest().getSellnum() != null && purch.getAsk().getRequest().getPrice() != null) {
+            p.setTotalprice(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAsk().getRequest().getSellnum().intValue())));
+        }
         if (purch.getAcceptnum() != null && purch.getAcceptprice() != null) {
             p.setTotalpay(purch.getAcceptprice().multiply(new BigDecimal(purch.getAcceptnum())));
         }

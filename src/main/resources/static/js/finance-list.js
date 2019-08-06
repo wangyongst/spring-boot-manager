@@ -44,12 +44,11 @@ function financeformatter(value, row, index) {
 }
 
 function yingshouformatter(value, row, index) {
-    // var price = row["ask"]["request"]["price"];
-    // var sellnum = row["ask"]["request"]["sellnum"];
-    // var out = price * sellnum;
-    // if (isNaN(out)) return 0;
-    // else return out;
-    return null;
+    var price = row["ask"]["request"]["price"];
+    var sellnum = row["ask"]["request"]["sellnum"];
+    var out = price * sellnum;
+    if (isNaN(out)) return 0;
+    else return out;
 }
 
 function yingfuformatter(value, row, index) {
