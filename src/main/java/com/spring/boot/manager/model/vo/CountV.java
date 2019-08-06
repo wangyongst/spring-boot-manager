@@ -4,7 +4,7 @@ public class CountV {
 
     private long count1;
     private long count2;
-    private long count3;
+    private double count3;
 
     public long getCount1() {
         return count1;
@@ -22,11 +22,11 @@ public class CountV {
         this.count2 = count2;
     }
 
-    public long getCount3() {
+    public double getCount3() {
         return count3;
     }
 
-    public void setCount3(long count3) {
+    public void setCount3(double count3) {
         this.count3 = count3;
     }
 }

@@ -58,6 +58,8 @@ public class WeixinUtils {
         MpTemplateMsg mpTemplateMsg = new MpTemplateMsg();
         mpTemplateMsg.setAppid(mpappid);
         mpTemplateMsg.setTemplate_id(template_id);
+        mpTemplateMsg.setUrl("");
+        mpTemplateMsg.setMiniprogram("");
         mpTemplateMsg.setData(data);
         WeiXinMessageM weiXinMessageM = new WeiXinMessageM();
         weiXinMessageM.setAccess_token(accessToken);

@@ -5,7 +5,25 @@ import org.springframework.beans.factory.annotation.Value;
 public class MpTemplateMsg {
     private String appid;
     private String template_id;
+    private String url;
+    private String miniprogram;
     private Object data;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getMiniprogram() {
+        return miniprogram;
+    }
+
+    public void setMiniprogram(String miniprogram) {
+        this.miniprogram = miniprogram;
+    }
 
     public String getAppid() {
         return appid;
