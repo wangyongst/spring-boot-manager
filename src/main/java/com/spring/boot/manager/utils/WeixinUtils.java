@@ -14,14 +14,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ResourceBundle;
 
 public class WeixinUtils {
-    @Value("${custom.weixin.appid}")
-    private static String appid;
-    @Value("${custom.weixin.mpappid}")
-    private static String mpappid;
-    @Value("${custom.weixin.secret}")
-    private static String secret;
-    @Value("${custom.weixin.template_id}")
-    private static String template_id;
+    private static String appid = "wxe1fbb56a49af3618";
+    private static String mpappid = "wxbe276d9de7304ef3";
+    private static String secret = "ed27727f5152b094581a6bd6826907e5";
+    private static String template_id1 = "";
+    private static String template_id2 = "";
+    private static String template_id3 = "";
 
     /**
      * 获取openId
@@ -44,17 +42,22 @@ public class WeixinUtils {
     /**
      * 发送消息
      */
-    public static String sendMessage(RestTemplate restTemplate, String accessToken, String touser, Object data) {
+    public static String sendMessage(int type, RestTemplate restTemplate, String accessToken, String touser, Object data) {
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send?access_token=ACCESS_TOKEN";
         requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        HttpEntity requestBody = new HttpEntity(makeMessage(accessToken, touser, data), headers);
+        String template_id = "";
+        if (type == 1) template_id = template_id1;
+        else if (type == 2) template_id = template_id2;
+        else if (type == 3) template_id = template_id3;
+        else return null;
+        HttpEntity requestBody = new HttpEntity(makeMessage(template_id, accessToken, touser, data), headers);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(requestUrl, requestBody, String.class);
         return responseEntity.getBody();
     }
 
-    public static WeiXinMessageM makeMessage(String accessToken, String touser, Object data) {
+    public static WeiXinMessageM makeMessage(String template_id, String accessToken, String touser, Object data) {
         MpTemplateMsg mpTemplateMsg = new MpTemplateMsg();
         mpTemplateMsg.setAppid(mpappid);
         mpTemplateMsg.setTemplate_id(template_id);

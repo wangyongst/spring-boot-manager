@@ -1,7 +1,4 @@
 package com.spring.boot.manager.model.weixin;
-
-import org.springframework.beans.factory.annotation.Value;
-
 public class MpTemplateMsg {
     private String appid;
     private String template_id;

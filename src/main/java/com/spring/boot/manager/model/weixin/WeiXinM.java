@@ -1,5 +1,8 @@
 package com.spring.boot.manager.model.weixin;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeiXinM {
     private Integer errcode;
     private String errmsg;

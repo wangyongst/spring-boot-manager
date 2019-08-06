@@ -118,7 +118,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             try {
                 WeiXinM weiXinM = mapper.readValue(response, WeiXinM.class);
                 if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0 && StringUtils.isNotBlank(weiXinM.getAccess_token())) {
-                    response = WeixinUtils.sendMessage(restTemplate, weiXinM.getAccess_token(), user.getOpenid(), md);
+                    response = WeixinUtils.sendMessage(1, restTemplate, weiXinM.getAccess_token(), user.getOpenid(), md);
                     weiXinM = mapper.readValue(response, WeiXinM.class);
                     if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0) return ResultUtil.ok();
                     else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
@@ -144,7 +144,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             try {
                 WeiXinM weiXinM = mapper.readValue(response, WeiXinM.class);
                 if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0 && StringUtils.isNotBlank(weiXinM.getAccess_token())) {
-                    response = WeixinUtils.sendMessage(restTemplate, weiXinM.getAccess_token(), user.getOpenid(), md);
+                    response = WeixinUtils.sendMessage(3, restTemplate, weiXinM.getAccess_token(), user.getOpenid(), md);
                     weiXinM = mapper.readValue(response, WeiXinM.class);
                     if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0) return ResultUtil.ok();
                     else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
