@@ -17,7 +17,6 @@ public class ScheduledTasks {
         adminTwoService.priceSchedu();
         //接单失效
         adminTwoService.acceptSchedu();
-        // adminTwoService.billSchedu();
     }
 
     @Scheduled(cron = "0 0 0 1 * ?")

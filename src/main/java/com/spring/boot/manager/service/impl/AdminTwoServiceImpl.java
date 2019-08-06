@@ -622,7 +622,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch.getStatus() == Status.ONE) {
+                if (purch.getStatus() == Status.ONE || purch.getStatus() == Status.TWO) {
                     purch.setStatus(Status.FOUR);
                 }
                 purchRepository.save(purch);
