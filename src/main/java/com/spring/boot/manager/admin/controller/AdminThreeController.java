@@ -179,7 +179,6 @@ public class AdminThreeController {
         if (purch.getAcceptnum() != null && purch.getAcceptprice() != null) {
             p.setTotalprice(purch.getAcceptprice().multiply(new BigDecimal(purch.getAcceptnum())));
         }
-
         return p;
     }
 
