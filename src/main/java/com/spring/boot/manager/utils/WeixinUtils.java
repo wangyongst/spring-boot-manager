@@ -44,7 +44,7 @@ public class WeixinUtils {
     /**
      * 发送消息
      */
-    public static String sendMessage(RestTemplate restTemplate, String accessToken, String touser, String data) {
+    public static String sendMessage(RestTemplate restTemplate, String accessToken, String touser, Object data) {
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send?access_token=ACCESS_TOKEN";
         requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken);
         HttpHeaders headers = new HttpHeaders();
@@ -54,7 +54,7 @@ public class WeixinUtils {
         return responseEntity.getBody();
     }
 
-    public static WeiXinMessageM makeMessage(String accessToken, String touser, String data) {
+    public static WeiXinMessageM makeMessage(String accessToken, String touser, Object data) {
         MpTemplateMsg mpTemplateMsg = new MpTemplateMsg();
         mpTemplateMsg.setAppid(mpappid);
         mpTemplateMsg.setTemplate_id(template_id);

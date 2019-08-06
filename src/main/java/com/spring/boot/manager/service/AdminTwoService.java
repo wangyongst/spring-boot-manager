@@ -1,11 +1,12 @@
 package com.spring.boot.manager.service;
 
+import com.spring.boot.manager.entity.Purch;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.utils.result.Result;
 
 public interface AdminTwoService {
 
-    Result sendMessage(AdminParameter adminParameter);
+    public Result sendMessage(Purch purch);
 
     Result projectList(AdminParameter adminParameter);
 

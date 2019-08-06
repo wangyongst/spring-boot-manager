@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.model.vo.CountV;
+import com.spring.boot.manager.model.weixin.MessageData;
 import com.spring.boot.manager.model.weixin.WeiXinM;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminService;
@@ -96,21 +97,34 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
 
     @Override
-    public Result sendMessage(AdminParameter adminParameter) {
+    public Result sendMessage(Purch purch) {
         String response = WeixinUtils.getAccessToken(restTemplate);
         ObjectMapper mapper = new ObjectMapper();
-        try {
-            WeiXinM weiXinM = mapper.readValue(response, WeiXinM.class);
-            if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0 && StringUtils.isNotBlank(weiXinM.getAccess_token())) {
-                response = WeixinUtils.sendMessage(restTemplate, weiXinM.getAccess_token(), null, null);
-                weiXinM = mapper.readValue(response, WeiXinM.class);
-                if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0) return ResultUtil.ok();
-                else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
-            } else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
-        } catch (IOException e) {
-            e.printStackTrace();
+        MessageData md = new MessageData();
+        md.setKeyword1(TimeUtils.format(System.currentTimeMillis()));
+        if (purch.getStatus() == Status.ONE) {
+            md.setKeyword2("你好，宝时物流向您发送了一份询价单，待报价耗材1款，请注意查看");
+            md.setKeyword3("待报价");
+        } else if (purch.getStatus() == Status.THREE) {
+            Setting setting = settingRepository.findByType(2).get(0);
+            md.setKeyword2("有新的采购任务，不做修改将于" + setting.getValue() + "小时候自动下发供应商");
+            md.setKeyword3("待接单");
         }
-        return ResultUtil.errorWithMessage("消息发送失败");
+        for (User user : userRepository.findBySupplier(purch.getSupplier())) {
+            if (user.getOpenid() == null) continue;
+            try {
+                WeiXinM weiXinM = mapper.readValue(response, WeiXinM.class);
+                if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0 && StringUtils.isNotBlank(weiXinM.getAccess_token())) {
+                    response = WeixinUtils.sendMessage(restTemplate, weiXinM.getAccess_token(), user.getOpenid(), md);
+                    weiXinM = mapper.readValue(response, WeiXinM.class);
+                    if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0) return ResultUtil.ok();
+                    else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
+                } else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
+            } catch (IOException e) {
+                return ResultUtil.errorWithMessage("消息发送失败");
+            }
+        }
+        return ResultUtil.ok();
     }
 
     @Override
@@ -404,6 +418,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             else {
                 purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                 purch.setStatus(Status.THREE);
+                sendMessage(purch);
             }
         } else if (purch.getStatus() == Status.THREE) {
             purch.getAsk().setConfirmtime(null);
@@ -528,6 +543,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                         purch.setSupplier(e.getSupplier());
                         purch.setStatus(Status.ONE);
                         purchRepository.save(purch);
+                        sendMessage(purch);
                     });
                 } else {
                     return ResultUtil.errorWithMessage("采购数量必须为0，销售数量必须为0！");
@@ -561,6 +577,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purch.setSupplier(e.getSupplier());
                     purch.setStatus(Status.ONE);
                     purchRepository.save(purch);
+                    sendMessage(purch);
                 });
             }
         }
@@ -605,6 +622,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             for (Purch purch : purches) {
                 if (purch == purchRepository.findTop1ByStatusAndAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(Status.TWO, ask)) {
                     purch.setStatus(Status.THREE);
+                    sendMessage(purch);
                     purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                 } else {
                     purch.setStatus(Status.FOUR);

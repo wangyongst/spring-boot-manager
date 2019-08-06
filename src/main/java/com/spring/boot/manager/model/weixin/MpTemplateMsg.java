@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class MpTemplateMsg {
     private String appid;
     private String template_id;
-    private String data;
+    private Object data;
 
     public String getAppid() {
         return appid;
@@ -23,11 +23,11 @@ public class MpTemplateMsg {
         this.template_id = template_id;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

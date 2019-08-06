@@ -1,5 +1,7 @@
 package com.spring.boot.manager.model;
 
+import com.spring.boot.manager.entity.Purch;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -46,6 +48,15 @@ public class AdminParameter {
     private String ids;
     private String createusername;
     private String billno;
+    private Purch purch;
+
+    public Purch getPurch() {
+        return purch;
+    }
+
+    public void setPurch(Purch purch) {
+        this.purch = purch;
+    }
 
     public int getBilldetailid() {
         return billdetailid;
