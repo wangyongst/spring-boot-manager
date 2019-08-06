@@ -13,7 +13,7 @@ public class PurchV2 {
     //签收日期
     private String overtime;
     //1.待报价 2.待审核 3.待接单 4 已失效 5.生产中 6.待送货 7.已完成 8待出账 9完结
-    private Integer status;
+    private String status;
     //项目名称
     private String projectname;
     //采购公司
@@ -77,11 +77,11 @@ public class PurchV2 {
         this.overtime = overtime;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

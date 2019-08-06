@@ -133,7 +133,31 @@ public class AdminThreeController {
         PurchV2 p = new PurchV2();
         p.setId(purch.getId());
         p.setCreatetime(purch.getAsk().getCreatetime());
-        p.setStatus(purch.getStatus());
+        switch (purch.getStatus()) {
+            case 1:  //1.待报价 2.待审核 3.待接单 4 已失效 5.生产中 6.待送货 7.已完成 8 待出账 9 完结
+                p.setStatus("待报价");
+                break;
+            case 2:
+                p.setStatus("待审核");
+                break;
+            case 3:
+                p.setStatus("待接单");
+                break;
+            case 5:
+                p.setStatus("生产中");
+                break;
+            case 7:
+                p.setStatus("已完成");
+                break;
+            case 8:
+                p.setStatus("待出账");
+                break;
+            case 9:
+                p.setStatus("已完结");
+                break;
+            default:
+                break;
+        }
         p.setProjectname(purch.getAsk().getRequest().getResource().getProject().getName());
         p.setSize(purch.getAsk().getRequest().getResource().getSize());
         p.setSpecial(purch.getAsk().getRequest().getResource().getSpecial());
@@ -149,6 +173,13 @@ public class AdminThreeController {
         p.setAcceptnum(purch.getAcceptnum());
         p.setAcceptime(purch.getAccepttime());
         p.setCreatetime(purch.getAsk().getCreatetime());
+        if (purch.getAsk().getRequest().getNum() != null && purch.getAsk().getRequest().getPrice() != null) {
+            p.setTotalpay(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAsk().getRequest().getNum().intValue())));
+        }
+        if (purch.getAcceptnum() != null && purch.getAcceptprice() != null) {
+            p.setTotalprice(purch.getAcceptprice().multiply(new BigDecimal(purch.getAcceptnum())));
+        }
+
         return p;
     }
 
