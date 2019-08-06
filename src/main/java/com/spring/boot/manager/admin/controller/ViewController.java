@@ -27,7 +27,8 @@ public class ViewController {
     }
 
     @RequestMapping("/bill-list")
-    public String bill() {
+    public String bill(Model model) {
+        model.addAttribute("billtime", adminTwoService.billTime().getData());
         return "bill-list";
     }
 

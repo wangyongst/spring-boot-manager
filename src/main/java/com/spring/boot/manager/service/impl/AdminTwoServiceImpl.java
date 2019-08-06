@@ -66,6 +66,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     private SupplierRepository supplierRepository;
 
     @Autowired
+    private DeliverRepository deliverRepository;
+
+    @Autowired
     private ProjectRepository projectRepository;
 
     @Autowired
@@ -151,6 +154,11 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             }
         }
         return ResultUtil.ok();
+    }
+
+    @Override
+    public Result billTime() {
+        return ResultUtil.okWithData(billRepository.findDistinctBillTime());
     }
 
     @Override
@@ -695,7 +703,20 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result billList(AdminParameter adminParameter) {
-        return ResultUtil.okWithData(billRepository.findAll());
+        Specification specification = new Specification() {
+            @Override
+            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = Lists.newArrayList();
+                if (StringUtils.isNotBlank(adminParameter.getBilltime())) {
+                    predicates.add(criteriaBuilder.equal(root.get("billtime"), adminParameter.getBilltime()));
+                }
+                if (StringUtils.isNotBlank(adminParameter.getName())) {
+                    predicates.add(criteriaBuilder.like(root.get("supplier").get("name"), "%" + adminParameter.getName() + "%"));
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+        return ResultUtil.okWithData(billRepository.findAll(specification));
     }
 
     @Override
@@ -720,6 +741,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     public Result count(AdminParameter adminParameter) {
         String date = TimeUtils.format(System.currentTimeMillis()).substring(0, 10);
         CountV countV = new CountV();
+        countV.setCount1(deliverRepository.countByAccepttimeLike(date + "%"));
         countV.setCount2(askRepository.countByCreatetimeLike(date + "%"));
         return ResultUtil.okWithData(countV);
     }

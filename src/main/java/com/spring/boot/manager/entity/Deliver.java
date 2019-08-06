@@ -32,6 +32,18 @@ public class Deliver {
     @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
 
+    @Basic
+    @Column(name = "accepttime", nullable = true, length = 255)
+    private String accepttime;
+
+    public String getAccepttime() {
+        return accepttime;
+    }
+
+    public void setAccepttime(String accepttime) {
+        this.accepttime = accepttime;
+    }
+
     public String getCreatetime() {
         return createtime;
     }

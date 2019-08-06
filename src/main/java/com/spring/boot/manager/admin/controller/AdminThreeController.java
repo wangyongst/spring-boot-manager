@@ -173,12 +173,18 @@ public class AdminThreeController {
         p.setAcceptnum(purch.getAcceptnum());
         p.setAcceptime(purch.getAccepttime());
         p.setCreatetime(purch.getAsk().getCreatetime());
-        if (purch.getAsk().getRequest().getNum() != null && purch.getAsk().getRequest().getPrice() != null) {
-            p.setTotalpay(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAsk().getRequest().getNum().intValue())));
-        }
+//        // 应收金额 应收金额是销售单价*销售数量
+//        private BigDecimal totalprice;
+//        //应付金额 供应商的报价*送货数量
+//        private BigDecimal totalpay;
+//        if (purch.getAsk().getRequest().getNum() != null && purch.getAsk().getRequest().getPrice() != null) {
+//            p.setTotalprice(purch.getAsk().getRequest()().multiply(new BigDecimal(purch.getAsk().getRequest().getNum().intValue())));
+//        }
         if (purch.getAcceptnum() != null && purch.getAcceptprice() != null) {
-            p.setTotalprice(purch.getAcceptprice().multiply(new BigDecimal(purch.getAcceptnum())));
+            p.setTotalpay(purch.getAcceptprice().multiply(new BigDecimal(purch.getAcceptnum())));
         }
+        if (p.getTotalpay() == null) p.setTotalpay(new BigDecimal(0));
+        if (p.getTotalprice() == null) p.setTotalprice(new BigDecimal(0));
         return p;
     }
 

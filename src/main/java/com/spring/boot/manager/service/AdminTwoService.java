@@ -12,6 +12,8 @@ public interface AdminTwoService {
 
     public Result sendMessage(Bill bill);
 
+    Result billTime();
+
     Result projectList(AdminParameter adminParameter);
 
     Result project(AdminParameter adminParameter);

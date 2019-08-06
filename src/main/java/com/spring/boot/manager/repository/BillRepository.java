@@ -6,6 +6,7 @@ import com.spring.boot.manager.entity.Request;
 import com.spring.boot.manager.entity.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,7 @@ public interface BillRepository extends JpaRepository<Bill, Integer>, JpaSpecifi
     List<Bill> findBySupplier(Supplier supplier);
 
     List<Bill> findBySupplierAndBilltime(Supplier supplier, String billtime);
+
+    @Query("select distinct bill.billtime from Bill bill")
+    List<String> findDistinctBillTime();
 }

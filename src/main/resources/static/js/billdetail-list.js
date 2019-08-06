@@ -45,7 +45,11 @@ function billdetailformatter(value, row, index) {
 }
 
 function moneyformatter(value, row, index) {
-    return 0;
+    var acceptprice = row["purch"]["acceptprice"];
+    var acceptnum = row["purch"]["acceptnum"];
+    var out = acceptprice * acceptnum;
+    if (isNaN(out)) return 0;
+    else return out;
 }
 
 

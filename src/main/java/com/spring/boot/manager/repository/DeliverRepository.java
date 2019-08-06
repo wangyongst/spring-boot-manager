@@ -18,4 +18,6 @@ public interface DeliverRepository extends JpaRepository<Deliver, Integer>, JpaS
     List<Deliver> findByPurch(Purch purch);
 
     List<Deliver> findByStatus(int status);
+
+    int countByAccepttimeLike(String accepttime);
 }

@@ -49,6 +49,15 @@ public class AdminParameter {
     private String createusername;
     private String billno;
     private Purch purch;
+    private String billtime;
+
+    public String getBilltime() {
+        return billtime;
+    }
+
+    public void setBilltime(String billtime) {
+        this.billtime = billtime;
+    }
 
     public Purch getPurch() {
         return purch;

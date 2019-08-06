@@ -229,6 +229,7 @@ public class ApiServiceImpl implements ApiService {
         Deliver deliver = deliverRepository.findById(id).get();
         if (deliver.getStatus() != Status.ONE) return ResultUtil.errorWithMessage("不可以收货");
         deliver.setConfirmnum(delivernum);
+        deliver.setAccepttime(TimeUtils.format(System.currentTimeMillis()));
         deliver.setStatus(Status.TWO);
         deliverRepository.save(deliver);
         return ResultUtil.ok();

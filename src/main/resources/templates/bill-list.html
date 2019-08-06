@@ -50,11 +50,11 @@
                 <li shiro:haspermission="purch">
                     <a href="/view/ask-list"> <i class="menu-icon ti-file"></i>询价单</a>
                 </li>
-                <li class="menu-title" shiro:haspermission="finance" >财务系统</li><!-- /.menu-title -->
+                <li class="menu-title" shiro:haspermission="finance">财务系统</li><!-- /.menu-title -->
                 <li shiro:haspermission="finance">
                     <a href="/view/finance-list"> <i class="menu-icon ti-money"></i>采购记录表</a>
                 </li>
-                <li shiro:haspermission="finance" class="active" >
+                <li shiro:haspermission="finance" class="active">
                     <a href="/view/bill-list"> <i class="menu-icon ti-printer"></i>对账单</a>
                 </li>
                 <li shiro:haspermission="permission">
@@ -120,8 +120,11 @@
                             <strong class="card-title">
                                 <div class="pull-right" shiro:haspermission="finance-query">
                                     <form class="form-inline" id="searchaskForm">
-                                        <div class="form-group"><input type="date" name="overtime" placeholder="账单时间"
-                                                                       required="" class="form-control">
+                                        <div class="form-group">
+                                            <select name="billtime" class="form-control">
+                                                <option value="">选择账单时间</option>
+                                                <option th:each="bt:${billtime}" th:value="${bt}" th:text="${bt}"></option>
+                                            </select>
                                         </div>
                                         <div class="form-group"><input type="text" name="name" placeholder="供应商名称"
                                                                        required="" class="form-control">
