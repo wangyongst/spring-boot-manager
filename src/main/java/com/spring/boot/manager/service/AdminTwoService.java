@@ -1,12 +1,16 @@
 package com.spring.boot.manager.service;
 
+import com.spring.boot.manager.entity.Bill;
 import com.spring.boot.manager.entity.Purch;
 import com.spring.boot.manager.model.AdminParameter;
+import com.spring.boot.manager.model.vo.BillDetailV;
 import com.spring.boot.manager.utils.result.Result;
 
 public interface AdminTwoService {
 
     public Result sendMessage(Purch purch);
+
+    public Result sendMessage(Bill bill);
 
     Result projectList(AdminParameter adminParameter);
 

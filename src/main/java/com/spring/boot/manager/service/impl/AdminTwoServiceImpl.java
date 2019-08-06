@@ -127,6 +127,32 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         return ResultUtil.ok();
     }
 
+
+    @Override
+    public Result sendMessage(Bill bill) {
+        String response = WeixinUtils.getAccessToken(restTemplate);
+        ObjectMapper mapper = new ObjectMapper();
+        MessageData md = new MessageData();
+        md.setKeyword1(TimeUtils.format(System.currentTimeMillis()));
+        md.setKeyword2("宝时物流已经完成" + bill.getBilltime() + "对账");
+        md.setKeyword3("已完结");
+        for (User user : userRepository.findBySupplier(bill.getSupplier())) {
+            if (user.getOpenid() == null) continue;
+            try {
+                WeiXinM weiXinM = mapper.readValue(response, WeiXinM.class);
+                if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0 && StringUtils.isNotBlank(weiXinM.getAccess_token())) {
+                    response = WeixinUtils.sendMessage(restTemplate, weiXinM.getAccess_token(), user.getOpenid(), md);
+                    weiXinM = mapper.readValue(response, WeiXinM.class);
+                    if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0) return ResultUtil.ok();
+                    else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
+                } else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
+            } catch (IOException e) {
+                return ResultUtil.errorWithMessage("消息发送失败");
+            }
+        }
+        return ResultUtil.ok();
+    }
+
     @Override
     public Result projectList(AdminParameter adminParameter) {
         if (adminParameter.getType() == 1) {
@@ -684,8 +710,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     public Result billdetailSud(AdminParameter adminParameter) {
         Billdetail billdetail = billdetailRepository.findById(adminParameter.getBilldetailid()).get();
         billdetail.setBillno(adminParameter.getBillno());
-        billdetail.setStatus(3);
+        billdetail.setStatus(Status.THREE);
         billdetailRepository.save(billdetail);
+        sendMessage(billdetail.getBill());
         return ResultUtil.ok();
     }
 
