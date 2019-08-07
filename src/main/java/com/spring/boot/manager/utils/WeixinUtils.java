@@ -35,7 +35,7 @@ public class WeixinUtils {
      */
     public static String getAccessToken(RestTemplate restTemplate) {
         String requestUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
-        requestUrl = requestUrl.replace("APPID", appid).replace("SECRET", secret);
+        requestUrl = requestUrl.replace("APPID", appid).replace("APPSECRET", secret);
         return restTemplate.getForObject(requestUrl, String.class);
     }
 
@@ -43,7 +43,7 @@ public class WeixinUtils {
      * 发送消息
      */
     public static String sendMessage(int type, RestTemplate restTemplate, String accessToken, String touser, Object data) {
-        String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send?access_token=ACCESS_TOKEN";
+        String requestUrl = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=ACCESS_TOKEN";
         requestUrl = requestUrl.replace("ACCESS_TOKEN", accessToken);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
