@@ -1,18 +1,17 @@
 package com.spring.boot.manager.model.weixin;
 
 public class MessageData {
-    private String first;
     private String keyword1;
     private String keyword2;
     private String keyword3;
-    private String remark;
+    private String keyword4;
 
-    public String getFirst() {
-        return first;
+    public String getKeyword4() {
+        return keyword4;
     }
 
-    public void setFirst(String first) {
-        this.first = first;
+    public void setKeyword4(String keyword4) {
+        this.keyword4 = keyword4;
     }
 
     public String getKeyword1() {
@@ -37,13 +36,5 @@ public class MessageData {
 
     public void setKeyword3(String keyword3) {
         this.keyword3 = keyword3;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
     }
 }

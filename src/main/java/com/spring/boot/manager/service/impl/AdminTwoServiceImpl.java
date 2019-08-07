@@ -99,25 +99,28 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     private BilldetailRepository billdetailRepository;
 
 
-    @Override
-    public Result sendMessage(List<User> userList, MessageData messageData, int type) {
-        String response = WeixinUtils.getAccessToken(restTemplate);
-        ObjectMapper mapper = new ObjectMapper();
-        for (User user : userList) {
-            if (user.getOpenid() == null) continue;
-            try {
-                WeiXinM weiXinM = mapper.readValue(response, WeiXinM.class);
-                if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0 && StringUtils.isNotBlank(weiXinM.getAccess_token())) {
-                    response = WeixinUtils.sendMessage(type, restTemplate, weiXinM.getAccess_token(), user.getOpenid(), messageData);
-                    weiXinM = mapper.readValue(response, WeiXinM.class);
-                    if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0) return ResultUtil.ok();
-                    else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
-                } else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
-            } catch (IOException e) {
-                return ResultUtil.errorWithMessage("消息发送失败");
-            }
+    public Result sendMessage(Object object, int type) {
+        MessageData messageData = new MessageData();
+        messageData.setKeyword1("宝时物流");
+        List<User> userList = new ArrayList<>();
+        if (type == 1) {
+            Purch p = (Purch) object;
+            userList = userRepository.findBySupplier(p.getSupplier());
+            messageData.setKeyword2(p.getAsk().getRequest().getResource().getMaterial().getName() + "  " + p.getAsk().getRequest().getResource().getMaterial().getCode());
+            messageData.setKeyword3(p.getAsk().getCreatetime());
+            messageData.setKeyword4("请尽快报价！");
+        } else if (type == 2) {
+            Bill b = (Bill) object;
+            userList = userRepository.findBySupplier(b.getSupplier());
+            messageData.setKeyword2(b.getBilltime() + "对账单已出！");
+            messageData.setKeyword3(b.getBilltime());
+        } else if (type == 2) {
+            Purch p = (Purch) object;
+            userList = userRepository.findBySupplier(p.getSupplier());
+            messageData.setKeyword2(p.getAsk().getCreatetime());
+            messageData.setKeyword3("请尽快报价！");
         }
-        return ResultUtil.ok();
+        return sendMessage(userList, messageData, type);
     }
 
     @Override
@@ -416,7 +419,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             else {
                 purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                 purch.setStatus(Status.THREE);
-                //sendMessage(purch);
             }
         } else if (purch.getStatus() == Status.THREE) {
             purch.getAsk().setConfirmtime(null);
@@ -541,7 +543,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                         purch.setSupplier(e.getSupplier());
                         purch.setStatus(Status.ONE);
                         purchRepository.save(purch);
-                        //sendMessage(purch);
+                        sendMessage(purch, 3);
                     });
                 } else {
                     return ResultUtil.errorWithMessage("采购数量必须为0，销售数量必须为0！");
@@ -575,7 +577,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purch.setSupplier(e.getSupplier());
                     purch.setStatus(Status.ONE);
                     purchRepository.save(purch);
-                    //sendMessage(purch);
+                    sendMessage(purch, 1);
                 });
             }
         }
@@ -620,7 +622,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             for (Purch purch : purches) {
                 if (purch == purchRepository.findTop1ByStatusAndAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(Status.TWO, ask)) {
                     purch.setStatus(Status.THREE);
-                    //sendMessage(purch);
                     purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                 } else {
                     purch.setStatus(Status.FOUR);
@@ -650,6 +651,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     bill.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
                     bill.setTotal(new BigDecimal(0));
                     billRepository.save(bill);
+                    sendMessage(bill, 2);
                 }
                 Billdetail billdetail = new Billdetail();
                 billdetail.setStatus(Status.ONE);
@@ -697,7 +699,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         billdetail.setBillno(adminParameter.getBillno());
         billdetail.setStatus(Status.THREE);
         billdetailRepository.save(billdetail);
-        //sendMessage(billdetail.getBill());
         return ResultUtil.ok();
     }
 
@@ -788,5 +789,25 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             deleteBilldetail(e);
         });
         billRepository.delete(bill);
+    }
+
+    public Result sendMessage(List<User> userList, MessageData messageData, int type) {
+        String response = WeixinUtils.getAccessToken(restTemplate);
+        ObjectMapper mapper = new ObjectMapper();
+        for (User user : userList) {
+            if (user.getOpenid() == null) continue;
+            try {
+                WeiXinM weiXinM = mapper.readValue(response, WeiXinM.class);
+                if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0 && StringUtils.isNotBlank(weiXinM.getAccess_token())) {
+                    response = WeixinUtils.sendMessage(type, restTemplate, weiXinM.getAccess_token(), user.getOpenid(), messageData);
+                    weiXinM = mapper.readValue(response, WeiXinM.class);
+                    if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0) return ResultUtil.ok();
+                    else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
+                } else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
+            } catch (IOException e) {
+                return ResultUtil.errorWithMessage("消息发送失败");
+            }
+        }
+        return ResultUtil.ok();
     }
 }
