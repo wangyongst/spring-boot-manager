@@ -114,7 +114,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             userList = userRepository.findBySupplier(b.getSupplier());
             messageData.setKeyword2(b.getBilltime() + "对账单已出！");
             messageData.setKeyword3(b.getBilltime());
-        } else if (type == 2) {
+        } else if (type == 3) {
             Purch p = (Purch) object;
             userList = userRepository.findBySupplier(p.getSupplier());
             messageData.setKeyword2(p.getAsk().getCreatetime());
