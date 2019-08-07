@@ -117,7 +117,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else if (type == 3) {
             Purch p = (Purch) object;
             userList = userRepository.findBySupplier(p.getSupplier());
-            messageData.setKeyword2(p.getAsk().getCreatetime());
+            messageData.setKeyword2(p.getAsk().getRequest().getResource().getMaterial().getName() + "  " + p.getAsk().getRequest().getResource().getMaterial().getCode());
             messageData.setKeyword3("请尽快报价！");
         }
         return sendMessage(userList, messageData, type);
