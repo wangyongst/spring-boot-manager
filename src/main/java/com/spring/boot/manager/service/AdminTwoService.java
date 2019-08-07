@@ -1,16 +1,15 @@
 package com.spring.boot.manager.service;
 
-import com.spring.boot.manager.entity.Bill;
-import com.spring.boot.manager.entity.Purch;
+import com.spring.boot.manager.entity.User;
 import com.spring.boot.manager.model.AdminParameter;
-import com.spring.boot.manager.model.vo.BillDetailV;
+import com.spring.boot.manager.model.weixin.MessageData;
 import com.spring.boot.manager.utils.result.Result;
+
+import java.util.List;
 
 public interface AdminTwoService {
 
-    public Result sendMessage(Purch purch);
-
-    public Result sendMessage(Bill bill);
+    Result sendMessage(List<User> userList, MessageData messageData, int type);
 
     Result billTime();
 

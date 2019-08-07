@@ -22,4 +22,6 @@ public interface BillRepository extends JpaRepository<Bill, Integer>, JpaSpecifi
 
     @Query("select distinct bill.billtime from Bill bill")
     List<String> findDistinctBillTime();
+
+    List<Bill> findByCreatetimeLike(String createtime);
 }
