@@ -17,9 +17,9 @@ public class WeixinUtils {
     private static String appid = "wxe1fbb56a49af3618";
     private static String mpappid = "wxbe276d9de7304ef3";
     private static String secret = "ed27727f5152b094581a6bd6826907e5";
-    private static String template_id1 = "OIVBu_wyk7mMViRZMNaUnSzKqXXUh1TaYiEgwJa0wFE";
-    private static String template_id2 = "qkbAZlPOUqOEOr_DOYtX9RPPpfvx-6BOzhXhyKt1t1M";
-    private static String template_id3 = "VGtSSl2ABE5vcZEh9wd5sAOUZUSxcA29ZyX7ZlMygOw";
+    private static String template_id1 = "k6QhyPbjKTPuJoQ7JxBqf-VVTWubgdmdDIA1uXqLZuE";
+    private static String template_id2 = "YAa5LNgLHtGUQeU0742sDQ0CT6hSsbyQ_qa0ZWKQEd0";
+    private static String template_id3 = "fL5KbX45ETWEtY6sJ77F9xF7u0u4fJqCSIXLBLxe_B8";
 
     /**
      * 获取openId

@@ -77,7 +77,7 @@ public class ApiServiceImpl implements ApiService {
         ObjectMapper mapper = new ObjectMapper();
         try {
             WeiXinM weiXinM = mapper.readValue(response, WeiXinM.class);
-            if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0 && StringUtils.isNotBlank(weiXinM.getOpenid())) {
+            if (StringUtils.isNotBlank(weiXinM.getOpenid())) {
                 User me = (User) SecurityUtils.getSubject().getPrincipal();
                 User user = userRepository.findById(me.getId()).get();
                 user.setOpenid(weiXinM.getOpenid());

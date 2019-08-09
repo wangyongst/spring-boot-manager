@@ -101,24 +101,31 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     public Result sendMessage(Object object, int type) {
         MessageData messageData = new MessageData();
-        messageData.setKeyword1("宝时物流");
         List<User> userList = new ArrayList<>();
         if (type == 1) {
             Purch p = (Purch) object;
             userList = userRepository.findBySupplier(p.getSupplier());
-            messageData.setKeyword2(p.getAsk().getRequest().getResource().getMaterial().getName() + "  " + p.getAsk().getRequest().getResource().getMaterial().getCode());
-            messageData.setKeyword3(p.getAsk().getCreatetime());
-            messageData.setKeyword4("请尽快报价！");
+            messageData.setFirst("您好，您有新的采购单等待处理");
+            messageData.setKeyword1(p.getId() + "");
+            messageData.setKeyword2("宝时物流");
+            messageData.setKeyword3(p.getAsk().getRequest().getNum().intValue() * p.getAcceptprice().doubleValue() + "");
+            Setting setting = settingRepository.findByType(3).get(0);
+            messageData.setKeyword4("有新的采购单待处理，不做更改将于" + setting.getValue() + "小时自动下发供应商");
         } else if (type == 2) {
             Bill b = (Bill) object;
+            messageData.setFirst("您好，您的对账单已生成。");
+            messageData.setKeyword1(b.getCreatetime());
+            messageData.setKeyword2(b.getBilldetails().size() + "单");
             userList = userRepository.findBySupplier(b.getSupplier());
-            messageData.setKeyword2(b.getBilltime() + "对账单已出！");
-            messageData.setKeyword3(b.getBilltime());
+            messageData.setKeyword3(b.getTotal() + "元");
+            messageData.setRemark("宝时物流已经完成" + b.getBilltime() + "对账，点击查看详情");
         } else if (type == 3) {
             Purch p = (Purch) object;
+            messageData.setFirst("您好，宝时物流向您发送了一份询价单");
+            messageData.setKeyword1(p.getId() + "");
             userList = userRepository.findBySupplier(p.getSupplier());
-            messageData.setKeyword2(p.getAsk().getRequest().getResource().getMaterial().getName() + "  " + p.getAsk().getRequest().getResource().getMaterial().getCode());
-            messageData.setKeyword3("请尽快报价！");
+            messageData.setKeyword2("宝时物流");
+            messageData.setRemark("待报价耗材3款，请注意查看");
         }
         return sendMessage(userList, messageData, type);
     }
@@ -577,7 +584,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purch.setSupplier(e.getSupplier());
                     purch.setStatus(Status.ONE);
                     purchRepository.save(purch);
-                    sendMessage(purch, 1);
+                    sendMessage(purch, 3);
                 });
             }
         }
@@ -623,6 +630,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (purch == purchRepository.findTop1ByStatusAndAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(Status.TWO, ask)) {
                     purch.setStatus(Status.THREE);
                     purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
+                    sendMessage(purch, 2);
                 } else {
                     purch.setStatus(Status.FOUR);
                 }

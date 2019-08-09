@@ -1,10 +1,28 @@
 package com.spring.boot.manager.model.weixin;
 
 public class MessageData {
+    private String first;
     private String keyword1;
     private String keyword2;
     private String keyword3;
     private String keyword4;
+    private String remark;
+
+    public String getFirst() {
+        return first;
+    }
+
+    public void setFirst(String first) {
+        this.first = first;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public String getKeyword4() {
         return keyword4;
