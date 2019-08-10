@@ -50,6 +50,24 @@ public class AdminParameter {
     private String billno;
     private Purch purch;
     private String billtime;
+    private String pricetime;
+    private String accepttime;
+
+    public String getPricetime() {
+        return pricetime;
+    }
+
+    public void setPricetime(String pricetime) {
+        this.pricetime = pricetime;
+    }
+
+    public String getAccepttime() {
+        return accepttime;
+    }
+
+    public void setAccepttime(String accepttime) {
+        this.accepttime = accepttime;
+    }
 
     public String getBilltime() {
         return billtime;

@@ -7,6 +7,15 @@ $(function () {
         $('#finance-list-table').bootstrapTable({url: "/admin/finance/history?" + $('#searchfinanceForm').serialize()}).bootstrapTable('hideLoading');
     });
 
+    $("#settingsaveButton").click(function () {
+        $.post("/admin/setting/sud?" + $('#settingForm').serialize() + "&type=2",
+            function (result) {
+                if(result.status == 1) {
+                    $('#settingModal').modal('toggle');
+                }
+            });
+    });
+
     $("#settingButting").click(function () {
         $('#settingModal').modal('toggle');
     });

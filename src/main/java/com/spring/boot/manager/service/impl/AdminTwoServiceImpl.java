@@ -778,6 +778,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         billdetailRepository.findByPurch(purch).forEach(e -> {
             deleteBilldetail(e);
         });
+        deliverRepository.findByPurch(purch).forEach(e -> {
+            deliverRepository.delete(e);
+        });
         purchRepository.delete(purch);
     }
 

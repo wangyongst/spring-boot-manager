@@ -232,12 +232,23 @@ public class AdminServiceImpl implements AdminService {
             if (!adminParameter.getValue().matches("^(([1-9]\\d{0,9})|0)(\\.\\d{1,2})?$"))
                 return ResultUtil.errorWithMessage("价格系数只能是两位以内小数或整数！");
             Setting setting = settingRepository.findByType(adminParameter.getType()).get(0);
-            setting.setType(1);
             setting.setValue(BigDecimal.valueOf(Double.parseDouble(adminParameter.getValue())));
             settingRepository.save(setting);
             return ResultUtil.ok();
+        } else if (adminParameter.getType() == 2) {
+            if (StringUtils.isBlank(adminParameter.getAccepttime())) return ResultUtil.errorWithMessage("接单时间不能为空！");
+            if (StringUtils.isBlank(adminParameter.getPricetime())) return ResultUtil.errorWithMessage("询价时间不能为空！");
+            String regex = "^[0-9]+$";
+            if (!adminParameter.getAccepttime().matches(regex)) return ResultUtil.errorWithMessage("接单时间只能是数字！");
+            if (!adminParameter.getPricetime().matches(regex)) return ResultUtil.errorWithMessage("询价时间只能是数字！");
+            Setting setting2 = settingRepository.findByType(2).get(0);
+            setting2.setValue(new BigDecimal(adminParameter.getPricetime()));
+            settingRepository.save(setting2);
+            Setting setting3 = settingRepository.findByType(3).get(0);
+            setting3.setValue(new BigDecimal(adminParameter.getAccepttime()));
+            settingRepository.save(setting2);
         }
-        return null;
+        return ResultUtil.ok();
     }
 
     @Override
