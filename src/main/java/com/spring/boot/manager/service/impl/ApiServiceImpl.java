@@ -342,6 +342,7 @@ public class ApiServiceImpl implements ApiService {
             }
         }
         p.setAcceptprice(purch.getAcceptprice());
+        if(p.getProductnum().intValue() < 0) p.setProductnum(0);
         return p;
     }
 
