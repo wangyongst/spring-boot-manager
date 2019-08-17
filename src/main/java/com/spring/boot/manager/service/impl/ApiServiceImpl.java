@@ -378,6 +378,7 @@ public class ApiServiceImpl implements ApiService {
             delivernum += deliver1.getDelivernum();
         }
         d.setProductnum(deliver.getPurch().getAsk().getRequest().getNum() - delivernum);
+        if(d.getAcceptnum() == null) d.setAcceptnum(0);
         return d;
     }
 
