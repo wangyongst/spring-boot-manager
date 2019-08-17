@@ -325,7 +325,7 @@ public class ApiServiceImpl implements ApiService {
                 p.setDelivernum(p.getDelivernum() + e.getDelivernum());
             });
             //待生产数量
-            p.setProductnum(purch.getAsk().getRequest().getNum() - p.getAcceptnum() - p.getDelivernum());
+            p.setProductnum(purch.getAsk().getRequest().getNum() -  p.getDelivernum());
         }
         if (p.getStatus() == 1) {
             try {
@@ -377,7 +377,7 @@ public class ApiServiceImpl implements ApiService {
         for (Deliver deliver1 : deliver.getPurch().getDelivers()) {
             delivernum += deliver1.getDelivernum();
         }
-        d.setProductnum(deliver.getPurch().getAsk().getRequest().getNum() - accpetnum - delivernum);
+        d.setProductnum(deliver.getPurch().getAsk().getRequest().getNum() - delivernum);
         return d;
     }
 
