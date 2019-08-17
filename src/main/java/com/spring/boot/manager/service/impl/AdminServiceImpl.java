@@ -131,6 +131,7 @@ public class AdminServiceImpl implements AdminService {
         if (adminParameter.getName().length() > 10) return ResultUtil.errorWithMessage("登录姓名不能超过10个字！");
         String regex = "^[0-9]+$";
         if (!adminParameter.getMobile().matches(regex)) return ResultUtil.errorWithMessage("电话只能是数字！");
+        if (adminParameter.getMobile().length() != 11) return ResultUtil.errorWithMessage("电话只能是11位数字！");
         if (StringUtils.isBlank(adminParameter.getPassword())) return ResultUtil.errorWithMessage("密码不能为空！");
         regex = "^[a-z0-9A-Z]+$";
         if (!adminParameter.getPassword().matches(regex)) return ResultUtil.errorWithMessage("密码只支持数字和英文！");
