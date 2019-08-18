@@ -630,7 +630,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (purch == purchRepository.findTop1ByStatusAndAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(Status.TWO, ask)) {
                     purch.setStatus(Status.THREE);
                     purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-                    sendMessage(purch, 2);
+                    sendMessage(purch, 1);
                 } else {
                     purch.setStatus(Status.FOUR);
                 }
