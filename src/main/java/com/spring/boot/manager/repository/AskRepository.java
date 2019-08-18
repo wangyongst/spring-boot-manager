@@ -13,7 +13,9 @@ import java.util.List;
 @RepositoryDefinition(domainClass = Ask.class, idClass = Integer.class)
 public interface AskRepository extends JpaRepository<Ask, Integer>, JpaSpecificationExecutor {
 
-    List<Ask> findAllByTypeNot(int type);
+    List<Ask> findByStatusAndConfirmtimeLessThanEqual(int status, String time);
+
+    List<Ask> findByStatusAndConfirmtimeIsNull(int status);
 
     List<Ask> findAllByRequest(Request request);
 

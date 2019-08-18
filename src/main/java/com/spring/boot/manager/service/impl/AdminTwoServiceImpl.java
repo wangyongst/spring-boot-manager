@@ -605,7 +605,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch.getStatus() == Status.ONE || purch.getStatus() == Status.TWO) {
+                if (purch.getStatus() == Status.ONE) {
                     purch.setStatus(Status.FOUR);
                 }
                 purchRepository.save(purch);
@@ -619,13 +619,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result acceptSchedu() {
-        Setting setting = settingRepository.findByType(3).get(0);
-        Integer hous = 0 - setting.getValue().intValue();
-        Date date = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.HOUR_OF_DAY, hous);
-        List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqualAndConfirmtimeIsNull(Status.TWO, TimeUtils.format(cal.getTime().getTime()));
+        List<Ask> asks = askRepository.findByStatusAndConfirmtimeIsNull(Status.THREE);
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
@@ -633,27 +627,26 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purch.setStatus(Status.THREE);
                     purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                     sendMessage(purch, 1);
-                } else {
-                    purch.setStatus(Status.FOUR);
                 }
                 purchRepository.save(purch);
             }
             ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-            ask.setStatus(Status.THREE);
+            ask.setStatus(Status.FOUR);
             askRepository.save(ask);
         }
         return ResultUtil.ok();
     }
 
     @Override
-    public Result acceptCancelSchedu() {
+    public Result acceptSchedu2() {
+        boolean flag = false;
         Setting setting = settingRepository.findByType(3).get(0);
         Integer hous = 0 - setting.getValue().intValue();
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.HOUR_OF_DAY, hous);
-        List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqualAndConfirmtimeIsNull(Status.TWO, TimeUtils.format(cal.getTime().getTime()));
+        List<Ask> asks = askRepository.findByStatusAndConfirmtimeLessThanEqual(Status.FOUR, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
@@ -661,14 +654,16 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purch.setStatus(Status.THREE);
                     purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                     sendMessage(purch, 1);
-                } else {
+                    flag = true;
+                } else if (purch.getStatus() == Status.THREE) {
                     purch.setStatus(Status.FOUR);
                 }
                 purchRepository.save(purch);
             }
-            ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-            ask.setStatus(Status.THREE);
-            askRepository.save(ask);
+            if (flag == false) {
+                ask.setStatus(Status.FIVE);
+                askRepository.save(ask);
+            }
         }
         return ResultUtil.ok();
     }

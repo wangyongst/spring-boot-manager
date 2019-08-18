@@ -13,12 +13,12 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0 0/1 * * * ?")
     public void minCron() {
-        //报价失效
+        //未报价单失效
         adminTwoService.priceSchedu();
-        //自动接单
+        //自动派单
         adminTwoService.acceptSchedu();
-        //接单失效
-        adminTwoService.acceptSchedu();
+        //再次自动派单
+        adminTwoService.acceptSchedu2();
     }
 
     @Scheduled(cron = "0 0 0 1 * ?")

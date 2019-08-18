@@ -53,7 +53,7 @@ public interface AdminTwoService {
 
     Result acceptSchedu();
 
-    Result acceptCancelSchedu();
+    Result acceptSchedu2();
 
     Result billSchedu();
 
