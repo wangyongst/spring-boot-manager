@@ -354,7 +354,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (adminParameter.getStatus() == 29) {
                     predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
                     predicates.add(criteriaBuilder.notEqual(root.get("status"), 4));
-                    predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
+                    predicates.add(criteriaBuilder.notEqual(root.get("ask").get("type"), 1));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
@@ -491,6 +491,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result requestSud(AdminParameter adminParameter) {
+        Setting setting = settingRepository.findByType(1).get(0);
         Request request = null;
         if (adminParameter.getRequestid() == 0) {
             request = new Request();
@@ -516,8 +517,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 return ResultUtil.errorWithMessage("采购单价只能是两位小数或整数！");
             request.setNum(Integer.parseInt(adminParameter.getNum()));
             request.setSellnum(Integer.parseInt(adminParameter.getSellnum()));
-            request.setPrice(BigDecimal.valueOf(Double.parseDouble(adminParameter.getPrice())));
-            request.setTotal(request.getPrice().multiply(new BigDecimal(request.getSellnum().toString())));
+            request.setPrice2(BigDecimal.valueOf(Double.parseDouble(adminParameter.getPrice())));
+            request.setPrice(request.getPrice2().multiply(setting.getValue()));
+            request.setTotal(request.getPrice2().multiply(new BigDecimal(request.getSellnum().toString())));
         }
         requestRepository.save(request);
         return ResultUtil.ok();
@@ -617,6 +619,34 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result acceptSchedu() {
+        Setting setting = settingRepository.findByType(3).get(0);
+        Integer hous = 0 - setting.getValue().intValue();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR_OF_DAY, hous);
+        List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqualAndConfirmtimeIsNull(Status.TWO, TimeUtils.format(cal.getTime().getTime()));
+        for (Ask ask : asks) {
+            List<Purch> purches = purchRepository.findAllByAsk(ask);
+            for (Purch purch : purches) {
+                if (purch == purchRepository.findTop1ByStatusAndAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(Status.TWO, ask)) {
+                    purch.setStatus(Status.THREE);
+                    purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
+                    sendMessage(purch, 1);
+                } else {
+                    purch.setStatus(Status.FOUR);
+                }
+                purchRepository.save(purch);
+            }
+            ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
+            ask.setStatus(Status.THREE);
+            askRepository.save(ask);
+        }
+        return ResultUtil.ok();
+    }
+
+    @Override
+    public Result acceptCancelSchedu() {
         Setting setting = settingRepository.findByType(3).get(0);
         Integer hous = 0 - setting.getValue().intValue();
         Date date = new Date();

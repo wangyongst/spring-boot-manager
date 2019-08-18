@@ -15,6 +15,8 @@ public class ScheduledTasks {
     public void minCron() {
         //报价失效
         adminTwoService.priceSchedu();
+        //自动接单
+        adminTwoService.acceptSchedu();
         //接单失效
         adminTwoService.acceptSchedu();
     }

@@ -31,6 +31,10 @@ public class Request {
     private BigDecimal price;
 
     @Basic
+    @Column(name = "price2", nullable = true, precision = 2)
+    private BigDecimal price2;
+
+    @Basic
     @Column(name = "total", nullable = true, precision = 2)
     private BigDecimal total;
 
@@ -45,6 +49,14 @@ public class Request {
     @Basic
     @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
+
+    public BigDecimal getPrice2() {
+        return price2;
+    }
+
+    public void setPrice2(BigDecimal price2) {
+        this.price2 = price2;
+    }
 
     public Resource getResource() {
         return resource;

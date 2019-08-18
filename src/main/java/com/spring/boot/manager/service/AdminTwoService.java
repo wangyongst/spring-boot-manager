@@ -53,6 +53,8 @@ public interface AdminTwoService {
 
     Result acceptSchedu();
 
+    Result acceptCancelSchedu();
+
     Result billSchedu();
 
     Result billList(AdminParameter adminParameter);
