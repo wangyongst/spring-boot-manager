@@ -10,4 +10,13 @@ $(function () {
                 }
             });
     });
+    //
+    // $("[name='permission']").change(function () {
+    //     debugger;
+    //     alert($(this).is(':checked'));
+    //     alert($(this).is(':checked'));
+    //     if( $(this).attr("checked") == "checked") {
+    //         alert("checked");
+    //     }
+    // });
 });
