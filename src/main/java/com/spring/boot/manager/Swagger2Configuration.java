@@ -29,6 +29,7 @@ public class Swagger2Configuration {
                 .paths(PathSelectors.any())
                 .build();
     }
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("管理系统API接口")
