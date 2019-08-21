@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import com.spring.boot.manager.entity.*;
 import com.spring.boot.manager.model.AdminParameter;
 import com.spring.boot.manager.model.vo.CountV;
-import com.spring.boot.manager.model.weixin.MessageData;
+import com.spring.boot.manager.model.weixin.WXData;
 import com.spring.boot.manager.model.weixin.WeiXinM;
 import com.spring.boot.manager.repository.*;
 import com.spring.boot.manager.service.AdminService;
@@ -36,11 +36,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -100,34 +96,62 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
 
     public Result sendMessage(Object object, int type) {
-        MessageData messageData = new MessageData();
+        Map<String, WXData> data = new HashMap<String, WXData>();
         List<User> userList = new ArrayList<>();
         if (type == 1) {
             Purch p = (Purch) object;
             userList = userRepository.findBySupplier(p.getSupplier());
-            messageData.setFirst("您好，您有新的采购单等待处理");
-            messageData.setKeyword1(p.getId() + "");
-            messageData.setKeyword2("宝时物流");
-            messageData.setKeyword3(p.getAsk().getRequest().getNum().intValue() * p.getAcceptprice().doubleValue() + "");
+            WXData first = new WXData();
+            first.setValue("您好，您有新的采购单等待处理");
+            data.put("first", first);
+            WXData keyword1 = new WXData();
+            keyword1.setValue(p.getId() + "");
+            data.put("keyword1", keyword1);
+            WXData keyword2 = new WXData();
+            keyword2.setValue("宝时物流");
+            data.put("keyword2", keyword2);
+            WXData keyword3 = new WXData();
+            keyword3.setValue(p.getAsk().getRequest().getNum().intValue() * p.getAcceptprice().doubleValue() + "");
+            data.put("keyword3", keyword3);
+            WXData keyword4 = new WXData();
             Setting setting = settingRepository.findByType(3).get(0);
-            messageData.setKeyword4("有新的采购单待处理，不做更改将于" + setting.getValue() + "小时自动下发供应商");
+            keyword4.setValue("有新的采购单待处理，不做更改将于" + setting.getValue() + "小时自动下发供应商");
+            data.put("keyword4", keyword4);
         } else if (type == 2) {
             Bill b = (Bill) object;
-            messageData.setFirst("您好，您的对账单已生成。");
-            messageData.setKeyword1(b.getCreatetime());
-            messageData.setKeyword2(b.getBilldetails().size() + "单");
             userList = userRepository.findBySupplier(b.getSupplier());
-            messageData.setKeyword3(b.getTotal() + "元");
-            messageData.setRemark("宝时物流已经完成" + b.getBilltime() + "对账，点击查看详情");
+            WXData first = new WXData();
+            first.setValue("您好，您的对账单已生成。");
+            data.put("first", first);
+            WXData keyword1 = new WXData();
+            keyword1.setValue(b.getCreatetime());
+            data.put("keyword1", keyword1);
+            WXData keyword2 = new WXData();
+            keyword2.setValue(b.getBilldetails().size() + "单");
+            data.put("keyword2", keyword2);
+            WXData keyword3 = new WXData();
+            keyword3.setValue(b.getTotal() + "元");
+            data.put("keyword3", keyword3);
+            WXData remark = new WXData();
+            remark.setValue("宝时物流已经完成" + b.getBilltime() + "对账，点击查看详情");
+            data.put("remark", remark);
         } else if (type == 3) {
             Purch p = (Purch) object;
-            messageData.setFirst("您好，宝时物流向您发送了一份询价单");
-            messageData.setKeyword1(p.getId() + "");
             userList = userRepository.findBySupplier(p.getSupplier());
-            messageData.setKeyword2("宝时物流");
-            messageData.setRemark("待报价耗材3款，请注意查看");
+            WXData first = new WXData();
+            first.setValue("您好，宝时物流向您发送了一份询价单");
+            data.put("first", first);
+            WXData keyword1 = new WXData();
+            keyword1.setValue(p.getId() + "");
+            data.put("keyword1", keyword1);
+            WXData keyword2 = new WXData();
+            keyword2.setValue("宝时物流");
+            data.put("keyword2", keyword2);
+            WXData remark = new WXData();
+            remark.setValue("待报价耗材1款，请注意查看");
+            data.put("remark", remark);
         }
-        return sendMessage(userList, messageData, type);
+        return sendMessage(userList, data, type);
     }
 
     @Override
@@ -827,15 +851,16 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         billRepository.delete(bill);
     }
 
-    public Result sendMessage(List<User> userList, MessageData messageData, int type) {
+    public Result sendMessage(List<User> userList, Map<String, WXData> messageData, int type) {
         String response = WeixinUtils.getAccessToken(restTemplate);
         ObjectMapper mapper = new ObjectMapper();
         for (User user : userList) {
-            if (user.getOpenid() == null) continue;
+            if (StringUtils.isBlank(user.getOpenid())) continue;
             try {
                 WeiXinM weiXinM = mapper.readValue(response, WeiXinM.class);
-                if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0 && StringUtils.isNotBlank(weiXinM.getAccess_token())) {
+                if (StringUtils.isNotBlank(weiXinM.getAccess_token())) {
                     response = WeixinUtils.sendMessage(type, restTemplate, weiXinM.getAccess_token(), user.getOpenid(), messageData);
+                    System.out.println(response);
                     weiXinM = mapper.readValue(response, WeiXinM.class);
                     if (weiXinM.getErrcode() != null && weiXinM.getErrcode() == 0) return ResultUtil.ok();
                     else return ResultUtil.errorWithMessage(weiXinM.getErrmsg());
