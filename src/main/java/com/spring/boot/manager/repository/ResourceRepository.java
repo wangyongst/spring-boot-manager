@@ -21,4 +21,5 @@ public interface ResourceRepository extends JpaRepository<Resource, Integer> {
     @Query("select distinct resource.project.name from Resource resource")
     List<String> findDistinctName();
 
+    List<Resource> findByCode(String code);
 }

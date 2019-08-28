@@ -21,6 +21,10 @@ public class Resource {
     private Material material;
 
     @Basic
+    @Column(name = "code", nullable = true, length = 255)
+    private String code;
+
+    @Basic
     @Column(name = "size", nullable = true, length = 255)
     private String size;
     @Basic
@@ -39,6 +43,14 @@ public class Resource {
     @Basic
     @Column(name = "createtime", nullable = true, length = 255)
     private String createtime;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public Integer getId() {
         return id;

@@ -23,18 +23,6 @@ $(function () {
         });
     });
 
-
-    $("#materialcodeselect").change(function () {
-        $.get("/admin/material/list?type=2&code=" + $('#materialcodeselect').val(),
-            function (result) {
-                $('#materialnameselect2').html("");
-                $('#materialnameselect2').append("<option value=\"\">请选择耗材类型</option>");
-                $.each(result, function (key, val) {
-                    $('#materialnameselect2').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
-                });
-            });
-    });
-
     $("#searchprojectButton").click(function () {
         $('#project-list-table').bootstrapTable("destroy");
         $('#project-list-table').bootstrapTable({url: "/admin/project/list?" + $('#searchprojectForm').serialize()}).bootstrapTable('hideLoading');
@@ -206,9 +194,8 @@ function updateresource(value) {
             if (result.status == 1) {
                 $('#resourceidhidden').val(result.data.id);
                 $("#projectnameselect2").val(result.data.project.id);
-                $("#materialcodeselect").val(result.data.material.code)
                 $.ajaxSettings.async = false;
-                $.get("/admin/material/list?type=2&code=" + $('#materialcodeselect').val(),
+                $.get("/admin/material/list",
                     function (result) {
                         $('#materialnameselect2').html("");
                         $('#materialnameselect2').append("<option value=\"\">请选择耗材类型</option>");
@@ -218,6 +205,7 @@ function updateresource(value) {
                     });
                 $.ajaxSettings.async = true;
                 $("#materialnameselect2").val(result.data.material.id)
+                $("#resourceForm [name='code']").val(result.data.code)
                 $("#resourceForm [name='size']").val(result.data.size)
                 $("#resourceForm [name='special']").val(result.data.special)
                 $("#resourceForm [name='model']").val(result.data.model)
@@ -422,12 +410,15 @@ function initPage() {
             });
         });
 
-    $.get("/admin/material/list?type=3",
+    $.get("/admin/material/list",
         function (result) {
             $('#materialnameselect').html("");
+            $('#materialnameselect2').html("");
             $('#materialnameselect').append("<option value=\"\">请选择耗材类型</option>");
+            $('#materialnameselect2').append("<option value=\"\">请选择耗材类型</option>");
             $.each(result, function (key, val) {
-                $('#materialnameselect').append("<option value=\"" + val + "\">" + val + "</option>");
+                $('#materialnameselect').append("<option value=\"" + val.name + "\">" + val.name + "</option>");
+                $('#materialnameselect2').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
             });
         });
 
@@ -437,15 +428,6 @@ function initPage() {
             $('#projectnameselect2').append("<option value=\"\">请选择项目名称</option>");
             $.each(result, function (key, val) {
                 $('#projectnameselect2').append("<option value=\"" + val.id + "\">" + val.name + "</option>");
-            });
-        });
-
-    $.get("/admin/material/list?type=1",
-        function (result) {
-            $('#materialcodeselect').html("");
-            $('#materialcodeselect').append("<option value=\"\">请选择耗材编号</option>");
-            $.each(result, function (key, val) {
-                $('#materialcodeselect').append("<option value=\"" + val + "\">" + val + "</option>");
             });
         });
 

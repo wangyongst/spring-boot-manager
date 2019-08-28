@@ -251,11 +251,14 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         }
         if (adminParameter.getProjectid() == 0) return ResultUtil.errorWithMessage("项目名称未选择无法提交");
         if (adminParameter.getMaterialid() == 0) return ResultUtil.errorWithMessage("耗材类型未选择无法提交");
+        if (StringUtils.isBlank(adminParameter.getCode())) return ResultUtil.errorWithMessage("耗材编号未填写，无法提交！");
         if (StringUtils.isBlank(adminParameter.getSize())) return ResultUtil.errorWithMessage("尺寸大小未填写，无法提交！");
         if (StringUtils.isBlank(adminParameter.getSpecial())) return ResultUtil.errorWithMessage("特殊要求未填写，无法提交！");
         if (StringUtils.isBlank(adminParameter.getModel())) return ResultUtil.errorWithMessage("材质规格未填写，无法提交！");
+        if (resourceRepository.findByCode(adminParameter.getCode()).size() > 0) return ResultUtil.errorWithMessage("耗材编号已经存在，无法提交！");
         resource.setProject(projectRepository.findById(adminParameter.getProjectid()).get());
         resource.setMaterial(materialRepository.findById(adminParameter.getMaterialid()).get());
+        resource.setCode(adminParameter.getCode());
         resource.setSize(adminParameter.getSize());
         resource.setSpecial(adminParameter.getSpecial());
         resource.setModel(adminParameter.getModel());
