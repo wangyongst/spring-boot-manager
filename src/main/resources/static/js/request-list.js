@@ -201,7 +201,6 @@ function showfile(value) {
 }
 
 function requestformatter(value, row, index) {
-    $("#rowoperator [name='updateoperator']").attr("onclick", "update(" + value + ");");
     $("#rowoperator [name='deleteoperator']").attr("onclick", "del(" + value + ");");
     return $('#rowoperator').html();
 }
