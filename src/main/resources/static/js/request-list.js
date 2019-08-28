@@ -201,8 +201,10 @@ function showfile(value) {
 }
 
 function requestformatter(value, row, index) {
-    $("#rowoperator [name='deleteoperator']").attr("onclick", "del(" + value + ");");
-    return $('#rowoperator').html();
+    if (row["status"] < 4) {
+        $("#rowoperator [name='deleteoperator']").attr("onclick", "del(" + value + ");");
+        return $('#rowoperator').html();
+    }
 }
 
 function fileformatter(value, row, index) {
