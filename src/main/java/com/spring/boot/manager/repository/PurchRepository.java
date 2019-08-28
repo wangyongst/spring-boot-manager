@@ -22,4 +22,5 @@ public interface PurchRepository extends JpaRepository<Purch, Integer>, JpaSpeci
 
     List<Purch> findAllByStatus(int status);
 
+    Purch findTop1ByAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(Ask ask);
 }

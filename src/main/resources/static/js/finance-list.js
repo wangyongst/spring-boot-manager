@@ -43,12 +43,8 @@ function confirm(value) {
 
 function financeformatter(value, row, index) {
     $("#rowoperator [name='updateoperator']").attr("onclick", "confirm(" + row["id"] + ");");
-    $("#rowoperator2 [name='updateoperator']").attr("onclick", "confirm(" + row["id"] + ");");
-    if (value != null) {
-        if (value == 2) return $('#rowoperator').html();
-        else if (value == 3) {
-            return $('#rowoperator2').html();
-        } else return null;
+    if (value == 4) {
+        return $('#rowoperator').html();
     }
 }
 
@@ -73,7 +69,7 @@ function statusformatter(value, row, index) {
     if (value == 1) return "待报价";
     else if (value == 2) return "待审核";
     else if (value == 3) return "待接单";
-    else if (value == 4) return "已失效";
+    else if (value == 4) return "待接单（已过期）";
     else if (value == 5) return "生产中";
     else if (value == 6) return "待送货";
     else if (value == 7) return "已完成";

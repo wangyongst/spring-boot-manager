@@ -40,21 +40,21 @@
     <nav class="navbar navbar-expand-sm navbar-default">
         <div id="main-menu" class="main-menu collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li shiro:haspermission="index" >
+                <li shiro:haspermission="index">
                     <a href="/"><i class="menu-icon fa fa-laptop"></i>首页</a>
                 </li>
                 <li class="menu-title" shiro:haspermission="purch">采购管理</li><!-- /.menu-title -->
-                <li shiro:haspermission="purch"  class="active" >
+                <li shiro:haspermission="purch" class="active">
                     <a href="/view/request-list"> <i class="menu-icon ti-files"></i>采购申请单 </a>
                 </li>
-<!--                <li shiro:haspermission="purch">
-                    <a href="/view/ask-list"> <i class="menu-icon ti-file"></i>询价单</a>
-                </li>-->
-                <li class="menu-title" shiro:haspermission="finance" >财务系统</li><!-- /.menu-title -->
-                <li shiro:haspermission="finance" >
+                <!--                <li shiro:haspermission="purch">
+                                    <a href="/view/ask-list"> <i class="menu-icon ti-file"></i>询价单</a>
+                                </li>-->
+                <li class="menu-title" shiro:haspermission="finance">财务系统</li><!-- /.menu-title -->
+                <li shiro:haspermission="finance">
                     <a href="/view/finance-list"> <i class="menu-icon ti-money"></i>采购记录表</a>
                 </li>
-                <li shiro:haspermission="finance" >
+                <li shiro:haspermission="finance">
                     <a href="/view/bill-list"> <i class="menu-icon ti-printer"></i>对账单</a>
                 </li>
                 <li shiro:haspermission="permission">
@@ -301,7 +301,7 @@
                                     <th data-field="state" data-checkbox="true">全选</th>
                                     <th data-field="id">序号</th>
                                     <th data-field="resource.project.name">项目名称</th>
-                                    <th data-field="type">单据类型</th>
+                                    <th data-field="type" data-formatter="typeformatter">单据类型</th>
                                     <th data-field="resource.project.customer">采购公司</th>
                                     <th data-field="resource.code">耗材编号</th>
                                     <th data-field="resource.material.name">耗材类型</th>
@@ -312,7 +312,7 @@
                                     <th data-field="num">采购数量</th>
                                     <th data-field="price2">销售单价(元)</th>
                                     <th data-field="total">销售总价(元)</th>
-                                    <th data-field="status">采购单状态</th>
+                                    <th data-field="status" data-formatter="statusformatter">采购单状态</th>
                                     <th data-field="id" data-formatter="requestformatter" data-align="center">操作</th>
                                 </tr>
                                 </thead>

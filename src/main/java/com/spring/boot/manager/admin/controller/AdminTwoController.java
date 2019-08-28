@@ -63,6 +63,7 @@ public class AdminTwoController {
     }
 
     //资源列表
+    //type3 findDistinctName
     @GetMapping("/resource/list")
     public Object resourceList(@ModelAttribute AdminParameter adminParameter) {
         return adminTwoService.resourceList(adminParameter).getData();

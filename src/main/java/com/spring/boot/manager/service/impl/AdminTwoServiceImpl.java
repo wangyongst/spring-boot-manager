@@ -213,6 +213,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result resourceList(AdminParameter adminParameter) {
+        if (adminParameter.getType() == 3) {
+            return ResultUtil.okWithData(resourceRepository.findDistinctName());
+        }
         Project project = new Project();
         Material material = new Material();
         Resource resource = new Resource();
@@ -379,18 +382,17 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     predicates.add(criteriaBuilder.like(root.get("ask").get("request").get("resource").get("material").get("name"), "%" + adminParameter.getName() + "%"));
                 }
                 if (adminParameter.getStatus() == 29) {
-                    predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
-                    predicates.add(criteriaBuilder.notEqual(root.get("status"), 4));
-                    predicates.add(criteriaBuilder.notEqual(root.get("ask").get("type"), 1));
+                    predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
+                    //predicates.add(criteriaBuilder.equal(root.get("ask").get("request").get("type"), 3));
+                    predicates.add(criteriaBuilder.equal(root.get("islower"), 1));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
         if (adminParameter.getStatus() == 29) {
             List<String> orders = new ArrayList<>();
-            orders.add("status");
-            orders.add("acceptprice");
-            Sort sort = new Sort(Sort.Direction.ASC, orders);
+            orders.add("ask.createtime");
+            Sort sort = new Sort(Sort.Direction.DESC, orders);
             return ResultUtil.okWithData(purchRepository.findAll(specification, sort));
         } else return ResultUtil.okWithData(purchRepository.findAll(specification));
     }
@@ -529,7 +531,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else {
             request = requestRepository.findById(adminParameter.getRequestid()).get();
             if (adminParameter.getDelete() != 0) {
-                deleteRequest(request);
+                request.setStatus(Status.FOUR);
+                requestRepository.save(request);
                 return ResultUtil.ok();
             }
         }
@@ -563,6 +566,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         String[] ids = adminParameter.getIds().split(",");
         for (String id : ids) {
             Request request = requestRepository.findById(Integer.parseInt(id)).get();
+            if (request.getType() != null && request.getType() != 0) return ResultUtil.errorWithMessage("每个采购单只能发起一次！");
             Ask ask = new Ask();
             ask.setStatus(Status.ONE);
             ask.setRequest(request);
@@ -571,6 +575,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             //询价
             if (adminParameter.getType() == 1) {
                 if ((request.getNum() == null || request.getNum() == 0) && (request.getSellnum() == null || request.getSellnum() == 0)) {
+                    request.setType(1);
+                    request.setStatus(Status.ONE);
+                    requestRepository.save(request);
                     ask.setType(1);
                     final Ask saveedask = askRepository.save(ask);
                     productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
@@ -587,6 +594,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 //打样
             } else if (adminParameter.getType() == 2) {
                 if (request.getNum() != null && request.getNum() == 1 && (request.getSellnum() == null || request.getSellnum() == 0)) {
+                    request.setType(2);
+                    request.setStatus(Status.THREE);
+                    requestRepository.save(request);
                     ask.setType(2);
                     ask.setStatus(Status.TWO);
                     final Ask saveedask = askRepository.save(ask);
@@ -605,6 +615,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             } else if (adminParameter.getType() == 3) {
                 if ((request.getNum() == null || request.getNum() == 0) || (request.getSellnum() == null || request.getSellnum() == 0) || (request.getPrice() == null || request.getSellnum() == 0))
                     return ResultUtil.errorWithMessage("采购数量、销售数量不能为0！");
+                request.setType(3);
+                request.setStatus(Status.ONE);
+                requestRepository.save(request);
                 ask.setType(3);
                 final Ask saveedask = askRepository.save(ask);
                 productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {

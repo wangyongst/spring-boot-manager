@@ -43,6 +43,18 @@ public class Purch {
     @Column(name = "status", nullable = true)
     private Integer status;
 
+    @Basic
+    @Column(name = "islower", nullable = true)
+    private Integer islower;
+
+    public Integer getIslower() {
+        return islower;
+    }
+
+    public void setIslower(Integer islower) {
+        this.islower = islower;
+    }
+
     public Integer getAcceptnum() {
         return acceptnum;
     }

@@ -54,6 +54,19 @@ public class Request {
     @Column(name = "status", nullable = true)
     private Integer status;
 
+    @Basic
+    @Column(name = "type", nullable = true)
+    private Integer type;
+
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     public Integer getStatus() {
         return status;
     }

@@ -136,21 +136,26 @@ public class ApiServiceImpl implements ApiService {
         if (!purchRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Purch purch = purchRepository.findById(id).get();
         if (purch.getStatus() == Status.ONE) {
-            if (purch.getAsk().getType() == 1) {
-                purch.setStatus(Status.SEVEN);
-            } else {
-                purch.setStatus(Status.TWO);
-            }
+            purch.setStatus(Status.TWO);
             purch.setAcceptprice(BigDecimal.valueOf(Double.parseDouble(price)));
+            if (purch.getAsk().getRequest().getPrice() == null || purch.getAsk().getRequest().getPrice().doubleValue() == 0) {
+                Setting setting = settingRepository.findByType(1).get(0);
+                purch.getAsk().getRequest().setPrice(new BigDecimal(price).multiply(setting.getValue()));
+            }
+            Purch lower = purchRepository.findTop1ByAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(purch.getAsk());
+            if (purch.getAcceptprice().doubleValue() < lower.getAcceptprice().doubleValue()) purch.setIslower(1);
             purchRepository.save(purch);
             Ask ask = purch.getAsk();
             List<Purch> purchList = purchRepository.findAllByAsk(ask);
             boolean iscomplete = true;
             for (Purch p : purchList) {
                 if (p.getAcceptprice() == null) iscomplete = false;
+                if (purch.getIslower() == 1 && p.getId() != purch.getId()) p.setIslower(0);
+                purchRepository.save(p);
             }
             if (iscomplete) {
                 ask.setStatus(Status.TWO);
+                ask.getRequest().setStatus(Status.TWO);
                 askRepository.save(ask);
             }
             return ResultUtil.ok();

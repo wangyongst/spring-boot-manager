@@ -194,14 +194,14 @@
                                    data-pagination="true" style="font-size:xx-small">
                                 <thead>
                                 <tr>
-                                    <th data-field="id">编号</th>
+                                    <th data-field="id">采购编号</th>
                                     <th data-field="ask.request.createtime" data-formatter="dateformatter">采购日期</th>
                                     <th data-field="accepttime" data-formatter="dateformatter">接单日期</th>
                                     <th data-field="ask.overtime" data-formatter="dateformatter">签收日期</th>
                                     <th data-field="ask.request.resource.project.name">项目名称</th>
                                     <th data-field="ask.request.resource.project.customer">采购公司</th>
                                     <th data-field="supplier.name">供应商名称</th>
-                                    <th data-field="ask.request.resource.material.code">耗材编号</th>
+                                    <th data-field="ask.request.resource.code">耗材编号</th>
                                     <th data-field="ask.request.resource.material.name">耗材类型</th>
                                     <th data-field="ask.request.resource.size">尺寸大小</th>
                                     <th data-field="ask.request.resource.special">特殊要求</th>
@@ -214,8 +214,8 @@
                                     <th data-field="acceptprice" data-visible="false">报价</th>
                                     <th data-field="id" data-formatter="yingshouformatter">应收金额(元)</th>
                                     <th data-field="id" data-formatter="yingfuformatter">应付金额(元)</th>
-                                    <th data-field="status" data-formatter="financeformatter">操作</th>
                                     <th data-field="status" data-formatter="statusformatter">状态</th>
+                                    <th data-field="status" data-formatter="financeformatter">操作</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -227,9 +227,6 @@
     </div><!-- .content -->
     <div id="rowoperator" hidden>
         <button type="button" name="updateoperator" class="btn btn-link" shiro:haspermission="purch-update">确定</button>
-    </div>
-    <div id="rowoperator2" hidden>
-        <button type="button" name="updateoperator" class="btn btn-link" shiro:haspermission="purch-update">取消</button>
     </div>
 </div><!-- /#right-panel -->
 
