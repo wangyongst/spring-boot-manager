@@ -11,4 +11,9 @@ $(function () {
                 }
             });
     });
+
+    // $("[name='permission']").change(function () {
+    //     alert("checked");
+    // });
+
 });
