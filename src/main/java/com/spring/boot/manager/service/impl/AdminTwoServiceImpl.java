@@ -533,6 +533,15 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             if (adminParameter.getDelete() != 0) {
                 request.setStatus(Status.FOUR);
                 requestRepository.save(request);
+                askRepository.findAllByRequest(request).forEach(e -> {
+                    e.setStatus(Status.FOUR);
+                    askRepository.save(e);
+                    purchRepository.findAllByAsk(e).forEach(t -> {
+                        t.setStatus(Status.FOUR);
+                        t.setIslower(0);
+                        purchRepository.save(t);
+                    });
+                });
                 return ResultUtil.ok();
             }
         }

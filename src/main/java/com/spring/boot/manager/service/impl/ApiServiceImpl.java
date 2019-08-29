@@ -110,7 +110,7 @@ public class ApiServiceImpl implements ApiService {
         if (purch.getStatus() == Status.THREE) {
             purch.setStatus(Status.FIVE);
             purch.setAccepttime(TimeUtils.format(System.currentTimeMillis()));
-            purch.getAsk().setStatus(Status.THREE);
+            purch.getAsk().setStatus(Status.FOUR);
             purch.getAsk().getRequest().setStatus(Status.FIVE);
             purchRepository.save(purch);
             return ResultUtil.ok();
@@ -162,8 +162,13 @@ public class ApiServiceImpl implements ApiService {
                 if (p.getAcceptprice() == null) iscomplete = false;
             }
             if (iscomplete) {
-                ask.setStatus(Status.THREE);
-                ask.getRequest().setStatus(Status.TWO);
+                if (ask.getType() != Status.ONE) {
+                    ask.setStatus(Status.THREE);
+                    ask.getRequest().setStatus(Status.TWO);
+                } else {
+                    ask.setStatus(Status.FOUR);
+                    ask.getRequest().setStatus(Status.SEVEN);
+                }
                 askRepository.save(ask);
             }
             return ResultUtil.ok();
