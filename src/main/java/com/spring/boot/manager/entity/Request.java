@@ -31,10 +31,6 @@ public class Request {
     private BigDecimal price;
 
     @Basic
-    @Column(name = "price2", nullable = true, precision = 2)
-    private BigDecimal price2;
-
-    @Basic
     @Column(name = "total", nullable = true, precision = 2)
     private BigDecimal total;
 
@@ -73,14 +69,6 @@ public class Request {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public BigDecimal getPrice2() {
-        return price2;
-    }
-
-    public void setPrice2(BigDecimal price2) {
-        this.price2 = price2;
     }
 
     public Resource getResource() {

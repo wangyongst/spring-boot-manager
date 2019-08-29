@@ -540,16 +540,16 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         request.setResource(resourceRepository.findById(adminParameter.getResourceid()).get());
         if (StringUtils.isNotBlank(adminParameter.getNum())) {
             if (StringUtils.isBlank(adminParameter.getSellnum())) return ResultUtil.errorWithMessage("销售数量不能为空！");
-            if (StringUtils.isBlank(adminParameter.getPrice())) return ResultUtil.errorWithMessage("采购单价不能为空！");
             if (!StringUtils.isNumeric(adminParameter.getNum())) return ResultUtil.errorWithMessage("采购数量只能是整数！");
             if (!StringUtils.isNumeric(adminParameter.getSellnum())) return ResultUtil.errorWithMessage("销售数量只能是整数！");
-            if (!adminParameter.getPrice().matches("^(([1-9]\\d{0,9})|0)(\\.\\d{1,2})?$"))
+            if (StringUtils.isNotBlank(adminParameter.getPrice()) && !adminParameter.getPrice().matches("^(([1-9]\\d{0,9})|0)(\\.\\d{1,2})?$"))
                 return ResultUtil.errorWithMessage("采购单价只能是两位小数或整数！");
             request.setNum(Integer.parseInt(adminParameter.getNum()));
             request.setSellnum(Integer.parseInt(adminParameter.getSellnum()));
-            request.setPrice2(BigDecimal.valueOf(Double.parseDouble(adminParameter.getPrice())));
-            request.setPrice(request.getPrice2().multiply(setting.getValue()));
-            request.setTotal(request.getPrice2().multiply(new BigDecimal(request.getSellnum().toString())));
+            if(StringUtils.isNotBlank(adminParameter.getPrice())) {
+                request.setPrice(BigDecimal.valueOf(Double.parseDouble(adminParameter.getPrice())));
+                request.setTotal(request.getPrice().multiply(new BigDecimal(request.getSellnum().toString())));
+            }
         }
         requestRepository.save(request);
         return ResultUtil.ok();
@@ -613,7 +613,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 }
                 //采购
             } else if (adminParameter.getType() == 3) {
-                if ((request.getNum() == null || request.getNum() == 0) || (request.getSellnum() == null || request.getSellnum() == 0) || (request.getPrice() == null || request.getSellnum() == 0))
+                if ((request.getNum() == null || request.getNum() == 0) || (request.getSellnum() == null || request.getSellnum() == 0))
                     return ResultUtil.errorWithMessage("采购数量、销售数量不能为0！");
                 request.setType(3);
                 request.setStatus(Status.ONE);
@@ -644,14 +644,17 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqualAndConfirmtimeIsNull(Status.ONE, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
+            boolean iscancel = true;
             for (Purch purch : purches) {
                 if (purch.getStatus() == Status.ONE) {
                     purch.setStatus(Status.FOUR);
                 }
+                if (purch.getStatus() != Status.FOUR) iscancel = false;
                 purchRepository.save(purch);
             }
             ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
             ask.setStatus(Status.THREE);
+            if (iscancel) ask.getRequest().setStatus(Status.FOUR);
             askRepository.save(ask);
         }
         return ResultUtil.ok();
@@ -666,7 +669,10 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (purch == purchRepository.findTop1ByStatusAndAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(Status.TWO, ask)) {
                     purch.setStatus(Status.THREE);
                     purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
+                    purch.getAsk().getRequest().setStatus(Status.THREE);
                     sendMessage(purch, 1);
+                } else {
+                    purch.setStatus(Status.FOUR);
                 }
                 purchRepository.save(purch);
             }
@@ -735,6 +741,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 billdetailRepository.save(billdetail);
             }
             purch.setStatus(Status.EIGHT);
+            purch.getAsk().getRequest().setStatus(Status.EIGHT);
             purchRepository.save(purch);
         }
         return ResultUtil.ok();

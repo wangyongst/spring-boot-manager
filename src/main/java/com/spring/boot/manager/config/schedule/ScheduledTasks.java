@@ -17,8 +17,6 @@ public class ScheduledTasks {
         adminTwoService.priceSchedu();
         //自动派单
         adminTwoService.acceptSchedu();
-        //再次自动派单
-        adminTwoService.acceptSchedu2();
     }
 
     @Scheduled(cron = "0 0 0 1 * ?")

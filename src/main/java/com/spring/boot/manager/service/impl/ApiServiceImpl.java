@@ -110,6 +110,7 @@ public class ApiServiceImpl implements ApiService {
         if (purch.getStatus() == Status.THREE) {
             purch.setStatus(Status.FIVE);
             purch.setAccepttime(TimeUtils.format(System.currentTimeMillis()));
+            purch.getAsk().getRequest().setStatus(Status.FIVE);
             purchRepository.save(purch);
             return ResultUtil.ok();
         } else return ResultUtil.errorWithMessage("该订单不是待接单状态，不能接单");
@@ -137,6 +138,7 @@ public class ApiServiceImpl implements ApiService {
         Purch purch = purchRepository.findById(id).get();
         if (purch.getStatus() == Status.ONE) {
             purch.setStatus(Status.TWO);
+            purch.getAsk().getRequest().setStatus(Status.TWO);
             purch.setAcceptprice(BigDecimal.valueOf(Double.parseDouble(price)));
             if (purch.getAsk().getRequest().getPrice() == null || purch.getAsk().getRequest().getPrice().doubleValue() == 0) {
                 Setting setting = settingRepository.findByType(1).get(0);
@@ -170,6 +172,7 @@ public class ApiServiceImpl implements ApiService {
         if (purch.getAsk().getType() != 2) return ResultUtil.errorWithMessage("该订单不是打样订单，不能发货");
         if (purch.getStatus() == Status.FIVE) {
             purch.setStatus(Status.SEVEN);
+            purch.getAsk().getRequest().setStatus(Status.SEVEN);
             purchRepository.save(purch);
             return ResultUtil.ok();
         } else return ResultUtil.errorWithMessage("该订单不是生产中状态，不能发货");
@@ -258,6 +261,7 @@ public class ApiServiceImpl implements ApiService {
         if (!purchRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Purch purch = purchRepository.findById(id).get();
         purch.setStatus(Status.SEVEN);
+        purch.getAsk().getRequest().setStatus(Status.SEVEN);
         purch.getAsk().setOvertime(TimeUtils.format(System.currentTimeMillis()));
         purchRepository.save(purch);
         return ResultUtil.ok();
@@ -297,6 +301,7 @@ public class ApiServiceImpl implements ApiService {
             billdetailRepository.save(e);
             Purch purch = e.getPurch();
             purch.setStatus(Status.FINISH);
+            purch.getAsk().getRequest().setStatus(Status.FINISH);
             purchRepository.save(purch);
         });
         return ResultUtil.ok();
