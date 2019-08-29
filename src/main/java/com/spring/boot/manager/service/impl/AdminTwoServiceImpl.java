@@ -649,7 +649,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (purch.getStatus() == Status.ONE || purch.getStatus() == Status.TWO) {
                     purch.setStatus(Status.FOUR);
                 }
-                if (purch.getIslower()!= null && purch.getIslower() == 1) {
+                if (purch.getIslower() != null && purch.getIslower() == 1) {
                     purch.setStatus(Status.THREE);
                     ask.getRequest().setStatus(Status.THREE);
                     ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
@@ -675,7 +675,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch.getIslower()!= null && purch.getIslower() == 1) {
+                if (purch.getIslower() != null && purch.getIslower() == 1) {
                     purch.setStatus(Status.THREE);
                     purch.getAsk().getRequest().setStatus(Status.THREE);
                     sendMessage(purch, 1);
@@ -703,9 +703,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch.getStatus() == Status.THREE) {
-                    purch.setStatus(Status.FOUR);
-                }
+                purch.setStatus(Status.FOUR);
                 purchRepository.save(purch);
             }
         }
