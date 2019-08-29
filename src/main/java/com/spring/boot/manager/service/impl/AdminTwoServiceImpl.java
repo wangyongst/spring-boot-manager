@@ -375,12 +375,10 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
-        if (adminParameter.getStatus() == 29) {
-            List<String> orders = new ArrayList<>();
-            orders.add("ask.createtime");
-            Sort sort = new Sort(Sort.Direction.DESC, orders);
-            return ResultUtil.okWithData(purchRepository.findAll(specification, sort));
-        } else return ResultUtil.okWithData(purchRepository.findAll(specification));
+        List<String> orders = new ArrayList<>();
+        orders.add("ask.createtime");
+        Sort sort = new Sort(Sort.Direction.DESC, orders);
+        return ResultUtil.okWithData(purchRepository.findAll(specification, sort));
     }
 
     @Override
