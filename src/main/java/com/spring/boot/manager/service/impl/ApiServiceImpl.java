@@ -144,7 +144,7 @@ public class ApiServiceImpl implements ApiService {
             if (purch.getAsk().getRequest().getPrice() == null || purch.getAsk().getRequest().getPrice().doubleValue() == 0) {
                 Setting setting = settingRepository.findByType(1).get(0);
                 purch.getAsk().getRequest().setPrice(new BigDecimal(price).multiply(setting.getValue()));
-                if (purch.getAsk().getRequest().getSellnum() != 0) purch.getAsk().getRequest().setTotal(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAsk().getRequest().getSellnum())));
+                if (purch.getAsk().getRequest().getSellnum() != null) purch.getAsk().getRequest().setTotal(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAsk().getRequest().getSellnum())));
                 purch.setIslower(1);
             } else {
                 Purch lower = purchRepository.findByIslowerAndAsk(1, purch.getAsk()).get(0);
@@ -167,7 +167,7 @@ public class ApiServiceImpl implements ApiService {
                     ask.getRequest().setStatus(Status.TWO);
                 } else {
                     ask.setStatus(Status.FOUR);
-                    ask.getRequest().setStatus(Status.SEVEN);
+                    ask.getRequest().setStatus(Status.FOUR);
                 }
                 askRepository.save(ask);
             }

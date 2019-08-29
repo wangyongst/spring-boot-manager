@@ -450,15 +450,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     @Override
     public Result purchCoc(AdminParameter adminParameter) {
         Purch purch = purchRepository.findById(adminParameter.getPurchid()).get();
-        if (purch.getStatus() == Status.TWO) {
-            if (purch.getAsk().getConfirmtime() != null) return ResultUtil.errorWithMessage("该耗材已经确定过供应商！");
-            else {
-                purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-                purch.setStatus(Status.THREE);
-            }
-        } else if (purch.getStatus() == Status.THREE) {
-            purch.getAsk().setConfirmtime(null);
-            purch.setStatus(Status.TWO);
+        if (purch.getStatus() == Status.FOUR) {
+            purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
+            purch.setStatus(Status.THREE);
         }
         purchRepository.save(purch);
         return ResultUtil.ok();
@@ -654,9 +648,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         for (Ask ask : asks) {
             if (ask.getType() == Status.ONE) {
                 ask.setStatus(Status.FOUR);
-                if (ask.getRequest().getPrice().doubleValue() == 0) {
-                    ask.getRequest().setStatus(Status.FOUR);
-                } else ask.getRequest().setStatus(Status.SEVEN);
+                ask.getRequest().setStatus(Status.FOUR);
                 askRepository.save(ask);
                 continue;
             }
