@@ -598,7 +598,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     request.setStatus(Status.THREE);
                     requestRepository.save(request);
                     ask.setType(2);
-                    ask.setStatus(Status.TWO);
+                    ask.setStatus(Status.THREE);
                     final Ask saveedask = askRepository.save(ask);
                     productRepository.findByMaterial(request.getResource().getMaterial()).forEach(e -> {
                         Purch purch = new Purch();
@@ -649,7 +649,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (purch.getStatus() == Status.ONE || purch.getStatus() == Status.TWO) {
                     purch.setStatus(Status.FOUR);
                 }
-                if (purch.getIslower() == 1) {
+                if (purch.getIslower()!= null && purch.getIslower() == 1) {
                     purch.setStatus(Status.THREE);
                     ask.getRequest().setStatus(Status.THREE);
                     ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
@@ -657,10 +657,10 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (purch.getStatus() != Status.FOUR) iscancel = false;
                 purchRepository.save(purch);
             }
-            if(StringUtils.isBlank(ask.getConfirmtime())){
+            if (StringUtils.isBlank(ask.getConfirmtime())) {
                 ask.getRequest().setStatus(Status.FOUR);
                 ask.setStatus(Status.FOUR);
-            }else {
+            } else {
                 ask.setStatus(Status.THREE);
             }
             if (iscancel) ask.getRequest().setStatus(Status.FOUR);
@@ -675,7 +675,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch.getIslower() == 1) {
+                if (purch.getIslower()!= null && purch.getIslower() == 1) {
                     purch.setStatus(Status.THREE);
                     purch.getAsk().getRequest().setStatus(Status.THREE);
                     sendMessage(purch, 1);
