@@ -16,7 +16,7 @@ public class ScheduledTasks {
         //未报价单失效
         adminTwoService.priceSchedu();
         //自动派单
-        adminTwoService.acceptSchedu();
+        adminTwoService.acceptSchedu2();
     }
 
     @Scheduled(cron = "0 0 0 1 * ?")

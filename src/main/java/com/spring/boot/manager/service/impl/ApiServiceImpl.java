@@ -110,6 +110,7 @@ public class ApiServiceImpl implements ApiService {
         if (purch.getStatus() == Status.THREE) {
             purch.setStatus(Status.FIVE);
             purch.setAccepttime(TimeUtils.format(System.currentTimeMillis()));
+            purch.getAsk().setStatus(Status.THREE);
             purch.getAsk().getRequest().setStatus(Status.FIVE);
             purchRepository.save(purch);
             return ResultUtil.ok();
@@ -145,18 +146,20 @@ public class ApiServiceImpl implements ApiService {
                 purch.getAsk().getRequest().setPrice(new BigDecimal(price).multiply(setting.getValue()));
             }
             Purch lower = purchRepository.findTop1ByAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(purch.getAsk());
-            if (purch.getAcceptprice().doubleValue() < lower.getAcceptprice().doubleValue()) purch.setIslower(1);
+            if (lower == null || purch.getAcceptprice().doubleValue() < lower.getAcceptprice().doubleValue()) {
+                purch.setIslower(1);
+                lower.setIslower(0);
+                purchRepository.save(lower);
+            }
             purchRepository.save(purch);
             Ask ask = purch.getAsk();
             List<Purch> purchList = purchRepository.findAllByAsk(ask);
             boolean iscomplete = true;
             for (Purch p : purchList) {
                 if (p.getAcceptprice() == null) iscomplete = false;
-                if (purch.getIslower() == 1 && p.getId() != purch.getId()) p.setIslower(0);
-                purchRepository.save(p);
             }
             if (iscomplete) {
-                ask.setStatus(Status.TWO);
+                ask.setStatus(Status.THREE);
                 ask.getRequest().setStatus(Status.TWO);
                 askRepository.save(ask);
             }

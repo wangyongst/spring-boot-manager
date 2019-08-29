@@ -546,7 +546,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 return ResultUtil.errorWithMessage("采购单价只能是两位小数或整数！");
             request.setNum(Integer.parseInt(adminParameter.getNum()));
             request.setSellnum(Integer.parseInt(adminParameter.getSellnum()));
-            if(StringUtils.isNotBlank(adminParameter.getPrice())) {
+            if (StringUtils.isNotBlank(adminParameter.getPrice())) {
                 request.setPrice(BigDecimal.valueOf(Double.parseDouble(adminParameter.getPrice())));
                 request.setTotal(request.getPrice().multiply(new BigDecimal(request.getSellnum().toString())));
             }
@@ -649,6 +649,10 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (purch.getStatus() == Status.ONE) {
                     purch.setStatus(Status.FOUR);
                 }
+                if (purch.getIslower() == 1) {
+                    purch.setStatus(Status.THREE);
+                    purch.getAsk().getRequest().setStatus(Status.THREE);
+                }
                 if (purch.getStatus() != Status.FOUR) iscancel = false;
                 purchRepository.save(purch);
             }
@@ -666,7 +670,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch == purchRepository.findTop1ByStatusAndAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(Status.TWO, ask)) {
+                if (purch.getIslower() == 1) {
                     purch.setStatus(Status.THREE);
                     purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                     purch.getAsk().getRequest().setStatus(Status.THREE);
@@ -677,7 +681,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 purchRepository.save(purch);
             }
             ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-            ask.setStatus(Status.FOUR);
             askRepository.save(ask);
         }
         return ResultUtil.ok();
@@ -692,23 +695,14 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.HOUR_OF_DAY, hous);
-        List<Ask> asks = askRepository.findByStatusAndConfirmtimeLessThanEqual(Status.FOUR, TimeUtils.format(cal.getTime().getTime()));
+        List<Ask> asks = askRepository.findByStatusAndConfirmtimeLessThanEqual(Status.THREE, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch == purchRepository.findTop1ByStatusAndAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(Status.TWO, ask)) {
-                    purch.setStatus(Status.THREE);
-                    purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-                    sendMessage(purch, 1);
-                    flag = true;
-                } else if (purch.getStatus() == Status.THREE) {
+                if (purch.getStatus() == Status.THREE) {
                     purch.setStatus(Status.FOUR);
                 }
                 purchRepository.save(purch);
-            }
-            if (flag == false) {
-                ask.setStatus(Status.FIVE);
-                askRepository.save(ask);
             }
         }
         return ResultUtil.ok();
