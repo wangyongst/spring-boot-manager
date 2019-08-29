@@ -646,18 +646,23 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             boolean iscancel = true;
             for (Purch purch : purches) {
-                if (purch.getStatus() == Status.ONE) {
+                if (purch.getStatus() == Status.ONE || purch.getStatus() == Status.TWO) {
                     purch.setStatus(Status.FOUR);
                 }
                 if (purch.getIslower() == 1) {
                     purch.setStatus(Status.THREE);
-                    purch.getAsk().getRequest().setStatus(Status.THREE);
+                    ask.getRequest().setStatus(Status.THREE);
+                    ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                 }
                 if (purch.getStatus() != Status.FOUR) iscancel = false;
                 purchRepository.save(purch);
             }
-            ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-            ask.setStatus(Status.THREE);
+            if(StringUtils.isBlank(ask.getConfirmtime())){
+                ask.getRequest().setStatus(Status.FOUR);
+                ask.setStatus(Status.FOUR);
+            }else {
+                ask.setStatus(Status.THREE);
+            }
             if (iscancel) ask.getRequest().setStatus(Status.FOUR);
             askRepository.save(ask);
         }
@@ -672,7 +677,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             for (Purch purch : purches) {
                 if (purch.getIslower() == 1) {
                     purch.setStatus(Status.THREE);
-                    purch.getAsk().setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                     purch.getAsk().getRequest().setStatus(Status.THREE);
                     sendMessage(purch, 1);
                 } else {

@@ -144,12 +144,15 @@ public class ApiServiceImpl implements ApiService {
             if (purch.getAsk().getRequest().getPrice() == null || purch.getAsk().getRequest().getPrice().doubleValue() == 0) {
                 Setting setting = settingRepository.findByType(1).get(0);
                 purch.getAsk().getRequest().setPrice(new BigDecimal(price).multiply(setting.getValue()));
-            }
-            Purch lower = purchRepository.findTop1ByAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(purch.getAsk());
-            if (lower == null || purch.getAcceptprice().doubleValue() < lower.getAcceptprice().doubleValue()) {
+                if (purch.getAsk().getRequest().getSellnum() != 0) purch.getAsk().getRequest().setTotal(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAsk().getRequest().getSellnum())));
                 purch.setIslower(1);
-                lower.setIslower(0);
-                purchRepository.save(lower);
+            } else {
+                Purch lower = purchRepository.findByIslowerAndAsk(1, purch.getAsk()).get(0);
+                if (purch.getAcceptprice().doubleValue() < lower.getAcceptprice().doubleValue()) {
+                    purch.setIslower(1);
+                    lower.setIslower(0);
+                    purchRepository.save(lower);
+                }
             }
             purchRepository.save(purch);
             Ask ask = purch.getAsk();
