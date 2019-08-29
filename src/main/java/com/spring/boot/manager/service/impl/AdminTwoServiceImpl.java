@@ -369,23 +369,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
-                if (adminParameter.getAskid() != 0) {
-                    predicates.add(criteriaBuilder.equal(root.get("ask").get("id"), adminParameter.getAskid()));
-                }
-                if (adminParameter.getStatus() != 0 && adminParameter.getStatus() < 10) {
-                    predicates.add(criteriaBuilder.equal(root.get("status"), adminParameter.getStatus()));
-                }
-                if (StringUtils.isNotBlank(adminParameter.getCustomer())) {
-                    predicates.add(criteriaBuilder.like(root.get("ask").get("request").get("resource").get("project").get("customer"), "%" + adminParameter.getCustomer() + "%"));
-                }
-                if (StringUtils.isNotBlank(adminParameter.getName())) {
-                    predicates.add(criteriaBuilder.like(root.get("ask").get("request").get("resource").get("material").get("name"), "%" + adminParameter.getName() + "%"));
-                }
-                if (adminParameter.getStatus() == 29) {
-                    predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
-                    //predicates.add(criteriaBuilder.equal(root.get("ask").get("request").get("type"), 3));
-                    predicates.add(criteriaBuilder.equal(root.get("islower"), 1));
-                }
+                predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
+                //predicates.add(criteriaBuilder.equal(root.get("ask").get("request").get("type"), 3));
+                predicates.add(criteriaBuilder.equal(root.get("islower"), 1));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
