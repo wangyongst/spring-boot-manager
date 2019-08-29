@@ -652,6 +652,14 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         cal.add(Calendar.HOUR_OF_DAY, hous);
         List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqualAndConfirmtimeIsNull(Status.ONE, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
+            if (ask.getType() == Status.ONE) {
+                ask.setStatus(Status.FOUR);
+                if (ask.getRequest().getPrice().doubleValue() == 0) {
+                    ask.getRequest().setStatus(Status.FOUR);
+                } else ask.getRequest().setStatus(Status.SEVEN);
+                askRepository.save(ask);
+                continue;
+            }
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             boolean iscancel = true;
             for (Purch purch : purches) {
