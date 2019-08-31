@@ -258,7 +258,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         if (StringUtils.isBlank(adminParameter.getSize())) return ResultUtil.errorWithMessage("尺寸大小未填写，无法提交！");
         if (StringUtils.isBlank(adminParameter.getSpecial())) return ResultUtil.errorWithMessage("特殊要求未填写，无法提交！");
         if (StringUtils.isBlank(adminParameter.getModel())) return ResultUtil.errorWithMessage("材质规格未填写，无法提交！");
-        if (resourceRepository.findByCode(adminParameter.getCode()).size() > 0) return ResultUtil.errorWithMessage("耗材编号已经存在，无法提交！");
+        if (resourceRepository.findByCode(adminParameter.getCode()).size() > 0)
+            return ResultUtil.errorWithMessage("耗材编号已经存在，无法提交！");
         resource.setProject(projectRepository.findById(adminParameter.getProjectid()).get());
         resource.setMaterial(materialRepository.findById(adminParameter.getMaterialid()).get());
         resource.setCode(adminParameter.getCode());
@@ -370,7 +371,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
                 predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
-                //predicates.add(criteriaBuilder.equal(root.get("ask").get("request").get("type"), 3));
                 predicates.add(criteriaBuilder.equal(root.get("islower"), 1));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
@@ -387,7 +387,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
-                predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
+                predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
                 predicates.add(criteriaBuilder.notEqual(root.get("status"), 4));
                 predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
                 Predicate predicate = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
