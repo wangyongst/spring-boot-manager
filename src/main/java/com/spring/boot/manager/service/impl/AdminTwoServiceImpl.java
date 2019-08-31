@@ -408,9 +408,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             }
         };
         List<String> orders = new ArrayList<>();
-        orders.add("status");
-        orders.add("acceptprice");
-        Sort sort = new Sort(Sort.Direction.ASC, orders);
+        orders.add("ask.createtime");
+        Sort sort = new Sort(Sort.Direction.DESC, orders);
         return ResultUtil.okWithData(purchRepository.findAll(specification, sort));
     }
 
