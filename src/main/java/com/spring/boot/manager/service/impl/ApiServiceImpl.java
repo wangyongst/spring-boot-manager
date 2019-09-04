@@ -141,7 +141,7 @@ public class ApiServiceImpl implements ApiService {
             purch.setStatus(Status.TWO);
             purch.getAsk().getRequest().setStatus(Status.TWO);
             purch.setAcceptprice(BigDecimal.valueOf(Double.parseDouble(price)));
-            if (purch.getAsk().getRequest().getPrice() == null) {
+            if (purch.getAsk().getRequest().getPrice() == null || purch.getAsk().getRequest().getPrice().intValue() == 0) {
                 Setting setting = settingRepository.findByType(1).get(0);
                 purch.getAsk().getRequest().setPrice(new BigDecimal(price).multiply(setting.getValue()));
                 if (purch.getAsk().getRequest().getSellnum() != null)
