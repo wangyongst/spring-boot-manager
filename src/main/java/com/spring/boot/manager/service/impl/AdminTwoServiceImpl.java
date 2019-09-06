@@ -258,7 +258,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         if (StringUtils.isBlank(adminParameter.getSize())) return ResultUtil.errorWithMessage("尺寸大小未填写，无法提交！");
         if (StringUtils.isBlank(adminParameter.getSpecial())) return ResultUtil.errorWithMessage("特殊要求未填写，无法提交！");
         if (StringUtils.isBlank(adminParameter.getModel())) return ResultUtil.errorWithMessage("材质规格未填写，无法提交！");
-        if (resourceRepository.findByCode(adminParameter.getCode()).size() > 0) return ResultUtil.errorWithMessage("耗材编号已经存在，无法提交！");
+        if (resourceRepository.findByCode(adminParameter.getCode()).size() > 0)
+            return ResultUtil.errorWithMessage("耗材编号已经存在，无法提交！");
         resource.setProject(projectRepository.findById(adminParameter.getProjectid()).get());
         resource.setMaterial(materialRepository.findById(adminParameter.getMaterialid()).get());
         resource.setCode(adminParameter.getCode());
@@ -370,7 +371,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
                 predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
-                //predicates.add(criteriaBuilder.equal(root.get("ask").get("request").get("type"), 3));
                 predicates.add(criteriaBuilder.equal(root.get("islower"), 1));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
@@ -387,19 +387,16 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
-                predicates.add(criteriaBuilder.between(root.get("status"), 2, 9));
-                predicates.add(criteriaBuilder.notEqual(root.get("status"), 4));
-                predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
+                predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
+                predicates.add(criteriaBuilder.equal(root.get("islower"), 1));
                 Predicate predicate = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
                 if (StringUtils.isNotBlank(adminParameter.getName())) {
                     String name = "%" + adminParameter.getName() + "%";
                     Predicate p = criteriaBuilder.like(root.get("supplier").get("name"), name);
                     Predicate p2 = criteriaBuilder.like(root.get("ask").get("request").get("resource").get("project").get("name"), name);
-                    if (StringUtils.isNumeric(adminParameter.getName())) {
-                        predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(p, p2, criteriaBuilder.equal(root.get("id"), Integer.parseInt(adminParameter.getName()))));
-                    } else {
-                        predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(p, p2));
-                    }
+                    Predicate p3 = criteriaBuilder.like(root.get("ask").get("request").get("code"), name);
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(p, p2, p3));
+
                 }
                 if (StringUtils.isNotBlank(adminParameter.getCreatetime())) {
                     String date = adminParameter.getCreatetime() + "%";
@@ -411,9 +408,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             }
         };
         List<String> orders = new ArrayList<>();
-        orders.add("status");
-        orders.add("acceptprice");
-        Sort sort = new Sort(Sort.Direction.ASC, orders);
+        orders.add("ask.createtime");
+        Sort sort = new Sort(Sort.Direction.DESC, orders);
         return ResultUtil.okWithData(purchRepository.findAll(specification, sort));
     }
 

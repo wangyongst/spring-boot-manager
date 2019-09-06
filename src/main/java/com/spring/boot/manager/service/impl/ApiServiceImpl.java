@@ -141,17 +141,21 @@ public class ApiServiceImpl implements ApiService {
             purch.setStatus(Status.TWO);
             purch.getAsk().getRequest().setStatus(Status.TWO);
             purch.setAcceptprice(BigDecimal.valueOf(Double.parseDouble(price)));
-            if (purch.getAsk().getRequest().getPrice() == null || purch.getAsk().getRequest().getPrice().doubleValue() == 0 || purch.getAsk().getRequest().getType() == 1) {
+            if ((purch.getAsk().getRequest().getPrice() == null || purch.getAsk().getRequest().getPrice().intValue() == 0) && purch.getAsk().getRequest().getType() == 1) {
                 Setting setting = settingRepository.findByType(1).get(0);
                 purch.getAsk().getRequest().setPrice(new BigDecimal(price).multiply(setting.getValue()));
-                if (purch.getAsk().getRequest().getSellnum() != null) purch.getAsk().getRequest().setTotal(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAsk().getRequest().getSellnum())));
+                if (purch.getAsk().getRequest().getSellnum() != null)
+                    purch.getAsk().getRequest().setTotal(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAsk().getRequest().getSellnum())));
                 purch.setIslower(1);
             } else {
-                Purch lower = purchRepository.findByIslowerAndAsk(1, purch.getAsk()).get(0);
-                if (purch.getAcceptprice().doubleValue() < lower.getAcceptprice().doubleValue()) {
-                    purch.setIslower(1);
-                    lower.setIslower(0);
-                    purchRepository.save(lower);
+                List<Purch> lowers = purchRepository.findByIslowerAndAsk(1, purch.getAsk());
+                if (lowers.size() > 0) {
+                    Purch lower = lowers.get(0);
+                    if (purch.getAcceptprice().doubleValue() < lower.getAcceptprice().doubleValue()) {
+                        purch.setIslower(1);
+                        lower.setIslower(0);
+                        purchRepository.save(lower);
+                    }
                 }
             }
             purchRepository.save(purch);
