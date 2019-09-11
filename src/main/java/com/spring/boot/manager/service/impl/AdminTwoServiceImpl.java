@@ -371,6 +371,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
                 predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
+                predicates.add(criteriaBuilder.notEqual(root.get("ask").get("type"), 1));
                 predicates.add(criteriaBuilder.equal(root.get("islower"), 1));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
@@ -654,6 +655,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 ask.setStatus(Status.FOUR);
             } else {  //采购
                 ask.setStatus(Status.THREE);
+                ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
                 ask.getRequest().setStatus(Status.THREE);
             }
             Purch lower = purchRepository.findTop1ByAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(ask);
