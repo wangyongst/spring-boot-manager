@@ -703,7 +703,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result acceptSchedu2() {
-        boolean flag = false;
         Setting setting = settingRepository.findByType(3).get(0);
         Integer hous = 0 - setting.getValue().intValue();
         Date date = new Date();
