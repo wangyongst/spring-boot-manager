@@ -371,7 +371,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
                 predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
-                predicates.add(criteriaBuilder.notEqual(root.get("ask").get("type"), 1));
+                predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
                 predicates.add(criteriaBuilder.equal(root.get("islower"), 1));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
@@ -389,6 +389,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
                 predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
+                predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
                 predicates.add(criteriaBuilder.equal(root.get("islower"), 1));
                 Predicate predicate = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
                 if (StringUtils.isNotBlank(adminParameter.getName())) {
