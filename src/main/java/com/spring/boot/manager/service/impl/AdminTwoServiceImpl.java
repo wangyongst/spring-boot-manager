@@ -652,32 +652,20 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         for (Ask ask : asks) {
             if (ask.getType() == Status.ONE) {  //询价
                 ask.setStatus(Status.FOUR);
-                ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-                List<Purch> purches = purchRepository.findAllByAsk(ask);
-                for (Purch purch : purches) {
-                    if (purch.getStatus() == Status.ONE) {
-                        purch.setStatus(Status.FOUR);
-                        purchRepository.save(purch);
-                    }
+            } else {  //采购
+                ask.setStatus(Status.THREE);
+                ask.getRequest().setStatus(Status.THREE);
+            }
+            Purch lower = purchRepository.findTop1ByAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(ask);
+            List<Purch> purches = purchRepository.findAllByAsk(ask);
+            for (Purch purch : purches) {
+                if (purch.getId() == lower.getId()) {
+                    purch.setIslower(1);
+                    purch.setStatus(Status.THREE);
+                } else {
+                    purch.setStatus(Status.FOUR);
                 }
-                askRepository.save(ask);
-            } else if (ask.getType() == Status.THREE) {  //采购
-                List<Purch> purches = purchRepository.findAllByAsk(ask);
-                for (Purch purch : purches) {
-                    if (purch.getStatus() == Status.ONE) { //未报价
-                        purch.setStatus(Status.FOUR);
-                    } else {
-                        if (purch.getIslower() != null && purch.getIslower() == 1) {
-                            purch.setStatus(Status.THREE);
-                            ask.setStatus(Status.THREE);
-                            ask.getRequest().setStatus(Status.THREE);
-                            if (ask.getConfirmtime() == null) {
-                                ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-                            }
-                        } else purch.setStatus(Status.FOUR);  //不是最低价
-                    }
-                    purchRepository.save(purch);
-                }
+                purchRepository.save(purch);
             }
             askRepository.save(ask);
         }
@@ -718,8 +706,10 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                purch.setStatus(Status.FOUR);
-                purchRepository.save(purch);
+                if (purch.getStatus() != Status.FOUR) {
+                    purch.setStatus(Status.FOUR);
+                    purchRepository.save(purch);
+                }
             }
         }
         return ResultUtil.ok();

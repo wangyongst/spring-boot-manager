@@ -16,8 +16,6 @@ public interface PurchRepository extends JpaRepository<Purch, Integer>, JpaSpeci
 
     List<Purch> findAllByAsk(Ask ask);
 
-    List<Purch> findByIslowerAndAsk(int islower, Ask ask);
-
     List<Purch> findAllBySupplierAndStatus(Supplier suppliler, int status);
 
     List<Purch> findAllByStatus(int status);

@@ -11,14 +11,12 @@ public class ScheduledTasks {
     @Autowired
     private AdminTwoService adminTwoService;
 
-    @Scheduled(cron = "0/2 * * * * ?")
+    @Scheduled(cron = "0/1 * * * * ?")
     public void minCron() {
         //无人报价，全部失效
         adminTwoService.priceSchedu();
         //有人报价，自动派单
         adminTwoService.priceSchedu2();
-        //派单
-        //adminTwoService.acceptSchedu();
         //派单失效
         adminTwoService.acceptSchedu2();
     }
