@@ -676,7 +676,13 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result acceptSchedu() {
-        List<Ask> asks = askRepository.findByStatusAndConfirmtimeIsNull(Status.THREE);
+        Setting setting = settingRepository.findByType(3).get(0);
+        Integer hous = 0 - setting.getValue().intValue();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR_OF_DAY, hous);
+        List<Ask> asks = askRepository.findByStatusAndConfirmtimeLessThanEqual(Status.THREE, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
@@ -706,6 +712,11 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         cal.add(Calendar.HOUR_OF_DAY, hous);
         List<Ask> asks = askRepository.findByStatusAndConfirmtimeLessThanEqual(Status.THREE, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
+            if (ask.getType() == 2) {
+                ask.setStatus(Status.FOUR);
+                ask.getRequest().setStatus(Status.FOUR);
+                askRepository.save(ask);
+            }
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
                 if (purch.getStatus() != Status.FOUR) {
