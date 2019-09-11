@@ -684,19 +684,18 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         cal.add(Calendar.HOUR_OF_DAY, hous);
         List<Ask> asks = askRepository.findByStatusAndConfirmtimeLessThanEqual(Status.THREE, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
+            if (ask.getType() == 2) {
+                ask.setStatus(Status.FOUR);
+                ask.getRequest().setStatus(Status.FOUR);
+                askRepository.save(ask);
+            }
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch.getIslower() != null && purch.getIslower() == 1) {
-                    purch.setStatus(Status.THREE);
-                    purch.getAsk().getRequest().setStatus(Status.THREE);
-                    sendMessage(purch, 1);
-                } else {
+                if (purch.getStatus() != Status.FOUR) {
                     purch.setStatus(Status.FOUR);
+                    purchRepository.save(purch);
                 }
-                purchRepository.save(purch);
             }
-            ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-            askRepository.save(ask);
         }
         return ResultUtil.ok();
     }
@@ -709,13 +708,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.HOUR_OF_DAY, hous);
-        List<Ask> asks = askRepository.findByStatusAndConfirmtimeLessThanEqual(Status.THREE, TimeUtils.format(cal.getTime().getTime()));
+        List<Ask> asks = askRepository.findByStatusAndConfirmtimeLessThanEqual(Status.FIVE, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
-            if (ask.getType() == 2) {
-                ask.setStatus(Status.FOUR);
-                ask.getRequest().setStatus(Status.FOUR);
-                askRepository.save(ask);
-            }
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
                 if (purch.getStatus() != Status.FOUR) {

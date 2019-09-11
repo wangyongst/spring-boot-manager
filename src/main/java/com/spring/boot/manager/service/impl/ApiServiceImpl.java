@@ -110,7 +110,7 @@ public class ApiServiceImpl implements ApiService {
         if (purch.getStatus() == Status.THREE) {
             purch.setStatus(Status.FIVE);
             purch.setAccepttime(TimeUtils.format(System.currentTimeMillis()));
-            purch.getAsk().setStatus(Status.FOUR);
+            purch.getAsk().setStatus(Status.FIVE);
             purch.getAsk().getRequest().setStatus(Status.FIVE);
             purchRepository.save(purch);
             return ResultUtil.ok();

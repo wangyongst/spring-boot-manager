@@ -17,7 +17,9 @@ public class ScheduledTasks {
         adminTwoService.priceSchedu();
         //有人报价，自动派单
         adminTwoService.priceSchedu2();
-        //派单失效
+        //无人接单，派单失效
+        adminTwoService.acceptSchedu();
+        //有人接单，派单失效
         adminTwoService.acceptSchedu2();
     }
 
