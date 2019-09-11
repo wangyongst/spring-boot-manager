@@ -626,33 +626,59 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         cal.add(Calendar.HOUR_OF_DAY, hous);
         List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqualAndConfirmtimeIsNull(Status.ONE, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
-            if (ask.getType() == Status.ONE) {
-                ask.setStatus(Status.FOUR);
-                ask.getRequest().setStatus(Status.FOUR);
-                askRepository.save(ask);
-                continue;
-            }
+            ask.setStatus(Status.FOUR);
+            ask.getRequest().setStatus(Status.FOUR);
             List<Purch> purches = purchRepository.findAllByAsk(ask);
-            boolean iscancel = true;
             for (Purch purch : purches) {
-                if (purch.getStatus() == Status.ONE || purch.getStatus() == Status.TWO) {
-                    purch.setStatus(Status.FOUR);
-                }
-                if (purch.getIslower() != null && purch.getIslower() == 1) {
-                    purch.setStatus(Status.THREE);
-                    ask.getRequest().setStatus(Status.THREE);
-                    ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-                }
-                if (purch.getStatus() != Status.FOUR) iscancel = false;
+                purch.setIslower(null);
+                purch.setStatus(Status.FOUR);
                 purchRepository.save(purch);
             }
-            if (StringUtils.isBlank(ask.getConfirmtime())) {
-                ask.getRequest().setStatus(Status.FOUR);
+            askRepository.save(ask);
+        }
+        return ResultUtil.ok();
+    }
+
+
+    @Override
+    public Result priceSchedu2() {
+        Setting setting = settingRepository.findByType(2).get(0);
+        Integer hous = 0 - setting.getValue().intValue();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR_OF_DAY, hous);
+        List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqual(Status.TWO, TimeUtils.format(cal.getTime().getTime()));
+        for (Ask ask : asks) {
+            if (ask.getType() == Status.ONE) {  //询价
                 ask.setStatus(Status.FOUR);
-            } else {
-                ask.setStatus(Status.THREE);
+                ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
+                List<Purch> purches = purchRepository.findAllByAsk(ask);
+                for (Purch purch : purches) {
+                    if (purch.getStatus() == Status.ONE) {
+                        purch.setStatus(Status.FOUR);
+                        purchRepository.save(purch);
+                    }
+                }
+                askRepository.save(ask);
+            } else if (ask.getType() == Status.THREE) {  //采购
+                List<Purch> purches = purchRepository.findAllByAsk(ask);
+                for (Purch purch : purches) {
+                    if (purch.getStatus() == Status.ONE) { //未报价
+                        purch.setStatus(Status.FOUR);
+                    } else {
+                        if (purch.getIslower() != null && purch.getIslower() == 1) {
+                            purch.setStatus(Status.THREE);
+                            ask.setStatus(Status.THREE);
+                            ask.getRequest().setStatus(Status.THREE);
+                            if (ask.getConfirmtime() == null) {
+                                ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
+                            }
+                        } else purch.setStatus(Status.FOUR);  //不是最低价
+                    }
+                    purchRepository.save(purch);
+                }
             }
-            if (iscancel) ask.getRequest().setStatus(Status.FOUR);
             askRepository.save(ask);
         }
         return ResultUtil.ok();
