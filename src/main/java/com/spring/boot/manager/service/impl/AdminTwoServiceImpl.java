@@ -718,6 +718,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purchRepository.save(purch);
                 }
             }
+            ask.setStatus(Status.SIX);
+            askRepository.save(ask);
         }
         return ResultUtil.ok();
     }
