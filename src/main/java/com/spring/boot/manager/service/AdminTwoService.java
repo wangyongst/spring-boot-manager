@@ -51,6 +51,8 @@ public interface AdminTwoService {
 
     Result priceSchedu();
 
+    Result priceSchedu2();
+
     Result acceptSchedu();
 
     Result acceptSchedu2();

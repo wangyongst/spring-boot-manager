@@ -21,6 +21,8 @@ public interface AskRepository extends JpaRepository<Ask, Integer>, JpaSpecifica
 
     List<Ask> findByStatusAndCreatetimeLessThanEqualAndConfirmtimeIsNull(int status, String time);
 
+    List<Ask> findByStatusAndCreatetimeLessThanEqual(int status, String time);
+
     long countByCreatetimeLike(String createtime);
 
 }

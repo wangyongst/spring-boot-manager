@@ -371,6 +371,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
                 predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
+                predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
                 predicates.add(criteriaBuilder.equal(root.get("islower"), 1));
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
@@ -388,6 +389,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = Lists.newArrayList();
                 predicates.add(criteriaBuilder.between(root.get("status"), 3, 9));
+                predicates.add(criteriaBuilder.equal(root.get("ask").get("type"), 3));
                 predicates.add(criteriaBuilder.equal(root.get("islower"), 1));
                 Predicate predicate = criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
                 if (StringUtils.isNotBlank(adminParameter.getName())) {
@@ -626,33 +628,48 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         cal.add(Calendar.HOUR_OF_DAY, hous);
         List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqualAndConfirmtimeIsNull(Status.ONE, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
-            if (ask.getType() == Status.ONE) {
-                ask.setStatus(Status.FOUR);
-                ask.getRequest().setStatus(Status.FOUR);
-                askRepository.save(ask);
-                continue;
-            }
+            ask.setStatus(Status.FOUR);
+            ask.getRequest().setStatus(Status.FOUR);
             List<Purch> purches = purchRepository.findAllByAsk(ask);
-            boolean iscancel = true;
             for (Purch purch : purches) {
-                if (purch.getStatus() == Status.ONE || purch.getStatus() == Status.TWO) {
-                    purch.setStatus(Status.FOUR);
-                }
-                if (purch.getIslower() != null && purch.getIslower() == 1) {
-                    purch.setStatus(Status.THREE);
-                    ask.getRequest().setStatus(Status.THREE);
-                    ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-                }
-                if (purch.getStatus() != Status.FOUR) iscancel = false;
+                purch.setIslower(null);
+                purch.setStatus(Status.FOUR);
                 purchRepository.save(purch);
             }
-            if (StringUtils.isBlank(ask.getConfirmtime())) {
-                ask.getRequest().setStatus(Status.FOUR);
+            askRepository.save(ask);
+        }
+        return ResultUtil.ok();
+    }
+
+
+    @Override
+    public Result priceSchedu2() {
+        Setting setting = settingRepository.findByType(2).get(0);
+        Integer hous = 0 - setting.getValue().intValue();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR_OF_DAY, hous);
+        List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqual(Status.TWO, TimeUtils.format(cal.getTime().getTime()));
+        for (Ask ask : asks) {
+            if (ask.getType() == Status.ONE) {  //询价
                 ask.setStatus(Status.FOUR);
-            } else {
+            } else {  //采购
                 ask.setStatus(Status.THREE);
+                ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
+                ask.getRequest().setStatus(Status.THREE);
             }
-            if (iscancel) ask.getRequest().setStatus(Status.FOUR);
+            Purch lower = purchRepository.findTop1ByAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(ask);
+            List<Purch> purches = purchRepository.findAllByAsk(ask);
+            for (Purch purch : purches) {
+                if (purch.getId() == lower.getId()) {
+                    purch.setIslower(1);
+                    purch.setStatus(Status.THREE);
+                } else {
+                    purch.setStatus(Status.FOUR);
+                }
+                purchRepository.save(purch);
+            }
             askRepository.save(ask);
         }
         return ResultUtil.ok();
@@ -660,28 +677,6 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result acceptSchedu() {
-        List<Ask> asks = askRepository.findByStatusAndConfirmtimeIsNull(Status.THREE);
-        for (Ask ask : asks) {
-            List<Purch> purches = purchRepository.findAllByAsk(ask);
-            for (Purch purch : purches) {
-                if (purch.getIslower() != null && purch.getIslower() == 1) {
-                    purch.setStatus(Status.THREE);
-                    purch.getAsk().getRequest().setStatus(Status.THREE);
-                    sendMessage(purch, 1);
-                } else {
-                    purch.setStatus(Status.FOUR);
-                }
-                purchRepository.save(purch);
-            }
-            ask.setConfirmtime(TimeUtils.format(System.currentTimeMillis()));
-            askRepository.save(ask);
-        }
-        return ResultUtil.ok();
-    }
-
-    @Override
-    public Result acceptSchedu2() {
-        boolean flag = false;
         Setting setting = settingRepository.findByType(3).get(0);
         Integer hous = 0 - setting.getValue().intValue();
         Date date = new Date();
@@ -690,10 +685,38 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         cal.add(Calendar.HOUR_OF_DAY, hous);
         List<Ask> asks = askRepository.findByStatusAndConfirmtimeLessThanEqual(Status.THREE, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
+            if (ask.getType() == 2) {
+                ask.setStatus(Status.FOUR);
+                ask.getRequest().setStatus(Status.FOUR);
+                askRepository.save(ask);
+            }
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                purch.setStatus(Status.FOUR);
-                purchRepository.save(purch);
+                if (purch.getStatus() != Status.FOUR) {
+                    purch.setStatus(Status.FOUR);
+                    purchRepository.save(purch);
+                }
+            }
+        }
+        return ResultUtil.ok();
+    }
+
+    @Override
+    public Result acceptSchedu2() {
+        Setting setting = settingRepository.findByType(3).get(0);
+        Integer hous = 0 - setting.getValue().intValue();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.HOUR_OF_DAY, hous);
+        List<Ask> asks = askRepository.findByStatusAndConfirmtimeLessThanEqual(Status.FIVE, TimeUtils.format(cal.getTime().getTime()));
+        for (Ask ask : asks) {
+            List<Purch> purches = purchRepository.findAllByAsk(ask);
+            for (Purch purch : purches) {
+                if (purch.getStatus() != Status.FOUR) {
+                    purch.setStatus(Status.FOUR);
+                    purchRepository.save(purch);
+                }
             }
         }
         return ResultUtil.ok();
