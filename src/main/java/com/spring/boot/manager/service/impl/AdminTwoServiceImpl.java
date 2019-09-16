@@ -726,7 +726,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
 
     @Override
     public Result billSchedu() {
-        List<Purch> purchList = purchRepository.findAllByStatus(Status.EIGHT);
+        List<Purch> purchList = purchRepository.findAllByStatus(Status.SEVEN);
         for (Purch purch : purchList) {
             if (purch.getAsk().getType() == Status.THREE) {
                 String billtime = purch.getAsk().getOvertime().substring(0, 7);

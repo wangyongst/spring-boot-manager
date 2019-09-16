@@ -13,6 +13,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0/1 * * * * ?")
     public void minCron() {
+        System.out.println("每秒执行一次状态检查任务");
         //无人报价，全部失效
         adminTwoService.priceSchedu();
         //有人报价，自动派单
@@ -25,6 +26,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0 0 0 1 * ?")
     public void monCron() {
+        System.out.println("每月执行一次生成对账单任务");
         //生成对账单
         adminTwoService.billSchedu();
     }
