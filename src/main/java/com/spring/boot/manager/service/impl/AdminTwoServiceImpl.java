@@ -652,7 +652,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         cal.add(Calendar.HOUR_OF_DAY, hous);
         List<Ask> asks = askRepository.findByStatusAndCreatetimeLessThanEqual(Status.TWO, TimeUtils.format(cal.getTime().getTime()));
         for (Ask ask : asks) {
-            if (ask.getType() == Status.ONE) {  //询价
+            if (ask.getType() == 1) {  //询价
                 ask.setStatus(Status.FOUR);
             } else {  //采购
                 ask.setStatus(Status.THREE);
@@ -662,7 +662,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             Purch lower = purchRepository.findTop1ByAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(ask);
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch.getId() == lower.getId()) {
+                if (purch.getId() == lower.getId() && ask.getType() == 3) {
                     purch.setIslower(1);
                     purch.setStatus(Status.THREE);
                 } else {
@@ -718,7 +718,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purchRepository.save(purch);
                 }
             }
-            ask.setStatus(Status.SEVEN);
+            ask.setStatus(Status.FOUR);
             askRepository.save(ask);
         }
         return ResultUtil.ok();
