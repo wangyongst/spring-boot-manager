@@ -36,6 +36,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -740,7 +742,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     bill.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
                     bill.setTotal(new BigDecimal(0));
                     billRepository.save(bill);
-                    sendMessage(bill, 2);
+                    //sendMessage(bill, 2);
                 }
                 Billdetail billdetail = new Billdetail();
                 billdetail.setStatus(Status.ONE);
@@ -753,6 +755,11 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             purch.setStatus(Status.EIGHT);
             purch.getAsk().getRequest().setStatus(Status.EIGHT);
             purchRepository.save(purch);
+        }
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM--dd");
+        List<Bill> bills = billRepository.findByCreatetimeLike(formatters.format(LocalDate.now()));
+        for (Bill bill : bills) {
+            sendMessage(bill, 2);
         }
         return ResultUtil.ok();
     }

@@ -2,15 +2,19 @@ package com.spring.boot.manager.config.schedule;
 
 import com.spring.boot.manager.service.AdminTwoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
+@EnableAsync
 public class ScheduledTasks {
 
     @Autowired
     private AdminTwoService adminTwoService;
 
+    @Async
     @Scheduled(cron = "0/1 * * * * ?")
     public void minCron() {
         System.out.println("每秒执行一次状态检查任务");
@@ -24,6 +28,7 @@ public class ScheduledTasks {
         adminTwoService.acceptSchedu2();
     }
 
+    @Async
     @Scheduled(cron = "0 0 0 1 * ?")
     public void monCron() {
         System.out.println("每月执行一次生成对账单任务");
