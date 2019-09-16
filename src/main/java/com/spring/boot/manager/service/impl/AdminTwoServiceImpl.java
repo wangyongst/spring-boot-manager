@@ -662,7 +662,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             Purch lower = purchRepository.findTop1ByAskAndAcceptpriceIsNotNullOrderByAcceptpriceAsc(ask);
             List<Purch> purches = purchRepository.findAllByAsk(ask);
             for (Purch purch : purches) {
-                if (purch.getId() == lower.getId() && ask.getType() == 3) {
+                if (lower != null && purch.getId() == lower.getId() && ask.getType() == 3) {
                     purch.setIslower(1);
                     purch.setStatus(Status.THREE);
                 } else {
