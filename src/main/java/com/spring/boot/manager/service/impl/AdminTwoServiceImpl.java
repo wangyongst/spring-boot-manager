@@ -792,7 +792,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     List<Predicate> predicates = Lists.newArrayList();
                     predicates.add(criteriaBuilder.equal(root.get("bill").get("id"), bill.getId()));
                     if (StringUtils.isNotBlank(adminParameter.getBilltime())) {
-                        predicates.add(criteriaBuilder.equal(root.get("purch").get("accepttime"), "%" + adminParameter.getBilltime() + "%"));
+                        predicates.add(criteriaBuilder.like(root.get("purch").get("ask").get("overtime"), "%" + adminParameter.getBilltime() + "%"));
                     }
                     if (StringUtils.isNotBlank(adminParameter.getName())) {
                         predicates.add(criteriaBuilder.like(root.get("bill").get("supplier").get("name"), "%" + adminParameter.getName() + "%"));
