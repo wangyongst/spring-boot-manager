@@ -47,14 +47,14 @@
                 <li shiro:haspermission="purch">
                     <a href="/view/request-list"> <i class="menu-icon ti-files"></i>采购申请单 </a>
                 </li>
-<!--                <li shiro:haspermission="purch">
-                    <a href="/view/ask-list"> <i class="menu-icon ti-file"></i>询价单</a>
-                </li>-->
-                <li class="menu-title" shiro:haspermission="finance" >财务系统</li><!-- /.menu-title -->
-                <li shiro:haspermission="finance" class="active" >
+                <!--                <li shiro:haspermission="purch">
+                                    <a href="/view/ask-list"> <i class="menu-icon ti-file"></i>询价单</a>
+                                </li>-->
+                <li class="menu-title" shiro:haspermission="finance">财务系统</li><!-- /.menu-title -->
+                <li shiro:haspermission="finance" class="active">
                     <a href="/view/finance-list"> <i class="menu-icon ti-money"></i>采购记录表</a>
                 </li>
-                <li shiro:haspermission="finance" >
+                <li shiro:haspermission="finance">
                     <a href="/view/bill-list"> <i class="menu-icon ti-printer"></i>对账单</a>
                 </li>
                 <li shiro:haspermission="permission">
@@ -170,7 +170,7 @@
                     <div class="card">
                         <div class="card-header">
                             <strong class="card-title">
-                                <div class="pull-left"  shiro:haspermission="finance-query">
+                                <div class="pull-left" shiro:haspermission="finance-query">
                                     <form class="form-inline" id="searchfinanceForm">
                                         <div class="form-group"><input type="date" name="createtime" placeholder="签收日期/采购日期"
                                                                        required="" class="form-control">
