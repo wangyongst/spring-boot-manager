@@ -790,6 +790,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 @Override
                 public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                     List<Predicate> predicates = Lists.newArrayList();
+                    predicates.add(criteriaBuilder.equal(root.get("bill").get("id"), bill.getId()));
                     if (StringUtils.isNotBlank(adminParameter.getBilltime())) {
                         predicates.add(criteriaBuilder.equal(root.get("purch").get("accepttime"), "%" + adminParameter.getBilltime() + "%"));
                     }
