@@ -786,7 +786,20 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     public Result billdetailList(AdminParameter adminParameter) {
         Bill bill = billRepository.findById(adminParameter.getBillid()).get();
         if (adminParameter.getStatus() == 0) {
-            return ResultUtil.okWithData(billdetailRepository.findByBill(bill));
+            Specification specification = new Specification() {
+                @Override
+                public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                    List<Predicate> predicates = Lists.newArrayList();
+                    if (StringUtils.isNotBlank(adminParameter.getBilltime())) {
+                        predicates.add(criteriaBuilder.equal(root.get("purch").get("accepttime"), "%" + adminParameter.getBilltime() + "%"));
+                    }
+                    if (StringUtils.isNotBlank(adminParameter.getName())) {
+                        predicates.add(criteriaBuilder.like(root.get("bill").get("supplier").get("name"), "%" + adminParameter.getName() + "%"));
+                    }
+                    return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+            };
+            return ResultUtil.okWithData(billdetailRepository.findAll(specification));
         } else return ResultUtil.okWithData(billdetailRepository.findByBillAndStatus(bill, adminParameter.getStatus()));
     }
 
