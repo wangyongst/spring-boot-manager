@@ -15,9 +15,9 @@ public class ScheduledTasks {
     private AdminTwoService adminTwoService;
 
     @Async
-    @Scheduled(cron = "0/1 * * * * ?")
+    @Scheduled(cron = "0/5 * * * * ?")
     public void minCron() {
-        System.out.println("每秒执行一次状态检查任务");
+        System.out.println("每5秒执行一次状态检查任务");
         //无人报价，全部失效
         adminTwoService.priceSchedu();
         //有人报价，自动派单

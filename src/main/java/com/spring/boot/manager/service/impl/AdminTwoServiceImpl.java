@@ -398,7 +398,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     String name = "%" + adminParameter.getName() + "%";
                     Predicate p = criteriaBuilder.like(root.get("supplier").get("name"), name);
                     Predicate p2 = criteriaBuilder.like(root.get("ask").get("request").get("resource").get("project").get("name"), name);
-                    Predicate p3 = criteriaBuilder.like(root.get("ask").get("request").get("code"), name);
+                    Predicate p3 = criteriaBuilder.like(root.get("ask").get("request").get("resource").get("code"), name);
                     predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(p, p2, p3));
 
                 }
@@ -667,6 +667,10 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 if (lower != null && purch.getId() == lower.getId() && ask.getType() == 3) {
                     purch.setIslower(1);
                     purch.setStatus(Status.THREE);
+                    Setting setting2 = settingRepository.findByType(1).get(0);
+                    purch.getAsk().getRequest().setPrice(purch.getAcceptprice().multiply(setting2.getValue()));
+                    if (purch.getAsk().getRequest().getSellnum() != null)
+                        purch.getAsk().getRequest().setTotal(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAsk().getRequest().getSellnum())));
                 } else {
                     purch.setStatus(Status.FOUR);
                 }
