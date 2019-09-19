@@ -398,7 +398,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     String name = "%" + adminParameter.getName() + "%";
                     Predicate p = criteriaBuilder.like(root.get("supplier").get("name"), name);
                     Predicate p2 = criteriaBuilder.like(root.get("ask").get("request").get("resource").get("project").get("name"), name);
-                    Predicate p3 = criteriaBuilder.like(root.get("ask").get("request").get("resource").get("code"), name);
+                    Predicate p3 = criteriaBuilder.like(root.get("ask").get("request").get("resource").get("project").get("customer"), name);
                     predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(p, p2, p3));
 
                 }
