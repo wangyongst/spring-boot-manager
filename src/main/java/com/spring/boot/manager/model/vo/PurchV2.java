@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 
 public class PurchV2 {
     private int id;
+    //采购编号
+    private String number;
     //采购日期
     private String createtime;
     //接单日期
@@ -44,6 +46,14 @@ public class PurchV2 {
     private BigDecimal totalprice;
     //应付金额
     private BigDecimal totalpay;
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
     public int getId() {
         return id;

@@ -19,6 +19,10 @@ public class Request {
     private Resource resource;
 
     @Basic
+    @Column(name = "number", nullable = true)
+    private String number;
+
+    @Basic
     @Column(name = "num", nullable = true)
     private Integer num;
 
@@ -54,6 +58,13 @@ public class Request {
     @Column(name = "type", nullable = true)
     private Integer type;
 
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
     public Integer getType() {
         return type;
