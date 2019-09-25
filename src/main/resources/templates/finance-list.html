@@ -114,7 +114,8 @@
     <div class="content">
         <div class="animated fadeIn">
 
-            <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" aria-hidden="true">
+            <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel"
+                 aria-hidden="true">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -146,12 +147,14 @@
                             <form id="settingForm">
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">接单时间</label></div>
-                                    <div class="col-12 col-md-9"><input type="number" step="1" name="accepttime" placeholder="8小时" th:value="${accepttime}"
+                                    <div class="col-12 col-md-9"><input type="number" step="1" name="accepttime"
+                                                                        placeholder="8小时" th:value="${accepttime}"
                                                                         class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">询价时间</label></div>
-                                    <div class="col-12 col-md-9"><input type="number" step="1" name="pricetime" placeholder="8小时" th:value="${asktime}"
+                                    <div class="col-12 col-md-9"><input type="number" step="1" name="pricetime"
+                                                                        placeholder="8小时" th:value="${asktime}"
                                                                         class="form-control"></div>
                                 </div>
                             </form>
@@ -172,10 +175,12 @@
                             <strong class="card-title">
                                 <div class="pull-left" shiro:haspermission="finance-query">
                                     <form class="form-inline" id="searchfinanceForm">
-                                        <div class="form-group"><input type="date" name="createtime" placeholder="签收日期/采购日期"
+                                        <div class="form-group"><input type="date" name="createtime"
+                                                                       placeholder="签收日期/采购日期"
                                                                        required="" class="form-control">
                                         </div>
-                                        <div class="form-group"><input type="text" name="name" placeholder="供应商名称/项目名称/采购公司"
+                                        <div class="form-group"><input type="text" name="name"
+                                                                       placeholder="供应商名称/项目名称/采购公司"
                                                                        required="" class="form-control">
                                         </div>
                                         <button type="button" class="btn btn-primary" id="searchfinanceButton">筛选

@@ -125,7 +125,8 @@
 
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">价格系数</label></div>
-                                    <div class="col-12 col-md-9"><input type="number" step="0.01" name="value" placeholder="1.0" th:value="${value}"
+                                    <div class="col-12 col-md-9"><input type="number" step="0.01" name="value"
+                                                                        placeholder="1.0" th:value="${value}"
                                                                         class="form-control"></div>
                                 </div>
                             </form>
@@ -186,12 +187,14 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">采购数量</label></div>
-                                    <div class="col-12 col-md-9"><input type="number" name="num" id="num" step="1" min="0"
+                                    <div class="col-12 col-md-9"><input type="number" name="num" id="num" step="1"
+                                                                        min="0"
                                                                         class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label class=" form-control-label">销售数量</label></div>
-                                    <div class="col-12 col-md-9"><input type="number" id="sellnum" name="sellnum" step="1" min="0"
+                                    <div class="col-12 col-md-9"><input type="number" id="sellnum" name="sellnum"
+                                                                        step="1" min="0"
                                                                         class="form-control">
                                     </div>
                                 </div>
@@ -267,11 +270,21 @@
                         <div class="card-header">
                             <strong class="card-title">
                                 <div class="pull-right">
-                                    <button type="button" class="btn btn-primary" id="settingButton" shiro:haspermission="purch-price">价格系数</button>
-                                    <button type="button" class="btn btn-primary" id="createrequestButton" shiro:haspermission="purch-create">新增耗材</button>
-                                    <button type="button" class="btn btn-success" id="askButton" shiro:haspermission="purch-start">发起采购</button>
-                                    <button type="button" class="btn btn-success" id="askPriceButton" shiro:haspermission="purch-start">发起询价</button>
-                                    <button type="button" class="btn btn-success" id="askExampleButton" shiro:haspermission="purch-start">发起打样</button>
+                                    <button type="button" class="btn btn-primary" id="settingButton"
+                                            shiro:haspermission="purch-price">价格系数
+                                    </button>
+                                    <button type="button" class="btn btn-primary" id="createrequestButton"
+                                            shiro:haspermission="purch-create">新增耗材
+                                    </button>
+                                    <button type="button" class="btn btn-success" id="askButton"
+                                            shiro:haspermission="purch-start">发起采购
+                                    </button>
+                                    <button type="button" class="btn btn-success" id="askPriceButton"
+                                            shiro:haspermission="purch-start">发起询价
+                                    </button>
+                                    <button type="button" class="btn btn-success" id="askExampleButton"
+                                            shiro:haspermission="purch-start">发起打样
+                                    </button>
                                 </div>
                                 <div class="pull-left">
                                     <form class="form-inline" id="searchrequestForm">
