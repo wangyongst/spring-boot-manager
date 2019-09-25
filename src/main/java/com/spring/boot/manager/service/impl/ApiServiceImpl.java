@@ -312,6 +312,8 @@ public class ApiServiceImpl implements ApiService {
             purch.getAsk().getRequest().setStatus(Status.FINISH);
             purchRepository.save(purch);
         });
+        bill.setStatus(Status.TWO);
+        billRepository.save(bill);
         return ResultUtil.ok();
     }
 

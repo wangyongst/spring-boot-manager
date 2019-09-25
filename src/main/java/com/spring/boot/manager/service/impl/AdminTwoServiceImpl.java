@@ -745,8 +745,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     bill.setSupplier(purch.getSupplier());
                     bill.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
                     bill.setTotal(new BigDecimal(0));
+                    bill.setStatus(Status.ONE);
                     billRepository.save(bill);
-                    //sendMessage(bill, 2);
                 }
                 Billdetail billdetail = new Billdetail();
                 billdetail.setStatus(Status.ONE);
@@ -812,6 +812,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     public Result billdetailSud(AdminParameter adminParameter) {
         Billdetail billdetail = billdetailRepository.findById(adminParameter.getBilldetailid()).get();
         billdetail.setBillno(adminParameter.getBillno());
+        billdetail.getBill().setStatus(Status.THREE);
         billdetail.setStatus(Status.THREE);
         billdetailRepository.save(billdetail);
         return ResultUtil.ok();

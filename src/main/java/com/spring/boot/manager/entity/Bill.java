@@ -27,9 +27,20 @@ public class Bill {
     @Basic
     @Column(name = "total")
     private BigDecimal total;
+    @Basic
+    @Column(name = "status", nullable = true)
+    private Integer status;
     @JsonIgnore
     @OneToMany(mappedBy = "bill", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private List<Billdetail> billdetails;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public List<Billdetail> getBilldetails() {
         return billdetails;
