@@ -327,7 +327,7 @@ public class ApiServiceImpl implements ApiService {
         p.setSize(purch.getAsk().getRequest().getResource().getSize());
         p.setSpecial(purch.getAsk().getRequest().getResource().getSpecial());
         p.setModel(purch.getAsk().getRequest().getResource().getModel());
-        p.setCode(purch.getAsk().getRequest().getResource().getMaterial().getCode());
+        p.setCode(purch.getAsk().getRequest().getResource().getCode());
         p.setMaterialname(purch.getAsk().getRequest().getResource().getMaterial().getName());
         p.setNum(purch.getAsk().getRequest().getNum());
         p.setContact(purch.getAsk().getRequest().getCreateusername());
@@ -378,7 +378,7 @@ public class ApiServiceImpl implements ApiService {
         d.setSize(deliver.getPurch().getAsk().getRequest().getResource().getSize());
         d.setSpecial(deliver.getPurch().getAsk().getRequest().getResource().getSpecial());
         d.setModel(deliver.getPurch().getAsk().getRequest().getResource().getModel());
-        d.setCode(deliver.getPurch().getAsk().getRequest().getResource().getMaterial().getCode());
+        d.setCode(deliver.getPurch().getAsk().getRequest().getResource().getCode());
         d.setMaterialname(deliver.getPurch().getAsk().getRequest().getResource().getMaterial().getName());
         d.setNum(deliver.getPurch().getAsk().getRequest().getNum());
         d.setAcceptnum(deliver.getPurch().getAcceptnum());

@@ -134,7 +134,7 @@ public class AdminThreeController {
         p.setId(purch.getId());
         p.setCreatetime(purch.getAsk().getCreatetime());
         switch (purch.getStatus()) {
-            case 1:  //1.待报价 2.待审核 3.待接单 4 已失效 5.生产中 6.待送货 7.已完成 8 待出账 9 完结
+            case 1:  //1.待报价 2.待审核 3.待接单 4 已失效 5.生产中 6.送货中 7.已完成 8 待出账 9 完结
                 p.setStatus("待报价");
                 break;
             case 2:
@@ -143,8 +143,14 @@ public class AdminThreeController {
             case 3:
                 p.setStatus("待接单");
                 break;
+            case 4:
+                p.setStatus("待接单（已过期）");
+                break;
             case 5:
                 p.setStatus("生产中");
+                break;
+            case 6:
+                p.setStatus("送货中");
                 break;
             case 7:
                 p.setStatus("已完成");
@@ -158,14 +164,16 @@ public class AdminThreeController {
             default:
                 break;
         }
+        p.setOvertime(purch.getAsk().getOvertime());
         p.setProjectname(purch.getAsk().getRequest().getResource().getProject().getName());
         p.setSize(purch.getAsk().getRequest().getResource().getSize());
         p.setSpecial(purch.getAsk().getRequest().getResource().getSpecial());
         p.setModel(purch.getAsk().getRequest().getResource().getModel());
-        p.setCode(purch.getAsk().getRequest().getResource().getMaterial().getCode());
+        p.setCode(purch.getAsk().getRequest().getResource().getCode());
         p.setMaterialname(purch.getAsk().getRequest().getResource().getMaterial().getName());
         p.setNum(purch.getAsk().getRequest().getNum());
-        p.setPrice(purch.getAsk().getRequest().getPrice());
+        p.setPrice(purch.getAcceptprice());
+        p.setSellprice(purch.getAsk().getRequest().getPrice());
         p.setProjectname(purch.getAsk().getRequest().getResource().getProject().getName());
         p.setSuppliername(purch.getSupplier().getName());
         p.setCustomer(purch.getAsk().getRequest().getResource().getProject().getCustomer());
