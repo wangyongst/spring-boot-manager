@@ -613,7 +613,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purch.setSupplier(e.getSupplier());
                     purch.setStatus(Status.ONE);
                     purchRepository.save(purch);
-                    sendMessage(purch, 3);
+                    sendMessage(purch, 1);
                 });
             }
         }
