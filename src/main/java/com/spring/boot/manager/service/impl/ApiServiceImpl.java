@@ -412,7 +412,7 @@ public class ApiServiceImpl implements ApiService {
         List<BillDetailV> billDetailVS = new ArrayList<>();
         bill.getBilldetails().forEach(e -> {
             BillDetailV bv = new BillDetailV();
-            bv.setCode(e.getPurch().getAsk().getRequest().getResource().getMaterial().getCode());
+            bv.setCode(e.getPurch().getAsk().getRequest().getResource().getCode());
             bv.setMaterialname(e.getPurch().getAsk().getRequest().getResource().getMaterial().getName());
             bv.setOvertime(e.getPurch().getAsk().getOvertime());
             Integer delivernum = 0;
