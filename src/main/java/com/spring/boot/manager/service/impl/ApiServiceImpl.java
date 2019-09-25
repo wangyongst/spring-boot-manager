@@ -249,9 +249,18 @@ public class ApiServiceImpl implements ApiService {
         if (id == null || id == 0) return ResultUtil.errorWithMessage("单号不能为空");
         if (!purchRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Purch purch = purchRepository.findById(id).get();
-        purch.setStatus(Status.SEVEN);
-        purch.getAsk().getRequest().setStatus(Status.SEVEN);
-        purch.getAsk().setOvertime(TimeUtils.format(System.currentTimeMillis()));
+        boolean flag = false;
+        for (Deliver deliver : deliverRepository.findByPurch(purch)) {
+            if (deliver.getStatus() != 3) flag = true;
+        }
+        if (flag) {
+            purch.setStatus(Status.SIX);
+            purch.getAsk().getRequest().setStatus(Status.SIX);
+        } else {
+            purch.setStatus(Status.SEVEN);
+            purch.getAsk().getRequest().setStatus(Status.SEVEN);
+            purch.getAsk().setOvertime(TimeUtils.format(System.currentTimeMillis()));
+        }
         purchRepository.save(purch);
         return ResultUtil.ok();
     }
@@ -267,6 +276,16 @@ public class ApiServiceImpl implements ApiService {
         if (purch.getAcceptnum() == null || purch.getAcceptnum() == 0) purch.setAcceptnum(deliver.getConfirmnum());
         else purch.setAcceptnum(purch.getAcceptnum() + deliver.getConfirmnum());
         deliverRepository.save(deliver);
+        boolean flag = true;
+        for (Deliver deliver1 : deliverRepository.findByPurch(purch)) {
+            if (deliver1.getStatus() != 3) flag = false;
+        }
+        if (flag && purch.getStatus() == Status.SIX) {
+            purch.setStatus(Status.SEVEN);
+            purch.getAsk().getRequest().setStatus(Status.SEVEN);
+            purch.getAsk().setOvertime(TimeUtils.format(System.currentTimeMillis()));
+            purchRepository.save(purch);
+        }
         return ResultUtil.ok();
     }
 
