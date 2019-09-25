@@ -10,7 +10,7 @@ $(function () {
     $("#settingsaveButton").click(function () {
         $.post("/admin/setting/sud?" + $('#settingForm').serialize() + "&type=2",
             function (result) {
-                if(result.status == 1) {
+                if (result.status == 1) {
                     $('#settingModal').modal('toggle');
                 }
             });
@@ -76,4 +76,8 @@ function statusformatter(value, row, index) {
     else if (value == 8) return "待出账";
     else if (value == 9) return "完结";
     else return null;
+}
+
+function sizeformatter(value, row, index) {
+    return "<div style='width:250px;'>" + value + "</div>";
 }

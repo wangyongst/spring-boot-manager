@@ -231,6 +231,10 @@ function statusformatter(value, row, index) {
     else return null;
 }
 
+function sizeformatter(value, row, index) {
+    return "<div style='width:250px;'>" + value + "</div>";
+}
+
 function fileformatter(value, row, index) {
     if (value == null) return value;
     return "<button type=\"button\" class=\"btn btn-link\" onclick= \"showfile('" + value + "')\">" + value + "</button>";
