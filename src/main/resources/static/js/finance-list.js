@@ -53,7 +53,7 @@ function yingshouformatter(value, row, index) {
     var sellnum = row["ask"]["request"]["sellnum"];
     var out = price * sellnum;
     if (isNaN(out)) return 0;
-    else return out;
+    else return out.toFixed(2);
 }
 
 function yingfuformatter(value, row, index) {
@@ -62,7 +62,7 @@ function yingfuformatter(value, row, index) {
     var acceptnum = row["acceptnum"];
     var out = acceptprice * acceptnum;
     if (isNaN(out)) return 0;
-    else return out;
+    else return out.toFixed(2);
 }
 
 function statusformatter(value, row, index) {
