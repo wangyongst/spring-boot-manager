@@ -7,11 +7,13 @@ import java.util.List;
 
 public class PurchV {
     private int id;
+    //采购编号
+    private String number;
     //操作类型  1 询价 2 打样 3 采购
     private int type;
     //发起日期
     private String createtime;
-    //1.待报价 2.待审核 3.待接单 4 已失效 5.生产中 6.待送货 7.已完成 8待出账 9完结
+    //1.待报价 2.待审核 3.待接单 4 已失效 5.生产中 6.送货中 7.已完成 8待出账 9完结
     private Integer status;
     //项目名称
     private String projectname;
@@ -47,6 +49,14 @@ public class PurchV {
     private String mobile;
     //接单倒计时
     private Long time;
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
     public Long getTime() {
         return time;

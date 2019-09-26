@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 public class DevlierV {
     private int id;
+    //采购编号
+    private String number;
     //订单编号
     private int purchid;
     //操作类型  1 询价 2 打样 3 采购
@@ -34,7 +36,7 @@ public class DevlierV {
     private Integer delivernum;
     //实收数量
     private Integer acceptnum;
-    //采购单价
+    //销售单价
     private BigDecimal price;
     //采购报价
     private BigDecimal acceptprice;
@@ -50,6 +52,14 @@ public class DevlierV {
     private String suppliername;
     //送货时间
     private String delivertime;
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
     public String getDelivertime() {
         return delivertime;

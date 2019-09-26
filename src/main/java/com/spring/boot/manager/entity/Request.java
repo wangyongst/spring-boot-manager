@@ -51,12 +51,24 @@ public class Request {
     private String createtime;
 
     @Basic
+    @Column(name = "acceptnum", nullable = true)
+    private Integer acceptnum;
+
+    @Basic
     @Column(name = "status", nullable = true)
     private Integer status;
 
     @Basic
     @Column(name = "type", nullable = true)
     private Integer type;
+
+    public Integer getAcceptnum() {
+        return acceptnum;
+    }
+
+    public void setAcceptnum(Integer acceptnum) {
+        this.acceptnum = acceptnum;
+    }
 
     public String getNumber() {
         return number;

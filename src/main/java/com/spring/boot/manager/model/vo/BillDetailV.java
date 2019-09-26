@@ -6,11 +6,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class BillDetailV {
+    //采购编号
+    private String number;
     //耗材编号
     private String code;
     //耗材类型
     private String materialname;
-    //采购价
+    //销售单价
     private BigDecimal price;
     //采购报价
     private BigDecimal acceptprice;
@@ -22,6 +24,24 @@ public class BillDetailV {
     private Integer acceptnum;
     //送货时间
     private String overtime;
+    //总价
+    private BigDecimal total;
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
 
     public String getCode() {
         return code;
