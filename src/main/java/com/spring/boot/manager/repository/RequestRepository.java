@@ -15,4 +15,6 @@ import java.util.List;
 public interface RequestRepository extends JpaRepository<Request, Integer>, JpaSpecificationExecutor {
 
     List<Request> findAllByResource(Resource resource);
+
+    Request findTop1ByNumberLikeOrderByNumberDesc(String number);
 }

@@ -496,12 +496,24 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         return ResultUtil.okWithData(requestRepository.findAll(specification, sort));
     }
 
+    public String makeNumber() {
+        String preNumber = "BSHC" + TimeUtils.formatMD(System.currentTimeMillis());
+        Request request = requestRepository.findTop1ByNumberLikeOrderByNumberDesc(preNumber + "%");
+        if (request == null) return preNumber + "001";
+        String numberSuf = (Integer.parseInt(request.getNumber().substring(9)) + 1) + "";
+        if (numberSuf.length() <= 1) numberSuf = "00" + numberSuf;
+        if (numberSuf.length() <= 2) numberSuf = "0" + numberSuf;
+        return preNumber + (preNumber + numberSuf);
+    }
+
+
     @Override
     public Result requestSud(AdminParameter adminParameter) {
         Setting setting = settingRepository.findByType(1).get(0);
         Request request = null;
         if (adminParameter.getRequestid() == 0) {
             request = new Request();
+            request.setNumber(makeNumber());
             request.setCreatetime(TimeUtils.format(System.currentTimeMillis()));
             User me = (User) SecurityUtils.getSubject().getPrincipal();
             request.setCreateusername(me.getName());

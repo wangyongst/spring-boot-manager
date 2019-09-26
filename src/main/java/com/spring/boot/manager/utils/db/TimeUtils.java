@@ -14,6 +14,11 @@ public class TimeUtils {
         return sdf.format(new Date(time));
     }
 
+    public static String formatMD(long time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+        return sdf.format(new Date(time));
+    }
+
     public static Long parse(String time) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.parse(time).getTime();
