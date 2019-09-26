@@ -131,7 +131,7 @@ public class AdminThreeController {
 
     public PurchV2 changeVo(Purch purch) {
         PurchV2 p = new PurchV2();
-        p.setId(purch.getId());
+//        p.setId(purch.getId());
         p.setCreatetime(purch.getAsk().getCreatetime());
         switch (purch.getStatus()) {
             case 1:  //1.待报价 2.待审核 3.待接单 4 已失效 5.生产中 6.送货中 7.已完成 8 待出账 9 完结

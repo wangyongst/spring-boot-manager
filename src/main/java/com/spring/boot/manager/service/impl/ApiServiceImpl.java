@@ -273,9 +273,13 @@ public class ApiServiceImpl implements ApiService {
         if (deliver.getStatus() != Status.TWO) return ResultUtil.errorWithMessage("不可以确认");
         deliver.setStatus(Status.THREE);
         Purch purch = deliver.getPurch();
-        if (purch.getAcceptnum() == null || purch.getAcceptnum() == 0) purch.setAcceptnum(deliver.getConfirmnum());
-        else purch.setAcceptnum(purch.getAcceptnum() + deliver.getConfirmnum());
-        deliverRepository.save(deliver);
+        if (purch.getAcceptnum() == null || purch.getAcceptnum() == 0){
+            purch.setAcceptnum(deliver.getConfirmnum());
+        }
+        else {
+            purch.setAcceptnum(purch.getAcceptnum() + deliver.getConfirmnum());
+        }
+        purch.getAsk().getRequest().setAcceptnum(purch.getAcceptnum());
         boolean flag = true;
         for (Deliver deliver1 : deliverRepository.findByPurch(purch)) {
             if (deliver1.getStatus() != 3) flag = false;
@@ -284,8 +288,8 @@ public class ApiServiceImpl implements ApiService {
             purch.setStatus(Status.SEVEN);
             purch.getAsk().getRequest().setStatus(Status.SEVEN);
             purch.getAsk().setOvertime(TimeUtils.format(System.currentTimeMillis()));
-            purchRepository.save(purch);
         }
+        deliverRepository.save(deliver);
         return ResultUtil.ok();
     }
 
@@ -321,6 +325,7 @@ public class ApiServiceImpl implements ApiService {
     public PurchV changeVo(Purch purch, Setting acceptSetting, Setting priceSetting) {
         PurchV p = new PurchV();
         p.setId(purch.getId());
+        p.setNumber(purch.getAsk().getRequest().getNumber());
         p.setType(purch.getAsk().getType());
         p.setCreatetime(purch.getAsk().getCreatetime());
         p.setStatus(purch.getStatus());
