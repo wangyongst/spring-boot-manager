@@ -35,11 +35,11 @@ import java.security.cert.X509Certificate;
 @EnableScheduling
 public class ManagerApplication {
 
-//    @Value("${server.port}")
-//    private int httpsPort;
-//
-//    @Value("${custom.http.port}")
-//    private int httpPort;
+    @Value("${server.port}")
+    private int httpsPort;
+
+    @Value("${custom.http.port}")
+    private int httpPort;
 
 
     public static void main(String[] args) {
@@ -58,29 +58,29 @@ public class ManagerApplication {
         return restTemplate;
     }
 
-//    @Bean
-//    public ServletWebServerFactory servletContainer() {
-//        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
-//            protected void postProcessContext(Context context) {
-//                SecurityConstraint securityConstraint = new SecurityConstraint();
-//                securityConstraint.setUserConstraint("CONFIDENTIAL");
-//                SecurityCollection collection = new SecurityCollection();
-//                collection.addPattern("/*");
-//                securityConstraint.addCollection(collection);
-//                context.addConstraint(securityConstraint);
-//            }
-//        };
-//        tomcat.addAdditionalTomcatConnectors(httpConnector());
-//        return tomcat;
-//    }
-//
-//    @Bean
-//    public Connector httpConnector() {
-//        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-//        connector.setScheme("http");
-//        connector.setPort(httpPort);
-//        connector.setSecure(false);
-//        connector.setRedirectPort(httpsPort);
-//        return connector;
-//    }
+    @Bean
+    public ServletWebServerFactory servletContainer() {
+        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() {
+            protected void postProcessContext(Context context) {
+                SecurityConstraint securityConstraint = new SecurityConstraint();
+                securityConstraint.setUserConstraint("CONFIDENTIAL");
+                SecurityCollection collection = new SecurityCollection();
+                collection.addPattern("/*");
+                securityConstraint.addCollection(collection);
+                context.addConstraint(securityConstraint);
+            }
+        };
+        tomcat.addAdditionalTomcatConnectors(httpConnector());
+        return tomcat;
+    }
+
+    @Bean
+    public Connector httpConnector() {
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setScheme("http");
+        connector.setPort(httpPort);
+        connector.setSecure(false);
+        connector.setRedirectPort(httpsPort);
+        return connector;
+    }
 }

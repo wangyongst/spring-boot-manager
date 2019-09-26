@@ -14,7 +14,7 @@ public class PurchV2 {
     private String acceptime;
     //签收日期
     private String overtime;
-    //1.待报价 2.待审核 3.待接单 4 已失效 5.生产中 6.待送货 7.已完成 8待出账 9完结
+    //1.待报价 2.待审核 3.待接单 4 已失效 5.生产中 6.送货中 7.已完成 8待出账 9完结
     private String status;
     //项目名称
     private String projectname;

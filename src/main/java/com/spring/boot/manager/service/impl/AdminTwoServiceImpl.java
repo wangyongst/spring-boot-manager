@@ -97,7 +97,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
     private BilldetailRepository billdetailRepository;
 
 
-    public Result sendMessage(Object object, int type) {
+    public Result sendMessage(Object object, int type, String message) {
         Map<String, WXData> data = new HashMap<String, WXData>();
         List<User> userList = new ArrayList<>();
         if (type == 1) {
@@ -113,7 +113,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             keyword2.setValue("宝时物流");
             data.put("keyword2", keyword2);
             WXData keyword3 = new WXData();
-            keyword3.setValue(p.getAsk().getRequest().getNum().intValue() * p.getAcceptprice().doubleValue() + "");
+            keyword3.setValue(p.getAsk().getRequest().getPrice().multiply(new BigDecimal(p.getAsk().getRequest().getNum())).toString());
             data.put("keyword3", keyword3);
             WXData keyword4 = new WXData();
             Setting setting = settingRepository.findByType(3).get(0);
@@ -141,7 +141,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
             Purch p = (Purch) object;
             userList = userRepository.findBySupplier(p.getSupplier());
             WXData first = new WXData();
-            first.setValue("您好，宝时物流向您发送了一份询价单");
+            first.setValue("您好，宝时物流向您发送了一份" + message);
             data.put("first", first);
             WXData keyword1 = new WXData();
             keyword1.setValue(p.getId() + "");
@@ -500,10 +500,10 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         String preNumber = "BSHC" + TimeUtils.formatMD(System.currentTimeMillis());
         Request request = requestRepository.findTop1ByNumberLikeOrderByNumberDesc(preNumber + "%");
         if (request == null) return preNumber + "001";
-        String numberSuf = (Integer.parseInt(request.getNumber().substring(9)) + 1) + "";
+        String numberSuf = (Integer.parseInt(request.getNumber().substring(10)) + 1) + "";
         if (numberSuf.length() <= 1) numberSuf = "00" + numberSuf;
         if (numberSuf.length() <= 2) numberSuf = "0" + numberSuf;
-        return preNumber + (preNumber + numberSuf);
+        return preNumber + numberSuf;
     }
 
 
@@ -564,7 +564,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         User me = (User) SecurityUtils.getSubject().getPrincipal();
         String[] ids = adminParameter.getIds().split(",");
         for (String id : ids) {
-            Request request = requestRepository.findById(Integer.parseInt(id)).get();
+            Request request = requestRepository.findTop1ByNumberLikeOrderByNumberDesc(id);//requestRepository.findById(Integer.parseInt(id)).get();
             if (request.getType() != null && request.getType() != 0) return ResultUtil.errorWithMessage("每个采购单只能发起一次！");
             Ask ask = new Ask();
             ask.setStatus(Status.ONE);
@@ -585,7 +585,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                         purch.setSupplier(e.getSupplier());
                         purch.setStatus(Status.ONE);
                         purchRepository.save(purch);
-                        sendMessage(purch, 3);
+                        sendMessage(purch, 3, "询价单");
                     });
                 } else {
                     return ResultUtil.errorWithMessage("采购数量必须为0，销售数量必须为0！");
@@ -625,7 +625,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purch.setSupplier(e.getSupplier());
                     purch.setStatus(Status.ONE);
                     purchRepository.save(purch);
-                    sendMessage(purch, 1);
+                    sendMessage(purch, 3, "采购单");
                 });
             }
         }
@@ -683,6 +683,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purch.getAsk().getRequest().setPrice(purch.getAcceptprice().multiply(setting2.getValue()));
                     if (purch.getAsk().getRequest().getSellnum() != null)
                         purch.getAsk().getRequest().setTotal(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAsk().getRequest().getSellnum())));
+                    sendMessage(purch, 1, "");
                 } else {
                     purch.setStatus(Status.FOUR);
                 }
@@ -775,7 +776,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM--dd");
         List<Bill> bills = billRepository.findByCreatetimeLike(formatters.format(LocalDate.now()));
         for (Bill bill : bills) {
-            sendMessage(bill, 2);
+            sendMessage(bill, 2, "");
         }
         return ResultUtil.ok();
     }
