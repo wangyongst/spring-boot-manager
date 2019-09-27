@@ -120,8 +120,8 @@ public class AdminThreeController {
         String fileName = "采购记录.xls";
         ServletUtil su = new ServletUtil(fileName, req, resp);
         su.poiExcelServlet();
-        String[] heads = {"采购编号", "采购日期", "接单日期", "签收日期", "项目名称", "采购公司", "供应商名称", "耗材编号", "耗材类型", "尺寸大小", "特殊要求", "材质规格", "采购数量", "销售数量", "收货数量", "采购单价（元）", "销售单价（元）", "应收金额（元）", "应付金额（元）", "状态"};
-        String[] cols = {"number", "createtime", "acceptime", "overtime", "projectname", "customer", "suppliername", "code", "materialname", "size", "special", "model", "num", "sellnum", "acceptnum", "price", "sellprice", "totalprice", "totalpay", "status"};
+        String[] heads = {"序号", "采购编号", "采购日期", "接单日期", "签收日期", "项目名称", "采购公司", "供应商名称", "耗材编号", "耗材类型", "尺寸大小", "特殊要求", "材质规格", "采购数量", "销售数量", "收货数量", "采购单价（元）", "销售单价（元）", "应收金额（元）", "应付金额（元）", "状态"};
+        String[] cols = {"id", "number", "createtime", "acceptime", "overtime", "projectname", "customer", "suppliername", "code", "materialname", "size", "special", "model", "num", "sellnum", "acceptnum", "price", "sellprice", "totalprice", "totalpay", "status"};
         int[] numerics = {0};
         ServletUtil suresp = new ServletUtil(resp);
         PoiExcelExport<PurchV2> pee = new PoiExcelExport<>(fileName, heads, cols, purchV2List, numerics, suresp.getOut());
@@ -131,7 +131,7 @@ public class AdminThreeController {
 
     public PurchV2 changeVo(Purch purch) {
         PurchV2 p = new PurchV2();
-//        p.setId(purch.getId());
+        p.setId(purch.getId());
         p.setCreatetime(purch.getAsk().getCreatetime());
         switch (purch.getStatus()) {
             case 1:  //1.待报价 2.待审核 3.待接单 4 已失效 5.生产中 6.送货中 7.已完成 8 待出账 9 完结
