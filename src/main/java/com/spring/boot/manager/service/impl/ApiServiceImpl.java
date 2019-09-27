@@ -432,7 +432,11 @@ public class ApiServiceImpl implements ApiService {
             bv.setNum(e.getPurch().getAsk().getRequest().getNum());
             bv.setPrice(e.getPurch().getAsk().getRequest().getPrice());
             bv.setAcceptprice(e.getPurch().getAcceptprice());
-            bv.setTotal(e.getPurch().getAcceptprice().multiply(new BigDecimal(e.getPurch().getAcceptnum())));
+            if(e.getPurch().getAcceptprice() != null && e.getPurch().getAcceptnum() !=null) {
+                bv.setTotal(e.getPurch().getAcceptprice().multiply(new BigDecimal(e.getPurch().getAcceptnum())));
+            }else{
+                bv.setTotal(new BigDecimal(0));
+            }
             billDetailVS.add(bv);
         });
         b.setBillDetailVList(billDetailVS);
