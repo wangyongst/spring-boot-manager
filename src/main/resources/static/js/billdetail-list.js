@@ -49,7 +49,7 @@ function moneyformatter(value, row, index) {
     var acceptnum = row["purch"]["acceptnum"];
     var out = acceptprice * acceptnum;
     if (isNaN(out)) return 0;
-    else return out;
+    else return out.toFixed(2);
 }
 
 
