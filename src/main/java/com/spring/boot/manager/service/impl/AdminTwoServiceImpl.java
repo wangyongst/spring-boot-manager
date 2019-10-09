@@ -680,7 +680,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     purch.setIslower(1);
                     purch.setStatus(Status.THREE);
                     Setting setting2 = settingRepository.findByType(1).get(0);
-                    purch.getAsk().getRequest().setPrice(purch.getAcceptprice().multiply(setting2.getValue()));
+                    if (purch.getAsk().getRequest().getPrice() == null) purch.getAsk().getRequest().setPrice(purch.getAcceptprice().multiply(setting2.getValue()));
                     if (purch.getAsk().getRequest().getSellnum() != null)
                         purch.getAsk().getRequest().setTotal(purch.getAsk().getRequest().getPrice().multiply(new BigDecimal(purch.getAsk().getRequest().getSellnum())));
                     sendMessage(purch, 1, "");
