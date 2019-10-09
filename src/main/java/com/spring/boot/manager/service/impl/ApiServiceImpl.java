@@ -250,9 +250,12 @@ public class ApiServiceImpl implements ApiService {
         if (!purchRepository.existsById(id)) return ResultUtil.errorWithMessage("单号错误");
         Purch purch = purchRepository.findById(id).get();
         boolean flag = false;
+        boolean flag2 = true;
         for (Deliver deliver : deliverRepository.findByPurch(purch)) {
             if (deliver.getStatus() != 3) flag = true;
+            flag2 = false;
         }
+        if(flag2) return ResultUtil.errorWithMessage("没有生成送货任务，不能结束");
         if (flag) {
             purch.setStatus(Status.SIX);
             purch.getAsk().getRequest().setStatus(Status.SIX);
