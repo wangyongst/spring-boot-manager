@@ -42,10 +42,10 @@ public class ViewController {
     @RequestMapping("/finance-list")
     public String finance(Model model) {
         AdminParameter adminParameter = new AdminParameter();
-        adminParameter.setType(2);
-        model.addAttribute("accepttime", ((Setting) adminService.setting(adminParameter).getData()).getValue().toBigInteger());
         adminParameter.setType(3);
-        model.addAttribute("asktime", ((Setting) adminService.setting(adminParameter).getData()).getValue().toBigInteger());
+        model.addAttribute("accepttime", ((Setting) adminService.setting(adminParameter).getData()).getValue().toBigInteger());
+        adminParameter.setType(2);
+        model.addAttribute("pricetime", ((Setting) adminService.setting(adminParameter).getData()).getValue().toBigInteger());
         return "finance-list";
     }
 
