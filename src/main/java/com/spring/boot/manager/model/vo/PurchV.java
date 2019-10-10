@@ -39,7 +39,7 @@ public class PurchV {
     //实收数量
     @JsonIgnore
     private Integer acceptnum;
-    //采购单价
+    //销售单价
     private BigDecimal price;
     //采购报价
     private BigDecimal acceptprice;

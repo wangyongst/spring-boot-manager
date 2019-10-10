@@ -38,10 +38,10 @@ public class PurchV2 {
     private Integer sellnum;
     //收货数量
     private Integer acceptnum;
-    // 采购单价
-    private BigDecimal price;
     //销售单价
-    private BigDecimal sellprice;
+    private BigDecimal price;
+    //采购报价
+    private BigDecimal acceptprice;
     // 应收金额
     private BigDecimal totalprice;
     //应付金额
@@ -191,12 +191,12 @@ public class PurchV2 {
         this.price = price;
     }
 
-    public BigDecimal getSellprice() {
-        return sellprice;
+    public BigDecimal getAcceptprice() {
+        return acceptprice;
     }
 
-    public void setSellprice(BigDecimal sellprice) {
-        this.sellprice = sellprice;
+    public void setAcceptprice(BigDecimal acceptprice) {
+        this.acceptprice = acceptprice;
     }
 
     public BigDecimal getTotalprice() {

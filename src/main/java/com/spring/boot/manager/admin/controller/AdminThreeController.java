@@ -173,8 +173,8 @@ public class AdminThreeController {
         p.setCode(purch.getAsk().getRequest().getResource().getCode());
         p.setMaterialname(purch.getAsk().getRequest().getResource().getMaterial().getName());
         p.setNum(purch.getAsk().getRequest().getNum());
-        p.setPrice(purch.getAcceptprice());
-        p.setSellprice(purch.getAsk().getRequest().getPrice());
+        p.setAcceptprice(purch.getAcceptprice());
+        p.setPrice(purch.getAsk().getRequest().getPrice());
         p.setProjectname(purch.getAsk().getRequest().getResource().getProject().getName());
         p.setSuppliername(purch.getSupplier().getName());
         p.setCustomer(purch.getAsk().getRequest().getResource().getProject().getCustomer());
