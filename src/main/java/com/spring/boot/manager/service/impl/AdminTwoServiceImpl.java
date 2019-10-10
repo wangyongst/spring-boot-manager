@@ -521,7 +521,7 @@ public class AdminTwoServiceImpl implements AdminTwoService {
         } else {
             request = requestRepository.findById(adminParameter.getRequestid()).get();
             if (adminParameter.getDelete() != 0) {
-                request.setStatus(Status.FOUR);
+                request.setStatus(Status.ZERO);
                 requestRepository.save(request);
                 askRepository.findAllByRequest(request).forEach(e -> {
                     e.setStatus(Status.FOUR);
