@@ -223,7 +223,7 @@ function statusformatter(value, row, index) {
     else if (value == 2 && row["type"] != 1) return "待审核";
     else if (value == 3) return "待接单";
     else if (value == 4) return "下单失败";
-    else if (value == 0) return "已取消";
+    else if (value == 0) return "取消订单";
     else if (value == 5) return "生产中";
     else if (value == 6) return "送货中";
     else if (value == 7) return "已完成";
