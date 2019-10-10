@@ -402,10 +402,9 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                     predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(p, p2, p3));
 
                 }
-                if (StringUtils.isNotBlank(adminParameter.getCreatetime())) {
-                    String date = adminParameter.getCreatetime() + "%";
-                    Predicate p = criteriaBuilder.like(root.get("ask").get("request").get("createtime"), date);
-                    Predicate p2 = criteriaBuilder.like(root.get("ask").get("overtime"), date);
+                if (StringUtils.isNotBlank(adminParameter.getCreatetime()) && StringUtils.isNotBlank(adminParameter.getAccepttime())) {
+                    Predicate p = criteriaBuilder.between(root.get("ask").get("request").get("createtime"), adminParameter.getCreatetime(),adminParameter.getAccepttime());
+                    Predicate p2 = criteriaBuilder.between(root.get("ask").get("overtime"), adminParameter.getCreatetime(),adminParameter.getAccepttime());
                     predicate = criteriaBuilder.and(predicate, criteriaBuilder.or(p, p2));
                 }
                 return predicate;
