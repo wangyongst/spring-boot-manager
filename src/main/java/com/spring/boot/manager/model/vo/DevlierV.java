@@ -34,8 +34,10 @@ public class DevlierV {
     private Integer productnum;
     //送货数量
     private Integer delivernum;
-    //实收数量
+    //已收货数量
     private Integer acceptnum;
+    //实收数量
+    private Integer confirmnum;
     //销售单价
     private BigDecimal price;
     //采购报价
@@ -59,6 +61,14 @@ public class DevlierV {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public Integer getConfirmnum() {
+        return confirmnum;
+    }
+
+    public void setConfirmnum(Integer confirmnum) {
+        this.confirmnum = confirmnum;
     }
 
     public String getDelivertime() {

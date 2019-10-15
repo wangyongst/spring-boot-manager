@@ -392,6 +392,7 @@ public class ApiServiceImpl implements ApiService {
         d.setMaterialname(deliver.getPurch().getAsk().getRequest().getResource().getMaterial().getName());
         d.setNum(deliver.getPurch().getAsk().getRequest().getNum());
         d.setAcceptnum(deliver.getPurch().getAcceptnum());
+        d.setConfirmnum(deliver.getConfirmnum());
         d.setDelivernum(deliver.getDelivernum());
         d.setContact(deliver.getPurch().getAsk().getRequest().getCreateusername());
         d.setMobile(deliver.getPurch().getAsk().getRequest().getCreateusermobile());
