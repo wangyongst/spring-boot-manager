@@ -795,7 +795,8 @@ public class AdminTwoServiceImpl implements AdminTwoService {
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
-        return ResultUtil.okWithData(billRepository.findAll(specification));
+        Sort sort = new Sort(Sort.Direction.DESC, "billtime");
+        return ResultUtil.okWithData(billRepository.findAll(specification,sort));
     }
 
     @Override
